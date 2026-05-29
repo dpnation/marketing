@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>PMM Skills Pack — Applause Product Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue-500: #0272B4; --blue-600: #025B90; --blue-700: #01446C;
+    --blue-800: #012E48; --blue-100: #E6F3FA; --blue-50: #F7FBFE;
+    --aqua-500: #00C0A3; --aqua-600: #009A82;
+    --yellow-500: #FFC400; --gray-700: #3D3D3D; --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2; --gray-200: #F0F0F0; --gray-100: #FAFAFA;
+    --white: #FFFFFF;
+    --font: 'Inter', 'Proxima Nova', Arial, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--gray-700); background: var(--white); font-size: 15px; line-height: 1.6; }
+
+  nav {
+    background: var(--blue-800); padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+  .nav-logo span { color: var(--aqua-500); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: var(--aqua-500); color: var(--white) !important; font-weight: 600; padding: 6px 14px; border-radius: 4px; font-size: 13px !important; }
+  .nav-badge { font-size: 11px; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 20px; margin-left: 0.5rem; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-600) 60%, var(--blue-500) 100%);
+    padding: 4rem 2.5rem 3.5rem; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(0,192,163,0.08); pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -40px; left: 30%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(2,114,180,0.15); pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--aqua-500); margin-bottom: 1rem;
+  }
+  .hero-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--aqua-500); border-radius: 2px; }
+  .hero h1 { font-size: 2.6rem; font-weight: 800; color: var(--white); line-height: 1.15; max-width: 640px; margin-bottom: 1rem; }
+  .hero h1 em { color: var(--aqua-500); font-style: normal; }
+  .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 560px; line-height: 1.65; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--white); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; margin: 4px 0; }
+
+  .section { padding: 3.5rem 2.5rem; }
+  .section-alt { background: var(--gray-100); }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 0.5rem; }
+  .section-title { font-size: 1.65rem; font-weight: 800; color: var(--blue-800); margin-bottom: 0.75rem; line-height: 1.25; }
+  .section-lead { font-size: 0.95rem; color: var(--gray-600); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.7; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+  .skill-card {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px;
+    padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue-500), var(--aqua-500)); opacity: 0; transition: opacity 0.2s;
+  }
+  .skill-card:hover { border-color: var(--blue-500); box-shadow: 0 4px 20px rgba(2,114,180,0.1); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-card-header { display: flex; align-items: flex-start; gap: 0.875rem; }
+  .skill-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .icon-blue { background: var(--blue-100); color: var(--blue-600); }
+  .icon-aqua { background: #E0F7F4; color: var(--aqua-600); }
+  .skill-card-meta { flex: 1; }
+  .skill-name { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+  .skill-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; }
+  .tag-meta { background: #FFF8E1; color: #B8860B; border: 1px solid #FFE082; }
+  .skill-desc { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
+  .skill-body { font-size: 0.85rem; color: var(--gray-700); line-height: 1.6; }
+  .skill-triggers { background: var(--blue-50); border-radius: 6px; padding: 0.75rem 1rem; }
+  .triggers-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 6px; }
+  .triggers-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .trigger-pill { font-size: 11px; background: var(--blue-100); color: var(--blue-700); padding: 3px 9px; border-radius: 20px; font-weight: 500; }
+  .skill-outputs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .output-badge { font-size: 11px; font-weight: 600; color: var(--aqua-600); background: #E0F7F4; border: 1px solid #B2EFE8; padding: 3px 10px; border-radius: 20px; }
+
+  .start-here {
+    background: linear-gradient(135deg, var(--blue-800), var(--blue-600));
+    border-radius: 12px; padding: 1.75rem 2rem;
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    margin-bottom: 2.5rem; color: var(--white); position: relative; overflow: hidden;
+  }
+  .start-here::after {
+    content: '01'; position: absolute; right: 1.5rem; bottom: -1rem;
+    font-size: 5rem; font-weight: 900; color: rgba(255,255,255,0.05); line-height: 1;
+  }
+  .start-arrow { width: 36px; height: 36px; background: var(--aqua-500); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .start-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .start-content p { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.55; }
+
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 32px; height: 32px; background: var(--blue-500); color: var(--white); font-size: 13px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .step-body p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; }
+  .step-example { margin-top: 10px; background: var(--gray-100); border-left: 3px solid var(--aqua-500); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem; color: var(--gray-700); font-family: 'Monaco', 'Menlo', monospace; line-height: 1.55; }
+
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .tip-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.25rem; }
+  .tip-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .tip-title { font-size: 0.88rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .tip-text { font-size: 0.82rem; color: var(--gray-600); line-height: 1.55; }
+
+  footer { background: var(--blue-800); color: rgba(255,255,255,0.6); padding: 1.75rem 2.5rem; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-left { display: flex; align-items: center; gap: 0.75rem; }
+  .footer-logo { font-weight: 800; color: var(--white); font-size: 13px; letter-spacing: 0.06em; }
+  .footer-logo span { color: var(--aqua-500); }
+  footer a { color: var(--aqua-500); text-decoration: none; }
+  [id] { scroll-margin-top: 64px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">APPLAUSE<span>°</span></a>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#how">How to use</a>
+    <a href="#tips">Tips</a>
+    <a href="#contact">Owner</a>
+    <span style="width:1px;height:16px;background:rgba(255,255,255,0.15);display:inline-block;margin:0 0.25rem;"></span>
+    <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:rgba(255,255,255,0.5)!important;font-size:12px!important;">Battlecard Builder ↗</a>
+    <a href="https://claude.ai" class="nav-cta">Open in Claude ↗</a>
+    <span class="nav-badge">Internal Tool</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Product Marketing</div>
+  <h1>PMM Skills Pack<br>for <em>Applause</em></h1>
+  <p class="hero-sub">6 Claude skills purpose-built for product marketers — covering positioning, GTM planning, competitive intelligence, customer research, pricing, and foundational context. Each skill is pre-loaded with Applause's product portfolio, brand voice, and testing taxonomy so you never start from scratch.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">Skills included</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">Shared</span><span class="stat-label">Enterprise skill type</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">Markdown</span><span class="stat-label">Primary output format</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">.docx</span><span class="stat-label">For Word deliverables</span></div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="section-label">The Skills</div>
+  <h2 class="section-title">6 skills, one pack</h2>
+  <p class="section-lead">Each skill activates automatically when you describe your task in Claude. No forms, no menus — just plain language. All outputs follow Applause brand guidelines and reference our product, solution areas, and industries automatically.</p>
+
+  <div class="start-here">
+    <div class="start-arrow">→</div>
+    <div class="start-content">
+      <h3>Start here: product-marketing-context</h3>
+      <p>This is a meta-skill that establishes your product, ICP, competitive landscape, and strategy in a single context file. All other skills read from it — so you never repeat yourself. Run this first when setting up for a new product, launch, or role.</p>
+    </div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-blue">🗺️</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">product-marketing-context <span class="skill-tag tag-meta">Meta</span></div>
+          <div class="skill-desc">The foundation. Sets up the context file all other skills reference.</div>
+        </div>
+      </div>
+      <div class="skill-body">Runs a structured interview to capture product fundamentals, ICP, buyer personas, value props, competitive landscape, and GTM motion — then saves everything to <code>.agents/product-marketing-context.md</code>. Once created, no other skill will ask you basic questions again.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"set up product context"</span>
+          <span class="trigger-pill">"create PMM context"</span>
+          <span class="trigger-pill">"new product"</span>
+          <span class="trigger-pill">"I'm new to this product"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">context .md file</span>
+        <span class="output-badge">ICP + personas</span>
+        <span class="output-badge">competitive landscape</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-blue">📐</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">messaging-positioning</div>
+          <div class="skill-desc">April Dunford methodology for positioning and messaging frameworks.</div>
+        </div>
+      </div>
+      <div class="skill-body">Develops positioning statements, message houses, value propositions, and taglines using proven frameworks (especially April Dunford's <em>Obviously Awesome</em>). Reads your product context file first, then focuses on differentiation, competitive alternatives, and buyer-resonant messaging.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"create positioning"</span>
+          <span class="trigger-pill">"messaging framework"</span>
+          <span class="trigger-pill">"value prop"</span>
+          <span class="trigger-pill">"message house"</span>
+          <span class="trigger-pill">"how should we position"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">positioning statement</span>
+        <span class="output-badge">message house</span>
+        <span class="output-badge">taglines</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-aqua">🚀</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">go-to-market</div>
+          <div class="skill-desc">Launch plans, GTM strategy, campaign briefs, and timelines.</div>
+        </div>
+      </div>
+      <div class="skill-body">Creates structured, actionable GTM plans for product launches, feature releases, and market expansion. Coordinates sales, marketing, CS, and product around clear objectives, target audiences, channel strategy, and success metrics.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"plan a launch"</span>
+          <span class="trigger-pill">"GTM strategy"</span>
+          <span class="trigger-pill">"product launch"</span>
+          <span class="trigger-pill">"campaign brief"</span>
+          <span class="trigger-pill">"GTM playbook"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">launch plan</span>
+        <span class="output-badge">campaign brief</span>
+        <span class="output-badge">launch checklist</span>
+        <span class="output-badge">channel strategy</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-blue">⚡</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">competitive-intelligence</div>
+          <div class="skill-desc">Competitor research, battle cards, comparison pages, and RFP support.</div>
+        </div>
+      </div>
+      <div class="skill-body">Researches competitors, builds battle cards, creates alternative/comparison pages, and supports RFP responses. Pairs with the <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:var(--blue-500);font-weight:600;">Battlecard Builder ↗</a> for formatted Word output. Covers known tracked competitors and auto-researches unknown ones.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"competitor analysis"</span>
+          <span class="trigger-pill">"battle card"</span>
+          <span class="trigger-pill">"competitive research"</span>
+          <span class="trigger-pill">"how do we beat [competitor]"</span>
+          <span class="trigger-pill">"RFP response"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">battle cards</span>
+        <span class="output-badge">comparison pages</span>
+        <span class="output-badge">RFP support</span>
+        <span class="output-badge">comp positioning</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-aqua">🔍</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">customer-research</div>
+          <div class="skill-desc">Personas, ICP definition, win/loss analysis, and voice-of-customer.</div>
+        </div>
+      </div>
+      <div class="skill-body">Helps PMMs deeply understand their buyers — who they are, what they need, why they buy. Creates buyer personas, defines ICP, designs win/loss interview frameworks, analyzes customer feedback, and surfaces jobs-to-be-done insights that inform positioning and content.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"buyer persona"</span>
+          <span class="trigger-pill">"ICP"</span>
+          <span class="trigger-pill">"win/loss analysis"</span>
+          <span class="trigger-pill">"voice of customer"</span>
+          <span class="trigger-pill">"jobs-to-be-done"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">buyer personas</span>
+        <span class="output-badge">ICP definition</span>
+        <span class="output-badge">interview guides</span>
+        <span class="output-badge">win/loss framework</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-blue">💲</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">pricing-packaging</div>
+          <div class="skill-desc">Pricing models, packaging tiers, value metrics, and pricing strategy.</div>
+        </div>
+      </div>
+      <div class="skill-body">Develops pricing strategy rooted in value-based pricing principles. Sets pricing for new products, creates packaging tiers, defines value metrics, analyzes pricing models, and prepares responses to pricing objections. Customers pay based on the value they receive — not your costs.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"pricing strategy"</span>
+          <span class="trigger-pill">"how should we price"</span>
+          <span class="trigger-pill">"packaging tiers"</span>
+          <span class="trigger-pill">"value metric"</span>
+          <span class="trigger-pill">"freemium vs. paid"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">pricing model</span>
+        <span class="output-badge">packaging tiers</span>
+        <span class="output-badge">value metric</span>
+        <span class="output-badge">objection handling</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="how">
+  <div class="section-label">Usage</div>
+  <h2 class="section-title">How to use the skills</h2>
+  <p class="section-lead">The skills are conversational — no forms to fill out. Describe what you need and Claude activates the right skill automatically.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Install the skills</h3>
+        <p>These are <strong>shared skills</strong> on Claude Enterprise — your org admin installs them once and they're available to everyone on the team automatically. No individual downloads needed. If you don't see them in Claude, ask your Claude Enterprise admin to install the <code>.skill</code> files via the Admin Console → Skills.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Run product-marketing-context first</h3>
+        <p>Open Claude and ask it to set up your product marketing context. It will walk through a structured set of questions — product, ICP, differentiators, competitors, GTM motion — and save everything to a context file. Do this once; all other skills read from it automatically.</p>
+        <div class="step-example">"Set up product marketing context for Applause's agentic AI testing solution"</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Trigger any skill with plain language</h3>
+        <p>Start a Claude conversation and describe your task. The skill recognizes the request and activates automatically — no slash commands required. Be specific about your goal, target audience, or deal context for sharper output.</p>
+        <div class="step-example">"Build a messaging framework for our AI testing solution targeting QA Directors"<br>"Create a GTM plan for launching Payment Testing to financial services"<br>"Build buyer personas for engineering leaders evaluating crowdtesting"</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Review, refine, and export</h3>
+        <p>All document and visual outputs follow Applause brand guidelines — colors, typography, and voice — automatically. Download Word docs, PDFs, or copy structured content directly into your deliverables.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tips">
+  <div class="section-label">Best Practices</div>
+  <h2 class="section-title">Getting the most out of it</h2>
+  <p class="section-lead">A few patterns that make all the difference.</p>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🗺️</div><div class="tip-title">Context file = force multiplier</div><div class="tip-text">The richer your product-marketing-context file, the less every other skill needs to ask. Invest 20 minutes in it upfront — it pays off across every GTM, messaging, and research task you run.</div></div>
+    <div class="tip-card"><div class="tip-icon">🎯</div><div class="tip-title">Add solution area context</div><div class="tip-text">Specifying the solution area ("for a payments conversation" or "for an agentic AI deal") gives you sharper, more targeted output than a generic request. Applause's breadth is a strength — use it.</div></div>
+    <div class="tip-card"><div class="tip-icon">🔄</div><div class="tip-title">Chain skills together</div><div class="tip-text">Run customer-research → messaging-positioning → go-to-market in sequence. Each skill builds on the last, and the shared context file keeps everything consistent. This is the full PMM workflow in Claude.</div></div>
+    <div class="tip-card"><div class="tip-icon">⚡</div><div class="tip-title">Pair with Battlecard Builder</div><div class="tip-text">competitive-intelligence feeds directly into the <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:var(--blue-500);font-weight:600;">Battlecard Builder ↗</a>. Use the CI skill for research and analysis; use Battlecard Builder for formatted .docx output ready for reps.</div></div>
+    <div class="tip-card"><div class="tip-icon">✏️</div><div class="tip-title">Outputs are starting points</div><div class="tip-text">Treat skill output as a strong first draft, not a final. Human review — especially for win/loss stories, unverified competitor claims, and pricing assumptions — is always the last step before field use.</div></div>
+    <div class="tip-card"><div class="tip-icon">🔁</div><div class="tip-title">Update context quarterly</div><div class="tip-text">Re-run product-marketing-context when positioning shifts, you enter new markets, or launch major features. Stale context degrades all downstream skill output. A quarterly refresh takes 10 minutes.</div></div>
+  </div>
+</section>
+
+<section class="section section-alt" id="contact" style="padding-bottom: 2.5rem;">
+  <div class="section-label">Maintained by</div>
+  <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--blue-500); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: white; flex-shrink: 0;">DP</div>
+    <div>
+      <div style="font-weight: 700; font-size: 0.95rem; color: var(--blue-800);">Dana Prey</div>
+      <div style="font-size: 0.82rem; color: var(--gray-600);">Product Marketing · Applause</div>
+      <a href="mailto:dprey@applause.com" style="font-size: 0.8rem; color: var(--blue-500); text-decoration: none;">dprey@applause.com</a>
+    </div>
+    <div style="margin-left: auto;">
+      <a href="https://claude.ai" style="background: var(--blue-500); color: white; font-weight: 600; font-size: 13px; padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-block;">Open PMM Skills in Claude ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <span class="footer-logo">APPLAUSE<span>°</span></span>
+    <span>PMM Skills Pack · Maintained by Dana Prey · Internal use only</span>
+  </div>
+  <span><a href="mailto:dprey@applause.com">dprey@applause.com</a></span>
+</footer>
+
+</body>
+</html>
