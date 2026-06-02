@@ -454,6 +454,123 @@
     .hero-stats { gap: 18px; }
     .hero-stat-num { font-size: 22px; }
   }
+
+  /* SKILLS SECTION */
+  .skills-section {
+    margin-top: 72px;
+    padding-top: 56px;
+    border-top: 1.5px solid var(--blue-100);
+  }
+
+  .skills-section .section-label {
+    margin-bottom: 6px;
+  }
+
+  .skills-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--blue-700);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .skills-section-sub {
+    font-size: 15px;
+    color: var(--gray-600);
+    margin-bottom: 36px;
+    max-width: 540px;
+    line-height: 1.55;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .skill-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1.5px solid var(--blue-100);
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue-500), var(--aqua-500));
+  }
+
+  .skill-command {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    border: 1px solid var(--blue-300);
+    padding: 5px 11px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-bottom: 16px;
+  }
+
+  .skill-command-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--aqua-500);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .skill-name {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--blue-700);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .skill-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 18px;
+  }
+
+  .skill-when {
+    background: var(--blue-50);
+    border-left: 3px solid var(--aqua-500);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 13px;
+    margin-top: auto;
+  }
+
+  .skill-when-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--aqua-600);
+    margin-bottom: 4px;
+  }
+
+  .skill-when-text {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -631,10 +748,42 @@
 
   </div>
 
-  <div class="feature-row" style="grid-template-columns: 1fr;">
-    <div class="feature-item">
-      <div class="feature-title">More on the way</div>
-      <div class="feature-desc">Deck Builder, Campaign Skill, Persona Sims, Leadership Sims, Content Repurposer, and GTM Engine are all in progress. The incubator is growing — check back often.</div>
+  <!-- CLAUDE SKILLS SECTION -->
+  <div class="skills-section">
+    <div class="section-label">Claude Skills</div>
+    <div class="skills-section-title">Built-in Superpowers for Claude.ai</div>
+    <div class="skills-section-sub">These skills live inside Claude and activate with a simple command. No tool to open — just type them in any Claude conversation.</div>
+
+    <div class="skills-grid">
+
+      <!-- /intent -->
+      <div class="skill-card">
+        <div class="skill-command">
+          <span class="skill-command-dot"></span>
+          /intent
+        </div>
+        <div class="skill-name">Intent Skill</div>
+        <div class="skill-desc">Transforms a vague or rough marketing request into a structured, expertly-framed brief — then executes it. Before writing anything, Claude shows you exactly how it's reading your ask and waits for your sign-off. Keeps work on-track without back-and-forth.</div>
+        <div class="skill-when">
+          <div class="skill-when-label">When to use</div>
+          <div class="skill-when-text">When your request is rough or open-ended — messaging, positioning, campaign briefs, analyst comms, enablement content, and more.</div>
+        </div>
+      </div>
+
+      <!-- /source-accuracy -->
+      <div class="skill-card">
+        <div class="skill-command">
+          <span class="skill-command-dot"></span>
+          /source-accuracy
+        </div>
+        <div class="skill-name">Source Accuracy Protocol</div>
+        <div class="skill-desc">Enforces citation discipline on any document Claude drafts from your materials. Every factual claim gets traced to a source. Unverifiable stats are flagged or removed — never invented. Delivers a clean draft plus a full source map.</div>
+        <div class="skill-when">
+          <div class="skill-when-label">When to use</div>
+          <div class="skill-when-text">Battlecards, analyst briefings, competitor profiles, external reports — any output where facts, figures, and quotes must trace to a real source.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
