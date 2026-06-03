@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Visibility Audit — Applause Payment Testing</title>
+<style>
+  :root {
+    --blue-500: #0272B4;
+    --blue-600: #025B90;
+    --blue-700: #01446C;
+    --blue-800: #012E48;
+    --blue-100: #E6F3FA;
+    --blue-50:  #F7FBFE;
+    --aqua-500: #00C0A3;
+    --aqua-600: #009A82;
+    --gray-700: #3D3D3D;
+    --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2;
+    --gray-200: #F0F0F0;
+    --white:    #FFFFFF;
+    --green:    #0F8919;
+    --red:      #D42D0E;
+    --orange:   #ED7200;
+    --yellow:   #FFC400;
+    --font: 'Proxima Nova', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--blue-50);
+    color: var(--gray-700);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .report-header {
+    background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-700) 50%, var(--blue-500) 100%);
+    padding: 48px 0 40px;
+    color: var(--white);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--aqua-500);
+    border-radius: 50%;
+    margin-top: -2px;
+  }
+  .header-meta { text-align: right; font-size: 13px; opacity: 0.8; line-height: 1.8; }
+  .report-title {
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 32px;
+  }
+  .report-title h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .report-title .subtitle {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+  .overall-score {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 10px 20px;
+  }
+  .overall-score .score-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+  .score-pill {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+  .score-weak    { background: var(--red); color: #fff; }
+  .score-partial { background: var(--orange); color: #fff; }
+  .score-strong  { background: var(--green); color: #fff; }
+
+  /* ── LAYOUT ── */
+  .report-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 32px 64px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--blue-100);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--blue-100);
+  }
+  .section-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    background: var(--blue-500);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue-700);
+    line-height: 1.2;
+  }
+  .card-header .section-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .badge-critical { background: #fde8e5; color: var(--red); }
+  .badge-warning  { background: #fef3e6; color: var(--orange); }
+  .badge-good     { background: #e5f5e7; color: var(--green); }
+  .badge-info     { background: var(--blue-100); color: var(--blue-600); }
+
+  /* ── EXEC SUMMARY ── */
+  .summary-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray-700);
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--blue-50);
+    border-left: 4px solid var(--blue-500);
+    border-radius: 0 6px 6px 0;
+  }
+  .findings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .finding-box {
+    padding: 16px 18px;
+    border-radius: 6px;
+    border: 1px solid;
+  }
+  .finding-box.gap   { background: #fff8f7; border-color: #f5c6bf; }
+  .finding-box.win   { background: #f4fbf5; border-color: #9bd4a1; }
+  .finding-box h4 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .finding-box.gap h4 { color: var(--red); }
+  .finding-box.win h4 { color: var(--green); }
+  .finding-box ul { list-style: none; padding: 0; }
+  .finding-box ul li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .finding-box ul li:last-child { border-bottom: none; }
+  .finding-box ul li::before { flex-shrink: 0; margin-top: 2px; }
+  .finding-box.gap ul li::before { content: "✗"; color: var(--red); font-weight: 700; }
+  .finding-box.win ul li::before { content: "✓"; color: var(--green); font-weight: 700; }
+
+  /* ── TOP ACTIONS ── */
+  .top-actions { display: flex; flex-direction: column; gap: 10px; }
+  .action-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--blue-50);
+    border-radius: 6px;
+    border: 1px solid var(--blue-100);
+  }
+  .p-badge {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .p1 { background: var(--red); color: #fff; }
+  .p2 { background: var(--orange); color: #fff; }
+  .p3 { background: var(--blue-500); color: #fff; }
+  .action-row p { font-size: 14px; line-height: 1.5; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    background: var(--blue-700);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  thead th:first-child { border-radius: 6px 0 0 0; }
+  thead th:last-child  { border-radius: 0 6px 0 0; }
+  tbody tr:nth-child(even) { background: var(--blue-50); }
+  tbody tr:nth-child(odd)  { background: var(--white); }
+  tbody td { padding: 9px 14px; vertical-align: top; line-height: 1.45; border-bottom: 1px solid var(--blue-100); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .tag-yes   { color: var(--green);  font-weight: 700; }
+  .tag-no    { color: var(--red);    font-weight: 700; }
+  .tag-gap   { color: var(--orange); font-weight: 700; }
+  .tag-unknown { color: var(--gray-600); font-style: italic; }
+
+  .status-pass    { display:inline-block; background:#e5f5e7; color:var(--green);  border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+  .status-fail    { display:inline-block; background:#fde8e5; color:var(--red);    border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+  .status-unknown { display:inline-block; background:#fef3e6; color:var(--orange); border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+  .status-good    { display:inline-block; background:#e5f5e7; color:var(--green);  border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+  .status-gap     { display:inline-block; background:#fde8e5; color:var(--red);    border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+  .status-partial { display:inline-block; background:#fef3e6; color:var(--orange); border-radius:12px; padding:2px 10px; font-size:12px; font-weight:700; }
+
+  /* ── SCORE BAR ── */
+  .score-bar-wrap { margin: 16px 0; }
+  .score-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--blue-700);
+  }
+  .score-bar-track {
+    height: 10px;
+    background: var(--gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+  }
+  .fill-red    { background: var(--red); }
+  .fill-orange { background: var(--orange); }
+  .fill-green  { background: var(--green); }
+  .fill-blue   { background: var(--blue-500); }
+  .fill-aqua   { background: var(--aqua-500); }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: var(--blue-800);
+    color: #c8e6f9;
+    padding: 16px 20px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin-top: 12px;
+  }
+  pre .comment { color: #7fb3d0; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon { flex-shrink: 0; font-size: 18px; margin-top: 1px; }
+  .callout-warn  { background: #fef3e6; border: 1px solid #f5d9b0; color: #7a4200; }
+  .callout-info  { background: var(--blue-100); border: 1px solid #b5d8ef; color: var(--blue-800); }
+  .callout-alert { background: #fde8e5; border: 1px solid #f5c6bf; color: #6e1508; }
+  .callout-good  { background: #e5f5e7; border: 1px solid #9bd4a1; color: #0a4a10; }
+
+  /* ── COMPETITOR CARDS ── */
+  .competitor-grid { display: flex; flex-direction: column; gap: 14px; }
+  .comp-card {
+    border: 1px solid var(--blue-100);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .comp-card-header {
+    background: var(--blue-50);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--blue-100);
+  }
+  .comp-card-header strong { font-size: 15px; color: var(--blue-700); font-weight: 700; }
+  .comp-card-body { padding: 14px 16px; font-size: 14px; line-height: 1.6; }
+  .comp-card-body strong { color: var(--blue-700); }
+
+  /* ── RECOMMENDATIONS TABLE ── */
+  .reco-table tbody td:first-child { font-weight: 700; text-align: center; }
+
+  /* ── MONITORING ── */
+  .monitoring-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .monitor-card {
+    background: var(--blue-50);
+    border: 1px solid var(--blue-100);
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .monitor-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-700);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+  .monitor-card ul { list-style: none; }
+  .monitor-card ul li {
+    font-size: 13px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--blue-100);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .monitor-card ul li:last-child { border-bottom: none; }
+  .monitor-card ul li::before { content: "→"; color: var(--aqua-500); font-weight: 700; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    background: var(--blue-800);
+    color: rgba(255,255,255,0.7);
+    padding: 28px 0;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-inner a { color: var(--aqua-500); text-decoration: none; }
+
+  /* ── UTILS ── */
+  h3 { font-size: 15px; font-weight: 700; color: var(--blue-500); margin: 20px 0 10px; }
+  p { margin-bottom: 10px; }
+  p:last-child { margin-bottom: 0; }
+  .mt-16 { margin-top: 16px; }
+  .label-caps {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .divider {
+    height: 1px;
+    background: var(--blue-100);
+    margin: 20px 0;
+  }
+
+  @media (max-width: 640px) {
+    .findings-grid, .monitoring-grid { grid-template-columns: 1fr; }
+    .header-inner { flex-direction: column; }
+    .header-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header class="report-header">
+  <div class="header-inner">
+    <div class="header-logo">APPLAUSE<span class="logo-dot"></span></div>
+    <div class="header-meta">
+      Prepared for: Applause Product Marketing<br>
+      URL audited: applause.com/payment-testing/<br>
+      Audit date: June 3, 2026<br>
+      Focus platform: Google AI Overviews
+    </div>
+  </div>
+  <div class="report-title">
+    <h1>AI Visibility Audit</h1>
+    <div class="subtitle">Payment Testing Page — Google AI Overviews Focus</div>
+    <div class="overall-score">
+      <span class="score-label">Overall Visibility</span>
+      <span class="score-pill score-partial">Partial</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ BODY ══════════════════ -->
+<main class="report-body">
+
+  <!-- 1. EXECUTIVE SUMMARY -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">1</div>
+      <h2>Executive Summary</h2>
+      <span class="section-badge badge-warning">ACTION REQUIRED</span>
+    </div>
+
+    <div class="summary-text">
+      The Applause payment testing page has real underlying strengths — strong proof points, a genuine crowdtesting differentiator, and meaningful community scale — but the page is not structured to win in Google AI Overviews. AI systems extract passages, not pages, and this page reads as marketing copy rather than an authoritative reference. Competitors including Testlio and Global App Testing publish long-form, structured content optimized for the exact queries Applause needs to own. Without schema markup, a definition-first structure, FAQ content, or citable statistics with sources, this page is unlikely to be surfaced as a primary citation — even though Applause's blog content (e.g., "Payment Testing 101") does appear in search results for informational queries.
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-box gap">
+        <h4>Key Gaps</h4>
+        <ul>
+          <li>No schema markup detected on the page</li>
+          <li>No definition block for "what is payment testing"</li>
+          <li>No FAQ section — zero question-format content on the page</li>
+          <li>Statistics lack source citations (inline claims only)</li>
+          <li>No "last updated" date visible</li>
+          <li>No author attribution</li>
+          <li>Competitors outranking Applause for key AI-surfaced queries</li>
+        </ul>
+      </div>
+      <div class="finding-box win">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Blog post "Payment Testing 101" appears in search results</li>
+          <li>Specific, citable metrics exist (e.g., $111B–$136B abandonment stat)</li>
+          <li>1.5M+ community scale is a strong differentiator if made extractable</li>
+          <li>Page is indexed and crawlable</li>
+          <li>Paysafe case study is a linkable, citable asset</li>
+          <li>Multi-language versions exist (DE, FR) — good international signal</li>
+        </ul>
+      </div>
+    </div>
+
+    <span class="label-caps">Top 3 Immediate Actions</span>
+    <div class="top-actions">
+      <div class="action-row">
+        <span class="p-badge p1">P1</span>
+        <p><strong>Add FAQPage and Organization schema</strong> to the payment testing page. This is the single highest-leverage action for Google AI Overviews citation. Target: 30–40% visibility boost.</p>
+      </div>
+      <div class="action-row">
+        <span class="p-badge p1">P1</span>
+        <p><strong>Restructure the page opening</strong> with a direct 40–60 word definition of payment testing — what it is, why it matters, what Applause does differently. AI systems extract this first.</p>
+      </div>
+      <div class="action-row">
+        <span class="p-badge p2">P2</span>
+        <p><strong>Add a structured FAQ section</strong> (6–8 questions) targeting the exact phrasing of "People Also Ask" queries around payment testing. This is what Google AI Overviews pull from most directly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. QUERY COVERAGE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">2</div>
+      <h2>Query Coverage Assessment</h2>
+      <span class="section-badge badge-warning">PARTIAL</span>
+    </div>
+
+    <p style="margin-bottom:16px;font-size:14px;">Priority payment testing queries mapped against Google AI search results. Applause.com citation status based on search result analysis; manual AI Overview verification recommended to confirm.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>Tier</th>
+          <th>AI Answer Likely?</th>
+          <th>Applause Cited?</th>
+          <th>Who Wins</th>
+          <th>Gap?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is payment testing</td>
+          <td>2</td>
+          <td class="tag-yes">Yes</td>
+          <td><span class="tag-gap">Blog only</span></td>
+          <td>Testlio, GAT, TestFort</td>
+          <td class="tag-gap">⚠ Partial</td>
+        </tr>
+        <tr>
+          <td>payment testing services enterprise</td>
+          <td>2</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-no">No</td>
+          <td>GAT, Testlio, Testbirds, Ubertesters</td>
+          <td class="tag-no">✗ Gap</td>
+        </tr>
+        <tr>
+          <td>best payment testing companies</td>
+          <td>2</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-no">No</td>
+          <td>GAT roundup (via softwaretestinghelp.com)</td>
+          <td class="tag-no">✗ Gap</td>
+        </tr>
+        <tr>
+          <td>how to test payment flows ecommerce</td>
+          <td>2</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-no">No</td>
+          <td>Stripe, BrowserStack, GAT</td>
+          <td class="tag-no">✗ Gap</td>
+        </tr>
+        <tr>
+          <td>crowdsourced payment testing</td>
+          <td>2</td>
+          <td class="tag-yes">Yes</td>
+          <td><span class="tag-gap">Indirect</span></td>
+          <td>GAT, Testlio, Testbirds</td>
+          <td class="tag-gap">⚠ Partial</td>
+        </tr>
+        <tr>
+          <td>payment testing real payment instruments</td>
+          <td>3</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-yes">Yes</td>
+          <td>Applause appears in results</td>
+          <td class="tag-yes">✓ Present</td>
+        </tr>
+        <tr>
+          <td>payment testing tools 2025</td>
+          <td>3</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-no">No</td>
+          <td>GAT blog post dominates</td>
+          <td class="tag-no">✗ Gap</td>
+        </tr>
+        <tr>
+          <td>how to reduce cart abandonment payments</td>
+          <td>3</td>
+          <td class="tag-yes">Yes</td>
+          <td class="tag-no">No</td>
+          <td>Stripe, BrowserStack, LoadForge</td>
+          <td class="tag-no">✗ Gap</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="score-bar-wrap mt-16">
+      <div class="score-bar-label"><span>Query Coverage Score</span><span>2 of 8 queries (25%)</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill fill-red" style="width:25%"></div></div>
+    </div>
+
+    <div class="callout callout-alert">
+      <span class="callout-icon">⚠</span>
+      <div><strong>Critical competitive gap:</strong> Global App Testing and Testlio have built long-form, structured content pages (guides, FAQs, comparison articles) that dominate AI-surfaced answers across every major payment testing query. Applause's product page is being passed over in favor of these content-rich competitors, even though Applause has a stronger product and larger community. The gap is content structure, not product quality.</div>
+    </div>
+  </div>
+
+  <!-- 3. CONTENT EXTRACTABILITY -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">3</div>
+      <h2>Content Extractability Audit</h2>
+      <span class="section-badge badge-critical">5 FAILS</span>
+    </div>
+
+    <p style="margin-bottom:16px;font-size:14px;">AI systems extract passages, not pages. Each check below assesses whether a specific AI-extraction pattern is present on the payment testing page.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:52%">Extractability Check</th>
+          <th style="width:18%">Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Clear definition of "payment testing" in first paragraph</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>Page opens with "The world of digital payments is complex" — no definitional statement. AI needs a clean "X is Y" sentence within the first 100 words.</td>
+        </tr>
+        <tr>
+          <td>Self-contained answer blocks (40–60 words)</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>Content flows as marketing prose. No standalone extractable passages that answer a specific question in isolation.</td>
+        </tr>
+        <tr>
+          <td>Statistics with named sources and dates</td>
+          <td><span class="status-partial">Partial</span></td>
+          <td>Good stats present ($111B–$136B cart abandonment, $6.3T ecommerce forecast, 52% localization abandonment) but zero source citations. AI citation rate drops significantly without attribution.</td>
+        </tr>
+        <tr>
+          <td>Comparison tables for [X] vs [Y] queries</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>No comparison content. High-value queries like "crowdtesting vs in-house payment testing" or "real instruments vs test cards" are unaddressed.</td>
+        </tr>
+        <tr>
+          <td>FAQ section with natural-language questions</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>No FAQ section exists. This is one of the highest-impact structural additions for Google AI Overviews — People Also Ask patterns feed directly from FAQ schema.</td>
+        </tr>
+        <tr>
+          <td>H2/H3 headings that match query phrasing</td>
+          <td><span class="status-partial">Partial</span></td>
+          <td>Headings are benefit-led ("Enable Seamless Transactions Worldwide") rather than query-matched ("What Is Payment Testing?" or "How Does Real-Instrument Payment Testing Work?").</td>
+        </tr>
+        <tr>
+          <td>"Last updated" date visible</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>No date present. AI systems weight freshness heavily — undated pages lose to dated content.</td>
+        </tr>
+        <tr>
+          <td>Author attribution with credentials</td>
+          <td><span class="status-fail">Fail</span></td>
+          <td>No author listed. E-E-A-T requires demonstrated expertise on product and solution pages, not just blog posts.</td>
+        </tr>
+        <tr>
+          <td>Gated content limiting AI access</td>
+          <td><span class="status-good">Pass</span></td>
+          <td>Page is publicly accessible. No gating issues.</td>
+        </tr>
+        <tr>
+          <td>Internal links to supporting content (blog, guides)</td>
+          <td><span class="status-partial">Partial</span></td>
+          <td>Links to case study (Paysafe) and resource center, but no direct links to the "Payment Testing 101" blog post that is already earning search visibility.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="score-bar-wrap mt-16">
+      <div class="score-bar-label"><span>Extractability Score</span><span>1 Pass, 3 Partial, 6 Fail (out of 10)</span></div>
+      <div class="score-bar-track"><div class="score-bar-fill fill-red" style="width:25%"></div></div>
+    </div>
+
+    <div class="callout callout-info mt-16">
+      <span class="callout-icon">💡</span>
+      <div><strong>Quick win:</strong> The "Payment Testing 101" blog post already contains a strong definition and FAQ-style content and appears in AI search results. Add a prominent internal link from the product page to this post — it creates a content cluster that signals topical depth to Google's AI systems.</div>
+    </div>
+  </div>
+
+  <!-- 4. SCHEMA MARKUP -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">4</div>
+      <h2>Schema Markup Assessment</h2>
+      <span class="section-badge badge-critical">NOT IMPLEMENTED</span>
+    </div>
+
+    <div class="callout callout-alert">
+      <span class="callout-icon">⚠</span>
+      <div><strong>No schema markup detected</strong> on the payment testing page. Pages with proper schema see 30–40% higher AI visibility on Google and non-Google AI engines. This is a high-impact gap with relatively low implementation effort.</div>
+    </div>
+
+    <table class="mt-16">
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>Target Content</th>
+          <th>AI Value</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>FAQ section (to be created)</td>
+          <td>Direct Q&A extraction by Google AI Overviews</td>
+          <td><span class="status-fail">Not implemented</span></td>
+          <td><span class="p-badge p1" style="font-size:11px">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>Organization</code></td>
+          <td>Homepage / About — applies sitewide</td>
+          <td>Entity recognition, Knowledge Graph entry</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="p-badge p1" style="font-size:11px">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>Service</code></td>
+          <td>Payment testing service description</td>
+          <td>Service entity extraction for "best [service]" queries</td>
+          <td><span class="status-fail">Not implemented</span></td>
+          <td><span class="p-badge p2" style="font-size:11px">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>BreadcrumbList</code></td>
+          <td>All pages — sitewide</td>
+          <td>Site structure signals for Google crawl</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="p-badge p2" style="font-size:11px">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Payment Testing 101 blog post</td>
+          <td>Author, date, topic identification — already ranking</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="p-badge p2" style="font-size:11px">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>HowTo</code></td>
+          <td>New how-to content (to be created)</td>
+          <td>Step extraction for "how to test payments" queries</td>
+          <td><span class="status-fail">No target page exists</span></td>
+          <td><span class="p-badge p3" style="font-size:11px">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Validation Tools</h3>
+    <p style="font-size:14px;">Once schema is implemented, validate using these tools before publishing:</p>
+    <ul style="font-size:14px;padding-left:20px;line-height:2;">
+      <li><strong>Google Rich Results Test</strong> — <code>search.google.com/test/rich-results</code></li>
+      <li><strong>Schema.org Validator</strong> — <code>validator.schema.org</code></li>
+      <li><strong>Browser DevTools</strong> — Search page source for <code>application/ld+json</code></li>
+    </ul>
+
+    <h3>FAQPage Schema — Starter Template</h3>
+    <p style="font-size:14px;margin-bottom:8px;">Add this JSON-LD block to the <code>&lt;head&gt;</code> of the payment testing page once the FAQ section is live:</p>
+    <pre><span class="comment">// Add to &lt;head&gt; as &lt;script type="application/ld+json"&gt;</span>
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is payment testing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Payment testing verifies that digital transactions work correctly
+        across payment methods, geographies, and devices — ensuring customers
+        can complete purchases reliably. It covers functional flows, localization,
+        security, and usability testing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use real payment instruments for testing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dummy cards and sandbox environments cannot replicate real-world
+        edge cases like regional bank declines, BNPL flows, or mobile wallet
+        authentication. Testing with real testers using live payment instruments
+        surfaces issues that synthetic testing misses."
+      }
+    }
+    <span class="comment">// Add remaining FAQ items here</span>
+  ]
+}</pre>
+  </div>
+
+  <!-- 5. AI BOT ACCESS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">5</div>
+      <h2>AI Bot Access</h2>
+      <span class="section-badge badge-warning">VERIFY REQUIRED</span>
+    </div>
+
+    <p style="font-size:14px;margin-bottom:16px;">The applause.com robots.txt could not be fetched directly during this audit. Status below is marked Unknown and requires manual verification. Blocked AI bots cannot cite your content — this is a silent, high-impact issue.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>User Agent</th>
+          <th>Platform</th>
+          <th>Used For</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Google-Extended</code></td>
+          <td>Google AI Overviews + Gemini</td>
+          <td>Citation + AI features</td>
+          <td><span class="status-unknown">Unknown — verify</span></td>
+        </tr>
+        <tr>
+          <td><code>Googlebot</code></td>
+          <td>Google Search</td>
+          <td>Core indexing (feeds AI Overviews)</td>
+          <td><span class="status-good">Likely allowed</span></td>
+        </tr>
+        <tr>
+          <td><code>GPTBot</code></td>
+          <td>ChatGPT</td>
+          <td>Citation (future scope)</td>
+          <td><span class="status-unknown">Unknown — verify</span></td>
+        </tr>
+        <tr>
+          <td><code>PerplexityBot</code></td>
+          <td>Perplexity</td>
+          <td>Citation (future scope)</td>
+          <td><span class="status-unknown">Unknown — verify</span></td>
+        </tr>
+        <tr>
+          <td><code>ClaudeBot</code> / <code>anthropic-ai</code></td>
+          <td>Anthropic Claude</td>
+          <td>Citation (future scope)</td>
+          <td><span class="status-unknown">Unknown — verify</span></td>
+        </tr>
+        <tr>
+          <td><code>CCBot</code></td>
+          <td>Common Crawl</td>
+          <td>Training data only — not citation</td>
+          <td><span class="status-good">Safe to block</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>How to Verify</h3>
+    <p style="font-size:14px;">Visit <strong>applause.com/robots.txt</strong> directly and search for any <code>Disallow</code> rules targeting the bots above. Then check using Google's robots.txt tester in Search Console.</p>
+
+    <h3>Recommended robots.txt Configuration (for AI citation)</h3>
+    <pre><span class="comment"># Allow all AI search citation bots</span>
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+<span class="comment"># Safe to block — training only, not citation</span>
+User-agent: CCBot
+Disallow: /</pre>
+  </div>
+
+  <!-- 6. THIRD-PARTY PRESENCE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">6</div>
+      <h2>Third-Party Presence</h2>
+      <span class="section-badge badge-warning">GAPS IN PAYMENTS CATEGORY</span>
+    </div>
+
+    <p style="font-size:14px;margin-bottom:16px;">ChatGPT cites Wikipedia in 7.8% of all responses. Third-party sources — review sites, industry roundups, Reddit — often earn more AI citations than brand-owned pages. Applause has general crowdtesting presence but limited payment-specific third-party citations.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>General Applause Presence</th>
+          <th>Payment Testing Specific</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wikipedia</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td>Verify and ensure crowdtesting/Applause article is accurate and current</td>
+        </tr>
+        <tr>
+          <td>G2</td>
+          <td><span class="status-good">Present</span></td>
+          <td><span class="status-gap">Not category-specific</span></td>
+          <td>Ensure G2 profile includes payment testing as a capability; encourage customer reviews mentioning payments</td>
+        </tr>
+        <tr>
+          <td>Gartner Peer Insights</td>
+          <td><span class="status-good">Present</span></td>
+          <td><span class="status-gap">Not category-specific</span></td>
+          <td>Same as G2 — add payment testing to capability tags</td>
+        </tr>
+        <tr>
+          <td>softwaretestinghelp.com</td>
+          <td><span class="status-gap">Not cited</span></td>
+          <td><span class="status-gap">Not cited</span></td>
+          <td>High-value target — GAT roundup article ("Top 10 crowdsourced testing companies") currently dominates AI results and does not cite Applause</td>
+        </tr>
+        <tr>
+          <td>Capterra / TrustRadius</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="status-gap">Not category-specific</span></td>
+          <td>Verify listing completeness; add payment testing to use case categories</td>
+        </tr>
+        <tr>
+          <td>YouTube</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="status-gap">No known content</span></td>
+          <td>A short "how payment testing with real instruments works" video would be cited by Google AI Overviews for how-to queries</td>
+        </tr>
+        <tr>
+          <td>Reddit (r/QualityAssurance, r/softwaretesting)</td>
+          <td><span class="status-unknown">Unknown</span></td>
+          <td><span class="status-gap">Unknown</span></td>
+          <td>Monitor brand mentions; authentic participation in payment testing threads builds third-party citation weight</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-warn mt-16">
+      <span class="callout-icon">⚠</span>
+      <div><strong>Notable gap:</strong> The softwaretestinghelp.com "Top 10 crowdsourced testing companies" article ranks highly and is regularly cited by AI systems for crowdtesting queries. Applause is not featured. Earning a mention in this roundup — and similar industry listicles — would deliver outsized AI citation benefit relative to effort.</div>
+    </div>
+  </div>
+
+  <!-- 7. COMPETITIVE GAPS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">7</div>
+      <h2>Competitive Gaps</h2>
+      <span class="section-badge badge-critical">3 CRITICAL GAPS</span>
+    </div>
+
+    <p style="font-size:14px;margin-bottom:16px;">Based on search result analysis, these competitors are capturing AI citation share that Applause should own. Each gap has a specific content type driving it.</p>
+
+    <div class="competitor-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-header">
+          <strong>Testlio</strong>
+          <span class="status-fail">Critical Gap</span>
+        </div>
+        <div class="comp-card-body">
+          <p><strong>Where they win:</strong> "What is payment testing" and "best payment testing companies" — Testlio's "Ultimate Guide to Payments Testing" (long-form, structured, FAQ-rich) is cited consistently in AI-generated answers across these queries.</p>
+          <p><strong>Why they win:</strong> Long-form guide with definition block, step-by-step content, comparison of manual vs. automated approaches, and structured headings that match query patterns. The page is written to be extracted, not to convert.</p>
+          <p><strong>Applause's counter:</strong> The "Payment Testing 101" blog post is a partial answer — it appears in results but lacks schema and a defined FAQ structure. Elevating this page and adding schema would close the gap. A dedicated long-form payment testing guide on the blog would also compete directly.</p>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-header">
+          <strong>Global App Testing (GAT)</strong>
+          <span class="status-fail">Critical Gap</span>
+        </div>
+        <div class="comp-card-body">
+          <p><strong>Where they win:</strong> "Payment testing tools," "how to test payment flows ecommerce," "best crowdsourced testing companies," and multiple roundup-style queries. GAT's blog content strategy is aggressive — they publish comparison articles, tool roundups, and how-to guides that target every adjacent query.</p>
+          <p><strong>Why they win:</strong> GAT owns the blog content layer. Their "7 Payment Testing Tools" and "What is Payment Testing: Ultimate Guide" posts dominate AI-surfaced answers and appear in third-party roundups (softwaretestinghelp.com cites GAT, not Applause).</p>
+          <p><strong>Applause's counter:</strong> Applause's differentiator (1.5M+ community, 200+ countries, real instruments) is stronger on paper — but it needs to be expressed in content that AI can extract. A "payment testing tools comparison" article featuring Applause prominently would compete directly for these queries.</p>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-header">
+          <strong>Stripe (for how-to queries)</strong>
+          <span class="status-partial">Indirect Gap</span>
+        </div>
+        <div class="comp-card-body">
+          <p><strong>Where they win:</strong> "How to test payment gateway integration" and "payment gateway testing best practices" — Stripe's resource content is cited heavily because it has clear authority, named authorship, sourced data, and is structured for AI extraction.</p>
+          <p><strong>Why this matters for Applause:</strong> Stripe is not a direct competitor, but it occupies the informational query space that Applause could own. Buyers researching payment testing best practices are encountering Stripe content before they find Applause. A strong "payment testing best practices" guide from Applause — framed around the managed service and real-instrument advantage — would enter this space.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-info mt-16">
+      <span class="callout-icon">📋</span>
+      <div>For full competitive content analysis, comparison page builds, and battle card development against Testlio and GAT, use the <strong>competitive-intelligence</strong> skill. This audit identifies the gaps; that skill builds the response content.</div>
+    </div>
+  </div>
+
+  <!-- 8. PRIORITIZED RECOMMENDATIONS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">8</div>
+      <h2>Prioritized Recommendations</h2>
+      <span class="section-badge badge-info">10 ACTIONS</span>
+    </div>
+
+    <table class="reco-table">
+      <thead>
+        <tr>
+          <th style="width:7%">Priority</th>
+          <th style="width:38%">Action</th>
+          <th style="width:15%">Impact</th>
+          <th style="width:15%">Effort</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="p-badge p1">P1</span></td>
+          <td><strong>Add FAQPage JSON-LD schema</strong> to the payment testing page. Target 6–8 questions matching "People Also Ask" patterns for payment testing queries.</td>
+          <td>🔴 High — direct AI Overview citation driver</td>
+          <td>Low — dev ticket, 1–2 hours</td>
+          <td>Web dev + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p1">P1</span></td>
+          <td><strong>Rewrite page opening</strong> with a 40–60 word definition block: "Payment testing is…" followed by what Applause does differently. Move this above the hero copy.</td>
+          <td>🔴 High — first-paragraph extraction</td>
+          <td>Low — copy edit only</td>
+          <td>PMM / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p1">P1</span></td>
+          <td><strong>Source the statistics already on the page.</strong> The $111B–$136B cart abandonment stat, the $6.3T ecommerce forecast, and the 52% localization figure need citation links. Add inline sources or footnotes.</td>
+          <td>🟠 Medium-High — +37% citation boost per GEO research</td>
+          <td>Low — research + markup</td>
+          <td>Content / PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p1">P1</span></td>
+          <td><strong>Verify robots.txt</strong> allows Google-Extended, GPTBot, PerplexityBot, and ClaudeBot. Blocked bots cannot cite the page. Fix any Disallow rules targeting these agents.</td>
+          <td>🔴 High — prerequisite for all AI citation</td>
+          <td>Low — config change</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td><strong>Add a structured FAQ section</strong> to the payment testing page (6–8 questions). Target: "What is payment testing?", "What payment methods can you test?", "How is crowdtesting different from test card environments?", "Can you test BNPL and crypto?", "How does Applause ensure security with live transactions?", "How do you test payment localization?"</td>
+          <td>🔴 High — direct People Also Ask coverage</td>
+          <td>Medium — new copy + dev</td>
+          <td>PMM + Web</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td><strong>Add Organization schema sitewide</strong> (if not already present). Confirm or create the Applause Knowledge Graph entry via accurate Wikipedia presence and schema entity markup.</td>
+          <td>🟠 Medium — entity recognition across all AI platforms</td>
+          <td>Medium — dev + content</td>
+          <td>Web dev / SEO</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td><strong>Link the payment testing product page directly to "Payment Testing 101"</strong> blog post. Creates a content cluster signal and routes AI systems to the more extractable content that's already ranking.</td>
+          <td>🟠 Medium — topical depth signal</td>
+          <td>Low — CMS link update</td>
+          <td>PMM / Web</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td><strong>Update the "Payment Testing 101" blog post</strong> with schema markup (Article + FAQPage), a visible "Last updated" date, and author attribution with credentials. This page is already in AI search results — optimize it to earn citations.</td>
+          <td>🟠 Medium — amplifies existing ranking</td>
+          <td>Low-Medium</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p3">P3</span></td>
+          <td><strong>Commission a long-form payment testing guide</strong> (2,000–3,000 words) targeting "how to test payment flows," "payment testing best practices," and related informational queries. Structured with definition blocks, step-by-step sections, a comparison table (real instruments vs. test cards), and FAQ schema.</td>
+          <td>🔴 High — captures query category GAT currently owns</td>
+          <td>High — new content</td>
+          <td>Content / PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p3">P3</span></td>
+          <td><strong>Target industry roundup inclusion</strong> — specifically the softwaretestinghelp.com "Top crowdsourced testing companies" article that AI systems cite regularly. Pursue inclusion via PR/content team outreach. Also update G2 and Gartner profiles to include payment testing as a tagged capability.</td>
+          <td>🟠 Medium — third-party citation multiplier</td>
+          <td>Medium — outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9. MONITORING PLAN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="section-num">9</div>
+      <h2>Monitoring Plan</h2>
+      <span class="section-badge badge-info">GOOGLE AI OVERVIEWS FOCUS</span>
+    </div>
+
+    <p style="font-size:14px;margin-bottom:4px;">Google AI Overviews have no dedicated Search Console reporting. Use the tools and cadence below to track citation progress after optimizations are deployed.</p>
+
+    <div class="monitoring-grid">
+      <div class="monitor-card">
+        <h4>Recommended Tools</h4>
+        <ul>
+          <li><strong>Semrush / Ahrefs</strong> — AI Overview presence tracking for target queries; available in both platforms as of 2025</li>
+          <li><strong>Otterly AI</strong> — Share of AI voice across ChatGPT, Perplexity, Google AI Overviews</li>
+          <li><strong>Peec AI</strong> — Multi-platform citation monitoring at scale</li>
+          <li><strong>ZipTie</strong> — Brand mention and sentiment tracking in AI answers</li>
+        </ul>
+      </div>
+      <div class="monitor-card">
+        <h4>DIY Monthly Cadence</h4>
+        <ul>
+          <li>Run the 8 priority queries through Google and check if AI Overviews appear</li>
+          <li>Record: Is Applause cited? Which page? Who else is cited?</li>
+          <li>Check "People Also Ask" boxes — these feed FAQ schema opportunities</li>
+          <li>Log results in a spreadsheet with date; track month-over-month</li>
+        </ul>
+      </div>
+      <div class="monitor-card">
+        <h4>What to Track</h4>
+        <ul>
+          <li>AI Overview presence rate for priority payment testing queries</li>
+          <li>Applause citation rate vs. Testlio and GAT</li>
+          <li>Which page is cited (product page, blog, case study)</li>
+          <li>Referral traffic from AI platforms in GA4 (source/medium)</li>
+        </ul>
+      </div>
+      <div class="monitor-card">
+        <h4>Post-Optimization Checkpoints</h4>
+        <ul>
+          <li><strong>2 weeks after schema launch:</strong> Validate rich results in Google Search Console</li>
+          <li><strong>30 days after FAQ + schema:</strong> Check AI Overview presence for target queries</li>
+          <li><strong>60 days:</strong> Full re-run of this audit's query coverage matrix</li>
+          <li><strong>Quarterly:</strong> Refresh statistics, update dates, review competitor content moves</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="report-footer">
+  <div class="footer-inner">
+    <div>
+      <strong style="color:var(--white)">Applause°</strong><br>
+      Applause helps organizations build better quality digital experiences faster and release with confidence. <a href="https://www.applause.com">applause.com</a>
+    </div>
+    <div style="text-align:right;font-size:12px;opacity:0.65;">
+      Generated with Applause AI SEO Skill v2.1.0<br>
+      Audit date: June 3, 2026<br>
+      Focus: Google AI Overviews · Page: applause.com/payment-testing/
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
