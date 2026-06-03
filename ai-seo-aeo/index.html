@@ -1,720 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>AI SEO / AEO Skill — Applause Product Marketing</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --blue-700: #01446C;
-      --blue-500: #0272B4;
-      --blue-100: #E6F2FB;
-      --aqua-500: #00C0A3;
-      --aqua-100: #E0FAF6;
-      --yellow-500: #FFC400;
-      --yellow-100: #FFF8E1;
-      --ink: #0D1B2A;
-      --ink-60: #4A5568;
-      --ink-30: #A0AEC0;
-      --surface: #F8FAFC;
-      --white: #FFFFFF;
-      --border: #E2E8F0;
-      --radius: 10px;
-      --radius-lg: 16px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--ink);
-      background: var(--white);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      height: 56px;
-    }
-
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      color: var(--blue-700);
-      text-decoration: none;
-      margin-right: 2.5rem;
-    }
-
-    nav a:not(.nav-logo) {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--ink-60);
-      text-decoration: none;
-      padding: 0 0.875rem;
-      height: 56px;
-      display: inline-flex;
-      align-items: center;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-    }
-
-    nav a:not(.nav-logo):hover { color: var(--blue-500); }
-
-    .nav-badge {
-      margin-left: auto;
-      background: var(--blue-100);
-      color: var(--blue-700);
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.625rem;
-      border-radius: 999px;
-    }
-
-    .nav-cta {
-      margin-left: 1rem;
-      background: var(--blue-500) !important;
-      color: var(--white) !important;
-      border-radius: var(--radius) !important;
-      padding: 0.375rem 0.875rem !important;
-      height: auto !important;
-      border-bottom: none !important;
-      font-size: 0.8125rem !important;
-    }
-
-    .nav-cta:hover { background: var(--blue-700) !important; color: var(--white) !important; }
-
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, var(--blue-700) 0%, #023b5e 60%, #025a8e 100%);
-      color: var(--white);
-      padding: 5rem 2rem 4.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,192,163,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--aqua-500);
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--aqua-500);
-      border-radius: 2px;
-    }
-
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.25rem, 5vw, 3.25rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      font-weight: 700;
-      color: var(--aqua-500);
-    }
-
-    .hero-sub {
-      font-size: 1.0625rem;
-      font-weight: 300;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.8);
-      max-width: 620px;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .hero-stat {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius);
-      padding: 0.75rem 1.25rem;
-      backdrop-filter: blur(4px);
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-family: 'Syne', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .hero-stat span {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.6);
-    }
-
-    /* ── LAYOUT ── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    section {
-      padding: 4rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    section:last-of-type { border-bottom: none; }
-
-    .section-label {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--aqua-500);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 0.625rem;
-    }
-
-    .section-desc {
-      font-size: 1rem;
-      color: var(--ink-60);
-      max-width: 600px;
-      margin-bottom: 2.5rem;
-      line-height: 1.65;
-    }
-
-    /* ── PILLARS ── */
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 680px) { .pillars-grid { grid-template-columns: 1fr; } }
-
-    .pillar-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-
-    .pillar-card:hover { box-shadow: 0 8px 32px rgba(1,68,108,0.1); transform: translateY(-2px); }
-
-    .pillar-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
-    .pillar-card.structure::before { background: var(--blue-500); }
-    .pillar-card.authority::before { background: var(--aqua-500); }
-    .pillar-card.presence::before { background: var(--yellow-500); }
-
-    .pillar-icon {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .pillar-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.375rem;
-    }
-
-    .pillar-card p {
-      font-size: 0.875rem;
-      color: var(--ink-60);
-      line-height: 1.55;
-    }
-
-    /* ── SKILL CARDS ── */
-    .skill-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .skill-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem 1.75rem;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 1.25rem;
-      align-items: start;
-      transition: box-shadow 0.2s;
-    }
-
-    .skill-card:hover { box-shadow: 0 4px 20px rgba(1,68,108,0.08); }
-
-    .skill-card.highlight {
-      background: var(--blue-100);
-      border-color: var(--blue-500);
-    }
-
-    .skill-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-
-    .skill-icon.blue { background: var(--blue-100); }
-    .skill-icon.aqua { background: var(--aqua-100); }
-    .skill-icon.yellow { background: var(--yellow-100); }
-
-    .skill-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .skill-card h3 code {
-      font-family: 'DM Mono', 'Fira Mono', monospace;
-      font-size: 0.875rem;
-      background: var(--blue-100);
-      color: var(--blue-700);
-      padding: 0.125rem 0.375rem;
-      border-radius: 4px;
-    }
-
-    .skill-card p {
-      font-size: 0.875rem;
-      color: var(--ink-60);
-      line-height: 1.55;
-      margin-bottom: 0.75rem;
-    }
-
-    .trigger-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.375rem;
-    }
-
-    .trigger {
-      font-size: 0.6875rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.2rem 0.6rem;
-      color: var(--ink-60);
-      font-style: italic;
-    }
-
-    .skill-badge {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.625rem;
-      border-radius: 999px;
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    .skill-badge.new { background: var(--aqua-100); color: #007A69; }
-    .skill-badge.core { background: var(--blue-100); color: var(--blue-700); }
-
-    /* ── FILES ── */
-    .files-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 600px) { .files-grid { grid-template-columns: 1fr; } }
-
-    .file-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.125rem 1.25rem;
-      display: flex;
-      gap: 0.875rem;
-      align-items: flex-start;
-    }
-
-    .file-ext {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.6875rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.5rem;
-      border-radius: 5px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .file-ext.md { background: var(--blue-100); color: var(--blue-700); }
-    .file-ext.json { background: var(--yellow-100); color: #7A5C00; }
-
-    .file-card h4 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .file-card p {
-      font-size: 0.8125rem;
-      color: var(--ink-60);
-      line-height: 1.5;
-    }
-
-    /* ── STEPS ── */
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-
-    .steps::before {
-      content: '';
-      position: absolute;
-      left: 19px;
-      top: 24px;
-      bottom: 24px;
-      width: 2px;
-      background: var(--border);
-    }
-
-    .step {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 1.25rem;
-      padding: 0 0 2rem;
-    }
-
-    .step:last-child { padding-bottom: 0; }
-
-    .step-num {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--blue-700);
-      color: var(--white);
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-content h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.375rem;
-      padding-top: 0.5rem;
-    }
-
-    .step-content p {
-      font-size: 0.9rem;
-      color: var(--ink-60);
-      line-height: 1.6;
-      margin-bottom: 0.75rem;
-    }
-
-    .code-snippet {
-      background: var(--ink);
-      color: #A8D8A8;
-      font-family: 'DM Mono', 'Fira Mono', monospace;
-      font-size: 0.8125rem;
-      padding: 0.875rem 1.125rem;
-      border-radius: var(--radius);
-      line-height: 1.6;
-    }
-
-    .code-snippet .comment { color: #6B7280; }
-    .code-snippet .highlight { color: var(--aqua-500); }
-
-    /* ── TIPS ── */
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 600px) { .tips-grid { grid-template-columns: 1fr; } }
-
-    .tip-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-    }
-
-    .tip-card .tip-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
-
-    .tip-card h4 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 700;
-      margin-bottom: 0.375rem;
-    }
-
-    .tip-card p {
-      font-size: 0.8125rem;
-      color: var(--ink-60);
-      line-height: 1.55;
-    }
-
-    /* ── QUERIES ── */
-    .query-section {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      margin-top: 1rem;
-    }
-
-    .query-section h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .query-tiers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 640px) { .query-tiers { grid-template-columns: 1fr; } }
-
-    .query-tier h4 {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.625rem;
-    }
-
-    .query-tier.t1 h4 { color: var(--blue-500); }
-    .query-tier.t2 h4 { color: var(--aqua-500); }
-    .query-tier.t3 h4 { color: var(--ink-30); }
-
-    .query-tier ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.375rem;
-    }
-
-    .query-tier li {
-      font-size: 0.8125rem;
-      color: var(--ink-60);
-      padding: 0.3rem 0.6rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-style: italic;
-    }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 2rem;
-      text-align: center;
-    }
-
-    .footer-owner {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.875rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--blue-700);
-      color: var(--white);
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .owner-info { text-align: left; }
-
-    .owner-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 700;
-    }
-
-    .owner-meta {
-      font-size: 0.75rem;
-      color: var(--ink-60);
-    }
-
-    .footer-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--blue-500);
-      color: var(--white);
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 0.875rem;
-      padding: 0.6875rem 1.5rem;
-      border-radius: var(--radius);
-      text-decoration: none;
-      transition: background 0.15s;
-      margin-bottom: 2rem;
-    }
-
-    .footer-cta:hover { background: var(--blue-700); }
-
-    .footer-meta {
-      font-size: 0.75rem;
-      color: var(--ink-30);
-    }
-
-    .footer-meta a { color: var(--ink-60); }
-
-    /* ── UTIL ── */
-    a { color: var(--blue-500); }
-    code {
-      font-family: 'DM Mono', 'Fira Mono', monospace;
-      font-size: 0.875em;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.1em 0.35em;
-      border-radius: 4px;
-      color: var(--blue-700);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AI SEO / AEO Skill — Applause Product Marketing</title>
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue-500: #0272B4; --blue-600: #025B90; --blue-700: #01446C;
+    --blue-800: #012E48; --blue-100: #E6F3FA; --blue-50: #F7FBFE;
+    --aqua-500: #00C0A3; --aqua-600: #009A82;
+    --yellow-500: #FFC400; --gray-700: #3D3D3D; --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2; --gray-200: #F0F0F0; --gray-100: #FAFAFA;
+    --white: #FFFFFF;
+    --font: 'Inter', 'Proxima Nova', Arial, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--gray-700); background: var(--white); font-size: 15px; line-height: 1.6; }
+
+  nav {
+    background: var(--blue-800); padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+  .nav-logo span { color: var(--aqua-500); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: var(--aqua-500); color: var(--white) !important; font-weight: 600; padding: 6px 14px; border-radius: 4px; font-size: 13px !important; }
+  .nav-badge { font-size: 11px; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 20px; margin-left: 0.5rem; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-600) 60%, var(--blue-500) 100%);
+    padding: 4rem 2.5rem 3.5rem; position: relative; overflow: hidden;
+  }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(0,192,163,0.08); pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -40px; left: 30%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(2,114,180,0.15); pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--aqua-500); margin-bottom: 1rem;
+  }
+  .hero-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--aqua-500); border-radius: 2px; }
+  .hero h1 { font-size: 2.6rem; font-weight: 800; color: var(--white); line-height: 1.15; max-width: 640px; margin-bottom: 1rem; }
+  .hero h1 em { color: var(--aqua-500); font-style: normal; }
+  .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 560px; line-height: 1.65; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--white); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; margin: 4px 0; }
+
+  .section { padding: 3.5rem 2.5rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-alt { background: var(--gray-100); }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 0.5rem; }
+  .section-title { font-size: 1.65rem; font-weight: 800; color: var(--blue-800); margin-bottom: 0.75rem; line-height: 1.25; }
+  .section-lead { font-size: 0.95rem; color: var(--gray-600); margin-bottom: 2.5rem; line-height: 1.7; }
+
+  /* Pillars */
+  .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 3rem; }
+  @media (max-width: 700px) { .pillars-grid { grid-template-columns: 1fr; } }
+  .pillar-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 1.5rem; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
+  .pillar-card:hover { border-color: var(--blue-500); box-shadow: 0 4px 20px rgba(2,114,180,0.1); }
+  .pillar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .pillar-card.structure::before { background: var(--blue-500); }
+  .pillar-card.authority::before { background: var(--aqua-500); }
+  .pillar-card.presence::before { background: var(--yellow-500); }
+  .pillar-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .pillar-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .pillar-card p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.55; }
+
+  /* Skill cards */
+  .skill-list { display: flex; flex-direction: column; gap: 1.25rem; }
+  .skill-card {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px;
+    padding: 1.5rem; display: grid; grid-template-columns: 40px 1fr auto;
+    gap: 1rem; align-items: start;
+    transition: border-color 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue-500), var(--aqua-500)); opacity: 0; transition: opacity 0.2s;
+  }
+  .skill-card:hover { border-color: var(--blue-500); box-shadow: 0 4px 20px rgba(2,114,180,0.1); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-card.highlight { background: var(--blue-50); border-color: var(--blue-500); }
+  .skill-card.highlight::before { opacity: 1; }
+  .skill-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .icon-blue { background: var(--blue-100); }
+  .icon-aqua { background: #E0F7F4; }
+  .icon-yellow { background: #FFF8E1; }
+  .skill-name { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+  .skill-name code { font-family: 'Monaco', 'Menlo', monospace; font-size: 0.85rem; background: var(--blue-100); color: var(--blue-700); padding: 1px 6px; border-radius: 4px; }
+  .skill-desc { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 0.75rem; }
+  .skill-triggers { background: var(--blue-50); border-radius: 6px; padding: 0.75rem 1rem; }
+  .triggers-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 6px; }
+  .triggers-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .trigger-pill { font-size: 11px; background: var(--blue-100); color: var(--blue-700); padding: 3px 9px; border-radius: 20px; font-weight: 500; font-style: italic; }
+  .skill-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; white-space: nowrap; }
+  .tag-new { background: #E0F7F4; color: var(--aqua-600); border: 1px solid #B2EFE8; }
+  .tag-core { background: var(--blue-100); color: var(--blue-700); border: 1px solid #C4DFF5; }
+  .tag-ref { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+
+  /* Files grid */
+  .files-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }
+  @media (max-width: 600px) { .files-grid { grid-template-columns: 1fr; } }
+  .file-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.25rem; display: flex; gap: 0.875rem; align-items: flex-start; }
+  .file-ext { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+  .ext-md { background: var(--blue-100); color: var(--blue-700); }
+  .ext-json { background: #FFF8E1; color: #7A5C00; }
+  .ext-lib { background: #E0F7F4; color: var(--aqua-600); }
+  .file-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--blue-800); margin-bottom: 3px; }
+  .file-card p { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 32px; height: 32px; background: var(--blue-500); color: var(--white); font-size: 13px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .step-body p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 0.5rem; }
+  .step-example { margin-top: 10px; background: var(--gray-100); border-left: 3px solid var(--aqua-500); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem; color: var(--gray-700); font-family: 'Monaco', 'Menlo', monospace; line-height: 1.55; }
+
+  /* Queries */
+  .query-box { background: var(--gray-100); border-radius: 10px; padding: 1.75rem; margin-top: 1rem; }
+  .query-box h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 1.25rem; }
+  .query-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  @media (max-width: 640px) { .query-tiers { grid-template-columns: 1fr; } }
+  .query-tier h4 { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.625rem; }
+  .query-tier.t1 h4 { color: var(--blue-500); }
+  .query-tier.t2 h4 { color: var(--aqua-600); }
+  .query-tier.t3 h4 { color: var(--gray-400); }
+  .query-tier ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .query-tier li { font-size: 0.8rem; color: var(--gray-600); background: var(--white); border: 1px solid var(--gray-200); border-radius: 5px; padding: 4px 9px; font-style: italic; }
+
+  /* Tips */
+  .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 700px) { .tips-grid { grid-template-columns: 1fr; } }
+  .tip-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.25rem; }
+  .tip-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .tip-title { font-size: 0.88rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .tip-text { font-size: 0.82rem; color: var(--gray-600); line-height: 1.55; }
+
+  /* Footer */
+  footer { background: var(--blue-800); color: rgba(255,255,255,0.6); padding: 1.75rem 2.5rem; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-left { display: flex; align-items: center; gap: 0.75rem; }
+  .footer-logo { font-weight: 800; color: var(--white); font-size: 13px; letter-spacing: 0.06em; }
+  .footer-logo span { color: var(--aqua-500); }
+  .footer-owner { display: flex; align-items: center; gap: 0.5rem; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--aqua-500); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  footer a { color: var(--aqua-500); text-decoration: none; }
+  .footer-cta { background: var(--aqua-500); color: var(--white) !important; font-weight: 600; padding: 6px 14px; border-radius: 4px; font-size: 12px; }
+  [id] { scroll-margin-top: 64px; }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">APPLAUSE°</a>
-  <a href="#skill">The Skill</a>
-  <a href="#files">Files</a>
-  <a href="#how">How to Use</a>
-  <a href="#queries">Target Queries</a>
-  <a href="#tips">Tips</a>
-  <a href="#contact">Owner</a>
-  <a href="https://dpnation.github.io/marketing/">← Marketing Incubator</a>
-  <span class="nav-badge">Internal Tool</span>
-  <a href="https://claude.ai" target="_blank" class="nav-cta">Open in Claude ↗</a>
+  <a class="nav-logo" href="#">APPLAUSE<span>°</span></a>
+  <div class="nav-links">
+    <a href="#skill">The Skill</a>
+    <a href="#files">Files</a>
+    <a href="#how">How to Use</a>
+    <a href="#queries">Target Queries</a>
+    <a href="#tips">Tips</a>
+    <a href="#contact">Owner</a>
+    <span style="width:1px;height:16px;background:rgba(255,255,255,0.15);display:inline-block;margin:0 0.25rem;"></span>
+    <a href="https://dpnation.github.io/marketing/" style="color:rgba(255,255,255,0.5)!important;font-size:12px!important;">← Marketing Incubator</a>
+    <a href="https://claude.ai" class="nav-cta">Open in Claude ↗</a>
+    <span class="nav-badge">Internal Tool</span>
+  </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
+<section class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Product Marketing</div>
     <h1>AI SEO / AEO Skill<br>for <em>Applause</em></h1>
     <p class="hero-sub">Optimize Applause content to get cited by AI search engines — Google AI Overviews, ChatGPT, and Claude. Pre-loaded with Applause's query targets, competitive landscape, and proof points so you never start from scratch.</p>
     <div class="hero-stats">
-      <div class="hero-stat">
-        <strong>3 Pillars</strong>
-        <span>Structure · Authority · Presence</span>
-      </div>
-      <div class="hero-stat">
-        <strong>3 Platforms</strong>
-        <span>Google AI · ChatGPT · Claude</span>
-      </div>
-      <div class="hero-stat">
-        <strong>4 Tier-1 Queries</strong>
-        <span>Priority AI search targets</span>
-      </div>
-      <div class="hero-stat">
-        <strong>Skills Library</strong>
-        <span>Available on Claude Enterprise</span>
-      </div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Pillars</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Priority platforms</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">Tier-1 queries</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">Shared</span><span class="stat-label">Enterprise skill type</span></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- SKILL OVERVIEW -->
-<section id="skill">
-  <div class="container">
+<!-- FRAMEWORK -->
+<section class="section" id="skill">
+  <div class="section-inner">
     <div class="section-label">The Framework</div>
     <h2 class="section-title">Three pillars, one skill</h2>
-    <p class="section-desc">The AI SEO / AEO skill applies a three-pillar framework to any Applause content — whether you're auditing existing pages, optimizing a blog post, or building net-new comparison content.</p>
+    <p class="section-lead">The /ai-seo-aeo skill applies a three-pillar framework to any Applause content — whether you're auditing existing pages, optimizing a blog post, or building net-new comparison content.</p>
 
     <div class="pillars-grid">
       <div class="pillar-card structure">
@@ -725,93 +218,99 @@
       <div class="pillar-card authority">
         <div class="pillar-icon">🏅</div>
         <h3>Authority</h3>
-        <p>Make content citable. AI prefers sources it can trust. Include statistics with sources, named expert quotes, author credentials, and "last updated" dates. The Princeton GEO research shows citations alone boost visibility +40%.</p>
+        <p>Make content citable. AI prefers sources it can trust. Include statistics with sources, named expert quotes, author credentials, and "last updated" dates. Princeton GEO research shows citations alone boost AI visibility +40%.</p>
       </div>
       <div class="pillar-card presence">
         <div class="pillar-icon">📡</div>
         <h3>Presence</h3>
-        <p>Be where AI looks. Your website is one input. AI also cites Wikipedia (7.8% of ChatGPT citations), Reddit, review sites, and industry publications. Allow AI bots in robots.txt — block them and you can't be cited.</p>
+        <p>Be where AI looks. Your website is one input. AI also cites Wikipedia, Reddit, review sites, and industry publications. Allow AI bots in robots.txt — block them and you can't be cited.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SKILL FILES -->
-<section id="files">
-  <div class="container">
+<!-- FILES -->
+<section class="section section-alt" id="files">
+  <div class="section-inner">
     <div class="section-label">What's Included</div>
-    <h2 class="section-title">6 files, upload-ready</h2>
-    <p class="section-desc">Download the zip and upload all files to your Claude Project knowledge base. The skill activates automatically when you describe an AI SEO task.</p>
+    <h2 class="section-title">The skill, ready to use</h2>
+    <p class="section-lead">Available in the Applause Claude Enterprise Skills Library — search <strong>/ai-seo-aeo</strong> and add it to your PMM Project. No downloads needed.</p>
 
-    <div class="skill-list" style="margin-bottom: 2rem;">
+    <div class="skill-list">
       <div class="skill-card highlight">
-        <div class="skill-icon blue">🧠</div>
+        <div class="skill-icon icon-blue">🧠</div>
         <div>
-          <h3><code>SKILL.md</code> — The skill itself</h3>
-          <p>The main file Claude reads when the skill triggers. Contains the three-pillar framework, the full AI Visibility Audit checklist, Princeton GEO research findings, schema markup guidance, machine-readable file recommendations, and agentic optimization tactics.</p>
-          <div class="trigger-list">
-            <span class="trigger">"audit our site for AI search"</span>
-            <span class="trigger">"why aren't we in AI Overviews"</span>
-            <span class="trigger">"optimize this blog post for AEO"</span>
-            <span class="trigger">"what content gets cited by AI"</span>
+          <div class="skill-name"><code>/ai-seo-aeo</code> — The skill itself</div>
+          <p class="skill-desc">The main skill Claude activates for AI SEO tasks. Contains the three-pillar framework, the full AI Visibility Audit checklist, Princeton GEO research findings, schema markup guidance, machine-readable file recommendations, and agentic optimization tactics.</p>
+          <div class="skill-triggers">
+            <div class="triggers-label">Triggers on</div>
+            <div class="triggers-list">
+              <span class="trigger-pill">"audit our site for AI search"</span>
+              <span class="trigger-pill">"why aren't we in AI Overviews"</span>
+              <span class="trigger-pill">"optimize this post for AEO"</span>
+              <span class="trigger-pill">"what content gets cited by AI"</span>
+            </div>
           </div>
         </div>
-        <span class="skill-badge core">Core</span>
+        <span class="skill-tag tag-core">Core</span>
       </div>
 
       <div class="skill-card">
-        <div class="skill-icon aqua">🏢</div>
+        <div class="skill-icon icon-aqua">🏢</div>
         <div>
-          <h3><code>product-marketing-context.md</code> — Applause context</h3>
-          <p>Applause-specific layer built for this skill. Contains ICP, buyer personas, value props, proof points (anchored on 50% defect reduction), competitive framing for Testlio/GAT/Qualitest/outsourcers, and the tiered query target list. All other skills read from this file — no re-explaining needed.</p>
-          <div class="trigger-list">
-            <span class="trigger">Referenced automatically by all skills</span>
+          <div class="skill-name"><code>product-marketing-context</code> — Applause context</div>
+          <p class="skill-desc">Applause-specific layer built for this skill. Contains ICP, buyer personas, value props, proof points (anchored on 50% defect reduction), competitive framing for Testlio/GAT/Qualitest/outsourcers, and the tiered query target list. All skills read from this automatically — no re-explaining needed.</p>
+          <div class="skill-triggers">
+            <div class="triggers-label">Referenced by</div>
+            <div class="triggers-list">
+              <span class="trigger-pill">All PMM skills automatically</span>
+            </div>
           </div>
         </div>
-        <span class="skill-badge new">New</span>
+        <span class="skill-tag tag-new">New</span>
       </div>
 
       <div class="skill-card">
-        <div class="skill-icon blue">🌐</div>
+        <div class="skill-icon icon-blue">🌐</div>
         <div>
-          <h3><code>platform-ranking-factors.md</code> — Per-platform tactics</h3>
-          <p>Deep-dive on what actually moves the needle on each AI platform: Google AI Overviews (schema markup, E-E-A-T, topical authority), ChatGPT (freshness, domain authority, content-answer fit), Perplexity (FAQ schema, PDFs, self-contained paragraphs), Copilot (Bing indexing, LinkedIn/GitHub signals), and Claude (Brave Search, factual density).</p>
+          <div class="skill-name">Platform ranking factors</div>
+          <p class="skill-desc">Deep-dive on what moves the needle on each AI platform: Google AI Overviews (schema, E-E-A-T, topical authority), ChatGPT (freshness, domain authority, content-answer fit), Perplexity (FAQ schema, PDFs, self-contained paragraphs), Copilot (Bing indexing, LinkedIn/GitHub signals), and Claude (Brave Search, factual density).</p>
         </div>
-        <span class="skill-badge core">Reference</span>
+        <span class="skill-tag tag-ref">Reference</span>
       </div>
 
       <div class="skill-card">
-        <div class="skill-icon aqua">📐</div>
+        <div class="skill-icon icon-aqua">📐</div>
         <div>
-          <h3><code>content-patterns.md</code> — Content block templates</h3>
-          <p>Reusable templates for AEO and GEO content patterns: definition blocks, step-by-step blocks, comparison tables, pros/cons blocks, FAQ blocks, listicles, statistic citation blocks, expert quote blocks, evidence sandwiches, and voice search optimization formats.</p>
+          <div class="skill-name">Content patterns</div>
+          <p class="skill-desc">Reusable templates for AEO and GEO content: definition blocks, step-by-step blocks, comparison tables, pros/cons blocks, FAQ blocks, listicles, statistic citation blocks, expert quote blocks, evidence sandwiches, and voice search formats.</p>
         </div>
-        <span class="skill-badge core">Reference</span>
+        <span class="skill-tag tag-ref">Reference</span>
       </div>
 
       <div class="skill-card">
-        <div class="skill-icon yellow">📄</div>
+        <div class="skill-icon icon-yellow">📄</div>
         <div>
-          <h3><code>content-types.md</code> — Format-specific guidance</h3>
-          <p>Tactical optimization guidance by content type: SaaS product pages, blog content, comparison/alternative pages, documentation and help content, and local/ecom (Google emphasis). Covers what AI looks for in each format and specific recommendations.</p>
+          <div class="skill-name">Content types</div>
+          <p class="skill-desc">Tactical optimization guidance by content format: SaaS product pages, blog content, comparison/alternative pages, documentation and help content. Covers what AI looks for in each format and specific recommendations per type.</p>
         </div>
-        <span class="skill-badge core">Reference</span>
+        <span class="skill-tag tag-ref">Reference</span>
       </div>
     </div>
 
     <div class="files-grid">
       <div class="file-card">
-        <span class="file-ext json">JSON</span>
+        <span class="file-ext ext-lib">LIB</span>
         <div>
-          <h4>evals.json</h4>
-          <p>6 test cases for validating skill behavior — including one that ensures the skill correctly defers traditional SEO audit requests to a separate skill rather than overstepping scope. Optional for day-to-day use; essential for skill QA.</p>
+          <h4>Available in Skills Library</h4>
+          <p>Search <strong>/ai-seo-aeo</strong> in the Applause Claude Enterprise Skills Library. Click Add to Project — no zip or upload needed. Contact your Claude Enterprise admin if it's not visible.</p>
         </div>
       </div>
       <div class="file-card">
-        <span class="file-ext md">LIB</span>
+        <span class="file-ext ext-json">JSON</span>
         <div>
-          <h4>Available in Skills Library</h4>
-          <p>The skill is published to the Applause Claude Enterprise Skills Library. Search "AI SEO" to find and add it to your Project — no zip download needed. Contact your Claude Enterprise admin if it's not visible.</p>
+          <h4>evals.json</h4>
+          <p>6 test cases for validating skill behavior — including a check that ensures the skill correctly defers traditional SEO audit requests rather than overstepping scope. Used for skill QA, not day-to-day use.</p>
         </div>
       </div>
     </div>
@@ -819,16 +318,16 @@
 </section>
 
 <!-- HOW TO USE -->
-<section id="how">
-  <div class="container">
+<section class="section" id="how">
+  <div class="section-inner">
     <div class="section-label">Usage</div>
     <h2 class="section-title">How to use the skill</h2>
-    <p class="section-desc">The skill is conversational — no forms, no menus. Describe your AI SEO task and Claude activates the right framework automatically.</p>
+    <p class="section-lead">The skill is conversational — no forms, no menus. Describe your AI SEO task and Claude activates the right framework automatically.</p>
 
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-content">
+        <div class="step-body">
           <h3>Add the skill from the Claude Enterprise library</h3>
           <p>In Claude Enterprise, open the Skills Library and search for <strong>/ai-seo-aeo</strong>. Click <strong>Add to Project</strong> to enable it in your PMM Project — no downloads or file uploads needed. If you don't see it, ask your Claude Enterprise admin to publish it from the Admin Console.</p>
         </div>
@@ -836,53 +335,42 @@
 
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-content">
+        <div class="step-body">
           <h3>Run the AI Visibility Audit first</h3>
           <p>Before creating any new content, audit what's currently being cited for your Tier-1 queries. Knowing who's winning "best crowdtesting platform" and "crowdsourced testing vs in-house QA" tells you whether to optimize existing pages or build net-new content.</p>
-          <div class="code-snippet">
-            <span class="highlight">"Audit Applause's AI search visibility for our Tier-1 queries.</span><br>
-            <span class="highlight"> Start with 'best crowdtesting platform' and</span><br>
-            <span class="highlight"> 'crowdsourced testing vs in-house QA'."</span>
-          </div>
+          <div class="step-example">"Audit Applause's AI search visibility for our Tier-1 queries.<br>Start with 'best crowdtesting platform' and 'crowdsourced testing vs in-house QA'."</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-content">
+        <div class="step-body">
           <h3>Optimize or build content with the skill</h3>
           <p>Paste in an existing page URL or draft and ask Claude to optimize it for a specific query. Or ask it to build a net-new comparison page, FAQ block, or definition section from scratch. The skill applies the right content pattern for the query type automatically.</p>
-          <div class="code-snippet">
-            <span class="highlight">"Optimize this blog post to get cited for</span><br>
-            <span class="highlight"> 'AI testing tools for enterprises'. Apply AEO patterns</span><br>
-            <span class="highlight"> and flag any missing proof points."</span><br><br>
-            <span class="comment">-- or --</span><br><br>
-            <span class="highlight">"Build a comparison page for 'crowdtesting vs in-house QA'</span><br>
-            <span class="highlight"> structured for AI citation."</span>
-          </div>
+          <div class="step-example">"Optimize this blog post to get cited for 'AI testing tools for enterprises'.<br>Apply AEO patterns and flag any missing proof points."<br><br>"Build a comparison page for 'crowdtesting vs in-house QA' structured for AI citation."</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">4</div>
-        <div class="step-content">
+        <div class="step-body">
           <h3>Prioritize, implement, and track</h3>
-          <p>The skill outputs a prioritized action plan tied to each platform. Start with Google AI Overviews (schema markup, E-E-A-T) — it reaches the most buyers and you already have Google SEO foundations. Then address ChatGPT freshness signals and content-answer fit.</p>
+          <p>The skill outputs a prioritized action plan tied to each platform. Start with Google AI Overviews — it reaches the most buyers and you likely have Google SEO foundations already. Then address ChatGPT freshness signals and content-answer fit.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TARGET QUERIES -->
-<section id="queries">
-  <div class="container">
+<!-- QUERIES -->
+<section class="section section-alt" id="queries">
+  <div class="section-inner">
     <div class="section-label">Priority Targets</div>
     <h2 class="section-title">Applause's AI search query universe</h2>
-    <p class="section-desc">These are the queries baked into <code>product-marketing-context.md</code>. The skill automatically optimizes content toward Tier-1 targets and uses Tier-2/3 for supporting coverage.</p>
+    <p class="section-lead">These queries are baked into the Applause product marketing context. The skill automatically optimizes content toward Tier-1 targets and uses Tier-2/3 for supporting coverage.</p>
 
-    <div class="query-section">
-      <h3>Query Tiers</h3>
+    <div class="query-box">
+      <h3>Query tiers</h3>
       <div class="query-tiers">
         <div class="query-tier t1">
           <h4>Tier 1 — Must Win</h4>
@@ -919,62 +407,61 @@
 </section>
 
 <!-- TIPS -->
-<section id="tips">
-  <div class="container">
+<section class="section" id="tips">
+  <div class="section-inner">
     <div class="section-label">Best Practices</div>
     <h2 class="section-title">Getting the most out of it</h2>
-    <p class="section-desc">Patterns that make all the difference.</p>
+    <p class="section-lead">A few patterns that make all the difference.</p>
 
     <div class="tips-grid">
       <div class="tip-card">
         <div class="tip-icon">🔍</div>
-        <h4>Audit before you build</h4>
-        <p>Run the AI Visibility Audit before creating new content. Optimizing an existing page that's close to ranking is almost always faster than building net-new.</p>
+        <div class="tip-title">Audit before you build</div>
+        <p class="tip-text">Run the AI Visibility Audit before creating new content. Optimizing an existing page that's close to ranking is almost always faster than building net-new.</p>
       </div>
       <div class="tip-card">
         <div class="tip-icon">📊</div>
-        <h4>Lead with the 50% stat</h4>
-        <p>The "50% reduction in defects released to production" stat is your most citable proof point. Build it into every piece of content the skill produces — with attribution.</p>
+        <div class="tip-title">Lead with the 50% stat</div>
+        <p class="tip-text">The "50% reduction in defects released to production" stat is your most citable proof point. Build it into every piece of content the skill produces — with attribution.</p>
       </div>
       <div class="tip-card">
         <div class="tip-icon">⚡</div>
-        <h4>AI testing = content gap</h4>
-        <p>Testlio and GAT are behind on AI testing content. The "AI testing tools for enterprises" and "how to test AI applications" queries are open lanes — move fast.</p>
+        <div class="tip-title">AI testing = content gap</div>
+        <p class="tip-text">Testlio and GAT are behind on AI testing content. The "AI testing tools for enterprises" and "how to test AI applications" queries are open lanes — move fast.</p>
       </div>
       <div class="tip-card">
         <div class="tip-icon">🔄</div>
-        <h4>Freshness is a ranking signal</h4>
-        <p>ChatGPT cites content updated in the last 30 days 3.2x more often than older content. Add "Last updated" dates to competitive pages and refresh them monthly.</p>
+        <div class="tip-title">Freshness is a ranking signal</div>
+        <p class="tip-text">ChatGPT cites content updated in the last 30 days 3.2x more often than older content. Add "Last updated" dates to competitive pages and refresh them monthly.</p>
       </div>
       <div class="tip-card">
         <div class="tip-icon">🏗️</div>
-        <h4>Comparison pages are highest-ROI</h4>
-        <p>Comparison content drives ~33% of all AI citations. "Crowdtesting vs in-house QA" and "Applause vs Testlio" pages should be priority builds.</p>
+        <div class="tip-title">Comparison pages are highest-ROI</div>
+        <p class="tip-text">Comparison content drives ~33% of all AI citations. "Crowdtesting vs in-house QA" and "Applause vs Testlio" pages should be priority builds.</p>
       </div>
       <div class="tip-card">
         <div class="tip-icon">🤖</div>
-        <h4>Check robots.txt first</h4>
-        <p>If GPTBot, ClaudeBot, or Google-Extended are blocked in your robots.txt, no optimization matters — those platforms can't cite you. This is the first thing to check.</p>
+        <div class="tip-title">Check robots.txt first</div>
+        <p class="tip-text">If GPTBot, ClaudeBot, or Google-Extended are blocked in your robots.txt, no optimization matters — those platforms can't cite you. This is the first thing to check.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer" id="contact">
-  <div class="footer-owner">
-    <div class="avatar">DP</div>
-    <div class="owner-info">
-      <div class="owner-name">Dana Prey</div>
-      <div class="owner-meta">Product Marketing · Applause · <a href="mailto:dprey@applause.com">dprey@applause.com</a></div>
+<footer id="contact">
+  <div class="footer-left">
+    <span class="footer-logo">APPLAUSE<span>°</span></span>
+    <span style="color:rgba(255,255,255,0.2)">|</span>
+    <div class="footer-owner">
+      <div class="avatar">DP</div>
+      <span>Dana Prey · Product Marketing · <a href="mailto:dprey@applause.com">dprey@applause.com</a></span>
     </div>
   </div>
-  <br />
-  <a href="https://claude.ai" target="_blank" class="footer-cta">Open AI SEO Skill in Claude ↗</a>
-  <p class="footer-meta">
-    APPLAUSE° AI SEO / AEO Skill · Maintained by Dana Prey · Internal use only<br />
-    <a href="https://dpnation.github.io/marketing/">← Back to Marketing Incubator</a>
-  </p>
+  <div style="display:flex;align-items:center;gap:1.25rem;">
+    <a href="https://dpnation.github.io/marketing/">← Marketing Incubator</a>
+    <a href="https://claude.ai" class="footer-cta">Open in Claude ↗</a>
+  </div>
 </footer>
 
 </body>
