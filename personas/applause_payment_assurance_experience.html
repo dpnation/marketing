@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applause — Global Payment Assurance Platform</title>
+    <!-- Montserrat Google Font (Official Brand Substitute) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        applause: {
+                            blue: '#0272B4',
+                            dark: '#01446C',
+                            light: '#CFEAFB',
+                            bg: '#E7F3FA',
+                            success: '#0F8919',
+                            warning: '#FFC400',
+                            error: '#D42D0E',
+                            black: '#000000',
+                            gray900: '#3D3D3D',
+                            gray200: '#EEEEEE'
+                        }
+                    },
+                    borderRadius: {
+                        xs: '2px',
+                        sm: '4px',
+                        md: '8px',
+                        lg: '12px'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --applause-blue: #0272B4;
+            --applause-blue-dark: #01446C;
+            --applause-blue-light: #CFEAFB;
+            --applause-blue-bg: #E7F3FA;
+            --black: #000000;
+            --gray-900: #3D3D3D;
+            --gray-200: #EEEEEE;
+            --white: #FFFFFF;
+            --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+            --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            color: var(--gray-900);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Slide Highlight Animation */
+        .slide-highlight {
+            transition: border-color 280ms var(--ease-standard), background-color 280ms var(--ease-standard);
+        }
+        .slide-highlight.active-section {
+            border: 2px solid var(--applause-blue) !important;
+            background-color: var(--applause-blue-bg) !important;
+        }
+
+        /* Focus & Button States strictly aligned to design guidelines */
+        .btn-primary {
+            background-color: var(--applause-blue);
+            color: var(--white);
+            border-radius: 4px;
+            transition: background-color 120ms var(--ease-standard);
+        }
+        .btn-primary:hover {
+            background-color: var(--applause-blue-dark);
+        }
+        .btn-primary:active {
+            box-shadow: inset 0 2px 0 rgba(0,0,0,0.08);
+        }
+        .btn-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(2, 114, 180, 0.28);
+        }
+
+        /* Hexagonal Network SVG Background Mask */
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 23 L80 68 L40 90 L0 68 L0 23 Z' fill='none' stroke='%23CFEAFB' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 60px 60px;
+        }
+
+        /* Custom Scrollbar to maintain slide deck aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--applause-blue-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--applause-blue-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--applause-blue);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row bg-white">
+
+    <!-- Represents the 60px structural side navigation from Applause presentation templates -->
+    <aside class="w-full md:w-16 bg-[#0272B4] flex md:flex-col items-center justify-between p-4 md:py-8 border-b md:border-b-0 md:border-r border-applause-dark z-30 shrink-0">
+        <div class="flex md:flex-col items-center gap-6">
+            <!-- Signature Applause Wordmark Logo with Degree Circle -->
+            <div class="text-white font-bold tracking-widest text-sm flex items-center md:rotate-270 md:my-8 whitespace-nowrap">
+                APPLAUSE<span class="text-xs align-super ml-0.5">°</span>
+            </div>
+        </div>
+        <div class="hidden md:flex flex-col items-center gap-4">
+            <div class="w-1.5 h-1.5 rounded-full bg-white opacity-40"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-white opacity-40"></div>
+            <span class="text-[10px] text-white opacity-60 font-semibold">2026</span>
+        </div>
+    </aside>
+
+    <!-- MAIN VIEWPORT CONTAINER -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- ================= LEFT PANE: THE REVISED LANDING PAGE ================= -->
+        <!-- Formatted cleanly as a B2B presentation slide-doc adhering strictly to guidelines -->
+        <main class="flex-1 overflow-y-auto px-6 sm:px-12 py-10 relative">
+            
+            <!-- Global header bar -->
+            <header class="flex justify-between items-center mb-10 pb-6 border-b border-applause-light">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-applause-dark font-bold">Value Realization Platform</span>
+                    <h2 class="text-2xl font-bold text-applause-dark tracking-tight">Applause Payment Assurance</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-applause-bg text-applause-dark text-xs px-3 py-1 font-bold border border-applause-light rounded-sm">
+                        Strategic Alignment Stage
+                    </span>
+                    <button onclick="toggleMobileCouncil()" class="lg:hidden px-3 py-1 bg-applause-blue text-white text-xs font-bold rounded-sm">
+                        Review Deck
+                    </button>
+                </div>
+            </header>
+
+            <!-- Slide Headline Section -->
+            <section class="max-w-4xl mb-14">
+                <h1 class="text-4xl font-bold text-applause-dark tracking-tight leading-tight mb-4">
+                    Ensuring Seamless Transaction Execution Worldwide
+                </h1>
+                <p class="text-base text-applause-gray900 max-w-2xl leading-relaxed">
+                    Validate transaction reliability across global cellular networks, localized banking portals, and regional payment configurations. Feed programmatic diagnostics directly into Agile workflows without administrative overhead.
+                </p>
+            </section>
+
+            <!-- ================= REVISION 1: PRODUCT VALUE & CONVERSION LIFT (Sam's Focus) ================= -->
+            <section id="conversion-section" class="slide-highlight p-6 mb-8 bg-white border border-applause-light rounded-md">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-applause-blue font-bold">Financial Optimization Framework</span>
+                        <h3 class="text-lg font-bold text-black mt-1">E-Commerce Optimization and Retention Performance</h3>
+                    </div>
+                    <span class="text-[11px] bg-applause-bg text-applause-dark px-2 py-0.5 font-bold rounded-sm">Product Impact</span>
+                </div>
+
+                <!-- Structured Metric Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="p-5 border border-applause-light rounded-md">
+                        <span class="text-xs font-bold text-black uppercase block mb-1">Abandonment Benchmark</span>
+                        <p class="text-xs text-applause-gray900 mb-4">Average industry digital volume abandoned prior to transaction finalize.</p>
+                        <span class="text-3xl font-bold text-applause-blue block">70.1%</span>
+                    </div>
+                    <div class="p-5 border border-applause-light rounded-md">
+                        <span class="text-xs font-bold text-black uppercase block mb-1">Conversion Lift</span>
+                        <p class="text-xs text-applause-gray900 mb-4">Increase in successful transaction checkouts following localized validation.</p>
+                        <span class="text-3xl font-bold text-applause-success block">+23%</span>
+                    </div>
+                    <div class="p-5 border border-applause-light rounded-md">
+                        <span class="text-xs font-bold text-black uppercase block mb-1">Customer Retention Multiplier</span>
+                        <p class="text-xs text-applause-gray900 mb-4">Retained long-term customer lifetime value through consistent gateway uptime.</p>
+                        <span class="text-3xl font-bold text-applause-blue block">4.2×</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Conversion Recovery Estimator -->
+                <div class="p-6 bg-applause-bg border border-applause-light rounded-md">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-2 h-4 bg-applause-blue"></div>
+                        <h4 class="text-sm font-bold text-black uppercase">Revenue Protection Estimation Tool</h4>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold text-applause-gray900 block mb-1">Annual E-Commerce Sales Volume (USD)</label>
+                                <input type="number" id="volume-input" value="12000000" class="w-full bg-white border border-applause-light rounded-sm p-2 text-sm text-black font-semibold focus:outline-none focus:border-applause-blue" oninput="calculateSavings()">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-applause-gray900 block mb-1 flex justify-between">
+                                    <span>Current Drop-off rate</span>
+                                    <span id="dropoff-label" class="text-applause-blue font-bold">40%</span>
+                                </label>
+                                <input type="range" id="dropoff-slider" min="10" max="90" value="40" class="w-full h-1 bg-applause-light rounded-lg appearance-none cursor-pointer accent-applause-blue" oninput="calculateSavings()">
+                            </div>
+                        </div>
+                        <div class="p-5 bg-white border border-applause-light rounded-md text-center md:text-left">
+                            <span class="text-[11px] font-bold text-applause-gray900 uppercase block mb-1">Recoverable Drop-Off Leak</span>
+                            <span id="savings-display" class="text-3xl font-bold text-applause-dark tracking-tight">$1,200,000</span>
+                            <p class="text-xs text-applause-gray900 mt-2">Recovered by eliminating payment gateway errors and validating localized payment interfaces before release.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ================= REVISION 2: TECHNICAL PIPELINE INTEGRATION (Craig's Focus) ================= -->
+            <section id="engineering-section" class="slide-highlight p-6 mb-8 bg-white border border-applause-light rounded-md">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-applause-blue font-bold">Agile Delivery Alignment</span>
+                        <h3 class="text-lg font-bold text-black mt-1">Programmatic Engineering Integration Architecture</h3>
+                    </div>
+                    <span class="text-[11px] bg-applause-bg text-applause-dark px-2 py-0.5 font-bold rounded-sm">Velocity Protected</span>
+                </div>
+
+                <!-- Quantifiable developer hours card -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="p-4 bg-applause-bg border border-applause-light rounded-md col-span-1 md:col-span-2">
+                        <h4 class="text-xs font-bold text-applause-dark uppercase mb-1">Quantified Resource Reclamation</h4>
+                        <p class="text-xs text-applause-gray900 leading-normal">Our system mitigates manually filed ticket ingestion, protecting internal core engineering sprints.</p>
+                        <div class="mt-2 text-2xl font-bold text-applause-blue">24 Hours Saved / Release</div>
+                    </div>
+                    <div class="p-4 border border-applause-light rounded-md text-center">
+                        <span class="text-[10px] font-bold text-applause-gray900 block mb-1 uppercase">Duplication Filter</span>
+                        <span class="text-xl font-bold text-black">100% Automatic</span>
+                    </div>
+                    <div class="p-4 border border-applause-light rounded-md text-center">
+                        <span class="text-[10px] font-bold text-applause-gray900 block mb-1 uppercase">Diagnostics Provided</span>
+                        <span class="text-xl font-bold text-black">Logs & Video</span>
+                    </div>
+                </div>
+
+                <!-- Integration Sync Pipeline Diagram with L1/L2 Custom SVG Arrows -->
+                <div class="border border-applause-light rounded-md p-5 bg-white">
+                    <h4 class="text-xs font-bold text-black uppercase mb-4">Synchronized Bug-Triage Pipeline</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                        
+                        <!-- Step 1 -->
+                        <div class="space-y-2">
+                            <span class="text-[11px] font-bold text-applause-blue uppercase tracking-wider">Step 1. Execution Log Captured</span>
+                            <p class="text-xs text-applause-gray900">A global tester identifies a local card validation failure. Payload details, network stack, and video logs are recorded.</p>
+                            <div class="flex items-center gap-2 pt-2">
+                                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#01446C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 5 H14 M10 1.5 L14 5 L10 8.5"/>
+                                </svg>
+                                <span class="text-[10px] font-bold text-applause-dark uppercase">Real-Time Log Packaged</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="space-y-2 border-t md:border-t-0 md:border-l border-applause-light pt-4 md:pt-0 md:pl-6">
+                            <span class="text-[11px] font-bold text-applause-blue uppercase tracking-wider">Step 2. Programmatic Triage</span>
+                            <p class="text-xs text-applause-gray900">Applause internal architecture reviews the log, filters duplicates, normalizes metadata, and sanitizes personal financial metrics.</p>
+                            <div class="flex items-center gap-2 pt-2">
+                                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="#01446C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 1 V7 H12 M9 4 L12 7 L9 10"/>
+                                </svg>
+                                <span class="text-[10px] font-bold text-applause-dark uppercase">Zero Duplicate Noise</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="space-y-2 border-t md:border-t-0 md:border-l border-applause-light pt-4 md:pt-0 md:pl-6">
+                            <span class="text-[11px] font-bold text-applause-blue uppercase tracking-wider">Step 3. Native Jira Ingest</span>
+                            <p class="text-xs text-applause-gray900">Structured bugs populate team sprint boards directly with exact steps-to-reproduce, keeping development velocity stable.</p>
+                            <div class="flex items-center gap-1 pt-2">
+                                <svg width="10" height="10" viewBox="0 0 10 10">
+                                    <circle cx="5" cy="5" r="3" fill="none" stroke="#0272B4" stroke-width="1.1"/>
+                                </svg>
+                                <span class="text-[10px] font-bold text-applause-dark uppercase">Sprint Integration Active</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Integration Badges strictly in Applause theme -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                    <div class="p-3 bg-applause-bg border border-applause-light rounded-sm text-center">
+                        <span class="text-xs font-bold text-applause-dark">Jira Cloud Sync</span>
+                    </div>
+                    <div class="p-3 bg-applause-bg border border-applause-light rounded-sm text-center">
+                        <span class="text-xs font-bold text-applause-dark">GitHub Action Trigger</span>
+                    </div>
+                    <div class="p-3 bg-applause-bg border border-applause-light rounded-sm text-center">
+                        <span class="text-xs font-bold text-applause-dark">Slack Alert Integrator</span>
+                    </div>
+                    <div class="p-3 bg-applause-bg border border-applause-light rounded-sm text-center">
+                        <span class="text-xs font-bold text-applause-dark">CI/CD Deploy Hooks</span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ================= REVISION 3: SECURITY, COMPLIANCE, & END-TO-END QUALITY (Alex's Focus) ================= -->
+            <section id="compliance-section" class="slide-highlight p-6 mb-8 bg-white border border-applause-light rounded-md">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-applause-blue font-bold">Industrial Trust Shield</span>
+                        <h3 class="text-lg font-bold text-black mt-1">Compliance Architecture & Post-Purchase Journey Assurance</h3>
+                    </div>
+                    <span class="text-[11px] bg-applause-bg text-applause-dark px-2 py-0.5 font-bold rounded-sm">Governance Approved</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Safety Safeguards -->
+                    <div class="p-5 border border-applause-light rounded-md space-y-4">
+                        <h4 class="text-xs font-bold text-black uppercase pb-2 border-b border-applause-light">Security and Isolation Frameworks</h4>
+                        
+                        <div class="space-y-3">
+                            <div class="flex gap-2 items-start">
+                                <div class="mt-1 shrink-0">
+                                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#01446C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 5 H14 M10 1.5 L14 5 L10 8.5"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong class="text-xs font-bold text-black block">PCI-DSS Level 1 Merchant Alignment</strong>
+                                    <p class="text-xs text-applause-gray900">Testing is strictly restricted inside isolated, clean-room payment sandboxes. No live primary accounts are permanently logged on open cloud databases.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2 items-start">
+                                <div class="mt-1 shrink-0">
+                                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#01446C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 5 H14 M10 1.5 L14 5 L10 8.5"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong class="text-xs font-bold text-black block">Identity Screening and NDA Controls</strong>
+                                    <p class="text-xs text-applause-gray900">Every tester is verified, identity-checked, and legally bound by detailed confidentiality agreements matching enterprise NDA frameworks.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2 items-start">
+                                <div class="mt-1 shrink-0">
+                                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#01446C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 5 H14 M10 1.5 L14 5 L10 8.5"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong class="text-xs font-bold text-black block">Sensitive Data Redaction Architecture</strong>
+                                    <p class="text-xs text-applause-gray900">Our logs and videos undergo systematic pre-ingest masking, removing customer cardholder data and PII locally before uploading.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post-Purchase Testing Journeys -->
+                    <div class="p-5 border border-applause-light rounded-md">
+                        <h4 class="text-xs font-bold text-black uppercase pb-2 border-b border-applause-light mb-4">Complete Post-Purchase Validation Journeys</h4>
+                        <p class="text-xs text-applause-gray900 mb-4">Quality doesn't terminate at the payment checkout screen. Our validation covers the secondary stages that safeguard lifetime customer conversion:</p>
+                        
+                        <div class="grid grid-cols-2 gap-3 text-center">
+                            <div class="p-3 bg-applause-bg border border-applause-light rounded-sm">
+                                <span class="text-xs font-bold text-black block">Receipt Validation</span>
+                                <span class="text-[10px] text-applause-gray900">Programmatic validation of taxes & local itemizations</span>
+                            </div>
+                            <div class="p-3 bg-applause-bg border border-applause-light rounded-sm">
+                                <span class="text-xs font-bold text-black block">Order Processing</span>
+                                <span class="text-[10px] text-applause-gray900">Automated shipping alerts and localized CRM tracking</span>
+                            </div>
+                            <div class="p-3 bg-applause-bg border border-applause-light rounded-sm">
+                                <span class="text-xs font-bold text-black block">Returns & Refunds</span>
+                                <span class="text-[10px] text-applause-gray900">Clean processing loop validation across bank rails</span>
+                            </div>
+                            <div class="p-3 bg-applause-bg border border-applause-light rounded-sm">
+                                <span class="text-xs font-bold text-black block">Rewards & Loyalty</span>
+                                <span class="text-[10px] text-applause-gray900">Automated loyalty point accounting matches</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Bottom slide footer representing page index metadata -->
+            <footer class="flex justify-between items-center pt-8 border-t border-applause-light mt-12">
+                <span class="text-[11px] text-applause-gray900">© 2026 Applause App Quality, Inc. All rights reserved.</span>
+                <span class="text-xs font-bold text-applause-dark">Slide 04 / Executive Verdict Deck</span>
+            </footer>
+
+        </main>
+
+        <!-- ================= RIGHT PANE: THE INTERACTIVE COUNCIL PANEL ================= -->
+        <!-- Formatted as an assessment summary panel directly tracking the strategic input -->
+        <aside id="council-panel" class="hidden lg:block w-full lg:w-[420px] bg-applause-bg border-t lg:border-t-0 lg:border-l border-applause-light overflow-y-auto h-screen p-6 relative shrink-0 z-20">
+            
+            <div class="sticky top-0 bg-applause-bg pt-2 pb-4 border-b border-applause-light mb-6 z-10">
+                <div class="flex justify-between items-center mb-1">
+                    <h2 class="text-lg font-bold text-applause-dark uppercase tracking-tight">🗳️ Council Verdict</h2>
+                    <button onclick="toggleMobileCouncil()" class="lg:hidden text-applause-dark font-bold text-sm">Close [X]</button>
+                </div>
+                <p class="text-xs text-applause-gray900">Strategic alignments and revisions matrix. Tap any stakeholder card to view custom resolutions.</p>
+            </div>
+
+            <!-- Stakeholder Verdict Summary Matrix -->
+            <div class="space-y-3 mb-6">
+                
+                <!-- Craig's Mini Card -->
+                <div onclick="selectPersona('craig')" id="card-craig" class="p-4 rounded-md border border-applause-light bg-white cursor-pointer transition-all hover:border-applause-blue">
+                    <div class="flex justify-between items-center mb-1">
+                        <strong class="text-xs font-bold text-black">Craig (VP Eng)</strong>
+                        <div class="flex gap-0.5">
+                            <span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-light">★</span><span class="text-applause-light">★</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-applause-gray900 line-clamp-2">"The global testing footprint is massive, but where are the integration details?"</p>
+                </div>
+
+                <!-- Sam's Mini Card -->
+                <div onclick="selectPersona('sam')" id="card-sam" class="p-4 rounded-md border border-applause-light bg-white cursor-pointer transition-all hover:border-applause-blue">
+                    <div class="flex justify-between items-center mb-1">
+                        <strong class="text-xs font-bold text-black">Sam (VP Product)</strong>
+                        <div class="flex gap-0.5">
+                            <span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-warning">★</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-applause-gray900 line-clamp-2">"Direct hit on cart abandonment and international growth metrics—this perfectly frames value."</p>
+                </div>
+
+                <!-- Alex's Mini Card -->
+                <div onclick="selectPersona('alex')" id="card-alex" class="p-4 rounded-md border border-applause-light bg-white cursor-pointer transition-all hover:border-applause-blue">
+                    <div class="flex justify-between items-center mb-1">
+                        <strong class="text-xs font-bold text-black">Alex (Dir. QA)</strong>
+                        <div class="flex gap-0.5">
+                            <span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-warning">★</span><span class="text-applause-light">★</span><span class="text-applause-light">★</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-applause-gray900 line-clamp-2">"Love the end-to-end post-purchase test scope, but I am highly skeptical of data security."</p>
+                </div>
+
+            </div>
+
+            <!-- Tab Menu -->
+            <div class="flex border-b border-applause-light mb-6">
+                <button onclick="switchTab('details')" id="tab-details-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-applause-blue text-applause-dark uppercase">Assessment</button>
+                <button onclick="switchTab('tensions')" id="tab-tensions-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-transparent text-applause-gray900 hover:text-black uppercase">Tensions</button>
+                <button onclick="switchTab('revisions')" id="tab-revisions-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-transparent text-applause-gray900 hover:text-black uppercase">Revisions</button>
+            </div>
+
+            <!-- Tab Content 1: Persona Details -->
+            <div id="tab-details" class="space-y-6">
+                
+                <!-- Craig Detail Section -->
+                <div id="details-craig" class="persona-detail-section hidden">
+                    <div class="p-4 bg-white border border-applause-light rounded-md mb-4">
+                        <span class="text-[10px] uppercase tracking-wider text-applause-blue font-bold block mb-1">Stakeholder Assessment</span>
+                        <h4 class="text-sm font-bold text-black mb-1">Craig — VP of Engineering</h4>
+                        <span class="text-xs text-applause-gray900 block">Focus: Release Speed & Tooling Sync</span>
+                    </div>
+
+                    <div class="space-y-4 text-xs">
+                        <div class="p-4 border-l-4 border-applause-blue bg-white">
+                            <strong class="text-black block mb-1">What Landed</strong>
+                            <p class="text-applause-gray900">Respects the practical utility of testing across an extensive, global matrix of real devices, regional banks, and live payment instruments that internal teams cannot simulate.</p>
+                        </div>
+
+                        <div class="p-4 border-l-4 border-applause-error bg-white">
+                            <strong class="text-black block mb-1">What Didn't</strong>
+                            <p class="text-applause-gray900">Relied heavily on broad marketing-centric statistics which instantly triggered skepticism of hype. Demands integration architecture maps.</p>
+                        </div>
+
+                        <div class="p-4 bg-white border border-applause-light rounded-sm">
+                            <span class="text-[10px] font-bold uppercase text-applause-dark block mb-1">Exact Feedback:</span>
+                            <p class="italic text-black">"The global testing footprint is massive, but where are the implementation details? If this crowdsourced model just dumps a mountain of unvetted payment bugs into a standalone dashboard instead of syncing seamlessly with Jira, it's going to bottleneck our sprint cycles."</p>
+                        </div>
+
+                        <div class="bg-white border border-applause-light p-4 rounded-md">
+                            <span class="text-[11px] font-bold text-black uppercase block mb-1">Resolution Strategy</span>
+                            <p class="text-applause-gray900">Refer to the Programmatic Triage flow maps featuring automated ticket sanitization and direct Jira cloud pushes.</p>
+                        </div>
+
+                        <button onclick="scrollToResolution('engineering-section')" class="w-full py-2 bg-applause-blue hover:bg-applause-dark text-white font-bold rounded-sm text-xs transition-all">
+                            Show Engineering Resolutions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sam Detail Section -->
+                <div id="details-sam" class="persona-detail-section hidden">
+                    <div class="p-4 bg-white border border-applause-light rounded-md mb-4">
+                        <span class="text-[10px] uppercase tracking-wider text-applause-blue font-bold block mb-1">Stakeholder Assessment</span>
+                        <h4 class="text-sm font-bold text-black mb-1">Sam — VP of Product</h4>
+                        <span class="text-xs text-applause-gray900 block">Focus: Checkout Conversion & Retention LTV</span>
+                    </div>
+
+                    <div class="space-y-4 text-xs">
+                        <div class="p-4 border-l-4 border-applause-blue bg-white">
+                            <strong class="text-black block mb-1">What Landed</strong>
+                            <p class="text-applause-gray900">Strong alignment on strategic transaction execution connected directly to reduction in cart abandonment and global conversion success.</p>
+                        </div>
+
+                        <div class="p-4 border-l-4 border-applause-error bg-white">
+                            <strong class="text-black block mb-1">What Didn't</strong>
+                            <p class="text-applause-gray900">Felt general text blocks detailing macro trends were too static. Demanded interactive visual models over prose.</p>
+                        </div>
+
+                        <div class="p-4 bg-white border border-applause-light rounded-sm">
+                            <span class="text-[10px] font-bold uppercase text-applause-dark block mb-1">Exact Feedback:</span>
+                            <p class="italic text-black">"This speaks my language entirely by tying product quality directly to customer conversion and global retention. If we can leverage this to confidently launch regional payment methods without introducing friction to the user experience, it's an easy win for our roadmap."</p>
+                        </div>
+
+                        <div class="bg-white border border-applause-light p-4 rounded-md">
+                            <span class="text-[11px] font-bold text-black uppercase block mb-1">Resolution Strategy</span>
+                            <p class="text-applause-gray900">The page includes an interactive drop-off slider and clear financial KPI blocks outlining conversion lift.</p>
+                        </div>
+
+                        <button onclick="scrollToResolution('conversion-section')" class="w-full py-2 bg-applause-blue hover:bg-applause-dark text-white font-bold rounded-sm text-xs transition-all">
+                            Show Conversion Infographic
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alex Detail Section -->
+                <div id="details-alex" class="persona-detail-section hidden">
+                    <div class="p-4 bg-white border border-applause-light rounded-md mb-4">
+                        <span class="text-[10px] uppercase tracking-wider text-applause-blue font-bold block mb-1">Stakeholder Assessment</span>
+                        <h4 class="text-sm font-bold text-black mb-1">Alex — Director of QA</h4>
+                        <span class="text-xs text-applause-gray900 block">Focus: System Rigor & Security Alignment</span>
+                    </div>
+
+                    <div class="space-y-4 text-xs">
+                        <div class="p-4 border-l-4 border-applause-blue bg-white">
+                            <strong class="text-black block mb-1">What Landed</strong>
+                            <p class="text-applause-gray900">Appreciates the inclusion of high-fidelity post-purchase test sweeps covering receipt delivery, shipping adjustments, and returns.</p>
+                        </div>
+
+                        <div class="p-4 border-l-4 border-applause-error bg-white">
+                            <strong class="text-black block mb-1">What Didn't</strong>
+                            <p class="text-applause-gray900">Skeptical of tester identity checks and financial privacy safety during testing inside real-money networks.</p>
+                        </div>
+
+                        <div class="p-4 bg-white border border-applause-light rounded-sm">
+                            <span class="text-[10px] font-bold uppercase text-applause-dark block mb-1">Exact Feedback:</span>
+                            <p class="italic text-black">"Validating the entire post-purchase journey outside the happy path is a massive blind spot for our internal regression testing. However, I need to know the exact quality control protocols for these external testers and how we ensure absolute PCI-DSS and data privacy compliance."</p>
+                        </div>
+
+                        <div class="bg-white border border-applause-light p-4 rounded-md">
+                            <span class="text-[11px] font-bold text-black uppercase block mb-1">Resolution Strategy</span>
+                            <p class="text-applause-gray900">We introduced a dedicated compliance shielding grid outlining identity NDAs and localized proxy anonymization.</p>
+                        </div>
+
+                        <button onclick="scrollToResolution('compliance-section')" class="w-full py-2 bg-applause-blue hover:bg-applause-dark text-white font-bold rounded-sm text-xs transition-all">
+                            Show Security Resolutions
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab Content 2: Council Tensions -->
+            <div id="tab-tensions" class="hidden space-y-4 text-xs">
+                
+                <div class="p-4 bg-white border border-applause-light rounded-md">
+                    <span class="text-[10px] font-bold text-applause-blue uppercase tracking-wider block mb-1">Market Expansion vs Onboarding Drag</span>
+                    <strong class="text-black text-xs block mb-1">Sam (Product) vs. Craig (Engineering)</strong>
+                    <p class="text-applause-gray900 leading-normal">Sam is eager to launch localized currency integrations to tap global transactions. Craig fears the manual engineering setup to support this variety of gateways will exhaust sprint timelines.</p>
+                </div>
+
+                <div class="p-4 bg-white border border-applause-light rounded-md">
+                    <span class="text-[10px] font-bold text-applause-blue uppercase tracking-wider block mb-1">Velocity vs Rigor</span>
+                    <strong class="text-black text-xs block mb-1">Craig (Engineering) vs. Alex (QA)</strong>
+                    <p class="text-applause-gray900 leading-normal">Alex values high-density transaction logs capturing edge failures. Craig fears that unfiltered raw reports from external sources will overload engineering backlogs with duplications.</p>
+                </div>
+
+            </div>
+
+            <!-- Tab Content 3: Top 3 Revisions Implemented -->
+            <div id="tab-revisions" class="hidden space-y-4 text-xs">
+                
+                <div class="p-4 bg-white border border-applause-light rounded-md">
+                    <span class="text-[10px] font-bold text-applause-blue uppercase tracking-wider block mb-1">Revision 1</span>
+                    <strong class="text-black text-xs block mb-1">Programmatic Tool Integration Sync</strong>
+                    <p class="text-applause-gray900">Explicit engineering pipeline mapping added to prove that bugs match established internal sprint rules natively.</p>
+                </div>
+
+                <div class="p-4 bg-white border border-applause-light rounded-md">
+                    <span class="text-[10px] font-bold text-applause-blue uppercase tracking-wider block mb-1">Revision 2</span>
+                    <strong class="text-black text-xs block mb-1">Rigorous Security Shielding Detail</strong>
+                    <p class="text-applause-gray900">Dedicated compliance card detailing PCI-DSS guidelines, tester screen protocols, and automated PII masking mechanisms.</p>
+                </div>
+
+                <div class="p-4 bg-white border border-applause-light rounded-md">
+                    <span class="text-[10px] font-bold text-applause-blue uppercase tracking-wider block mb-1">Revision 3</span>
+                    <strong class="text-black text-xs block mb-1">Dynamic Conversion Infographics</strong>
+                    <p class="text-applause-gray900">Plain financial statistics converted into high-impact metric blocks accompanied by an interactive drop-off loss calculator.</p>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        // Tab routing logic inside the assessment console
+        function switchTab(tabId) {
+            document.querySelectorAll('[id^="tab-"][id$="-btn"]').forEach(btn => {
+                btn.classList.remove('border-applause-blue', 'text-applause-dark');
+                btn.classList.add('border-transparent', 'text-applause-gray900');
+            });
+            document.getElementById('tab-details').classList.add('hidden');
+            document.getElementById('tab-tensions').classList.add('hidden');
+            document.getElementById('tab-revisions').classList.add('hidden');
+
+            document.getElementById(`tab-${tabId}-btn`).classList.add('border-applause-blue', 'text-applause-dark');
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+        }
+
+        // Selected persona controller
+        function selectPersona(personaId) {
+            // Remove highlight indicators from all sidebar selector cards
+            document.querySelectorAll('[id^="card-"]').forEach(card => {
+                card.classList.remove('bg-applause-light', 'border-applause-blue');
+                card.classList.add('bg-white', 'border-applause-light');
+            });
+
+            // Highlight selected card
+            const selectedCard = document.getElementById(`card-${personaId}`);
+            selectedCard.classList.remove('bg-white', 'border-applause-light');
+            selectedCard.classList.add('bg-applause-light', 'border-applause-blue');
+
+            // Toggle inner details block
+            document.querySelectorAll('.persona-detail-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`details-${personaId}`).classList.remove('hidden');
+
+            // Auto-switch to Details Tab
+            switchTab('details');
+
+            // Auto-scroll left-panel matching section
+            let sectionId = '';
+            if (personaId === 'craig') sectionId = 'engineering-section';
+            if (personaId === 'sam') sectionId = 'conversion-section';
+            if (personaId === 'alex') sectionId = 'compliance-section';
+            scrollToResolution(sectionId);
+        }
+
+        // Smoothly scrolls to section and flashes styling
+        function scrollToResolution(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                // Clear previous active highlights
+                document.querySelectorAll('.slide-highlight').forEach(sec => {
+                    sec.classList.remove('active-section');
+                });
+
+                // Scroll smoothly
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Add active section state
+                element.classList.add('active-section');
+            }
+        }
+
+        // Value calculator logic
+        function calculateSavings() {
+            const volume = parseFloat(document.getElementById('volume-input').value) || 0;
+            const dropoff = parseFloat(document.getElementById('dropoff-slider').value) || 0;
+
+            // Update UI Slider Value Label
+            document.getElementById('dropoff-label').innerText = `${dropoff}%`;
+
+            // Core Math: Recover 25% of absolute dropped volume through automated localization checks
+            const abandonedSum = volume * (dropoff / 100);
+            const recoveredSum = Math.round(abandonedSum * 0.25);
+
+            const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0
+            });
+
+            document.getElementById('savings-display').innerText = formatter.format(recoveredSum);
+        }
+
+        // Responsive modal layout toggle for mobile viewports
+        function toggleMobileCouncil() {
+            const panel = document.getElementById('council-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                panel.classList.add('fixed', 'inset-0', 'bg-white', 'w-full', 'h-full', 'overflow-y-auto');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('fixed', 'inset-0', 'bg-white', 'w-full', 'h-full', 'overflow-y-auto');
+            }
+        }
+
+        // Bootstrapping page events
+        window.onload = function() {
+            calculateSavings();
+            selectPersona('craig'); // Highlight VP Eng critique first on page initialize
+        };
+    </script>
+</body>
+</html>
