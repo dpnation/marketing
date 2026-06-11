@@ -1,1 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Bash — Applause</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body {
+      background-color: var(--blue-700);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V18L28 2l28 16v32L28 66zM28 98L0 82V50l28-16 28 16v32L28 98z' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 40px;
+    }
+
+    .start-card {
+      max-width: 580px;
+      width: 100%;
+    }
+
+    .start-card h1 {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--blue-700);
+      margin-top: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .start-card .body-copy {
+      font-size: 15px;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .form-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .form-actions .btn-primary {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--gray-500);
+      text-align: center;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--gray-300);
+      margin: 24px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <a class="logo" href="#" aria-label="Applause">
+      <img src="assets/img/applause-logo.svg" alt="Applause">
+    </a>
+    <span class="header-label" style="color: rgba(255,255,255,0.55);">Bug Bash</span>
+  </header>
+
+  <main>
+    <div class="card start-card">
+
+      <div class="text-center">
+        <span class="badge">Quality, Gamified</span>
+        <h1>Can you spot the bugs?</h1>
+        <p class="body-copy">
+          We've planted 8 bugs across a live demo site — misaligned layouts, broken payments,
+          chatbot errors and more. Click each one before the clock runs out.
+        </p>
+      </div>
+
+      <div class="feature-tiles">
+        <div class="feature-tile">
+          <div class="tile-icon">🐛</div>
+          <div class="tile-label">Click the bugs</div>
+        </div>
+        <div class="feature-tile">
+          <div class="tile-icon">⏱️</div>
+          <div class="tile-label">Beat the clock<br><span style="font-weight:600;color:var(--gray-500);">60 seconds</span></div>
+        </div>
+        <div class="feature-tile">
+          <div class="tile-icon">🏆</div>
+          <div class="tile-label">Climb the board</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <form id="startForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="playerName">Your name</label>
+            <input type="text" id="playerName" name="name" placeholder="Jane Smith" autocomplete="name">
+            <span class="error-msg">Name is required.</span>
+          </div>
+          <div class="form-group">
+            <label for="playerEmail">Work email</label>
+            <input type="email" id="playerEmail" name="email" placeholder="jane@company.com" autocomplete="email">
+            <span class="error-msg">Please enter a valid work email.</span>
+          </div>
+          <div class="form-group">
+            <label for="playerCompany">Company</label>
+            <input type="text" id="playerCompany" name="company" placeholder="Acme Corp" autocomplete="organization">
+            <span class="error-msg">Company is required.</span>
+          </div>
+          <div class="form-group">
+            <label for="playerTitle">Job title</label>
+            <input type="text" id="playerTitle" name="title" placeholder="QA Engineer" autocomplete="organization-title">
+            <span class="error-msg">Job title is required.</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            Start Bashing &nbsp;→
+          </button>
+          <p class="form-note">Your info stays private — no spam, ever.</p>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('startForm');
+
+    function setError(input, msg) {
+      const group = input.closest('.form-group');
+      group.classList.add('has-error');
+      const errEl = group.querySelector('.error-msg');
+      if (msg) errEl.textContent = msg;
+      input.setAttribute('aria-invalid', 'true');
+    }
+
+    function clearError(input) {
+      const group = input.closest('.form-group');
+      group.classList.remove('has-error');
+      input.removeAttribute('aria-invalid');
+    }
+
+    // Live clear on input
+    form.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => clearError(input));
+    });
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valid = true;
+
+      const name    = document.getElementById('playerName');
+      const email   = document.getElementById('playerEmail');
+      const company = document.getElementById('playerCompany');
+      const title   = document.getElementById('playerTitle');
+
+      if (!name.value.trim()) {
+        setError(name, 'Name is required.');
+        valid = false;
+      }
+      if (!email.value.trim() || !validateEmail(email.value)) {
+        setError(email, 'Please enter a valid work email.');
+        valid = false;
+      }
+      if (!company.value.trim()) {
+        setError(company, 'Company is required.');
+        valid = false;
+      }
+      if (!title.value.trim()) {
+        setError(title, 'Job title is required.');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Save to sessionStorage and navigate
+      sessionStorage.setItem('bugbash_player', JSON.stringify({
+        name:    name.value.trim(),
+        email:   email.value.trim(),
+        company: company.value.trim(),
+        title:   title.value.trim()
+      }));
+
+      window.location.href = 'game.html';
+    });
+  </script>
+
+</body>
+</html>

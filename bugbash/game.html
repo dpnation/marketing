@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Bash — Play</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #D1D5DB;
+    }
+
+    .hud-finish-btn {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      font-family: var(--font-primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .hud-finish-btn:hover {
+      background: rgba(255,255,255,0.2);
+      color: var(--white);
+    }
+
+    .overlay-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .misclick-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: all;
+      z-index: 1;
+      cursor: crosshair;
+    }
+
+    /* Bug targets override to sit above misclick layer */
+    .overlay-container .bug-target {
+      z-index: 2;
+      pointer-events: all;
+    }
+
+    /* Modal actions */
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      justify-content: center;
+    }
+
+    .modal-box h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--blue-700);
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+      font-size: 15px;
+      color: var(--gray-500);
+    }
+
+    .modal-box p strong {
+      color: var(--blue-700);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HUD ──────────────────────────────────────────────────── -->
+  <div class="hud">
+    <div class="hud-logo">
+      <a href="index.html" aria-label="Applause">
+        <img src="assets/img/applause-logo.svg" alt="Applause" style="filter:brightness(0) invert(1);">
+      </a>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <span class="hud-label">Bug Bash</span>
+
+    <div class="hud-divider"></div>
+
+    <div class="hud-progress">
+      <span class="hud-progress-label" id="hudBugsFound">0 / 8</span>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="hudProgressFill"></div>
+      </div>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <div class="multiplier-badge" id="hudMultiplier">×1</div>
+
+    <div class="hud-divider"></div>
+
+    <div class="hud-timer" id="hudTimer">1:00</div>
+
+    <div class="hud-divider"></div>
+
+    <div class="hud-score-wrap">
+      <div class="hud-score-label">Score</div>
+      <div class="hud-score" id="hudScore">0</div>
+    </div>
+
+    <div style="margin-left:auto;">
+      <button class="hud-finish-btn" id="finishBtn">Finish</button>
+    </div>
+  </div>
+
+  <!-- ── Game area ────────────────────────────────────────────── -->
+  <div class="game-wrapper">
+    <div class="browser-window">
+
+      <div class="browser-chrome">
+        <div class="browser-dots">
+          <div class="browser-dot dot-red"></div>
+          <div class="browser-dot dot-yellow"></div>
+          <div class="browser-dot dot-green"></div>
+        </div>
+        <div class="browser-url">
+          <span class="lock-icon">🔒</span>
+          demo.vaultly.io
+        </div>
+      </div>
+
+      <div class="iframe-container">
+        <iframe
+          id="gameFrame"
+          src="demo/index.html"
+          title="Vaultly demo site"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+
+        <div class="overlay-container" id="overlayContainer">
+          <div class="misclick-layer" id="misclickLayer"></div>
+          <!-- bug target divs injected by game.js -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Finish early modal ────────────────────────────────────── -->
+  <div class="modal-overlay" id="finishModal">
+    <div class="modal-box">
+      <div style="font-size:36px;margin-bottom:12px;">🏁</div>
+      <h3>End game early?</h3>
+      <p>You've found <strong><span id="modalBugsFound">0</span> of 8</strong> bugs.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="modalKeepPlaying">Keep Playing</button>
+        <button class="btn btn-primary" id="modalFinish" style="padding:12px 28px;font-size:15px;">Finish</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/leaderboard.js"></script>
+  <script src="assets/js/game.js"></script>
+
+</body>
+</html>

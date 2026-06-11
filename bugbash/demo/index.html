@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaultly — Secure Business Payments</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D2B45;
+      --navy-2: #133756;
+      --green:  #22C55E;
+      --green-2:#16A34A;
+      --gray-50: #F8FAFC;
+      --gray-100:#F1F5F9;
+      --gray-200:#E2E8F0;
+      --gray-400:#94A3B8;
+      --gray-600:#475569;
+      --gray-800:#1E293B;
+      --white:  #FFFFFF;
+      --red:    #EF4444;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--gray-800);
+      background: var(--white);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ──────────────────────────────────────────────────── */
+    nav {
+      background: var(--navy);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    .nav-logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--green);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon svg { width: 16px; height: 16px; }
+
+    .nav-logo-text {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* BUG 1 — "Prcing" typo */
+    .nav-links .bug-typo { /* intentionally no fix */ }
+
+    .nav-cta {
+      background: var(--green);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      padding: 80px 48px 72px;
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(34,197,94,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content { flex: 1; position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span { color: var(--green); }
+
+    .hero-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,0.7);
+      max-width: 460px;
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
+
+    /* BUG 2 — CTA button overlaps hero text (z-index + top offset) */
+    .btn-hero-primary {
+      background: var(--green);
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      /* BUG 2: this button is shifted up to overlap the hero subheading */
+      top: -52px;
+      z-index: 5;
+      display: inline-block;
+    }
+
+    /* BUG 3 — "Get Started" button is unresponsive (pointer-events none + no href) */
+    .btn-hero-secondary {
+      background: transparent;
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      cursor: not-allowed;
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .hero-visual {
+      flex: 0 0 360px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-amount {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+
+    .hero-card-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .hero-card-bar-fill {
+      height: 100%;
+      width: 68%;
+      background: var(--green);
+      border-radius: 3px;
+    }
+
+    .hero-card-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .hero-card-row span:last-child { color: var(--green); font-weight: 600; }
+
+    /* ── FEATURES ─────────────────────────────────────────────── */
+    .features {
+      background: var(--gray-50);
+      padding: 72px 48px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-2);
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(34,197,94,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    /* BUG 5 — Low-contrast body text on white (#B0B0B0 on white fails WCAG) */
+    .feature-card p {
+      font-size: 14px;
+      color: #B0B0B0;
+      line-height: 1.55;
+    }
+
+    /* ── PAYMENTS WIDGET ──────────────────────────────────────── */
+    .payments-section {
+      padding: 72px 48px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 72px;
+    }
+
+    .payments-copy { flex: 1; }
+    .payments-copy h2 {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .payments-copy p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    .check-list li::before {
+      content: '✓';
+      width: 20px;
+      height: 20px;
+      background: rgba(34,197,94,0.15);
+      color: var(--green-2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .payment-widget {
+      flex: 0 0 380px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(13,43,69,0.08);
+    }
+
+    .widget-header {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .widget-field {
+      margin-bottom: 14px;
+    }
+
+    .widget-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .widget-field input, .widget-field select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--gray-800);
+      background: var(--white);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    .widget-field input:focus, .widget-field select:focus {
+      border-color: var(--green);
+    }
+
+    .widget-row { display: flex; gap: 12px; }
+    .widget-row .widget-field { flex: 1; }
+
+    .widget-btn {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.15s;
+    }
+
+    .widget-btn:hover { background: var(--navy-2); }
+
+    .widget-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 10px;
+    }
+
+    /* ── SOCIAL PROOF ─────────────────────────────────────────── */
+    .social-proof {
+      background: var(--gray-50);
+      padding: 60px 48px;
+      text-align: center;
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .social-proof-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 28px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .logo-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* BUG 6 — broken image: src intentionally broken, alt text shows */
+    .logo-item img {
+      height: 28px;
+      filter: grayscale(1) opacity(0.4);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: left;
+    }
+
+    .testimonial-stars {
+      color: #F59E0B;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .author-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .author-role {
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    /* ── CHAT WIDGET ──────────────────────────────────────────── */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 200;
+    }
+
+    .chat-bubble-btn {
+      width: 52px;
+      height: 52px;
+      background: var(--navy);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(13,43,69,0.35);
+      transition: transform 0.15s;
+    }
+
+    .chat-bubble-btn:hover { transform: scale(1.05); }
+    .chat-bubble-btn svg { width: 22px; height: 22px; fill: var(--white); }
+
+    .chat-panel {
+      display: none;
+      position: absolute;
+      bottom: 64px;
+      right: 0;
+      width: 300px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(13,43,69,0.18);
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .chat-panel.open { display: flex; }
+
+    .chat-panel-header {
+      background: var(--navy);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .chat-panel-header-text .chat-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .chat-panel-header-text .chat-status {
+      font-size: 11px;
+      color: var(--green);
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 160px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-msg.user { flex-direction: row-reverse; }
+
+    .chat-msg-bubble {
+      max-width: 210px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .chat-msg.bot .chat-msg-bubble {
+      background: var(--gray-100);
+      color: var(--gray-800);
+      border-bottom-left-radius: 3px;
+    }
+
+    .chat-msg.user .chat-msg-bubble {
+      background: var(--navy);
+      color: var(--white);
+      border-bottom-right-radius: 3px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      padding: 11px 14px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--gray-800);
+      outline: none;
+    }
+
+    .chat-send-btn {
+      padding: 11px 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 16px;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 48px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      max-width: 960px;
+      margin: 0 auto 40px;
+    }
+
+    .footer-brand .nav-logo { margin-bottom: 12px; }
+
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 220px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-col ul li a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-col ul li a:hover { color: var(--white); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .footer-bottom a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 8L7 12L13 4" stroke="#0D2B45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Vaultly</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Product</a></li>
+      <!-- BUG 1: "Prcing" typo (missing "i") -->
+      <li><a href="#" class="bug-typo" id="bug-nav-typo">Prcing</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Security</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Get a demo</a>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>⚡</span> New: Instant ACH transfers
+      </div>
+      <h1>Business payments<br>built for <span>speed</span></h1>
+      <p class="hero-sub">
+        Send, receive, and reconcile payments in real-time. Vaultly connects to your existing
+        stack in minutes — no engineers required.
+      </p>
+      <div class="hero-actions">
+        <!-- BUG 2: overlaps hero text (top: -52px in CSS) -->
+        <a href="#" class="btn-hero-primary" id="bug-cta-overlap">Start free trial</a>
+        <!-- BUG 3: pointer-events: none, cursor: not-allowed, opacity .65 -->
+        <button class="btn-hero-secondary" id="bug-get-started" tabindex="-1">Get Started</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-label">Monthly volume</div>
+        <div class="hero-card-amount">$284,920</div>
+        <div class="hero-card-sub">↑ 12.4% vs last month</div>
+        <div class="hero-card-bar"><div class="hero-card-bar-fill"></div></div>
+        <div class="hero-card-row">
+          <span>68% of goal</span>
+          <span>$420,000 target</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ───────────────────────────────────────────── -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <div class="section-eyebrow">Why Vaultly</div>
+      <h2>Everything your finance team needs</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Bank-grade security</h3>
+        <!-- BUG 5: #B0B0B0 on white — fails WCAG AA contrast (ratio ~1.8:1) -->
+        <p id="bug-low-contrast">256-bit encryption and SOC 2 Type II compliance keep your funds and data safe at all times.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant settlements</h3>
+        <p>Move money in seconds, not days. Real-time rails mean your cash flow stays healthy.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Smart reconciliation</h3>
+        <p>Auto-match transactions to invoices and eliminate manual bookkeeping for good.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Native integrations</h3>
+        <p>QuickBooks, Xero, NetSuite, Stripe — connect your stack in one click, no code needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Multi-currency support</h3>
+        <p>Send and receive in 40+ currencies with live FX rates and automatic conversion.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Audit-ready reporting</h3>
+        <p>One-click exports for tax season, board decks, and compliance requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PAYMENTS WIDGET ────────────────────────────────────── -->
+  <section class="payments-section" id="payments">
+    <div class="payments-copy">
+      <div class="section-eyebrow">Send money</div>
+      <h2>Payments that just work</h2>
+      <p>
+        No more waiting on wire transfers or chasing ACH windows. Vaultly's payment engine
+        routes every transaction through the fastest available rail automatically.
+      </p>
+      <ul class="check-list">
+        <li>Domestic & international transfers</li>
+        <li>Scheduled and recurring payments</li>
+        <li>Bulk payroll & vendor payouts</li>
+        <li>Real-time status tracking</li>
+      </ul>
+    </div>
+    <div class="payment-widget">
+      <div class="widget-header">Send a payment</div>
+      <div class="widget-field">
+        <label>Recipient</label>
+        <input type="text" placeholder="Name or email">
+      </div>
+      <!-- BUG 4: amount field accepts letters (type="text", no pattern/validation) -->
+      <div class="widget-field">
+        <label>Amount (USD)</label>
+        <input type="text" id="bug-payment-field" placeholder="e.g. abc" autocomplete="off">
+      </div>
+      <div class="widget-row">
+        <div class="widget-field">
+          <label>Payment method</label>
+          <select>
+            <option>ACH Transfer</option>
+            <option>Wire Transfer</option>
+            <option>RTP</option>
+          </select>
+        </div>
+        <div class="widget-field">
+          <label>Send date</label>
+          <input type="date">
+        </div>
+      </div>
+      <div class="widget-field">
+        <label>Memo (optional)</label>
+        <input type="text" placeholder="Invoice #1234">
+      </div>
+      <button class="widget-btn">Send Payment →</button>
+      <p class="widget-note">🔒 256-bit encrypted · SOC 2 certified</p>
+    </div>
+  </section>
+
+  <!-- ── SOCIAL PROOF ────────────────────────────────────────── -->
+  <section class="social-proof" id="customers">
+    <div class="social-proof-label">Trusted by 2,000+ finance teams</div>
+    <div class="logo-row">
+      <!-- BUG 6: broken image — src leads to nonexistent file, alt text renders -->
+      <div class="logo-item">
+        <img id="bug-broken-image" src="assets/img/customer-meridian.png" alt="Meridian Financial" width="120">
+      </div>
+      <div class="logo-item">
+        <img src="assets/img/customer-nexus.png" alt="Nexus Capital" width="100">
+      </div>
+      <div class="logo-item">
+        <img src="assets/img/customer-brightfield.png" alt="Brightfield Group" width="110">
+      </div>
+      <div class="logo-item">
+        <img src="assets/img/customer-ironvest.png" alt="IronVest" width="90">
+      </div>
+      <div class="logo-item">
+        <img src="assets/img/customer-summitpay.png" alt="SummitPay" width="105">
+      </div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Vaultly cut our month-end close from 3 days to 4 hours. The auto-reconciliation is genuinely magic."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:#0272B4;">KR</div>
+          <div>
+            <div class="author-name">Kim R.</div>
+            <div class="author-role">CFO, Meridian Financial</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"We process $50M/month through Vaultly. Not a single failed transaction in 18 months."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:#16A34A;">TM</div>
+          <div>
+            <div class="author-name">Tyler M.</div>
+            <div class="author-role">VP Finance, Nexus Capital</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Integration with NetSuite took 20 minutes. Our whole AP workflow is automated now."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:#7C3AED;">SL</div>
+          <div>
+            <div class="author-name">Sarah L.</div>
+            <div class="author-role">Controller, Brightfield Group</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHAT WIDGET ─────────────────────────────────────────── -->
+  <!-- BUG 7: chatbot fires a response immediately on page load (before user types) -->
+  <div class="chat-widget" id="chatWidget">
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-panel-header">
+        <div class="chat-avatar">🤖</div>
+        <div class="chat-panel-header-text">
+          <div class="chat-name">Vault AI</div>
+          <div class="chat-status">● Online</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Ask a question…">
+        <button class="chat-send-btn" id="chatSend">➤</button>
+      </div>
+    </div>
+    <button class="chat-bubble-btn" id="bug-chatbot" aria-label="Open chat">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8L7 12L13 4" stroke="#0D2B45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="nav-logo-text">Vaultly</span>
+        </a>
+        <p>Smarter business payments for modern finance teams.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Payments</a></li>
+          <li><a href="#">Reconciliation</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <!-- BUG 8: stale copyright year -->
+      <span id="bug-copyright">© 2023 Vaultly, Inc. All rights reserved.</span>
+      <div style="display:flex;gap:20px;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Chat widget toggle ─────────────────────────────────────
+    const chatToggle  = document.getElementById('bug-chatbot');
+    const chatPanel   = document.getElementById('chatPanel');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput   = document.getElementById('chatInput');
+    const chatSend    = document.getElementById('chatSend');
+
+    chatToggle.addEventListener('click', () => {
+      chatPanel.classList.toggle('open');
+    });
+
+    function addMsg(text, role) {
+      const wrap = document.createElement('div');
+      wrap.className = `chat-msg ${role}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-msg-bubble';
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      chatMessages.appendChild(wrap);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // BUG 7: Bot fires a response immediately on page load — before the user
+    // has opened the chat or typed anything.
+    addMsg("Hi there! I'm Vault AI. How can I help you today?", 'bot');
+    // Fires a second unsolicited message 800ms after page load
+    setTimeout(() => {
+      addMsg("It looks like you're interested in our payment plans. Want me to show you pricing?", 'bot');
+    }, 800);
+
+    function handleSend() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      addMsg(text, 'user');
+      chatInput.value = '';
+      setTimeout(() => {
+        addMsg("Thanks for reaching out! A specialist will follow up within 1 business day.", 'bot');
+      }, 600);
+    }
+
+    chatSend.addEventListener('click', handleSend);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleSend();
+    });
+
+    // ── postMessage: report bug element positions to parent game frame ──
+    const BUG_IDS = [
+      'bug-nav-typo', 'bug-cta-overlap', 'bug-get-started',
+      'bug-payment-field', 'bug-low-contrast', 'bug-broken-image',
+      'bug-chatbot', 'bug-copyright'
+    ];
+
+    function reportPositions() {
+      if (window.parent === window) return;
+      const positions = {};
+      BUG_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        positions[id] = { top: r.top, left: r.left, width: r.width, height: r.height };
+      });
+      window.parent.postMessage({ type: 'vaultly:positions', positions }, '*');
+    }
+
+    window.addEventListener('load', reportPositions);
+    window.addEventListener('scroll', reportPositions, { passive: true });
+    window.addEventListener('resize', reportPositions);
+  </script>
+
+</body>
+</html>

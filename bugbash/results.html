@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Bash — Results</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body {
+      background-color: var(--blue-700);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V18L28 2l28 16v32L28 66zM28 98L0 82V50l28-16 28 16v32L28 98z' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px 48px;
+    }
+
+    .results-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      max-width: 960px;
+      align-items: start;
+    }
+
+    /* Left column: score card + bug report */
+    .results-left { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Right column: leaderboard */
+    .results-right { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Score hero card */
+    .score-hero {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--gray-200);
+      margin-bottom: 4px;
+    }
+
+    .score-hero .result-icon { font-size: 44px; line-height: 1; margin-bottom: 10px; }
+
+    .score-hero h2 {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--blue-700);
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .score-hero .bugs-line {
+      font-size: 15px;
+      color: var(--gray-500);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .final-score-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--blue-700);
+      border-radius: var(--radius-md);
+      padding: 18px 40px;
+      margin-bottom: 4px;
+    }
+
+    .final-score-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 4px;
+    }
+
+    .final-score-value {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--yellow-500);
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    /* Stat tiles */
+    .stat-tiles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stat-tile {
+      background: var(--blue-100);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      text-align: center;
+    }
+
+    .stat-tile .stat-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--blue-700);
+      line-height: 1;
+    }
+
+    .stat-tile .stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* Bug report */
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 10px;
+    }
+
+    .bug-report { display: flex; flex-direction: column; gap: 7px; }
+
+    .bug-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .bug-item.found-bug {
+      background: rgba(0, 192, 163, 0.1);
+      color: var(--gray-800);
+    }
+
+    .bug-item .bug-icon { font-size: 15px; flex-shrink: 0; }
+
+    .bug-item .bug-name { flex: 1; }
+
+    .bug-item .bug-type-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(1, 68, 108, 0.08);
+      color: var(--blue-700);
+      white-space: nowrap;
+    }
+
+    .bug-item.found-bug .bug-type-tag {
+      background: rgba(0, 192, 163, 0.15);
+      color: #007A6A;
+    }
+
+    /* Leaderboard card */
+    .lb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .lb-header .section-title { margin-bottom: 0; }
+
+    .rank-badge {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--blue-700);
+      background: var(--yellow-500);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* Action buttons */
+    .result-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .result-actions .btn {
+      flex: 1;
+      padding: 13px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <a class="logo" href="index.html" aria-label="Applause">
+      <img src="assets/img/applause-logo.svg" alt="Applause" style="filter:brightness(0) invert(1);">
+    </a>
+    <span class="header-label" style="color:rgba(255,255,255,0.55);">Bug Bash</span>
+  </header>
+
+  <main>
+    <div class="results-layout">
+
+      <!-- ── Left: score + bug report ─────────────────────────── -->
+      <div class="results-left">
+
+        <div class="card" style="padding:32px 36px;">
+          <div class="score-hero">
+            <div class="result-icon" id="resultIcon">🏆</div>
+            <h2 id="resultHeadline">Time's up!</h2>
+            <p class="bugs-line" id="bugsLine">You found 0 of 8 bugs.</p>
+
+            <div class="final-score-wrap">
+              <div class="final-score-label">Final Score</div>
+              <div class="final-score-value" id="finalScore">0</div>
+            </div>
+          </div>
+
+          <div class="stat-tiles">
+            <div class="stat-tile">
+              <div class="stat-value" id="statBugs">0</div>
+              <div class="stat-label">Bugs Found</div>
+            </div>
+            <div class="stat-tile">
+              <div class="stat-value" id="statAccuracy">0%</div>
+              <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-tile">
+              <div class="stat-value" id="statStreak">0</div>
+              <div class="stat-label">Best Streak</div>
+            </div>
+            <div class="stat-tile">
+              <div class="stat-value" id="statTimeBonus">+0</div>
+              <div class="stat-label">Time Bonus</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:28px 32px;">
+          <div class="section-title">Bug Report</div>
+          <div class="bug-report" id="bugReport"></div>
+        </div>
+
+        <div class="result-actions">
+          <a href="index.html" class="btn btn-outline" id="playAgainBtn">Play Again</a>
+          <a href="index.html" class="btn btn-primary" style="padding:13px;">Home</a>
+        </div>
+
+      </div>
+
+      <!-- ── Right: leaderboard ────────────────────────────────── -->
+      <div class="results-right">
+
+        <div class="card" style="padding:28px 32px;">
+          <div class="lb-header">
+            <div class="section-title">Session Leaderboard</div>
+            <div class="rank-badge" id="rankBadge">YOUR RANK #—</div>
+          </div>
+          <div id="leaderboardContainer"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="assets/js/leaderboard.js"></script>
+  <script src="assets/js/sheets.js"></script>
+  <script>
+    const BUGS_META = [
+      { id: 1, label: 'Nav typo: "Prcing"',                type: 'Content' },
+      { id: 2, label: 'CTA button overlaps hero text',     type: 'Layout' },
+      { id: 3, label: '"Get Started" button unresponsive', type: 'Functional' },
+      { id: 4, label: 'Payment field accepts letters',     type: 'Payments' },
+      { id: 5, label: 'Low-contrast text on white',        type: 'Accessibility' },
+      { id: 6, label: 'Broken image shows alt text',       type: 'Visual' },
+      { id: 7, label: 'Chatbot fires before user submits', type: 'AI / Functional' },
+      { id: 8, label: 'Footer copyright: "© 2023"',        type: 'Content' },
+    ];
+
+    function init() {
+      let result;
+      try {
+        result = JSON.parse(sessionStorage.getItem('bugbash_result') || 'null');
+      } catch { result = null; }
+
+      if (!result) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const foundSet = new Set(result.foundBugIds || []);
+
+      // Headline & icon
+      if (result.reason === 'all-found') {
+        document.getElementById('resultIcon').textContent = '🎉';
+        document.getElementById('resultHeadline').textContent = 'All bugs found!';
+      } else {
+        document.getElementById('resultHeadline').textContent = 'Time\'s up!';
+      }
+
+      document.getElementById('bugsLine').textContent =
+        `You found ${result.bugsFound} of 8 bug${result.bugsFound !== 1 ? 's' : ''}.`;
+
+      // Animate score count-up
+      animateCount('finalScore', 0, result.score, 900);
+
+      // Stat tiles
+      document.getElementById('statBugs').textContent    = `${result.bugsFound}/8`;
+      document.getElementById('statAccuracy').textContent = `${result.accuracy}%`;
+      document.getElementById('statStreak').textContent   = result.bestStreak;
+      document.getElementById('statTimeBonus').textContent = `+${result.timeBonus}`;
+
+      // Bug report
+      const bugReport = document.getElementById('bugReport');
+      bugReport.innerHTML = BUGS_META.map(bug => {
+        const found = foundSet.has(bug.id);
+        return `
+          <div class="bug-item${found ? ' found-bug' : ''}">
+            <span class="bug-icon">${found ? '✅' : '❌'}</span>
+            <span class="bug-name">${bug.label}</span>
+            <span class="bug-type-tag">${bug.type}</span>
+          </div>
+        `;
+      }).join('');
+
+      // Leaderboard
+      renderLeaderboard('leaderboardContainer', result.id);
+      const rank = getRank(result.id);
+      document.getElementById('rankBadge').textContent = `YOUR RANK #${rank}`;
+
+      // Play Again — clear game state but keep leaderboard
+      document.getElementById('playAgainBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('bugbash_player');
+        sessionStorage.removeItem('bugbash_result');
+        window.location.href = 'index.html';
+      });
+
+      // Submit to Google Sheets (fire and forget)
+      submitToSheets(result);
+    }
+
+    function animateCount(elId, from, to, duration) {
+      const el = document.getElementById(elId);
+      const startTime = performance.now();
+      function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = Math.round(from + (to - from) * eased).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
