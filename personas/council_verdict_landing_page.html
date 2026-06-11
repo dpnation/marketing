@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayTest Global - Payment Assurance Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#10b981',
+                            600: '#059669',
+                            950: '#022c22',
+                        },
+                        eng: {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        },
+                        qa: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* Glowing highlight class */
+        .solution-highlight {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .solution-highlight.active {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+            transform: scale(1.02);
+            border-color: #3b82f6 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen overflow-x-hidden">
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        
+        <!-- ================= LEFT PANE: THE REVISED LANDING PAGE ================= -->
+        <main class="w-full lg:w-2/3 xl:w-3/4 flex-1 h-screen overflow-y-auto px-4 sm:px-8 py-8 relative">
+            
+            <!-- Floating Navigation -->
+            <header class="flex justify-between items-center mb-12 border-b border-slate-800 pb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                        <i class="fa-solid fa-square-poll-vertical text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">PayTest <span class="text-brand-500">Global</span></span>
+                        <p class="text-[10px] text-slate-400 tracking-widest uppercase">Global Assurance Engine</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-amber-400 bg-amber-950/40 border border-amber-800/60 rounded-full animate-pulse">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                        Executive Review Mode
+                    </span>
+                    <button onclick="toggleMobileVerdict()" class="lg:hidden bg-slate-800 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-users"></i> Council Menu
+                    </button>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="max-w-4xl mx-auto text-center mb-16 relative">
+                <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl -z-10"></div>
+                <div class="absolute -top-24 left-1/3 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.15]">
+                    Global Transactions, <br>
+                    <span class="bg-gradient-to-r from-brand-500 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">Flawlessly Executed</span>
+                </h1>
+                <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+                    Test live transactions using real instruments on localized networks worldwide. Secure, automated, and built to feed engineering pipelines natively without disrupting shipping velocity.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#integration-section" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-600 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2">
+                        <span>Explore the Platform</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <a href="#compliance-section" class="px-6 py-3 bg-slate-900 border border-slate-800 hover:bg-slate-850 text-slate-300 font-medium rounded-xl transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-slate-400"></i>
+                        <span>Security & Governance</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- REVISION 3: Visual Infographic & Value Metrics (Sam's Focus) -->
+            <section id="infographic-section" class="solution-highlight max-w-5xl mx-auto mb-16 p-8 bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-sm relative">
+                <div class="absolute top-4 right-4 bg-brand-500/10 text-brand-500 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-brand-500/20">
+                    Sam's Focus: Product Metrics
+                </div>
+                
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-brand-500 text-xs font-bold tracking-widest uppercase">Global Revenue Protection</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">E-Commerce Localization & Conversion</h2>
+                    <p class="text-sm text-slate-400 mt-2">Dense sheets of market statistics transformed into clear, direct business metrics reflecting cart health and customer lifetime value.</p>
+                </div>
+
+                <!-- Infographic Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-brand-500/30 transition-all">
+                        <div>
+                            <div class="w-10 h-10 bg-rose-500/10 rounded-lg flex items-center justify-center mb-4 border border-rose-500/20">
+                                <i class="fa-solid fa-cart-flatbed-suitcases text-rose-500"></i>
+                            </div>
+                            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">The $111B+ Leak</h3>
+                            <p class="text-xs text-slate-400 mt-1">Global e-commerce value lost directly at checkout due to local gateway failures and payment method mismatches.</p>
+                        </div>
+                        <div class="mt-6">
+                            <span class="text-3xl font-black text-rose-400 tracking-tight">70.1%</span>
+                            <span class="text-xs block text-slate-500">Avg. Cart Abandonment Rate</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-brand-500/30 transition-all">
+                        <div>
+                            <div class="w-10 h-10 bg-brand-500/10 rounded-lg flex items-center justify-center mb-4 border border-brand-500/20">
+                                <i class="fa-solid fa-globe text-brand-500"></i>
+                            </div>
+                            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">Localization Velocity</h3>
+                            <p class="text-xs text-slate-400 mt-1">Frictionless integration of local banking rails, alternative payment options (APMs), and local currencies.</p>
+                        </div>
+                        <div class="mt-6">
+                            <span class="text-3xl font-black text-brand-400 tracking-tight">+23%</span>
+                            <span class="text-xs block text-slate-500">Increase in Global Checkout Success</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-brand-500/30 transition-all">
+                        <div>
+                            <div class="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center mb-4 border border-indigo-500/20">
+                                <i class="fa-solid fa-users-viewfinder text-indigo-500"></i>
+                            </div>
+                            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">Customer LTV Growth</h3>
+                            <p class="text-xs text-slate-400 mt-1">Securing flawless post-purchase transitions guarantees retention, repeat loyalty, and long-term brand equity.</p>
+                        </div>
+                        <div class="mt-6">
+                            <span class="text-3xl font-black text-indigo-400 tracking-tight">4.2x</span>
+                            <span class="text-xs block text-slate-500">Higher Lifetime Value (LTV) Retained</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Revenue Recovery Calculator -->
+                <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                    <h4 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-brand-500"></i>
+                        Interactive Conversion Recovery Estimator
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Annual Digital Sales Volume</label>
+                                <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2">
+                                    <span class="text-slate-500 text-sm">$</span>
+                                    <input type="number" id="revenue-input" value="10000000" class="bg-transparent text-white text-sm focus:outline-none w-full" oninput="calculateSavings()">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Current Checkout Drop-off Rate: <span id="abandonment-val" class="text-indigo-400 font-bold">40%</span></label>
+                                <input type="range" id="abandonment-slider" min="10" max="90" value="40" class="w-full accent-brand-500" oninput="calculateSavings()">
+                            </div>
+                        </div>
+                        <div class="p-4 bg-brand-950/20 border border-brand-500/20 rounded-lg text-center md:text-left">
+                            <span class="text-[10px] text-brand-400 uppercase font-bold tracking-widest block mb-1">Estimated Annual Recoverable Revenue</span>
+                            <span id="savings-display" class="text-3xl font-extrabold text-brand-400 tracking-tight">$1,000,000</span>
+                            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">By reducing local drop-offs via continuous edge execution testing and localized gateway validation pipelines.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REVISION 1: Developer Stack & Workflow Integration (Craig's Focus) -->
+            <section id="integration-section" class="solution-highlight max-w-5xl mx-auto mb-16 p-8 bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-sm relative">
+                <div class="absolute top-4 right-4 bg-eng-500/10 text-eng-500 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-eng-500/20">
+                    Craig's Focus: Engineering Velocity
+                </div>
+
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-eng-500 text-xs font-bold tracking-widest uppercase">Zero Pipeline Friction</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Synchronized Engineering Ecosystem</h2>
+                    <p class="text-sm text-slate-400 mt-2">Zero dashboard lock-in. Bugs undergo programmatic vetting and automatically sync to your team's existing workflow trackers.</p>
+                </div>
+
+                <!-- Integration Badges -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                        <i class="fa-brands fa-jira text-2xl text-blue-500"></i>
+                        <div>
+                            <span class="text-xs font-bold block text-white">Jira Cloud</span>
+                            <span class="text-[10px] text-slate-500">Native 2-way sync</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                        <i class="fa-brands fa-github text-2xl text-white"></i>
+                        <div>
+                            <span class="text-xs font-bold block text-white">GitHub Actions</span>
+                            <span class="text-[10px] text-slate-500">Trigger on build</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                        <i class="fa-brands fa-slack text-2xl text-emerald-400"></i>
+                        <div>
+                            <span class="text-xs font-bold block text-white">Slack Alerts</span>
+                            <span class="text-[10px] text-slate-500">Rich crash logs</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                        <i class="fa-brands fa-aws text-2xl text-amber-500"></i>
+                        <div>
+                            <span class="text-xs font-bold block text-white">CI/CD Triggers</span>
+                            <span class="text-[10px] text-slate-500">Deploy hooks</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Pipeline Visualizer -->
+                <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                    <h4 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-code-fork text-eng-500"></i>
+                        Vetted Crowdsourced Pipeline Architecture
+                    </h4>
+                    
+                    <div class="flex flex-col md:flex-row items-stretch gap-4 justify-between relative">
+                        <div class="flex-1 bg-slate-900 p-4 rounded-lg border border-slate-800 text-center relative z-10">
+                            <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block mb-2">1. Live Signal Trigger</span>
+                            <p class="text-xs text-slate-400">Crowdsourced testers execute live transactions globally. Issue detected.</p>
+                            <span class="inline-block mt-3 px-2 py-0.5 bg-indigo-950 text-indigo-400 border border-indigo-800 text-[10px] font-semibold rounded">Test Matrix Active</span>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center text-slate-600 text-xl"><i class="fa-solid fa-angles-right"></i></div>
+                        
+                        <div class="flex-1 bg-slate-900 p-4 rounded-lg border border-slate-800 text-center relative z-10">
+                            <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-2">2. Intelligent Triage</span>
+                            <p class="text-xs text-slate-400">System filters duplicates, structures payload, verifies steps & logs.</p>
+                            <span class="inline-block mt-3 px-2 py-0.5 bg-amber-950 text-amber-400 border border-amber-800 text-[10px] font-semibold rounded">Internal Burden Relieved</span>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center text-slate-600 text-xl"><i class="fa-solid fa-angles-right"></i></div>
+
+                        <div class="flex-1 bg-slate-900 p-4 rounded-lg border border-slate-800 text-center relative z-10">
+                            <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-2">3. Jira Auto-Ingest</span>
+                            <p class="text-xs text-slate-400">Perfectly detailed issue maps seamlessly to existing team sprint cycle.</p>
+                            <span class="inline-block mt-3 px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-semibold rounded">Sprint Velocity Protected</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REVISION 2: Compliance, Privacy, & Post-Purchase Scope (Alex's Focus) -->
+            <section id="compliance-section" class="solution-highlight max-w-5xl mx-auto mb-16 p-8 bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-sm relative">
+                <div class="absolute top-4 right-4 bg-qa-500/10 text-qa-500 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-qa-500/20">
+                    Alex's Focus: Compliance & Journey Quality
+                </div>
+
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-qa-500 text-xs font-bold tracking-widest uppercase">Strict Data Shielding</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Industrial Governance & PCI-DSS Shielding</h2>
+                    <p class="text-sm text-slate-400 mt-2">Zero compromise. How we protect sensitive financial pipelines and keep real testing safe, programmatic, and clean.</p>
+                </div>
+
+                <!-- Interactive QA Controls Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    
+                    <!-- Left: Security Architecture -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <h4 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                            Security Safeguards
+                        </h4>
+                        <ul class="space-y-3.5">
+                            <li class="flex gap-3 items-start text-xs text-slate-300">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-white block">PCI-DSS Level 1 Merchant Alignment</strong>
+                                    All testing runs inside isolated environments with simulated, mock, or fully sandboxed live-instrument layers.
+                                </div>
+                            </li>
+                            <li class="flex gap-3 items-start text-xs text-slate-300">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-white block">Tester Identity Vetting</strong>
+                                    Background-checked testers, bound by strict, custom NDA frameworks and geographic location logging.
+                                </div>
+                            </li>
+                            <li class="flex gap-3 items-start text-xs text-slate-300">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-white block">PII & Financial Data Masking</strong>
+                                    Incoming screenshots, transaction sheets, and network log uploads are stripped of personal identifiers at source.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Right: End-to-End Post Purchase Scope -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <h4 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-arrows-spin text-indigo-400"></i>
+                            Post-Purchase Testing Journeys
+                        </h4>
+                        <p class="text-xs text-slate-400 mb-4">We test past the check-out terminal. Secure end-to-end journey checks covering every touchpoint:</p>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center">
+                                <i class="fa-solid fa-file-invoice-dollar text-slate-400 text-sm mb-1"></i>
+                                <span class="text-[10px] font-bold block text-white">Receipts & Billing</span>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center">
+                                <i class="fa-solid fa-truck-fast text-slate-400 text-sm mb-1"></i>
+                                <span class="text-[10px] font-bold block text-white">Shipping Alerts</span>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center">
+                                <i class="fa-solid fa-arrow-rotate-left text-slate-400 text-sm mb-1"></i>
+                                <span class="text-[10px] font-bold block text-white">Returns & Refunds</span>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center">
+                                <i class="fa-solid fa-award text-slate-400 text-sm mb-1"></i>
+                                <span class="text-[10px] font-bold block text-white">Loyalty & Rewards</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom CTA -->
+            <section class="max-w-4xl mx-auto text-center py-12 border-t border-slate-800">
+                <h3 class="text-2xl font-bold mb-4 text-white">Ready to align your executive council?</h3>
+                <p class="text-sm text-slate-400 max-w-lg mx-auto mb-6">Experience how a unified approach to global transaction reliability saves engineering velocity, satisfies QA security checks, and unlocks conversions.</p>
+                <div class="inline-flex flex-wrap gap-4 justify-center">
+                    <button class="bg-brand-500 hover:bg-brand-600 text-white font-medium px-5 py-2.5 rounded-lg text-sm transition-all shadow-md shadow-brand-500/10">Get Demo Sandbox</button>
+                    <button class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium px-5 py-2.5 rounded-lg text-sm border border-slate-800 transition-all">Talk to a Lead Solutions Architect</button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ================= RIGHT PANE: THE INTERACTIVE COUNCIL PANEL ================= -->
+        <aside id="council-panel" class="hidden lg:block w-full lg:w-1/3 xl:w-1/4 bg-slate-900/40 border-t lg:border-t-0 lg:border-l border-slate-800 backdrop-blur-md overflow-y-auto h-screen p-6 relative">
+            
+            <div class="sticky top-0 bg-slate-900/90 backdrop-blur-md pt-2 pb-4 z-20 border-b border-slate-800/80 mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span>🗳️ Council Verdict</span>
+                    </h2>
+                    <button onclick="toggleMobileVerdict()" class="lg:hidden text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <p class="text-xs text-slate-400">Review real stakeholder assessments. Tap on a profile to highlight how the revised page targets their feedback.</p>
+            </div>
+
+            <!-- Stakeholder Verdict Summary Matrix -->
+            <div class="space-y-3 mb-6">
+                <div onclick="selectPersona('craig')" id="card-craig" class="p-3 rounded-xl border border-slate-800 bg-slate-950/60 cursor-pointer hover:border-eng-500/50 transition-all">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-slate-200">Craig (VP Eng)</span>
+                        <span class="text-amber-500 text-xs font-medium">⭐⭐⭐☆☆</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 line-clamp-2">"Powerful coverage matrix, but lacks pipeline integration details..."</p>
+                </div>
+
+                <div onclick="selectPersona('sam')" id="card-sam" class="p-3 rounded-xl border border-slate-800 bg-slate-950/60 cursor-pointer hover:border-brand-500/50 transition-all">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-slate-200">Sam (VP Product)</span>
+                        <span class="text-emerald-400 text-xs font-medium">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 line-clamp-2">"Direct hit on cart abandonment and international growth metrics..."</p>
+                </div>
+
+                <div onclick="selectPersona('alex')" id="card-alex" class="p-3 rounded-xl border border-slate-800 bg-slate-950/60 cursor-pointer hover:border-qa-500/50 transition-all">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-slate-200">Alex (Dir QA)</span>
+                        <span class="text-amber-500 text-xs font-medium">⭐⭐⭐☆☆</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 line-clamp-2">"Love the end-to-end post-purchase scope, but highly skeptical of compliance..."</p>
+                </div>
+            </div>
+
+            <!-- Interactive Tab Navigation for Details -->
+            <div class="flex border-b border-slate-800 mb-6">
+                <button onclick="switchTab('details')" id="tab-details-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-brand-500 text-white">Details</button>
+                <button onclick="switchTab('tensions')" id="tab-tensions-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white">⚡ Tensions</button>
+                <button onclick="switchTab('revisions')" id="tab-revisions-btn" class="flex-1 pb-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white">🛠️ Revisions</button>
+            </div>
+
+            <!-- Tab Content 1: Stakeholder Details -->
+            <div id="tab-details" class="space-y-6">
+                
+                <!-- Craig Profile Info Block -->
+                <div id="details-craig" class="persona-detail-section">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/30">C</div>
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Craig — VP of Engineering</h3>
+                            <span class="text-[10px] text-slate-500">Concerns: Team Velocity & Jira Pipeline Sync</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400 block mb-1">What Landed</span>
+                            <p class="text-slate-300">Appreciates practical utility of global device coverage and payment instruments. Value of real transaction logs, snapshots, and logs for diagnosing bugs.</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-rose-400 block mb-1">What Didn't</span>
+                            <p class="text-slate-300">Skeptical of broad e-commerce hype. Zero mention of key tools (Jira, GitHub, CI/CD). Fears standalone manual tracking dashboards.</p>
+                        </div>
+                        <div class="p-3 bg-blue-950/20 rounded-lg border border-blue-800/40 italic text-slate-300">
+                            "The global testing footprint is massive, but where are the implementation details? If this crowdsourced model just dumps a mountain of unvetted payment bugs into a standalone dashboard instead of syncing seamlessly with Jira, it's going to bottleneck our sprint cycles and tank our release velocity."
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-400 block mb-1">Specific Suggestions</span>
+                            <ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">
+                                <li>Introduce a technical "Workflow Integration" block.</li>
+                                <li>Quantify developer hours saved per release cycle.</li>
+                            </ul>
+                        </div>
+                        <button onclick="scrollToSolution('integration-section')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 font-bold rounded-lg text-[11px] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-eye"></i> View Resolution on Page
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sam Profile Info Block -->
+                <div id="details-sam" class="persona-detail-section hidden">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/30">S</div>
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Sam — VP of Product</h3>
+                            <span class="text-[10px] text-slate-500">Concerns: Cart Conversion & LTV Matrix</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400 block mb-1">What Landed</span>
+                            <p class="text-slate-300">Strong alignment on business value—cart abandonment prevention and international retention. Appreciates the native localization efforts.</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-rose-400 block mb-1">What Didn't</span>
+                            <p class="text-slate-300">Skeptical of heavy text walls. Prefer visual infographics over blocks of dense statistical references.</p>
+                        </div>
+                        <div class="p-3 bg-emerald-950/20 rounded-lg border border-emerald-800/40 italic text-slate-300">
+                            "This speaks my language entirely by tying product quality directly to customer conversion and global retention. If we can leverage this to confidently launch regional payment methods without introducing friction to the user experience, it's an easy win for our roadmap."
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-400 block mb-1">Specific Suggestions</span>
+                            <ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">
+                                <li>Convert statistics text blocks into a clean visual infographic.</li>
+                                <li>Incorporate KPI trackers emphasizing conversion lift.</li>
+                            </ul>
+                        </div>
+                        <button onclick="scrollToSolution('infographic-section')" class="w-full py-2 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 font-bold rounded-lg text-[11px] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-eye"></i> View Resolution on Page
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alex Profile Info Block -->
+                <div id="details-alex" class="persona-detail-section hidden">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-bold text-xs border border-violet-500/30">A</div>
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Alex — Director of QA</h3>
+                            <span class="text-[10px] text-slate-500">Concerns: Compliance & Post-Purchase Scope</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400 block mb-1">What Landed</span>
+                            <p class="text-slate-300">Pleased with complete journey checks including billing, packaging, returns, and post-purchase rewards.</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-rose-400 block mb-1">What Didn't</span>
+                            <p class="text-slate-300">Wants detailed PCI compliance maps. Highly skeptical of data isolation during real currency testing.</p>
+                        </div>
+                        <div class="p-3 bg-violet-950/20 rounded-lg border border-violet-800/40 italic text-slate-300">
+                            "Validating the entire post-purchase journey outside the happy path is a massive blind spot for our internal regression testing. However, I need to know the exact quality control protocols for these external testers and how we ensure absolute PCI-DSS and data privacy compliance during live transaction execution."
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-400 block mb-1">Specific Suggestions</span>
+                            <ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">
+                                <li>Add dedicated security shielding callout detail.</li>
+                                <li>Outline crowd structural safeguards and vetting framework.</li>
+                            </ul>
+                        </div>
+                        <button onclick="scrollToSolution('compliance-section')" class="w-full py-2 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/40 text-violet-300 font-bold rounded-lg text-[11px] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-eye"></i> View Resolution on Page
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab Content 2: Council Tensions Matrix -->
+            <div id="tab-tensions" class="hidden space-y-4 text-xs">
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-bl-3xl"></div>
+                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block mb-2">Sam vs. Craig</span>
+                    <strong class="text-white block mb-1">Market Expansion vs. Onboarding Drag</strong>
+                    <p class="text-slate-300 leading-relaxed">Sam is eager to launch APMs globally. Craig is terrified that managing custom configurations will cause severe release drag and block existing sprint pipelines.</p>
+                </div>
+
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-violet-500/10 to-indigo-500/10 rounded-bl-3xl"></div>
+                    <span class="text-[10px] font-bold text-violet-400 uppercase tracking-wider block mb-2">Craig vs. Alex</span>
+                    <strong class="text-white block mb-1">Velocity vs. Rigor</strong>
+                    <p class="text-slate-300 leading-relaxed">Alex values high-fidelity global coverage maps. Craig fears that unfiltered crowd feedback will overflow Jira backlogs and cause resource-draining bug triages.</p>
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Top 3 Page Revisions implemented -->
+            <div id="tab-revisions" class="hidden space-y-4 text-xs">
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-5 h-5 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">1</span>
+                        <strong class="text-white text-[11px]">Integrate Engineering Stack Specifics</strong>
+                    </div>
+                    <p class="text-slate-300">Added interactive engineering cards and real-time webhook flow mapping Jira pipeline synchronization.</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-5 h-5 rounded bg-violet-500/20 text-violet-400 flex items-center justify-center font-bold">2</span>
+                        <strong class="text-white text-[11px]">Elevate Security, Privacy & PCI Shielding</strong>
+                    </div>
+                    <p class="text-slate-300">Designed dedicated trust frameworks outlining isolated execution, masking, and global security adherence.</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-5 h-5 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">3</span>
+                        <strong class="text-white text-[11px]">Transition to Data-Driven Infographics</strong>
+                    </div>
+                    <p class="text-slate-300">Transformed theoretical statistics into visual cards alongside an interactive drop-off loss calculator.</p>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        // Track currently selected persona
+        let currentPersona = 'craig';
+
+        // Select persona card on click
+        function selectPersona(personaId) {
+            currentPersona = personaId;
+            
+            // Highlight cards in sidebar
+            document.querySelectorAll('[id^="card-"]').forEach(card => {
+                card.classList.remove('border-indigo-500', 'border-emerald-500', 'border-violet-500', 'bg-slate-900');
+                card.classList.add('border-slate-800', 'bg-slate-950/60');
+            });
+
+            const activeCard = document.getElementById(`card-${personaId}`);
+            activeCard.classList.remove('border-slate-800', 'bg-slate-950/60');
+            
+            // Add custom color borders based on persona
+            if (personaId === 'craig') {
+                activeCard.classList.add('border-blue-500/50', 'bg-slate-900');
+            } else if (personaId === 'sam') {
+                activeCard.classList.add('border-brand-500/50', 'bg-slate-900');
+            } else if (personaId === 'alex') {
+                activeCard.classList.add('border-violet-500/50', 'bg-slate-900');
+            }
+
+            // Switch details view inside sidebar
+            document.querySelectorAll('.persona-detail-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(`details-${personaId}`).classList.remove('hidden');
+
+            // Autoscroll corresponding section into view on the landing page
+            let targetSectionId = '';
+            if (personaId === 'craig') targetSectionId = 'integration-section';
+            if (personaId === 'sam') targetSectionId = 'infographic-section';
+            if (personaId === 'alex') targetSectionId = 'compliance-section';
+
+            scrollToSolution(targetSectionId);
+        }
+
+        // Scroll to and highlight relevant Landing Page elements
+        function scrollToSolution(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                // Remove existing highlights
+                document.querySelectorAll('.solution-highlight').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+
+                // Scroll element smoothly
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Add flash highlight style
+                element.classList.add('active');
+            }
+        }
+
+        // Switch sidebar tabs
+        function switchTab(tabId) {
+            // Un-highlight buttons
+            document.querySelectorAll('[id^="tab-"][id$="-btn"]').forEach(btn => {
+                btn.classList.remove('border-brand-500', 'text-white');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+
+            // Hide tabs
+            document.getElementById('tab-details').classList.add('hidden');
+            document.getElementById('tab-tensions').classList.add('hidden');
+            document.getElementById('tab-revisions').classList.add('hidden');
+
+            // Show and highlight target
+            document.getElementById(`tab-${tabId}-btn`).classList.add('border-brand-500', 'text-white');
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+        }
+
+        // Interactive calculator formula (Sam's Focus)
+        function calculateSavings() {
+            const revenue = parseFloat(document.getElementById('revenue-input').value) || 0;
+            const dropoff = parseFloat(document.getElementById('abandonment-slider').value) || 0;
+
+            // Update label
+            document.getElementById('abandonment-val').innerText = `${dropoff}%`;
+
+            // Core Logic: Quantifiable revenue recovered using global payment method validation:
+            // Assuming we recover 25% of absolute abandonment values via localized gateway checks
+            const abandonedSum = revenue * (dropoff / 100);
+            const recoveredSum = Math.round(abandonedSum * 0.25);
+
+            // Format to currency display
+            const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0
+            });
+
+            document.getElementById('savings-display').innerText = formatter.format(recoveredSum);
+        }
+
+        // Toggle mobile menu support for right panel
+        function toggleMobileVerdict() {
+            const panel = document.getElementById('council-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                panel.classList.add('fixed', 'inset-y-0', 'right-0', 'z-40', 'w-full', 'sm:w-[400px]', 'bg-slate-900');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('fixed', 'inset-y-0', 'right-0', 'z-40', 'w-full', 'sm:w-[400px]', 'bg-slate-900');
+            }
+        }
+
+        // Initialize parameters on load
+        window.onload = function() {
+            calculateSavings();
+            selectPersona('craig'); // Highlight default persona on boot
+        }
+    </script>
+</body>
+</html>
