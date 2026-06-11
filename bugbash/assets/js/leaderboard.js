@@ -40,21 +40,17 @@ function renderLeaderboard(containerId, currentPlayerId) {
       ? `<span class="lb-rank top">${rankIcons[i]}</span>`
       : `<span class="lb-rank">#${i + 1}</span>`;
 
-    const initials = entry.name
-      .split(' ')
-      .map(w => w[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+    const initials = ((entry.firstName || '')[0] || '') + ((entry.lastName || '')[0] || '');
+    const displayName = `${entry.firstName || ''} ${entry.lastName || ''}`.trim();
 
     const avatarColors = ['#01446C','#0272B4','#00C0A3','#7C3AED','#16A34A','#DC2626'];
-    const avatarColor = avatarColors[entry.name.charCodeAt(0) % avatarColors.length];
+    const avatarColor = avatarColors[(entry.firstName || ' ').charCodeAt(0) % avatarColors.length];
 
     return `
       <div class="lb-row${isCurrent ? ' current-player' : ''}">
         ${rankDisplay}
         <div class="lb-avatar" style="background:${avatarColor}">${initials}</div>
-        <div class="lb-name">${escapeHtml(entry.name)}${isCurrent ? ' <span style="font-size:11px;color:var(--blue-500);font-weight:700;">YOU</span>' : ''}</div>
+        <div class="lb-name">${escapeHtml(displayName)}${isCurrent ? ' <span style="font-size:11px;color:var(--blue-500);font-weight:700;">YOU</span>' : ''}</div>
         <div class="lb-bugs">${entry.bugsFound}/8 bugs</div>
         <div class="lb-score">${entry.score.toLocaleString()}</div>
       </div>

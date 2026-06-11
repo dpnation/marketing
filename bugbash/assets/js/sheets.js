@@ -3,9 +3,9 @@ const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxnSVabmh9eTGgC
 async function submitToSheets(sessionData) {
   const payload = {
     timestamp: new Date().toISOString(),
-    name: sessionData.name,
+    firstName: sessionData.firstName,
+    lastName: sessionData.lastName,
     email: sessionData.email,
-    company: sessionData.company,
     title: sessionData.title,
     score: sessionData.score,
     bugsFound: sessionData.bugsFound,

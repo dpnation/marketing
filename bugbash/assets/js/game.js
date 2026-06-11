@@ -228,9 +228,9 @@ function endGame(reason) {
 
   const resultData = {
     id: playerId,
-    name:       player.name,
+    firstName:  player.firstName,
+    lastName:   player.lastName,
     email:      player.email,
-    company:    player.company,
     title:      player.title,
     score:      finalScore,
     bugsFound:  state.bugsFound,
@@ -245,7 +245,7 @@ function endGame(reason) {
   sessionStorage.setItem('bugbash_result', JSON.stringify(resultData));
 
   // Add to session leaderboard
-  addToLeaderboard({ id: playerId, name: player.name, score: finalScore, bugsFound: state.bugsFound });
+  addToLeaderboard({ id: playerId, firstName: player.firstName, lastName: player.lastName, score: finalScore, bugsFound: state.bugsFound });
 
   window.location.href = 'results.html';
 }
