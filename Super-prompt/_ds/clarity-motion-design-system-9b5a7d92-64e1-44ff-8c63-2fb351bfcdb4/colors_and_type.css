@@ -1,0 +1,221 @@
+/* =========================================================================
+   Clarity & Motion — Colors & Type Tokens (v2, aligned to CMC Brand Guide)
+   Source of truth: "CMC Brand Guide 20250730.docx" + Anatomy of a Good Prompt
+   Fonts: Libre Baskerville (display/serif) + Lato (body/sans)
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap');
+
+:root {
+  /* =====================================================================
+     PALETTE — raw brand colors (from the brand guide, verbatim)
+     ===================================================================== */
+  --color-dark-teal:     #49868C;  /* PRIMARY brand color — headlines, buttons, hero bg */
+  --color-mid-teal:      #5EA0A1;  /* Reserve color — do NOT pair with Dark Teal */
+  --color-light-blue:    #CFE7E9;  /* UI bg — cards, forms */
+  --color-saffron:       #F2A007;  /* Highlight — tags, hover accents, 2° CTA */
+  --color-dusty-rose:    #D989B5;  /* Editorial accent, illustration overlay */
+  --color-persimmon:     #D95F43;  /* Primary CTA, links, highlights */
+  --color-buff:          #F5F2EC;  /* PRIMARY neutral / canvas */
+  --color-warm-white:    #FAF7F2;  /* Alternating zones (table rows, section bands) */
+  /* Mid Buff retired from the canonical palette — use Buff (canvas) or Warm White (alt) */
+  --color-slate-harbor:  #4B5357;  /* Text, data-viz, overlays */
+  --color-mulberry-ink:  #4E2A36;  /* Quotes, editorial emphasis, deep bg */
+
+  /* Wordmark navy — preserved from logo artwork, used only for logo fallbacks */
+  --color-navy-mark:     #2D3A4A;
+
+  /* =====================================================================
+     SEMANTIC TOKENS — role-based aliases (use these in components)
+     ===================================================================== */
+
+  /* Surfaces */
+  --bg-canvas:         var(--color-buff);          /* default page bg */
+  --bg-section:        var(--color-warm-white);    /* alternating sections */
+  --bg-card:           var(--color-warm-white);    /* cards, modules */
+  --bg-ui:             var(--color-light-blue);    /* forms, interactive wells */
+  --bg-inverse:        var(--color-dark-teal);    /* dark/hero sections */
+  --bg-deep:           var(--color-mulberry-ink);  /* deeper hero / footer */
+  --bg-quote:          var(--color-mulberry-ink);  /* pull-quote / testimonial */
+  --bg-paper:          #FFFFFF;                    /* rare pure white */
+
+  /* Foreground — text */
+  --fg-1:              var(--color-slate-harbor);  /* primary body */
+  --fg-2:              #6B7277;                    /* secondary, meta */
+  --fg-3:              #8B9094;                    /* tertiary */
+  --fg-heading:        var(--color-dark-teal);     /* H1/H2/H3 default */
+  --fg-heading-alt:    var(--color-mulberry-ink);  /* quote / editorial emphasis */
+  --fg-on-teal:        var(--color-buff);          /* text on dark teal */
+  --fg-on-mulberry:    var(--color-buff);          /* text on quote bg */
+  --fg-on-saffron:     var(--color-slate-harbor);  /* saffron fails on white */
+
+  /* Interactive */
+  --cta:               var(--color-persimmon);     /* PRIMARY CTA */
+  --cta-hover:         #C24D31;
+  --cta-press:         #A33B22;
+  --cta-ink-on:        #FFFFFF;
+
+  --cta-2:             var(--color-saffron);       /* SECONDARY CTA / hover */
+  --cta-2-hover:       #D68C00;
+  --cta-2-ink-on:      var(--color-slate-harbor);
+
+  --link:              var(--color-persimmon);
+  --link-hover:        #C24D31;
+
+  /* Status */
+  --status-success:    var(--color-dark-teal);
+  --status-warning:    var(--color-saffron);
+  --status-danger:     var(--color-persimmon);
+  --status-info:       var(--color-dark-teal);
+
+  /* Borders / rules */
+  --border:            rgba(75, 83, 87, 0.14);
+  --border-strong:     #C9C3B5;
+  --border-focus:      var(--color-dark-teal);
+  --rule-subtle:       rgba(75, 83, 87, 0.2);      /* 20% Slate Harbor */
+
+  --ring:              0 0 0 3px rgba(73, 134, 140, 0.35);
+
+  /* Elevation — soft, warm (slate-tinted, never black) */
+  --shadow-xs: 0 1px 0 rgba(75, 83, 87, 0.06);
+  --shadow-sm: 0 1px 2px rgba(75, 83, 87, 0.06), 0 2px 6px rgba(75, 83, 87, 0.04);
+  --shadow-md: 0 2px 4px rgba(75, 83, 87, 0.06), 0 10px 24px rgba(75, 83, 87, 0.08);
+  --shadow-lg: 0 8px 16px rgba(75, 83, 87, 0.08), 0 24px 48px rgba(75, 83, 87, 0.10);
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Spacing (8pt baseline + 4pt half-step) */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px;  --space-6: 32px;  --space-7: 48px;  --space-8: 64px;
+  --space-9: 96px;  --space-10: 128px;
+
+  /* =====================================================================
+     TYPOGRAPHY
+     ===================================================================== */
+  --font-serif:  'Libre Baskerville', 'Iowan Old Style', Georgia, serif;
+  --font-sans:   'Lato', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-mono:   'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --font-display: var(--font-serif);
+  --font-body:    var(--font-sans);
+  --font-nav:     var(--font-sans); /* used ALL-CAPS per brand guide */
+
+  /* Scale */
+  --fs-eyebrow: 11px;
+  --fs-meta:    13px;
+  --fs-body:    16px;
+  --fs-body-lg: 18px;
+  --fs-h6:      14px;
+  --fs-h5:      18px;
+  --fs-h4:      22px;
+  --fs-h3:      28px;
+  --fs-h2:      38px;
+  --fs-h1:      52px;
+  --fs-display: 72px;
+
+  --lh-tight:  1.1;   /* @kind font */
+  --lh-snug:   1.25;  /* @kind font */
+  --lh-normal: 1.5;   /* @kind font */
+  --lh-loose:  1.7;   /* @kind font */
+
+  --tracking-eyebrow: 0.18em;
+  --tracking-nav:     0.16em;
+  --tracking-tight:  -0.01em;
+  --tracking-normal:  0;
+}
+
+/* =========================================================================
+   ELEMENT DEFAULTS
+   ========================================================================= */
+html, body {
+  background: var(--bg-canvas);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--fg-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 var(--space-4);
+  text-wrap: balance;
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); font-weight: 400; font-style: italic; }
+h5 { font-size: var(--fs-h5); color: var(--fg-1); font-family: var(--font-body); font-weight: 700; letter-spacing: 0; }
+h6 {
+  font-size: var(--fs-h6); color: var(--fg-1);
+  font-family: var(--font-body); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--tracking-eyebrow);
+}
+
+p { margin: 0 0 var(--space-4); max-width: 65ch; text-wrap: pretty; }
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 120ms ease;
+}
+a:hover { color: var(--link-hover); }
+
+small, .meta { font-size: var(--fs-meta); color: var(--fg-2); }
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  color: var(--fg-on-mulberry);
+  background: var(--bg-quote);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-md);
+  margin: var(--space-5) 0;
+  max-width: 56ch;
+}
+
+code, pre { font-family: var(--font-mono); font-size: 0.9em; }
+code { background: var(--bg-ui); padding: 1px 6px; border-radius: var(--radius-xs); color: var(--color-dark-teal); }
+pre  { background: var(--color-mid-buff); padding: var(--space-4); border-radius: var(--radius-md); overflow-x: auto; }
+
+hr { border: 0; border-top: 1px solid var(--rule-subtle); margin: var(--space-6) 0; }
+
+::selection { background: var(--color-light-blue); color: var(--color-mulberry-ink); }
+
+:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--radius-sm); }
+
+/* Nav labels — Lato all-caps per brand guide */
+.nav-link {
+  font-family: var(--font-nav);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--fg-1);
+  text-decoration: none;
+}
+.nav-link:hover { color: var(--cta); }

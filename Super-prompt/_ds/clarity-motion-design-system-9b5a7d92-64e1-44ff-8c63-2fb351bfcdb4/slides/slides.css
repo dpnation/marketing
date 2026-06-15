@@ -1,0 +1,100 @@
+/* Clarity & Motion — Slide styles */
+.cm-slide {
+  width: 1280px; height: 720px; box-sizing: border-box;
+  padding: 72px 96px;
+  background: var(--cm-cream);
+  color: var(--cm-ink);
+  font-family: var(--font-sans);
+  position: relative;
+  overflow: hidden;
+}
+.cm-slide-eyebrow {
+  font-family: var(--font-sans); font-weight: 700;
+  font-size: 14px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--cm-graphite); margin-bottom: 28px;
+}
+.cm-slide-eyebrow.small { font-size: 12px; letter-spacing: 0.28em; color: var(--cm-graphite); }
+.cm-slide-eyebrow.on-dark { color: #B9C2CC; }
+.cm-slide-title {
+  font-family: var(--font-serif); font-weight: 700; font-size: 92px;
+  color: var(--cm-terracotta); line-height: 1.02; letter-spacing: -0.015em;
+  margin: 0 0 28px; max-width: 18ch;
+}
+.cm-slide-sub {
+  font-family: var(--font-sans); color: var(--cm-ink);
+  font-size: 22px; line-height: 1.45; max-width: 52ch; margin: 0;
+}
+.cm-slide-footer, .cm-slide-footer-row {
+  position: absolute; bottom: 40px; left: 96px; right: 96px;
+  font-family: var(--font-sans); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.26em; color: var(--cm-graphite);
+}
+.cm-slide-footer-row { display: flex; justify-content: space-between; }
+
+/* Framework slide */
+.cm-slide-h {
+  font-family: var(--font-serif); font-weight: 700; font-size: 60px;
+  color: var(--cm-navy); line-height: 1.05; letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+.cm-slide-lede {
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  color: var(--cm-graphite); font-size: 24px; margin: 0 0 36px;
+}
+.cm-framework-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px 48px;
+}
+.cm-framework-list li { display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: baseline; }
+.cm-framework-list .num {
+  font-family: var(--font-serif); font-weight: 700; font-size: 44px;
+  color: var(--cm-terracotta); line-height: 1;
+}
+.cm-framework-list .lbl {
+  font-family: var(--font-sans); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--cm-navy);
+  margin-bottom: 6px;
+}
+.cm-framework-list .desc { font-size: 17px; line-height: 1.4; color: var(--cm-ink); }
+
+/* Example slide */
+.cm-ex-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 56px; margin-top: 24px; }
+.cm-ex-label {
+  font-family: var(--font-sans); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--cm-graphite);
+  margin-bottom: 10px;
+}
+.cm-ex-quote {
+  font-family: var(--font-serif); font-style: italic; color: var(--cm-graphite);
+  font-size: 20px; line-height: 1.4; border-left: 2px solid var(--cm-rule-strong);
+  padding-left: 18px; margin: 0; max-width: 30ch;
+}
+.cm-ex-strong dl { display: grid; grid-template-columns: 140px 1fr; row-gap: 12px; column-gap: 20px; margin: 0; }
+.cm-ex-strong dt {
+  font-family: var(--font-sans); font-weight: 700; font-size: 12px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--cm-terracotta);
+  padding-top: 4px;
+}
+.cm-ex-strong dd { margin: 0; font-size: 17px; line-height: 1.4; color: var(--cm-ink); }
+
+/* Big quote */
+.cm-bigquote {
+  font-family: var(--font-serif); font-weight: 700;
+  color: var(--cm-terracotta); font-size: 156px; line-height: 0.98;
+  letter-spacing: -0.02em; margin: 18px 0 36px;
+  display: flex; flex-direction: column;
+}
+.cm-bigquote .l2 { color: var(--cm-navy); }
+.cm-bigquote-body {
+  font-family: var(--font-sans); font-size: 22px; color: var(--cm-ink);
+  line-height: 1.45; max-width: 48ch; margin: 0;
+}
+
+/* Section slide — navy full bleed */
+.cm-slide.section { background: var(--cm-navy); color: #fff; padding: 0; }
+.cm-section-inner { padding: 120px 96px; }
+.cm-section-title {
+  font-family: var(--font-serif); font-weight: 700; font-size: 120px;
+  color: var(--cm-cream); margin: 16px 0 20px; letter-spacing: -0.02em;
+}
+.cm-section-body { font-family: var(--font-sans); font-size: 24px; color: #B9C2CC; max-width: 40ch; }

@@ -1,0 +1,260 @@
+/* ============================================================
+   Applause Design System — Colors & Typography
+   ------------------------------------------------------------
+   Source of truth: Applause Slide Style Guide (2024)
+   Fonts: Proxima Nova (primary).
+   NOTE: Proxima Nova is a licensed typeface and not available
+   on Google Fonts. This file falls back to **Montserrat** (a
+   very close open-source geometric sans). Flagged in README.
+============================================================ */
+
+/* ---- Fonts (substitution) ---------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ==========================================================
+     COLOR TOKENS (base)
+     ========================================================== */
+
+  /* Brand ---------------------------------------------------- */
+  --applause-blue:        #0272B4;   /* Brand color / sidebar / icon bg */
+  --applause-blue-dark:   #01446C;   /* Slide title text / chart primary */
+  --applause-blue-light:  #CFEAFB;   /* Shape border color / soft accents */
+  --applause-blue-bg:     #E7F3FA;   /* Layout background color */
+
+  /* Neutrals ------------------------------------------------- */
+  --black:                #000000;   /* Subtitle text */
+  --gray-900:             #3D3D3D;   /* Paragraph / body text */
+  --gray-200:             #EEEEEE;   /* TABLE ROW SHADING ONLY — not for text or backgrounds */
+  --white:                #FFFFFF;
+
+  /* Semantic / chart ---------------------------------------- */
+  --green:                #0F8919;   /* Success */
+  --yellow:               #FFC400;   /* Warning / highlight */
+  --red:                  #D42D0E;   /* Error / critical */
+
+  /* ==========================================================
+     SEMANTIC COLOR TOKENS
+     ========================================================== */
+  --fg-1:                 var(--gray-900);   /* Primary body text */
+  --fg-2:                 var(--gray-900);   /* Secondary text — use gray-900 (no mid-gray in system) */
+  --fg-heading:           var(--applause-blue-dark);
+  --fg-subtitle:          var(--black);
+  --fg-inverse:           var(--white);
+  --fg-brand:             var(--applause-blue);
+
+  --bg-1:                 var(--white);
+  --bg-2:                 var(--applause-blue-bg);  /* Page background */
+  /* --bg-3 removed: gray-200 is table-only, not a background token */
+  --bg-brand:             var(--applause-blue);
+  --bg-brand-dark:        var(--applause-blue-dark);
+  --bg-brand-soft:        var(--applause-blue-light);
+
+  --border-soft:          var(--applause-blue-light);
+  --border-brand:         var(--applause-blue);
+
+  /* Table-row shading (the ONLY sanctioned use of gray-200) */
+  --table-row-shade:      var(--gray-200);
+
+  /* Status */
+  --status-success:       var(--green);
+  --status-warning:       var(--yellow);
+  --status-error:         var(--red);
+
+  /* ==========================================================
+     TYPE
+     ========================================================== */
+  --font-sans:            'Proxima Nova', 'Montserrat',
+                          -apple-system, BlinkMacSystemFont,
+                          'Segoe UI', Arial, sans-serif;
+  --font-mono:            ui-monospace, 'SF Mono', 'Menlo',
+                          'Consolas', monospace;
+
+  /* Weights (Proxima Nova offers Regular 400 / Semibold 600 / Bold 700) */
+  --fw-regular:           400;
+  --fw-semibold:          600;
+  --fw-bold:              700;
+
+  /* Type scale (rooted in the PPTX style guide — body 14pt, headline 24pt) */
+  --fs-display:           48px;
+  --fs-h1:                36px;
+  --fs-h2:                28px;
+  --fs-h3:                24px;     /* Slide headline per style guide */
+  --fs-h4:                20px;
+  --fs-h5:                16px;
+  --fs-subtitle:          14px;     /* Subtitle per style guide */
+  --fs-body:              14px;     /* Paragraph per style guide */
+  --fs-small:             12px;
+  --fs-caption:           11px;
+
+  --lh-tight:             1.15;
+  --lh-snug:              1.3;
+  --lh-normal:            1.5;
+  --lh-loose:             1.7;
+
+  --tracking-tight:       -0.01em;
+  --tracking-normal:      0;
+  --tracking-wide:        0.06em;    /* Logo-style spacing */
+
+  /* ==========================================================
+     SPACING (8-pt grid)
+     ========================================================== */
+  --space-0:              0;
+  --space-1:              4px;
+  --space-2:              8px;
+  --space-3:              12px;
+  --space-4:              16px;
+  --space-5:              24px;
+  --space-6:              32px;
+  --space-7:              48px;
+  --space-8:              64px;
+  --space-9:              96px;
+
+  /* ==========================================================
+     RADIUS
+     ========================================================== */
+  --radius-xs:            2px;
+  --radius-sm:            4px;
+  --radius-md:            8px;    /* Cards / icon tiles per guide */
+  --radius-lg:            12px;
+  --radius-xl:            16px;
+  --radius-pill:          999px;
+
+  /* ==========================================================
+     ELEVATION
+     Applause does not use drop shadows. Elevation is expressed
+     through 1px #CFEAFB borders and pale-blue #E7F3FA surfaces.
+     --shadow-ring-focus kept as a focus-ring affordance only.
+     ========================================================== */
+  --shadow-ring-focus:    0 0 0 3px rgba(2, 114, 180, 0.28);
+
+  /* ==========================================================
+     MOTION
+     ========================================================== */
+  --ease-standard:        cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-emphasized:      cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:             120ms;
+  --dur-base:             180ms;
+  --dur-slow:             280ms;
+
+  /* ==========================================================
+     LAYOUT
+     ========================================================== */
+  --sidebar-width:        60px;    /* Blue sidebar on slide template */
+  --max-content:          1200px;
+}
+
+/* ============================================================
+   SEMANTIC TEXT STYLES
+============================================================ */
+.h1, h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  color: var(--fg-heading);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.h2, h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-tight);
+  color: var(--fg-heading);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.h3, h3 {
+  /* Slide headline — 24px Bold, Applause blue dark */
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  color: var(--fg-heading);
+  margin: 0;
+}
+
+.h4, h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  color: var(--fg-heading);
+  margin: 0;
+}
+
+.subtitle {
+  /* Subtitle — 14px Bold black */
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-subtitle);
+  color: var(--fg-subtitle);
+  line-height: var(--lh-normal);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg-brand);
+}
+
+.p, p, .body {
+  /* Paragraph — 14px Regular, gray-900 */
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.small {
+  font-size: var(--fs-small);
+  color: var(--fg-2);
+}
+
+.code, code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--applause-blue-bg);
+  color: var(--gray-900);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.stat-value {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--fg-brand);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Applause bullet — blue disc */
+.applause-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.applause-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  margin-bottom: var(--space-2);
+}
+.applause-list li::before {
+  content: "\2192"; /* → */
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--applause-blue-dark);
+  font-weight: 700;
+}
