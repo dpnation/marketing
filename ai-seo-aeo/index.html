@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Applause AI Visibility Program</title>
 <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --blue-700: #01446C;
@@ -33,7 +35,7 @@
 
   /* HEADER */
   .header {
-    background: linear-gradient(rgba(1,30,50,0.72), rgba(1,30,50,0.72)), url('https://github.com/dpnation/marketing/blob/main/images/hex-pattern-blue.jpg?raw=true') center center / cover no-repeat;
+    background: var(--blue-700);
     color: var(--white);
     padding: 48px 24px;
     text-align: center;
@@ -341,6 +343,49 @@
   }
   .footer span { color: rgba(255,255,255,0.5); }
 
+  /* TRACK HEADERS */
+  .track-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .track-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .track-blue  { background: var(--blue-100); color: var(--blue-700); }
+  .track-amber { background: #FEF0E0; color: #7A3800; }
+
+  /* CARD TRACK BORDERS */
+  .card-blue-track  { border-top: 3px solid var(--blue-500); }
+  .card-amber-track { border-top: 3px solid var(--orange); }
+
+  /* TWO ARROWS */
+  .two-arrow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 2px 0; }
+  .arrow-col { display: flex; justify-content: center; padding: 8px 0; }
+
+  /* CONVERGE ARROW */
+  .converge-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 4px;
+    gap: 4px;
+  }
+  .converge-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--aqua-600);
+  }
+
   /* MOBILE */
   @media (max-width: 640px) {
     .two-col, .callout-two-col, .tracker-two-col { grid-template-columns: 1fr; }
@@ -393,7 +438,7 @@
     </svg>
   </div>
   <h1>AI Visibility Program</h1>
-  <p>A connected set of tools that audits, analyzes and improves how Applause shows up in AI-generated answers - and feeds directly into the AEO/GEO program</p>
+  <p>A connected set of tools that audits, analyzes, and improves how Applause shows up in AI-generated answers — and feeds directly into the AEO/GEO program.</p>
 </header>
 
 <main class="main">
@@ -401,48 +446,64 @@
   <!-- SECTION 1: INPUTS -->
   <div class="section">
     <div class="section-label">Inputs</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
     <div class="two-col">
 
       <!-- Input A -->
-      <div class="card">
+      <div class="card card-blue-track">
         <div><span class="badge badge-blue">Page Audit Input</span></div>
         <div class="card-icon">🔗</div>
         <h3>A live Applause URL</h3>
-        <p>Point the skill at any Applause page. It fetches the content and runs the audit automatically</p>
+        <p>Point the skill at any Applause page. It fetches the content and runs the audit automatically.</p>
         <div class="card-example">e.g. applause.com/payment-testing/</div>
       </div>
 
       <!-- Input B -->
-      <div class="card">
+      <div class="card card-amber-track">
         <div><span class="badge badge-amber">Visibility Analysis Input</span></div>
         <div class="card-icon">📊</div>
-        <h3>Clarity &amp; Motion LLM Report - citation tracker</h3>
-        <p>The June 2026 baseline: 63 queries across Perplexity, ChatGPT and Gemini. Exported as CSV and uploaded to Claude to power the visibility analysis</p>
+        <h3>Clarity &amp; Motion LLM Report — citation tracker</h3>
+        <p>The June 2026 baseline: 63 queries across Perplexity, ChatGPT, and Gemini, commissioned through Clarity &amp; Motion. Exported as CSV and uploaded to Claude to power the visibility analysis.</p>
         <a class="card-link" href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank">Open tracker →</a>
       </div>
 
     </div>
   </div>
 
-  <!-- ARROW DOWN -->
-  <div class="arrow">
-    <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
-      <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
-    </svg>
+  <!-- DUAL ARROW 1 -->
+  <div class="two-arrow">
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#ED7200" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#ED7200" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
   </div>
 
   <!-- SECTION 2: SKILLS -->
   <div class="section">
     <div class="section-label">Analysis Skills</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
     <div class="two-col">
 
       <!-- Skill A -->
-      <div class="card">
+      <div class="card card-blue-track">
         <span class="status-chip">● Built</span>
         <div><span class="badge badge-blue badge-mono">ai-seo-aeo</span></div>
         <h3>Page-level audit</h3>
-        <p>Audits a specific page against AI search best practices</p>
+        <p>Audits a specific page against AI search best practices.</p>
         <ul class="covers-list">
           <li>Content structure and extractability</li>
           <li>Schema markup</li>
@@ -454,11 +515,11 @@
       </div>
 
       <!-- Skill B -->
-      <div class="card">
+      <div class="card card-amber-track">
         <span class="status-chip">● Built</span>
         <div><span class="badge badge-amber badge-mono">llm-visibility-analyzer</span></div>
         <h3>Brand-level visibility analysis</h3>
-        <p>Analyzes completed tracker data to produce a strategic visibility report</p>
+        <p>Analyzes completed tracker data to produce a strategic visibility report.</p>
         <ul class="covers-list">
           <li>Citation rates by topic, platform, intent type</li>
           <li>Blackout category diagnosis</li>
@@ -471,24 +532,36 @@
     </div>
   </div>
 
-  <!-- ARROW DOWN -->
-  <div class="arrow">
-    <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
-      <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
-    </svg>
+  <!-- DUAL ARROW 2 -->
+  <div class="two-arrow">
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#ED7200" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#ED7200" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
   </div>
 
   <!-- SECTION 3: OUTPUTS -->
   <div class="section">
     <div class="section-label">Outputs</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
     <div class="two-col">
 
       <!-- Output A -->
-      <div class="card">
+      <div class="card card-blue-track">
         <div><span class="badge badge-blue">Page Audit Report</span></div>
         <h3>On-page + off-page action plan</h3>
-        <p>HTML report. What to fix on the page, what to fix externally. P1/P2/P3 prioritized with owners and effort estimates</p>
+        <p>Branded HTML report. What to fix on the page, what to fix externally. P1/P2/P3 prioritized with owners and effort estimates.</p>
         <ul class="covers-list">
           <li>Content rewrite brief</li>
           <li>Schema implementation checklist</li>
@@ -499,10 +572,10 @@
       </div>
 
       <!-- Output B -->
-      <div class="card">
+      <div class="card card-amber-track">
         <div><span class="badge badge-amber">LLM Visibility Report</span></div>
         <h3>Strategic content gap brief</h3>
-        <p>HTML report. Where Applause is invisible, who owns those spaces and the specific content arguments that would close each gap</p>
+        <p>Branded HTML report. Where Applause is invisible, who owns those spaces, and the specific content arguments that would close each gap.</p>
         <ul class="covers-list">
           <li>17% baseline citation rate (June 2026)</li>
           <li>4 complete blackout categories</li>
@@ -515,11 +588,17 @@
     </div>
   </div>
 
-  <!-- ARROW DOWN FULL WIDTH -->
-  <div class="arrow">
-    <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
-      <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
+  <!-- CONVERGE ARROW -->
+  <div class="converge-arrow">
+    <span class="converge-label">Both tracks</span>
+    <svg width="120" height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- left line from blue track -->
+      <line x1="30" y1="0" x2="60" y2="18" stroke="#0272B4" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- right line from amber track -->
+      <line x1="90" y1="0" x2="60" y2="18" stroke="#ED7200" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- center drop -->
+      <line x1="60" y1="18" x2="60" y2="22" stroke="#00C0A3" stroke-width="2" stroke-linecap="round"/>
+      <polyline points="53,16 60,24 67,16" fill="none" stroke="#00C0A3" stroke-width="2" stroke-linejoin="round"/>
     </svg>
   </div>
 
@@ -530,7 +609,7 @@
       <span class="status-chip">● Built</span>
       <div><span class="badge badge-teal badge-mono">ai-seo-aeo-evaluator</span></div>
       <h3>QA before stakeholder distribution</h3>
-      <p>Reviews every page audit report across six dimensions before it goes to stakeholders. Runs live web searches to verify best practice guidance is still current</p>
+      <p>Reviews every page audit report across six dimensions before it goes to stakeholders. Runs live web searches to verify best practice guidance is still current.</p>
       <div class="dimension-pills">
         <span class="dim-pill">Completeness</span>
         <span class="dim-pill">Reliability</span>
@@ -558,11 +637,10 @@
           <strong>LLM Visibility Analyzer</strong>
           Answers: <em>where are we invisible and why?</em>
         </div>
-		  <div class="callout-col">
+        <div class="callout-col">
           <strong>Page-level Audit</strong>
           Answers: <em>how do we fix this specific page?</em>
         </div>
-		
       </div>
     </div>
   </div>
@@ -572,7 +650,7 @@
     <div class="section-label">Data Collection</div>
     <div class="card tracker-card">
       <h3>Clarity &amp; Motion LLM Report — Citation Tracker (Google Sheets)</h3>
-      <p style="font-size:13px; color:#666; margin-top:4px;">Baseline query set commissioned June 2026. Ongoing pulse checks run by the Digital team against this same query library.</p>
+      <p style="font-size:13px; color:#666; margin-top:4px;">Baseline query set commissioned June 2026. Ongoing pulse checks run by the Digital Team against this same query library.</p>
       <a class="card-link" href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank" style="margin-top:6px; font-size:12px;">docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG →</a>
       <div class="tracker-two-col">
         <div class="tracker-col">
@@ -580,7 +658,7 @@
           <ul>
             <li>63 queries × 3 platforms</li>
             <li>Run quarterly or after publishing new content</li>
-            <li>Owner: Pam Gazley (Digital team)</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
             <li>Output: Export CSV → upload to llm-visibility-analyzer</li>
           </ul>
         </div>
@@ -589,7 +667,7 @@
           <ul>
             <li>9 queries × 3 platforms = 27 runs</li>
             <li>~30 minutes per session</li>
-            <li>Owner: Pam Gazley (Digital team)</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
             <li>Output: Export CSV → upload to llm-visibility-analyzer</li>
             <li>Duplicate 'Pulse Check Template' tab, rename YYYY-MM</li>
           </ul>
@@ -613,7 +691,7 @@
         </div>
       </a>
 
-      <a href="2026-06-17-llm-visibility.html" style="text-decoration:none;">
+      <a href="06-17-2026-llm-visibility.html" style="text-decoration:none;">
         <div class="card" style="cursor:pointer; transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(2,114,180,0.12)'" onmouseout="this.style.boxShadow='none'">
           <div><span class="badge badge-amber">LLM Visibility Report</span></div>
           <h3>Applause Brand Visibility — LLM Analysis</h3>
