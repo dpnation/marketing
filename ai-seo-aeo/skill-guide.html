@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Applause AI Visibility Skills — Product Marketing</title>
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue-500: #0272B4; --blue-600: #025B90; --blue-700: #01446C;
+    --blue-800: #012E48; --blue-100: #E6F3FA; --blue-50: #F7FBFE;
+    --aqua-500: #00C0A3; --aqua-600: #009A82;
+    --amber-500: #ED7200; --amber-100: #FEF0E0;
+    --yellow-500: #FFC400; --gray-700: #3D3D3D; --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2; --gray-200: #F0F0F0; --gray-100: #FAFAFA;
+    --green: #0F8919; --green-100: #E5F5E7;
+    --white: #FFFFFF;
+    --font: 'Inter', 'Proxima Nova', Arial, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--gray-700); background: var(--white); font-size: 15px; line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    background: var(--blue-800); padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { height: 20px; display: flex; align-items: center; }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: var(--aqua-500); color: var(--white) !important; font-weight: 600; padding: 6px 14px; border-radius: 4px; font-size: 13px !important; }
+  .nav-badge { font-size: 11px; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 20px; margin-left: 0.5rem; }
+  .nav-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.15); display: inline-block; margin: 0 0.25rem; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-600) 60%, var(--blue-500) 100%);
+    padding: 4rem 2.5rem 3.5rem; position: relative; overflow: hidden;
+  }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(0,192,163,0.08); pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -40px; left: 30%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(2,114,180,0.15); pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--aqua-500); margin-bottom: 1rem;
+  }
+  .hero-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--aqua-500); border-radius: 2px; }
+  .hero h1 { font-size: 2.6rem; font-weight: 800; color: var(--white); line-height: 1.15; max-width: 700px; margin-bottom: 1rem; }
+  .hero h1 em { color: var(--aqua-500); font-style: normal; }
+  .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 580px; line-height: 1.65; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--white); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; margin: 4px 0; }
+
+  /* SECTIONS */
+  .section { padding: 3.5rem 2.5rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-alt { background: var(--gray-100); }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 0.5rem; }
+  .section-title { font-size: 1.65rem; font-weight: 800; color: var(--blue-800); margin-bottom: 0.75rem; line-height: 1.25; }
+  .section-lead { font-size: 0.95rem; color: var(--gray-600); margin-bottom: 2.5rem; line-height: 1.7; }
+
+  /* SKILL CARDS — main explainer blocks */
+  .skill-block {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px;
+    overflow: hidden; margin-bottom: 1.5rem;
+    transition: box-shadow 0.2s;
+  }
+  .skill-block:hover { box-shadow: 0 4px 24px rgba(2,114,180,0.1); }
+  .skill-block-header {
+    padding: 1.75rem 1.75rem 1.25rem;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .skill-block-header-left { display: flex; gap: 1rem; align-items: flex-start; }
+  .skill-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .icon-blue { background: var(--blue-100); }
+  .icon-amber { background: var(--amber-100); }
+  .icon-teal { background: #E0F8F5; }
+  .skill-block-title { font-size: 1.1rem; font-weight: 800; color: var(--blue-800); margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .skill-block-title code { font-family: 'Monaco', 'Menlo', monospace; font-size: 0.88rem; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+  .code-blue { background: var(--blue-100); color: var(--blue-700); }
+  .code-amber { background: var(--amber-100); color: #7A3800; }
+  .code-teal { background: #E0F8F5; color: var(--aqua-600); }
+  .skill-block-subtitle { font-size: 0.88rem; color: var(--gray-600); line-height: 1.5; }
+  .skill-block-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+  .status-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--green-100); color: var(--green); white-space: nowrap; }
+  .skill-block-body { padding: 1.5rem 1.75rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 800px) { .skill-block-body { grid-template-columns: 1fr; } }
+
+  .skill-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .label-blue { color: var(--blue-500); }
+  .label-amber { color: var(--amber-500); }
+  .label-teal { color: var(--aqua-600); }
+
+  .skill-col ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .skill-col li { font-size: 0.83rem; color: var(--gray-600); display: flex; align-items: flex-start; gap: 6px; line-height: 1.45; }
+  .skill-col li::before { content: '–'; color: var(--aqua-500); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .output-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; padding: 6px 12px;
+    border-radius: 6px; margin-top: 0.75rem;
+  }
+  .output-blue { background: var(--blue-50); color: var(--blue-700); border: 1px solid #D9EDF8; }
+  .output-amber { background: var(--amber-100); color: #7A3800; border: 1px solid #F8D09A; }
+  .output-teal { background: #E0F8F5; color: var(--aqua-600); border: 1px solid #B2EFE8; }
+
+  .trigger-area { background: var(--blue-50); border-radius: 6px; padding: 0.75rem 1rem; }
+  .triggers-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 6px; }
+  .triggers-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .trigger-pill { font-size: 11px; background: var(--blue-100); color: var(--blue-700); padding: 3px 9px; border-radius: 20px; font-weight: 500; font-style: italic; }
+
+  /* VERDICT BADGES */
+  .verdict-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; }
+  .verdict { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; }
+  .verdict-green { background: var(--green-100); color: var(--green); border: 1px solid #b7dfba; }
+  .verdict-orange { background: var(--amber-100); color: var(--amber-500); border: 1px solid #f8d09a; }
+  .verdict-red { background: #FDECEA; color: #D42D0E; border: 1px solid #f5b4ac; }
+
+  /* DIMENSION PILLS */
+  .dim-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.6rem; }
+  .dim-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: var(--blue-50); border: 1px solid #D9EDF8; color: var(--blue-700); }
+
+  /* HOW IT CONNECTS */
+  .connect-card {
+    background: var(--blue-100); border-left: 4px solid var(--aqua-500);
+    border-radius: 10px; padding: 2rem 2rem 1.75rem;
+  }
+  .connect-card p { font-size: 0.95rem; color: var(--blue-800); line-height: 1.7; margin-bottom: 1rem; }
+  .connect-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+  @media (max-width: 640px) { .connect-two-col { grid-template-columns: 1fr; } }
+  .connect-col { background: rgba(255,255,255,0.65); border-radius: 8px; padding: 1rem 1.25rem; }
+  .connect-col strong { display: block; font-size: 0.9rem; color: var(--blue-800); margin-bottom: 4px; }
+  .connect-col span { font-size: 0.82rem; color: var(--gray-600); font-style: italic; }
+
+  /* TRACKER */
+  .tracker-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 1.75rem; }
+  .tracker-card h3 { font-size: 1rem; font-weight: 800; color: var(--blue-800); margin-bottom: 4px; }
+  .tracker-card a { font-size: 12px; color: var(--blue-500); text-decoration: none; }
+  .tracker-card a:hover { text-decoration: underline; }
+  .tracker-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+  @media (max-width: 640px) { .tracker-two-col { grid-template-columns: 1fr; } }
+  .tracker-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--aqua-600); margin-bottom: 0.6rem; }
+  .tracker-col ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .tracker-col li { font-size: 0.83rem; color: var(--gray-600); padding-left: 14px; position: relative; line-height: 1.5; }
+  .tracker-col li::before { content: '·'; position: absolute; left: 2px; color: var(--aqua-500); font-weight: 700; font-size: 18px; line-height: 1; top: 1px; }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 32px; height: 32px; background: var(--blue-500); color: var(--white); font-size: 13px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 4px; }
+  .step-body p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 0.5rem; }
+  .step-example { margin-top: 10px; background: var(--gray-100); border-left: 3px solid var(--aqua-500); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem; color: var(--gray-700); font-family: 'Monaco', 'Menlo', monospace; line-height: 1.55; }
+
+  /* QUERIES */
+  .query-box { background: var(--gray-100); border-radius: 10px; padding: 1.75rem; margin-top: 1rem; }
+  .query-box h3 { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 1.25rem; }
+  .query-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  @media (max-width: 640px) { .query-tiers { grid-template-columns: 1fr; } }
+  .query-tier h4 { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.625rem; }
+  .query-tier.t1 h4 { color: var(--blue-500); }
+  .query-tier.t2 h4 { color: var(--aqua-600); }
+  .query-tier.t3 h4 { color: var(--gray-400); }
+  .query-tier ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .query-tier li { font-size: 0.8rem; color: var(--gray-600); background: var(--white); border: 1px solid var(--gray-200); border-radius: 5px; padding: 4px 9px; font-style: italic; }
+
+  /* FOOTER */
+  footer { background: var(--blue-800); color: rgba(255,255,255,0.6); padding: 1.75rem 2.5rem; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-left { display: flex; align-items: center; gap: 0.75rem; }
+  .footer-owner { display: flex; align-items: center; gap: 0.5rem; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--aqua-500); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  footer a { color: var(--aqua-500); text-decoration: none; }
+  .footer-cta { background: var(--aqua-500); color: var(--white) !important; font-weight: 600; padding: 6px 14px; border-radius: 4px; font-size: 12px; }
+  [id] { scroll-margin-top: 64px; }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 0.75rem; }
+    .hero { padding: 2.5rem 1.25rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .section { padding: 2.5rem 1.25rem; }
+    footer { padding: 1.25rem; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 127.2" height="20" aria-label="Applause logo">
+      <style>.nw{fill:#FFFFFF;}.na{fill:#0E7DC1;}</style>
+      <g><g><g>
+        <path class="nw" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"/>
+        <path class="nw" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"/>
+        <path class="nw" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"/>
+        <path class="nw" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"/>
+        <path class="nw" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"/>
+        <path class="nw" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"/>
+        <path class="nw" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"/>
+        <path class="nw" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"/>
+      </g>
+      <path class="na" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"/>
+      </g></g>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="#skills">The Skills</a>
+    <a href="#how-it-connects">How It Connects</a>
+    <a href="#how-to-use">How to Use</a>
+    <a href="#queries">Target Queries</a>
+    <a href="#tracker">Tracker</a>
+    <span class="nav-sep"></span>
+    <a href="index.html" style="color:rgba(255,255,255,0.5)!important;font-size:12px!important;">← Program Overview</a>
+    <a href="https://claude.ai" class="nav-cta">Open in Claude ↗</a>
+    <span class="nav-badge">Internal Tool</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Product Marketing · AI Visibility Program</div>
+    <h1>Three skills.<br>One <em>AI visibility</em> program.</h1>
+    <p class="hero-sub">Audit pages, analyze brand visibility, and QA every report before it reaches a stakeholder. Pre-loaded with Applause's query targets, competitive landscape, and the Clarity &amp; Motion baseline so you never start from scratch.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Claude skills</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">63</span><span class="stat-label">Baseline queries</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">17%</span><span class="stat-label">Citation rate, June 2026</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">QA dimensions</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="section-inner">
+    <div class="section-label">The Skills</div>
+    <h2 class="section-title">What each skill does</h2>
+    <p class="section-lead">Each skill has a single job. Run them in order — visibility analysis first to set direction, page audit to build the brief, evaluator before you share anything.</p>
+
+    <!-- Skill 1: ai-seo-aeo -->
+    <div class="skill-block" id="skill-audit">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-blue">🔍</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-blue">/ai-seo-aeo</code>
+              Page-level audit
+            </div>
+            <div class="skill-block-subtitle">One URL in → one prioritized HTML action plan out. Audits a specific Applause page against AI search best practices across three pillars: structure, authority, and presence.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">What it audits</div>
+          <ul>
+            <li>Content structure and extractability</li>
+            <li>Schema markup implementation</li>
+            <li>AI bot access via robots.txt</li>
+            <li>External presence: G2, Wikipedia, roundups</li>
+            <li>Competitive citation gaps by query</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Output</div>
+          <ul>
+            <li>P1/P2/P3 action plan with owners and effort estimates</li>
+            <li>On-page rewrite brief</li>
+            <li>Schema implementation checklist</li>
+            <li>Bot access verification steps</li>
+            <li>Third-party presence gap list</li>
+          </ul>
+          <div class="output-badge output-blue">Produces → Page audit HTML report</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Trigger phrases</div>
+          <div class="trigger-area">
+            <div class="triggers-list">
+              <span class="trigger-pill">"audit applause.com/[page] for AI search"</span>
+              <span class="trigger-pill">"why isn't this page getting cited"</span>
+              <span class="trigger-pill">"optimize this page for AEO"</span>
+              <span class="trigger-pill">"run the AI visibility audit on this URL"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 2: llm-visibility-analyzer -->
+    <div class="skill-block" id="skill-visibility">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-amber">📊</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-amber">/llm-visibility-analyzer</code>
+              Brand-level visibility analysis
+            </div>
+            <div class="skill-block-subtitle">Tracker CSV in → strategic HTML report out. Analyzes the completed citation tracker to diagnose where Applause is invisible, who owns those spaces, and what content would close each gap.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">What it analyzes</div>
+          <ul>
+            <li>Citation rates by topic, platform, and intent type</li>
+            <li>Blackout category diagnosis</li>
+            <li>Competitor frequency analysis</li>
+            <li>Intent type coverage gaps</li>
+            <li>Platform-by-platform breakdown</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">Output</div>
+          <ul>
+            <li>Ranked content gap recommendations</li>
+            <li>Blackout category action items</li>
+            <li>Competitor threat assessment</li>
+            <li>Platform-specific fixes</li>
+            <li>June 2026 baseline: 17% citation rate</li>
+          </ul>
+          <div class="output-badge output-amber">Produces → LLM visibility HTML report</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">Input: Clarity &amp; Motion tracker</div>
+          <div class="trigger-area">
+            <div class="triggers-label">Baseline query set</div>
+            <div class="triggers-list">
+              <span class="trigger-pill">63 queries × 3 platforms</span>
+              <span class="trigger-pill">Perplexity, ChatGPT, Gemini</span>
+              <span class="trigger-pill">June 2026 baseline</span>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;">
+            <a href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank" style="font-size:12px; color:var(--blue-500); text-decoration:none; font-weight:600;">Open tracker in Google Sheets →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 3: ai-seo-aeo-evaluator -->
+    <div class="skill-block" id="skill-evaluator">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-teal">✅</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-teal">/ai-seo-aeo-evaluator</code>
+              Quality gate
+            </div>
+            <div class="skill-block-subtitle">Runs before any report goes to a stakeholder. Reviews every page audit report across six dimensions and runs live web searches to verify best practice guidance is still current.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">Six review dimensions</div>
+          <div class="dim-pills">
+            <span class="dim-pill">Completeness</span>
+            <span class="dim-pill">Reliability</span>
+            <span class="dim-pill">Framing</span>
+            <span class="dim-pill">Data Quality</span>
+            <span class="dim-pill">Actionability</span>
+            <span class="dim-pill">Currency</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">Verdict options</div>
+          <div class="verdict-row">
+            <span class="verdict verdict-green">✓ Distribute</span>
+            <span class="verdict verdict-orange">~ Revise Before Distribution</span>
+            <span class="verdict verdict-red">✗ Do Not Distribute</span>
+          </div>
+          <p style="font-size:0.8rem; color:var(--gray-600); margin-top:0.75rem; line-height:1.5;">Also performs live web searches to confirm that technical recommendations reflect current platform behavior — not outdated guidance.</p>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">When to run it</div>
+          <ul>
+            <li>Before sharing a page audit with the web team</li>
+            <li>Before presenting findings in a stakeholder meeting</li>
+            <li>After any major platform algorithm update</li>
+            <li>When re-running a previously flagged audit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT CONNECTS -->
+<section class="section section-alt" id="how-it-connects">
+  <div class="section-inner">
+    <div class="section-label">The Program</div>
+    <h2 class="section-title">How the three skills connect</h2>
+    <p class="section-lead">The skills are designed to run in sequence. Each one feeds the next.</p>
+    <div class="connect-card">
+      <p>Run the <strong>LLM visibility analyzer</strong> first — it tells you which topics and categories Applause is invisible in and why. Use those findings to prioritize which pages need attention.</p>
+      <p>Then run the <strong>page-level audit</strong> on each priority page. The visibility report sets the strategy; the audit builds the specific implementation brief for each page.</p>
+      <p>Before anything goes to a stakeholder, run the <strong>evaluator</strong>. It catches outdated guidance, flags unsupported claims, and gives you a distribution verdict.</p>
+      <p style="font-weight:700; color:var(--blue-800); font-size:0.9rem;">Strategy sets the direction. The audit builds the brief. The evaluator gates distribution.</p>
+      <div class="connect-two-col">
+        <div class="connect-col">
+          <strong>LLM Visibility Analyzer</strong>
+          <span>Answers: where are we invisible and why?</span>
+        </div>
+        <div class="connect-col">
+          <strong>Page-level Audit</strong>
+          <span>Answers: how do we fix this specific page?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section class="section" id="how-to-use">
+  <div class="section-inner">
+    <div class="section-label">Usage</div>
+    <h2 class="section-title">How to run the program</h2>
+    <p class="section-lead">The skills are conversational — no forms, no menus. Add them from the Claude Enterprise Skills Library and describe your task.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Add the skills from the Claude Enterprise library</h3>
+          <p>In Claude Enterprise, open the Skills Library and search for each skill name. Click <strong>Add to Project</strong> for your PMM Project. If a skill isn't visible, ask your Claude Enterprise admin to publish it from the Admin Console.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Run the LLM visibility analyzer first</h3>
+          <p>Export the citation tracker as CSV and upload it to Claude. This is your strategic starting point — it tells you which topics are complete blackouts and which competitors are dominating.</p>
+          <div class="step-example">"Analyze this citation tracker CSV and produce an LLM visibility report for Applause.<br>Focus on blackout categories and the highest-priority content gaps."</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Use the visibility report to prioritize page audits</h3>
+          <p>Pick the pages that map to your highest-priority gap topics. Paste the URL into Claude and run the page-level audit. The skill fetches the page content and audits it automatically.</p>
+          <div class="step-example">"Audit applause.com/payment-testing/ for AI search visibility.<br>Focus on the 'payment testing' and 'mobile payments QA' queries."</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Run the evaluator before distributing</h3>
+          <p>Paste the page audit report into Claude and run the evaluator. It scores the report across six dimensions and returns a distribution verdict. Only share reports that pass.</p>
+          <div class="step-example">"Run the AI SEO AEO evaluator on this page audit report.<br>Flag anything that needs revision before I share it with the web team."</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Track, implement, and rerun the pulse check</h3>
+          <p>Hand off the audit action plan to the web team with P1/P2/P3 owners. Run the monthly pulse check (9 queries × 3 platforms) to track citation rate movement against the June 2026 baseline.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUERIES -->
+<section class="section section-alt" id="queries">
+  <div class="section-inner">
+    <div class="section-label">Priority Targets</div>
+    <h2 class="section-title">Applause's AI search query universe</h2>
+    <p class="section-lead">These queries are baked into the Applause product marketing context. All three skills automatically prioritize against Tier-1 targets and use Tier-2/3 for supporting coverage.</p>
+    <div class="query-box">
+      <h3>Query tiers</h3>
+      <div class="query-tiers">
+        <div class="query-tier t1">
+          <h4>Tier 1 — Must Win</h4>
+          <ul>
+            <li>"best crowdtesting platform"</li>
+            <li>"crowdsourced testing vs in-house QA"</li>
+            <li>"software testing managed services"</li>
+            <li>"AI testing tools for enterprises"</li>
+          </ul>
+        </div>
+        <div class="query-tier t2">
+          <h4>Tier 2 — High Value</h4>
+          <ul>
+            <li>"what is crowdtesting"</li>
+            <li>"how to scale QA testing"</li>
+            <li>"enterprise software testing solutions"</li>
+            <li>"accessibility testing services"</li>
+            <li>"how to test AI applications"</li>
+            <li>"QA outsourcing vs crowdtesting"</li>
+          </ul>
+        </div>
+        <div class="query-tier t3">
+          <h4>Tier 3 — Awareness</h4>
+          <ul>
+            <li>"best QA testing companies"</li>
+            <li>"digital quality testing"</li>
+            <li>"mobile app testing services"</li>
+            <li>"generative AI testing"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER -->
+<section class="section" id="tracker">
+  <div class="section-inner">
+    <div class="section-label">Data Collection</div>
+    <h2 class="section-title">The citation tracker</h2>
+    <p class="section-lead">The Clarity &amp; Motion LLM report established the June 2026 baseline. Ongoing pulse checks run by the Digital Team track citation rate movement against that baseline.</p>
+    <div class="tracker-card">
+      <h3>Clarity &amp; Motion LLM Report — Citation Tracker (Google Sheets)</h3>
+      <a href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank">docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG →</a>
+      <div class="tracker-two-col">
+        <div class="tracker-col">
+          <div class="tracker-col-label">Quarterly Full Audit</div>
+          <ul>
+            <li>63 queries × 3 platforms</li>
+            <li>Run quarterly or after publishing new content</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
+            <li>Output: Export CSV → upload to /llm-visibility-analyzer</li>
+          </ul>
+        </div>
+        <div class="tracker-col">
+          <div class="tracker-col-label">Monthly Pulse Check</div>
+          <ul>
+            <li>9 queries × 3 platforms = 27 runs</li>
+            <li>~30 minutes per session</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
+            <li>Output: Export CSV → upload to /llm-visibility-analyzer</li>
+            <li>Duplicate 'Pulse Check Template' tab, rename YYYY-MM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-left">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 127.2" height="20" aria-label="Applause logo">
+      <style>.fw{fill:#FFFFFF;}.fa{fill:#0E7DC1;}</style>
+      <g><g><g>
+        <path class="fw" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"/>
+        <path class="fw" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"/>
+        <path class="fw" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"/>
+        <path class="fw" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"/>
+        <path class="fw" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"/>
+        <path class="fw" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"/>
+        <path class="fw" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"/>
+        <path class="fw" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"/>
+      </g>
+      <path class="fa" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"/>
+      </g></g>
+    </svg>
+    <span style="color:rgba(255,255,255,0.2); margin: 0 0.5rem;">|</span>
+    <div class="footer-owner">
+      <div class="avatar">DP</div>
+      <span>Built by Dana Prey · Product Marketing · <a href="mailto:dprey@applause.com">dprey@applause.com</a></span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1.25rem;">
+    <a href="index.html">← Program Overview</a>
+    <a href="https://claude.ai" class="footer-cta">Open in Claude ↗</a>
+  </div>
+</footer>
+
+</body>
+</html>
