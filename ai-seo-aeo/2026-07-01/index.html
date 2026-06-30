@@ -1,1 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit Log — Applause</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <style>
+    :root {
+      --blue-500: #0272B4;
+      --blue-700: #01446C;
+      --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3;
+      --gray-700: #3D3D3D;
+      --red: #D42D0E;
+      --green: #0F8919;
+      --orange: #ED7200;
+      --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
 
+    /* Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    .page-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .page-header .sub { font-size: 15px; opacity: 0.85; max-width: 600px; }
+    .header-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 20px; font-size: 13px; }
+    .header-meta span { opacity: 0.75; }
+    .header-meta strong { color: #fff; font-weight: 700; }
+
+    /* Content wrapper */
+    .content { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+
+    /* Section label */
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue-500); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--blue-100); }
+
+    /* Report card */
+    .report-card {
+      background: #fff;
+      border: 1px solid var(--blue-100);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: box-shadow 0.15s;
+    }
+    .report-card:hover { box-shadow: 0 4px 16px rgba(1,68,108,0.10); }
+    .report-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px 24px 16px;
+      gap: 16px;
+    }
+    .report-card-main { flex: 1; min-width: 0; }
+    .report-date { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--blue-500); margin-bottom: 6px; }
+    .report-title { font-size: 18px; font-weight: 800; color: var(--blue-700); margin-bottom: 4px; line-height: 1.3; }
+    .report-url { font-size: 13px; color: #888; font-family: 'Courier New', monospace; margin-bottom: 10px; }
+    .report-summary { font-size: 14px; color: var(--gray-700); line-height: 1.6; }
+    .report-card-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
+    .badge-action { background: #FEE2DC; color: var(--red); }
+    .badge-partial { background: #FEF3E2; color: var(--orange); }
+    .badge-distribute { background: #E6F9E8; color: var(--green); }
+    .badge-revised { background: var(--blue-100); color: var(--blue-700); }
+
+    /* Evaluator score pill */
+    .eval-score { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+    .eval-score span { display: inline-block; background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 3px 10px; font-size: 12px; }
+    .eval-score .score-distribute { border-color: var(--green); color: var(--green); background: #E6F9E8; }
+    .eval-score .score-revise { border-color: var(--orange); color: var(--orange); background: #FEF3E2; }
+
+    /* Card footer */
+    .report-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: var(--bg);
+      border-top: 1px solid var(--blue-100);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .report-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { display: inline-block; background: var(--blue-100); color: var(--blue-700); border-radius: 100px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+    .tag-aqua { background: #E6FAF7; color: #006652; }
+
+    /* View button */
+    .btn-view {
+      display: inline-block;
+      background: var(--blue-500);
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-view:hover { background: var(--blue-700); }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--blue-100);
+      border-radius: 8px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .stat-num { font-size: 28px; font-weight: 800; color: var(--blue-700); }
+    .stat-label { font-size: 13px; color: #888; margin-top: 2px; }
+
+    /* Info bar */
+    .info-bar {
+      background: var(--blue-100);
+      border-radius: 8px;
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--blue-700);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Footer */
+    .page-footer {
+      background: var(--blue-700);
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      padding: 24px 48px;
+      font-size: 13px;
+      margin-top: 48px;
+    }
+    .page-footer strong { color: #fff; }
+    .page-footer a { color: rgba(255,255,255,0.75); }
+
+    @media (max-width: 640px) {
+      .page-header { padding: 24px 20px; }
+      .report-card-header { flex-direction: column; }
+      .report-card-aside { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="label">Applause Product Marketing</div>
+  <h1>AI Visibility Audit Log</h1>
+  <div class="sub">All completed AI search visibility audits for applause.com — each page assessed for extractability, schema, bot access, external presence, and competitive gaps.</div>
+  <div class="header-meta">
+    <span>Program: <strong>GEO / AEO Optimization</strong></span>
+    <span>Skill: <strong>ai-seo-aeo v2.1.1</strong></span>
+    <span>Evaluator: <strong>ai-seo-aeo-evaluator v1.0.0</strong></span>
+    <span>Last updated: <strong>June 30, 2026</strong></span>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- Stats -->
+  <div class="stats-row" style="margin-top:32px;">
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Pages audited</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Evaluator runs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Cleared for distribution</div>
+    </div>
+  </div>
+
+  <div class="info-bar">
+    📋 &nbsp;Reports are listed in reverse chronological order. Click any report to view the full findings and action plan.
+  </div>
+
+  <!-- Reports -->
+  <div class="section-label">Audit Reports</div>
+
+  <!-- Report 3: STLC -->
+  <div class="report-card">
+    <div class="report-card-header">
+      <div class="report-card-main">
+        <div class="report-date">June 30, 2026</div>
+        <div class="report-title">STLC Blog Post</div>
+        <div class="report-url">applause.com/blog/software-testing-life-cycle-stlc-phases/</div>
+        <div class="report-summary">Strong structural foundation — H1 matches target queries, author attributed, definition present. Primary gap: a 14-minute article with zero statistics. HowTo schema absent despite a textbook 6-step structure. Content is 19 months old with no "last updated" signal.</div>
+      </div>
+      <div class="report-card-aside">
+        <span class="badge badge-partial">Partial</span>
+        <div class="eval-score"><span class="score-distribute">20/24 — Distribute</span></div>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <div class="report-tags">
+        <span class="tag">Blog post</span>
+        <span class="tag tag-aqua">All platforms</span>
+        <span class="tag">HowTo schema needed</span>
+        <span class="tag">No statistics</span>
+        <span class="tag">Stale date</span>
+      </div>
+      <a href="2026-06-30-stlc.html" class="btn-view">View Report →</a>
+    </div>
+  </div>
+
+  <!-- Report 2: Homepage -->
+  <div class="report-card">
+    <div class="report-card-header">
+      <div class="report-card-main">
+        <div class="report-date">June 30, 2026</div>
+        <div class="report-title">Homepage</div>
+        <div class="report-url">applause.com</div>
+        <div class="report-summary">robots.txt needs a 2026 audit — GPTBot (training) blocked, OAI-SearchBot status needs explicit confirmation. FAQ section is a genuine strength the previous audit lacked. Passage length guidance, comparison content, FAQPage schema, and a category definition block are the primary content gaps.</div>
+      </div>
+      <div class="report-card-aside">
+        <span class="badge badge-partial">Partial</span>
+        <span class="badge badge-revised">Post-evaluator revised</span>
+        <div class="eval-score"><span class="score-revise">19/24 — Revised</span></div>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <div class="report-tags">
+        <span class="tag">Homepage</span>
+        <span class="tag tag-aqua">All platforms</span>
+        <span class="tag">robots.txt audit needed</span>
+        <span class="tag">FAQPage schema needed</span>
+        <span class="tag">No comparison table</span>
+      </div>
+      <a href="2026-06-30.html" class="btn-view">View Report →</a>
+    </div>
+  </div>
+
+  <!-- Report 1: Payment Testing -->
+  <div class="report-card">
+    <div class="report-card-header">
+      <div class="report-card-main">
+        <div class="report-date">June 3, 2026 &nbsp;·&nbsp; <span style="font-weight:400; color:#888;">Revised June 18, 2026</span></div>
+        <div class="report-title">Payment Testing Page</div>
+        <div class="report-url">applause.com/payment-testing/</div>
+        <div class="report-summary">Page is written to convert, not to be extracted by AI. No opening definition of "payment testing," no FAQ section, no schema markup, and three statistics without source citations. Testlio and GAT are cited for every major payment testing query; Applause is not.</div>
+      </div>
+      <div class="report-card-aside">
+        <span class="badge badge-action">Action Required</span>
+        <span class="badge badge-revised">Post-evaluator revised</span>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <div class="report-tags">
+        <span class="tag">Product page</span>
+        <span class="tag">Google AI Overviews</span>
+        <span class="tag">FAQPage schema needed</span>
+        <span class="tag">No definition block</span>
+        <span class="tag">Unsourced stats</span>
+      </div>
+      <a href="06-03-2026.html" class="btn-view">View Report →</a>
+    </div>
+  </div>
+
+  <!-- Common findings -->
+  <div style="margin-top:36px;">
+    <div class="section-label">Sitewide Findings — Applies to All Pages</div>
+    <div style="background:#fff; border:1px solid var(--blue-100); border-radius:8px; padding:24px;">
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead>
+          <tr>
+            <th style="background:var(--blue-700); color:#fff; padding:10px 14px; text-align:left; font-size:12px; font-weight:700;">Finding</th>
+            <th style="background:var(--blue-700); color:#fff; padding:10px 14px; text-align:left; font-size:12px; font-weight:700;">Status</th>
+            <th style="background:var(--blue-700); color:#fff; padding:10px 14px; text-align:left; font-size:12px; font-weight:700;">Action</th>
+            <th style="background:var(--blue-700); color:#fff; padding:10px 14px; text-align:left; font-size:12px; font-weight:700;">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>robots.txt bot config outdated</strong> — GPTBot blocked; OAI-SearchBot not explicitly configured; newer Anthropic and Google citation bots absent</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Update robots.txt with 2026 bot configuration. Check Cloudflare for CDN-level overrides. See Homepage report Section 5 for full config.</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Web / IT</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>No FAQPage schema</strong> on any audited page — FAQ content exists on homepage and could be added to blog posts</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Implement FAQPage JSON-LD on homepage (template in homepage report Section 4) and payment testing page. STLC blog post needs FAQ content added first.</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Web dev (Tammy)</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>No "last updated" dates</strong> on any page — AI systems weight freshness heavily; undated content is deprioritized</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Add visible "Last reviewed/updated" dates to homepage and payment testing page. Add to STLC blog post alongside published date.</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">PMM / Web</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>Wikipedia presence unverified</strong> — Wikipedia is cited in ~8% of ChatGPT responses; highest-value off-page citation source</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Verify Applause Wikipedia entry exists and is accurate. Priority: community size, founding year, category definition. Flag to PR team.</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">PMM / PR</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>Statistics on product pages unsourced</strong> — 1.5M+ community figure, device count, defect reduction stats lack individual source links</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Add source links or /our-community/ links to scale stats. Verify 1.5M+ figure matches current product page (context file says 1M+).</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">PMM</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);"><strong>softwaretestinghelp.com roundup inclusion</strong> — this domain's articles are cited by AI systems for crowdtesting and STLC queries; Applause inclusion unverified</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100); color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">Verify and pursue inclusion via PR outreach. Applies across all three audited topic areas.</td>
+            <td style="padding:10px 14px; border-bottom:1px solid var(--blue-100);">PR / PMM</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;"><strong>G2 / Gartner category tagging</strong> — profiles present but capability-level tags (payment testing, AI testing, STLC coverage) likely absent or incomplete</td>
+            <td style="padding:10px 14px; color:var(--orange); font-weight:700;">⚠ Open</td>
+            <td style="padding:10px 14px;">Audit G2 and Gartner profiles. Add category tags. Request reviews from customers that mention specific use cases by name.</td>
+            <td style="padding:10px 14px;">PMM / Customer Success</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  <strong>Applause AI Visibility Program</strong> &nbsp;·&nbsp; Powered by ai-seo-aeo skill v2.1.1 &nbsp;·&nbsp; Evaluated by ai-seo-aeo-evaluator v1.0.0<br>
+  <span style="font-size:12px; margin-top:4px; display:block;">Dana Prey, Senior Director Product Marketing &nbsp;·&nbsp; Last updated June 30, 2026</span>
+</div>
+
+</body>
+</html>
