@@ -141,7 +141,8 @@
   .chip-partial   { background: #FEF0E0; color: #994A00; }
   .chip-action    { background: #FDECEA; color: var(--red); }
   .chip-distribute{ background: #E5F5E7; color: var(--green); }
-  .chip-revised   { background: var(--blue-100); color: var(--blue-700); }
+  .chip-revised   { background: #E0F8F5; color: var(--aqua-600); }
+  .chip-needs-review { background: #FEF0E0; color: #994A00; }
 
   /* BADGES — matches index.html */
   .badge {
@@ -164,7 +165,7 @@
     color: var(--blue-700);
     margin-bottom: 4px;
     line-height: 1.3;
-    padding-right: 52px; /* clear the chip */
+    padding-right: 90px; /* clear the chip */
   }
   .report-url {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
@@ -348,9 +349,7 @@
 
       <!-- Report: Payment Testing — June 3, 2026 -->
       <a class="report-card" href="2026-06-30-payments.html">
-        <span class="status-chip chip-revised">Revised</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Payment Testing Page</h3>
+        <span class="status-chip chip-distribute">✓ Distribute</span>
         <div class="report-date">June 3, 2026</div>
         <div class="report-url">applause.com/payment-testing/</div>
         <div class="report-summary">Written to convert, not to be extracted. No definition, FAQ, or schema. Testlio and GAT cited where Applause is not.</div>
@@ -361,7 +360,7 @@
 
       <!-- Report: Homepage — June 30, 2026 -->
       <a class="report-card" href="2026-06-30.html">
-        <span class="status-chip chip-revised">Revised</span>
+        <span class="status-chip chip-revised">~ Revised · Ready</span>
         <div><span class="badge badge-blue">Page Audit</span></div>
         <h3>Homepage</h3>
         <div class="report-date">June 30, 2026</div>
