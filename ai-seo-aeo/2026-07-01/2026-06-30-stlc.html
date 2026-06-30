@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Applause STLC Blog Post</title>
+	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
+  <style>
+    :root {
+      --blue-500: #0272B4;
+      --blue-700: #01446C;
+      --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3;
+      --gray-700: #3D3D3D;
+      --red: #D42D0E;
+      --green: #0F8919;
+      --orange: #ED7200;
+      --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; }
+    .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; }
+    .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; }
+    .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; background: var(--blue-500); }
+    .meter-bar.low { background: var(--red); }
+    .meter-bar.med { background: var(--orange); }
+    .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; }
+      .section-body { padding: 20px; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>STLC Blog Post</h1>
+  <div class="sub">applause.com/blog/software-testing-life-cycle-stlc-phases/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>November 15, 2024</strong></span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 1</div>
+      <h2>Executive Summary</h2>
+    </div>
+    <span class="status-badge status-partial">Partial — Foundation Solid, Depth Missing</span>
+  </div>
+  <div class="section-body">
+
+    <p style="margin-bottom:16px;">This article has a stronger structural foundation than either of the previously audited Applause pages. The H1 matches the primary target query almost exactly, the opening defines the term directly, the author is named with a title and photo, and the 6-phase structure creates natural extraction points for AI systems. Those are real advantages. The problem is what's missing: a 14-minute article with zero statistics, no FAQ section, no HowTo schema, and a published date of November 2024 with no visible "last updated" signal. Against BrowserStack, Guru99, and LambdaTest — who publish data-rich, diagram-heavy, schema-tagged STLC content — this page's structural strengths aren't enough to dominate on their own.</p>
+
+    <div class="callout callout-orange">
+      <div class="callout-label">⚠ Freshness Signal — 19 Months Old, No Updated Date</div>
+      The article was published November 15, 2024 and shows no "last updated" date. Content freshness is one of the strongest citation factors across AI platforms — content updated within the last 30 days gets cited 3.2x more often than older content. Add a "Last updated" date now, and schedule a content refresh that adds current statistics, an FAQ section, and a reflection of how AI has changed STLC thinking in 2025-2026.
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>✗</span><span>Zero statistics in a 14-minute article — no data points, research, or cited sources</span></li>
+          <li><span>✗</span><span>No FAQ section — the most directly extractable format for STLC queries</span></li>
+          <li><span>✗</span><span>No HowTo schema — despite a textbook 6-step sequential structure</span></li>
+          <li><span>✗</span><span>No "last updated" date — published Nov 2024, now 19 months old</span></li>
+          <li><span>✗</span><span>No comparison table — STLC vs SDLC, or Waterfall vs Agile STLC</span></li>
+          <li><span>✗</span><span>Applause's differentiation buried in final CTA — not woven into the content</span></li>
+          <li><span>✗</span><span>Same bot config issues as homepage — robots.txt needs 2026 audit</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>H1 "What is the Software Testing Life Cycle? STLC Phases Explained" matches target queries directly</span></li>
+          <li><span>✓</span><span>Clear definition in opening section ("a sequence of tasks designed to understand the state of a system...")</span></li>
+          <li><span>✓</span><span>Author attribution: David Carty, Senior Content Manager, with photo and author page link</span></li>
+          <li><span>✓</span><span>6 numbered, titled phases with consistent structure — natural extraction points</span></li>
+          <li><span>✓</span><span>Per-phase challenge lists add practical depth beyond just definitions</span></li>
+          <li><span>✓</span><span>Agile STLC section addresses a major real-world variant</span></li>
+          <li><span>✓</span><span>Multiple internal links to related blog content (good topical cluster signaling)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add HowTo JSON-LD schema — the 6 phases are a perfect match.</h4>
+      <p>This article has a textbook 6-step sequential structure with named steps, descriptions, and deliverables per step. HowTo schema is the exact structured data format AI systems look for when extracting process content. It's the single highest-impact technical change for this page — and the content is already written. Starter template in Section 4.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add a "Last updated" date and schedule a content refresh.</h4>
+      <p>Add a visible "Last updated: June 2026" date immediately. Then schedule a content update that adds 3–5 statistics with sources, an FAQ section, and a section on how AI has changed STLC thinking. Freshness is one of the strongest citation factors on every AI platform — this article has been static for 19 months.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add a FAQ section with 5–7 natural-language STLC questions.</h4>
+      <p>The article answers many STLC questions in prose — they just aren't formatted as an explicit FAQ with FAQPage schema. Converting the most common questions into a dedicated FAQ block near the bottom (with schema) would directly compete for "People Also Ask" results and increase AI extractability across all platforms.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 2</div>
+      <h2>Where This Page Shows Up Today</h2>
+    </div>
+    <span class="status-badge status-partial">Unverified — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      STLC is a high-volume educational query category. Buyers and practitioners research these topics actively — and the vendors who appear in AI-generated answers for "what is STLC" and "STLC phases" build brand familiarity before the vendor evaluation stage even begins. Applause's opportunity here is different from a product page: it's about establishing subject-matter authority in testing, not just promoting a service. But right now, data-rich competitors with schema-tagged content are better positioned to be the cited source on these queries.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status is inferred from page content structure and competitive analysis. Manual verification of live AI answers across all five platforms is required before stakeholder distribution. The ChatGPT column reflects the same bot configuration confirmed in the homepage audit — OAI-SearchBot is likely allowed by wildcard, but explicit configuration is recommended.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:24%;">Query</th>
+          <th style="width:10%;">Google AIO</th>
+          <th style="width:10%;">ChatGPT</th>
+          <th style="width:10%;">Perplexity</th>
+          <th style="width:10%;">Claude</th>
+          <th style="width:10%;">Copilot</th>
+          <th style="width:13%;">Applause Cited?</th>
+          <th style="width:13%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is software testing life cycle</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — strong H1</td>
+          <td>BrowserStack, Guru99, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>STLC phases</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive</td>
+          <td>BrowserStack, Guru99, LambdaTest</td>
+        </tr>
+        <tr>
+          <td>what are the 6 phases of STLC</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — content matches</td>
+          <td>BrowserStack, Guru99</td>
+        </tr>
+        <tr>
+          <td>STLC challenges</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — per-phase challenge lists exist</td>
+          <td>Guru99, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>agile software testing life cycle</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — has dedicated section</td>
+          <td>Atlassian, BrowserStack, LambdaTest</td>
+        </tr>
+        <tr>
+          <td>STLC vs SDLC</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>BrowserStack, Guru99, LambdaTest</td>
+        </tr>
+        <tr>
+          <td>test environment setup STLC</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — dedicated phase section</td>
+          <td>BrowserStack, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>software testing life cycle best practices</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-fail">✗ Unlikely — no prescriptive recommendations or data</td>
+          <td>BrowserStack, LambdaTest, TestRail blog</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>⚠ Likely = AI answer probable for this query type based on query volume and format. All Applause citation statuses are inferred — manual verification recommended. ChatGPT column: OAI-SearchBot likely allowed by wildcard; explicit configuration recommended per homepage audit findings.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Estimated Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Definition queries (what is STLC)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — H1 is strong; no schema advantage</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Phase enumeration (6 phases of STLC)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — structure good; HowTo schema absent</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Comparison queries (STLC vs SDLC)</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:15%;"></div></div><span style="font-size:13px; color:var(--red);">Weak — no comparison table exists</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Best practices / prescriptive</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:10%;"></div></div><span style="font-size:13px; color:var(--red);">Very weak — no data or recommendations</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 3</div>
+      <h2>Page Content Extractability</h2>
+    </div>
+    <span class="status-badge status-partial">4 Pass · 2 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For educational content like an STLC guide, AI systems are looking for three things: a clear definition, a structured enumeration of steps or phases (ideally with schema), and specific data points or expert evidence they can cite. This article has the first and partially the second. The third is entirely absent. Without statistics or research citations, AI systems have no authoritative evidence to pull — leaving them to prefer competitors who have the same structure plus data.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition in opening section</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Strong. The first H2 section opens with: <em>"The software testing life cycle is a sequence of tasks designed to understand the state of a system and make recommendations for improvement."</em> This is a clean, citable definition. It's immediately followed by context on stakeholder involvement and the relationship to SDLC. This is the right structure — no changes needed here.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The 6 phase descriptions function reasonably well as standalone extracts — each opens with what the phase is and what it involves. However, none leads with a direct one-sentence answer to "What is [phase name] in STLC?" before expanding. The requirement analysis section, for example, starts with context about development requirements rather than a direct definition of the phase itself. Each phase section should open with: "[Phase name] is [direct definition] — here's what happens in this STLC stage."</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources and dates</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Zero statistics appear in this 14-minute article. No research citations, no data points, no industry benchmarks. This is the article's most significant extractability gap. Research shows statistics boost AI citation rates by 37-40% (Princeton GEO study, KDD 2024). Competitors like BrowserStack embed figures throughout — defect detection rates, cost of late bug fixes, automation coverage benchmarks. Add 4–6 statistics with sourced citations: e.g., the IBM Systems Sciences Institute finding on defect fix costs, or data on shift-left testing efficiency gains.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison content (STLC vs alternatives)</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article mentions STLC vs. SDLC in the opening (citing the parallel) and Waterfall vs. Agile STLC at the end, but neither appears as a structured comparison table. "STLC vs SDLC" is a significant query category that BrowserStack and Guru99 win directly with dedicated comparison tables. A two-column table contrasting STLC vs. SDLC (purpose, phases, ownership, timing) would capture this query type and is highly extractable.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section with natural-language questions</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section exists. The article implicitly answers many common questions ("What is STLC?", "What are the phases?", "How does Agile affect STLC?") but doesn't surface them as explicit Q&amp;A pairs. A 5–7 question FAQ at the bottom — with FAQPage schema — would directly feed "People Also Ask" results and give AI systems a clean extraction target. Suggested questions: "What is the difference between STLC and SDLC?", "How many phases are in the STLC?", "How does Agile change the STLC?", "What deliverables does each STLC phase produce?", "How does crowdtesting fit into the STLC?"</td>
+        </tr>
+        <tr>
+          <td><strong>Headings match how practitioners search</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Strong. The H1 "What is the Software Testing Life Cycle? STLC Phases Explained" directly matches the primary target query. Phase headings ("1. Requirement analysis", "2. Test planning", etc.) are functional and standard. The "Agile affects the software testing life cycle" section targets an important variant query. Minor improvement: add the abbreviation "STLC" to the phase headings for AI systems parsing by acronym — e.g., "1. Requirement Analysis (STLC Phase 1)".</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The page shows "Published On: November 15, 2024" with no "last updated" date. The article is 19 months old with no freshness signal. Add "Last updated: [Month Year]" alongside the published date now — even without a content change, this signals to AI systems that the page is being maintained. Schedule a substantive content refresh to make the date update meaningful.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution with credentials</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Good. David Carty is named as Senior Content Manager with a photo and a link to his author page. This is one of the stronger E-E-A-T signals on any of the audited Applause pages. No immediate action needed — but consider adding a one-line bio on the author page that establishes subject-matter credibility in software testing specifically.</td>
+        </tr>
+        <tr>
+          <td><strong>Page publicly accessible (not gated)</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed. Page is fully publicly accessible.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution and content pages</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The article contains many links to other Applause blog posts (SDLC, release planning, functional testing types, test case FAQs, etc.) — this is good for topical clustering. However, the closing Applause CTA links only to /contact-us/ and a few external resources. It should also link to /manual-functional-testing/, /automated-functional-testing/, and /crowdtesting/ — the direct service pages relevant to STLC execution. A "How Applause Supports Each STLC Phase" section with service page links would improve both internal authority signals and user journey.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 4</div>
+      <h2>Schema Markup</h2>
+    </div>
+    <span class="status-badge status-action">HowTo Schema Missing — High Priority</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      HowTo schema is the structured data format specifically designed for step-by-step process content. When properly implemented, it tells AI systems: "This content describes a process with discrete, named steps — here's each step's name, description, and output." The STLC article's 6 phases map perfectly to HowTo schema. Implementing it would directly increase the probability that AI systems extract the phase list for "STLC phases" and "how does STLC work" queries — without changing a word of the visible content.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed during this audit. Verify using Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast SEO may auto-generate Article/BlogPosting schema — check before adding duplicates.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>HowTo</code></td>
+          <td>Marks the 6 STLC phases as named steps in a process — the primary trigger for AI extraction of sequential process content. Tells AI systems each phase name, description, and expected output.</td>
+          <td class="icon-fail">✗ Almost certainly absent — not auto-generated by Yoast</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Marks Q&amp;A content for direct extraction — the primary trigger for "People Also Ask" appearances and AI Q&amp;A responses. Requires a FAQ section to be added first.</td>
+          <td class="icon-fail">✗ Absent — no FAQ section exists to schema-tag</td>
+          <td><span class="p1">P1 — add FAQ content first, then schema</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Establishes author, published date, modified date, and topic signals for the post. Yoast typically generates this — but modified date needs to be updated on content refresh.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify modified date is updating</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>BreadcrumbList</code></td>
+          <td>Signals content hierarchy (Blog → STLC Guide) — helps AI systems understand the relationship between this post and the Applause blog as an authoritative content hub.</td>
+          <td class="icon-unknown">? Yoast may generate — verify</td>
+          <td><span class="p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Starter HowTo Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Paste into the <code>&lt;head&gt;</code> of the blog post as <code>&lt;script type="application/ld+json"&gt;</code>:</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How the Software Testing Life Cycle (STLC) Works",
+  "description": "The software testing life cycle (STLC) is a sequence of tasks designed to understand
+  the state of a system and make recommendations for improvement. These six phases take
+  validation from requirements analysis through test cycle closure.",
+  "totalTime": "PT0S",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Requirement Analysis",
+      "text": "Testers work cross-functionally to contextualize how they will test the software.
+      This phase includes brainstorming sessions to identify blind spots and prioritizing
+      assessments to ensure all requirements are covered.",
+      "position": 1
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test Planning",
+      "text": "Test team leadership turns insights from requirement analysis into a documented QA
+      strategy, including risk analysis, resource allocation, test environment details, and
+      success criteria.",
+      "position": 2
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test Case Design and Development",
+      "text": "Testers write detailed test cases and prepare test data. Test cases must be
+      identifiable, repeatable, and maintainable. A traceability matrix links requirements
+      to corresponding test cases.",
+      "position": 3
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test Environment Setup",
+      "text": "The team defines hardware, software, test data, frameworks, and network configurations
+      for the test environment. Smoke tests verify the environment is ready for comprehensive
+      testing.",
+      "position": 4
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test Execution",
+      "text": "Testers execute all test cases, identify and log defects, and perform regression testing
+      to confirm that fixes don't introduce new issues. Automation helps achieve coverage
+      and velocity within time constraints.",
+      "position": 5
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test Cycle Closure",
+      "text": "The testing team produces a closure report summarizing findings, completes incident
+      reports, archives testing resources, and communicates lessons learned to inform future
+      STLC cycles.",
+      "position": 6
+    }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 5</div>
+      <h2>AI Bot Access</h2>
+    </div>
+    <span class="status-badge status-partial">Same Config as Homepage — Audit Required</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Server configuration (sitewide)</span>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      AI bot access for this page is governed by the same sitewide robots.txt audited in the homepage report. Key findings carry over unchanged: GPTBot (OpenAI's training crawler) is explicitly blocked; OAI-SearchBot (ChatGPT search citations) is not mentioned and defaults to allowed by wildcard; all other major citation bots are allowed. The recommended robots.txt update and CDN-level block check from the homepage audit apply here as well. Refer to Section 5 of the homepage audit for the full bot table, recommended configuration, and CDN check instructions.
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="callout-label">One Blog-Specific Note</div>
+      For educational blog content like this STLC guide — where the goal is maximum AI citation across Perplexity, Claude, and ChatGPT — the case for explicitly allowing citation bots is stronger than for product pages. This type of content is exactly what AI systems pull for informational queries. Any ambiguity in bot access directly reduces citation likelihood for the queries this page is best positioned to win.
+    </div>
+
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 6</div>
+      <h2>External Presence</h2>
+    </div>
+    <span class="status-badge status-partial">Generic STLC Content Category — Specialized Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the STLC content ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For educational content like STLC guides, AI citation isn't just about the article itself — it's about whether Applause is recognized as an authority in the testing knowledge ecosystem. Third-party mentions of Applause in STLC and QA educational content (Guru99, BrowserStack roundups, Software Testing Help articles) act as corroboration signals that amplify this page's authority. Right now, those signals are likely absent for the STLC topic specifically.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>STLC Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>This domain publishes extensively on STLC and is frequently cited by AI systems for testing process queries. An Applause mention or contribution here — whether a guest post, inclusion in a roundup, or a quote from a testing expert at Applause — would drive cross-platform citation value. Prioritize after Wikipedia.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Software Testing)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Wikipedia's Software Testing and STLC articles are heavily cited across all AI platforms. Verify whether Applause appears in these articles. An accurate, non-promotional mention (e.g., as a crowdtesting provider or as the company that coined the crowdtesting category) would boost cross-platform citation for testing queries broadly.</td>
+        </tr>
+        <tr>
+          <td><strong>Guru99 / BrowserStack / LambdaTest</strong></td>
+          <td class="icon-unknown">? Unlikely</td>
+          <td class="icon-unknown">? Not in their STLC content</td>
+          <td>These educational QA sites are the primary citation sources AI systems use for STLC queries. Applause won't appear in their content through organic means — but a partnership or guest content relationship could place an Applause perspective in a high-authority context. Alternatively, Applause's STLC content should aim to outperform theirs on schema, data, and structure.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 / Gartner Peer Insights</strong></td>
+          <td class="icon-partial">⚠ Present (general)</td>
+          <td class="icon-unknown">? Not STLC-tagged</td>
+          <td>G2 and Gartner reviews that mention STLC integration ("Applause helps us with our STLC from requirement analysis through test closure") add keyword-level third-party evidence. Encourage customers who've integrated Applause deeply into their testing lifecycle to mention this explicitly in reviews.</td>
+        </tr>
+        <tr>
+          <td><strong>YouTube</strong></td>
+          <td class="icon-partial">⚠ Channel present</td>
+          <td class="icon-unknown">? No STLC-specific content known</td>
+          <td>YouTube is the most-cited domain in Google AI Overviews (accounting for 18.2% of non-top-10 citations in 2026 research). A short "STLC Phases Explained" or "How Applause Fits Into Your STLC" video would be cited by Google AI Overviews for STLC how-to queries and creates a multimodal content signal on the blog post itself if embedded.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 7</div>
+      <h2>Competitive Gaps</h2>
+    </div>
+    <span class="status-badge status-action">Different Competitive Set Than Product Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors are positioned in AI search for STLC queries</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For an educational blog post, the competitive set is different from a product page. Applause isn't primarily competing against Testlio or GAT for STLC content — it's competing against QA knowledge sites and testing tool vendors whose content strategies are built around educational authority. These sites have more comprehensive, data-richer STLC content. Applause's advantage is depth of testing expertise and the Applause perspective woven into the content — but that advantage isn't visible in the current article.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>BrowserStack</h3>
+      <p><strong>Where they win:</strong> "STLC phases," "STLC vs SDLC," "what is software testing life cycle." Their STLC guide includes a visual lifecycle diagram, a comparison table for STLC vs. SDLC, statistics on defect detection rates across phases, and HowTo schema tagging each phase as a structured step.</p>
+      <p><strong>Why AI cites them:</strong> Data + structure + schema. BrowserStack's STLC content answers the same questions as Applause's but with supporting statistics and structured data that AI systems can pull with higher confidence.</p>
+      <p><strong>Applause's counter:</strong> Applause has something BrowserStack doesn't — actual testing program management expertise and real-world case examples of STLC integration. Weaving specific Applause insights into each phase ("In our experience running testing programs, the most common requirement analysis failure is...") would differentiate the content and add the expert-perspective signals AI systems reward.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Guru99 / Software Testing Material</h3>
+      <p><strong>Where they win:</strong> "What is STLC," "STLC phases explained," "STLC challenges," and long-tail variant queries. These sites have published STLC content for a decade — they have enormous backlink authority and Wikipedia-adjacent credibility for testing knowledge queries.</p>
+      <p><strong>Why AI cites them:</strong> Domain authority in the testing knowledge niche, extensive cross-linking within their own sites, and structured content with multiple visual aids that pass the multimodal content test (text + image = higher AI Overview selection rates).</p>
+      <p><strong>Applause's counter:</strong> Applause's article cannot out-authority Guru99 on link signals alone. But a data-rich refresh — with sourced statistics, embedded video, a comparison table, and HowTo schema — would meaningfully close the extractability gap and position the Applause article as the more current, more expert source.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Emerging Gap</div>
+      <h3>LambdaTest / Atlassian Blog</h3>
+      <p><strong>Where they win:</strong> "Agile software testing life cycle," "shift-left STLC," "modern STLC approaches." These newer entrants publish STLC content that emphasizes modern practices — CI/CD integration, shift-left, and AI-assisted testing — which is where buyer intent is trending.</p>
+      <p><strong>Applause's counter:</strong> Adding a dedicated section on "How AI Is Changing the STLC" — addressing AI-assisted test generation, AI evaluation phases, and agentic testing in the STLC — would position Applause as the authority on next-generation STLC thinking. This is a gap competitors haven't fully closed and aligns with Applause's actual differentiation in AI testing.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 8</div>
+      <h2>Prioritized Action Plan</h2>
+    </div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> On-Page actions are within Jennifer's content team scope; schema actions involve Tammy.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:40%;">Action</th>
+          <th style="width:18%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label">
+          <td colspan="5">🔵 ON-PAGE — Changes to the blog post</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add HowTo JSON-LD schema</strong> mapping the 6 STLC phases as named steps with descriptions. Starter template in Section 4. This is the single highest-impact technical change — the content structure already matches HowTo schema perfectly.</td>
+          <td>High — phase extraction for STLC step queries</td>
+          <td>Low — 1–2 hrs dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add a visible "Last updated" date</strong> alongside the published date — "Published: November 2024 · Last updated: June 2026." Update it whenever content changes. Do this now, before the content refresh is complete.</td>
+          <td>Medium — freshness signal restored immediately</td>
+          <td>Low — template change</td>
+          <td>Web dev / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 4–6 statistics with named sources</strong> throughout the article — one per major phase where possible. Suggested sources: IBM Systems Sciences Institute (cost of late defect detection), NIST (cost of software errors), World Quality Report (QA team capacity benchmarks). Link to primary sources, not summaries.</td>
+          <td>High — 37-40% citation boost per research</td>
+          <td>Medium — research + copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–7 questions near the bottom of the article. Suggested: "What is the difference between STLC and SDLC?", "How many phases are in STLC?", "How does Agile change the STLC?", "What deliverables does each STLC phase produce?", "How does crowdtesting fit into the STLC?" Then add FAQPage JSON-LD schema.</td>
+          <td>High — People Also Ask + AI Q&amp;A extraction</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add an STLC vs. SDLC comparison table.</strong> Two-column format: STLC vs. SDLC across criteria like purpose, phases, team ownership, timing, and outputs. This directly addresses "STLC vs SDLC" queries that competitors currently win, and is highly extractable as a table.</td>
+          <td>Medium-High — comparison query coverage</td>
+          <td>Medium — new content + dev</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Rewrite the Applause CTA section</strong> to link to specific solution pages — /manual-functional-testing/, /automated-functional-testing/, /crowdtesting/, /in-sprint-testing/ — and weave one Applause proof point into the body (e.g., IDC study finding or 50% defect reduction). Currently the CTA is generic and links only to /contact-us/.</td>
+          <td>Medium — internal authority signals + brand differentiation</td>
+          <td>Low — copy + links</td>
+          <td>PMM / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add a section on "How AI Is Changing the STLC."</strong> Cover AI-assisted test generation, AI evaluation as an STLC phase, and agentic testing considerations. This future-proofs the article against competitors and aligns with Applause's AI testing differentiation. Should include at least one Applause capability reference and a link to /ai-training-testing/.</td>
+          <td>High — emerging query ownership</td>
+          <td>High — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Embed or link a video on the STLC topic.</strong> A short Applause video ("How the STLC works with real-world testing") embedded in the article would add multimodal content — now confirmed as a significant AI Overview citation factor. If no video exists, add this to the content roadmap.</td>
+          <td>Medium-High — multimodal signal for AI Overviews</td>
+          <td>High — video production</td>
+          <td>Content / Video team</td>
+        </tr>
+        <tr class="row-label">
+          <td colspan="5">🟢 OFF-PAGE — External presence and configuration</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> recommended in the homepage audit. Explicitly allow OAI-SearchBot, Claude-SearchBot, and Claude-User. Verify no CDN-level block is overriding robots.txt. Educational blog content like this STLC guide is exactly what AI search bots need unblocked access to in order to cite Applause for knowledge queries.</td>
+          <td>High — ensures all citation bots can reach this post</td>
+          <td>Low — config (already scoped in homepage audit)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Pursue Applause expert quote placement</strong> in softwaretestinghelp.com STLC or crowdtesting content. A named Applause quote in a high-authority testing knowledge article drives cross-platform citation weight for testing queries more effectively than most on-page optimizations.</td>
+          <td>Medium — third-party citation signal</td>
+          <td>Medium — PR / editorial outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Encourage STLC-specific customer reviews</strong> on G2 and Gartner Peer Insights — asking customers who use Applause across the full testing lifecycle to mention STLC integration explicitly. Also check whether Applause is cited in Wikipedia's Software Testing or STLC articles.</td>
+          <td>Low-Medium — corroboration signal</td>
+          <td>Low — customer outreach</td>
+          <td>PMM / Customer Success</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section" id="monitoring">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 9</div>
+      <h2>Monitoring Plan</h2>
+    </div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      STLC is a relatively stable educational topic — citation patterns won't shift as fast as competitive product queries. But given the content refresh planned, tracking before and after will show whether the HowTo schema, statistics, and FAQ additions are improving citation rates. Set a baseline now, run the refresh, and measure at 30 and 60 days.
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Priority Queries to Track</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Run these 8 queries monthly across all 5 platforms. Record: Is Applause cited? Which page? Who else appears?</p>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>what is software testing life cycle</li>
+      <li>STLC phases / phases of STLC</li>
+      <li>what are the 6 phases of STLC</li>
+      <li>STLC challenges</li>
+      <li>STLC vs SDLC</li>
+      <li>agile software testing life cycle</li>
+      <li>how does software testing life cycle work</li>
+      <li>software testing life cycle best practices</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Optimization Checkpoints</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Timeframe</th>
+          <th>What to Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema addition</strong></td>
+          <td>Run the page through Google Rich Results Test — confirm HowTo and (once added) FAQPage schema renders correctly. Check Search Console → Enhancements for validation.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-content refresh</strong></td>
+          <td>Run full 8-query check across all 5 platforms. Record citation rate. Compare against pre-refresh baseline. Check "People Also Ask" for new STLC questions — each is a FAQ addition opportunity.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Assess whether Applause is appearing in AI answers for "STLC vs SDLC" and "software testing life cycle best practices" — the two query types where the page is currently weakest.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Refresh statistics with current data, update the "Last updated" date, and review competitor STLC content moves. Add any new "People Also Ask" questions as FAQ additions.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">What to Track in GA4</h3>
+    <ul style="font-size:14px; padding-left:20px; line-height:2;">
+      <li>Referral traffic from AI sources — filter by source containing "perplexity," "claude," "chatgpt"</li>
+      <li>Organic landing page traffic for this URL — should improve post-refresh as schema takes effect</li>
+      <li>Scroll depth and time-on-page — a meaningful proxy for content quality after the refresh</li>
+      <li>Clicks to solution pages from this URL — measure whether the updated CTA section improves solution page traffic</li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/software-testing-life-cycle-stlc-phases/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification of live AI answers is recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>
