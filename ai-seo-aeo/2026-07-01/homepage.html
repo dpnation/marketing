@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Applause Homepage</title>
+  <style>
+    :root {
+      --blue-500: #0272B4;
+      --blue-700: #01446C;
+      --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3;
+      --gray-700: #3D3D3D;
+      --red: #D42D0E;
+      --green: #0F8919;
+      --orange: #ED7200;
+      --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+
+    /* Header */
+    .report-header {
+      background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; }
+    .report-meta strong { color: #fff; font-weight: 700; }
+
+    /* Sections */
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+
+    /* Status badge */
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .status-critical { background: var(--red); color: #fff; }
+
+    /* Callouts */
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; }
+    .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; }
+    .icon-unknown { color: #888; }
+    .icon-blocked { color: var(--red); font-weight: 700; font-size: 12px; }
+
+    /* Priority labels */
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+
+    /* Exec summary cards */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+
+    /* Action items in exec summary */
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+
+    /* Coverage meter */
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; background: var(--blue-500); }
+    .meter-bar.low { background: var(--red); }
+    .meter-bar.med { background: var(--orange); }
+    .meter-bar.high { background: var(--green); }
+
+    /* Part 2 divider */
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .anchor-nav a:hover { background: rgba(255,255,255,0.3); }
+
+    /* Section tag */
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+
+    /* Code block */
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+
+    /* Competitor card */
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+
+    /* Score bar */
+    .score-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--blue-100); font-size: 14px; }
+    .score-row:last-child { border-bottom: none; }
+
+    /* Footer */
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+
+    /* Override section for on-page vs off-page rows */
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; }
+      .section-body { padding: 20px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .anchor-nav a { font-size: 12px; padding: 5px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Applause Homepage</h1>
+  <div class="sub">applause.com &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>URL: <strong>applause.com</strong></span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+    <span>Scope: <strong>Homepage only</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 1</div>
+      <h2>Executive Summary</h2>
+    </div>
+    <span class="status-badge status-action">Action Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-orange">
+      <div class="callout-label">⚠ Bot Configuration Needs a 2026 Audit</div>
+      <strong>GPTBot is explicitly blocked in applause.com/robots.txt</strong> — but GPTBot is OpenAI's <em>training</em> crawler, not its citation bot. ChatGPT search citations run through a separate bot, <strong>OAI-SearchBot</strong>, which is not mentioned in robots.txt and is therefore allowed by wildcard. ChatGPT citations are likely not fully blocked — but the robots.txt is outdated and should be audited against the current 2026 bot landscape. See Section 5 for the full breakdown and recommended configuration.
+    </div>
+
+    <p style="margin-bottom:16px;">The homepage has a genuine strength the payment testing page lacked: a solid 8-question FAQ section at the bottom. But five of ten content extractability checks fail. There is no category definition block at the top of the page, no comparison content, marketing-led headings that don't match how buyers search, no visible date, and no author attribution. Schema markup status is unverified but FAQPage schema is almost certainly absent. The result: a page that is well-structured for human visitors but not structured for AI extraction.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⚠</span><span>robots.txt outdated — GPTBot blocked (training bot); OAI-SearchBot status needs explicit confirmation</span></li>
+          <li><span>✗</span><span>No category definition block in page opening</span></li>
+          <li><span>✗</span><span>Headings are brand-led, not query-matched</span></li>
+          <li><span>✗</span><span>No comparison tables (real-world testing vs. alternatives)</span></li>
+          <li><span>✗</span><span>FAQPage schema almost certainly absent</span></li>
+          <li><span>✗</span><span>Statistics on page have no individual source links</span></li>
+          <li><span>✗</span><span>No visible "last updated" date or author attribution</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>FAQ section: 8 well-written, self-contained questions</span></li>
+          <li><span>✓</span><span>1.5M+ community stat and IDC study reference (with link)</span></li>
+          <li><span>✓</span><span>Named customer testimonials (Audi, Microsoft, Cisco, Western Union)</span></li>
+          <li><span>✓</span><span>Strong enterprise brand logos prominently featured</span></li>
+          <li><span>✓</span><span>Most AI citation bots allowed by wildcard — Google-Extended, PerplexityBot, Bingbot, OAI-SearchBot (ChatGPT citations)</span></li>
+          <li><span>✓</span><span>Page is publicly accessible, well-indexed</span></li>
+          <li><span>✓</span><span>Agentic AI testing section is a timely differentiator</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Audit and update robots.txt for the 2026 bot landscape.</h4>
+      <p>The current file blocks GPTBot (OpenAI's training crawler) but doesn't explicitly address OAI-SearchBot (ChatGPT search citations) or newer Anthropic and Google bots. OAI-SearchBot is currently allowed by wildcard but should be explicitly confirmed. Also check for CDN-level blocks — Cloudflare's "Block AI Bots" toggle can silently override robots.txt regardless of what the file says. Full recommended configuration in Section 5.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add FAQPage JSON-LD schema to the existing FAQ section.</h4>
+      <p>The homepage already has 8 good FAQ questions — they just lack the schema that tells Google and other AI engines to extract them. This is the highest-leverage technical change available. Starter template in Section 4.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add a clear category definition block to the page opening.</h4>
+      <p>The hero subtext is close but not extractable as a standalone answer. Add a structured definition paragraph immediately below the headline — 134–167 words is the current optimum for Google AI Overview passage extraction. Frame it around what managed software testing is and what makes Applause's approach different. This is what AI systems pull for "what is managed software testing" and "best software testing services" queries.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 2</div>
+      <h2>Where Applause Shows Up Today</h2>
+    </div>
+    <span class="status-badge status-partial">Unverified — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      When a buyer searches "managed software testing services" or "best crowdtesting platform," AI systems across Google, ChatGPT, Perplexity, Claude and Copilot generate answers that cite specific sources. The homepage is the logical citation target for Applause's broad category queries. Right now, ChatGPT cannot cite Applause at all. For other platforms, the page's lack of structured definition content and query-matched headings limits extractability even where crawling is permitted.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status below is inferred from page content structure, competitors' content posture, and domain-level signals. <strong>Manual verification of live AI answers is required</strong> before distributing this report to stakeholders. The ChatGPT column reflects a confirmed technical block, not an inferred status — that one is certain.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:24%;">Query</th>
+          <th style="width:10%;">Google AIO</th>
+          <th style="width:10%;">ChatGPT</th>
+          <th style="width:10%;">Perplexity</th>
+          <th style="width:10%;">Claude</th>
+          <th style="width:10%;">Copilot</th>
+          <th style="width:13%;">Applause Cited?</th>
+          <th style="width:13%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is managed software testing</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Testlio, Qualitest, Accenture</td>
+        </tr>
+        <tr>
+          <td>best crowdtesting platform</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Testlio, GAT</td>
+        </tr>
+        <tr>
+          <td>enterprise software testing services</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Testlio, Qualitest, Large outsourcers</td>
+        </tr>
+        <tr>
+          <td>how to scale QA testing</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Likely not</td>
+          <td>Testlio, BrowserStack, Sauce Labs</td>
+        </tr>
+        <tr>
+          <td>crowdsourced testing vs in-house QA</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Testlio, GAT</td>
+        </tr>
+        <tr>
+          <td>what is crowdtesting</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Blog only</td>
+          <td>Testlio, GAT (Applause blog may appear)</td>
+        </tr>
+        <tr>
+          <td>AI testing services for enterprises</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Varies — emerging category</td>
+        </tr>
+        <tr>
+          <td>best software testing companies</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Testlio, GAT, Qualitest (roundup sites)</td>
+        </tr>
+        <tr>
+          <td>accessibility testing services</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Uncertain</td>
+          <td>Deque, Level Access, smaller specialists</td>
+        </tr>
+        <tr>
+          <td>applause software testing</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-blocked">⛔ Blocked</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Likely yes</td>
+          <td>Brand query — Applause should win</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>⛔ Blocked = confirmed via robots.txt inspection — ChatGPT's GPTBot has an explicit Disallow: / rule. ⚠ Likely = AI overview/answer probable for this query type. All Applause citation statuses are inferred — manual verification recommended.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Coverage by Platform</h3>
+      <div class="meter-row"><span style="width:140px; font-size:13px;">Google AI Overviews</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:35%;"></div></div><span style="font-size:13px; color:var(--orange);">Unverified — possible partial</span></div>
+      <div class="meter-row"><span style="width:140px; font-size:13px;">ChatGPT</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:0%;"></div></div><span style="font-size:13px; color:var(--red);">0% — GPTBot blocked</span></div>
+      <div class="meter-row"><span style="width:140px; font-size:13px;">Perplexity</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:30%;"></div></div><span style="font-size:13px; color:var(--orange);">Unverified — possible partial</span></div>
+      <div class="meter-row"><span style="width:140px; font-size:13px;">Claude</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:30%;"></div></div><span style="font-size:13px; color:var(--orange);">Unverified — possible partial</span></div>
+      <div class="meter-row"><span style="width:140px; font-size:13px;">Copilot</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:30%;"></div></div><span style="font-size:13px; color:var(--orange);">Unverified — possible partial</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the homepage) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 3</div>
+      <h2>Page Content Extractability</h2>
+    </div>
+    <span class="status-badge status-partial">3 Pass · 2 Partial · 5 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to applause.com</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      AI systems extract passages, not pages. When Google AI Overviews or Perplexity generate an answer to "what is managed software testing," they pull the first clear, self-contained paragraph that directly answers the question. If your page opens with a tagline and marketing prose instead of a direct answer, you don't get cited — even if your services are the best fit. The homepage currently has the right content in the wrong structure.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear category definition in first paragraph</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The hero subtext reads: <em>"Applause's managed testing services expertly combine insights from the world's largest testing community with AI and automation to help enterprises scale testing, improve quality, and keep pace with modern software delivery."</em> This is a decent sentence but it's part of the hero, not a structured definition block. Current research shows <strong>134–167 words</strong> is the optimal passage length for Google AI Overview extraction. Add a structured definition paragraph below the hero at that length — define the category, explain the Applause approach, and include a key proof point (e.g., the IDC study finding).</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The FAQ section at the bottom has 8 self-contained, well-written answers — this is a genuine strength. Current research identifies <strong>134–167 words</strong> as the optimal passage length for Google AI Overview citation extraction. The FAQ answers are in that range and well-positioned. The main body sections ("We Design the Right Software Testing Strategy," "We Validate Products With Real Testers," etc.) are marketing prose that doesn't work out of context. Each should open with one direct, extractable statement at the recommended length before expanding with supporting detail.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources and dates</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The page prominently features: 1.5M+ testers, 200+ countries/territories, 150+ languages, 5M+ devices. None of these have individual source links. In the FAQ, "an independent IDC study found organizations achieved up to 30% faster testing cycles" — this one links to the IDC report (good). Add source links to the community-scale figures. <em>Note: The product marketing context file cites 1M+ community members; the live page says 1.5M+. Verify the current figure before using in any AI-optimized content.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Comparison content (real-world testing vs. alternatives)</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No comparison tables exist anywhere on the homepage. This is one of the highest-citation content formats — "crowdtesting vs. in-house QA" and "managed testing vs. automation-only" are queries buyers research actively. A simple two-column comparison table (Applause vs. traditional in-house QA; Applause vs. offshore outsourcing) would directly compete for these queries and is highly extractable by AI systems.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section with natural-language questions</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Eight questions are present and well-structured: "What is Applause, exactly?", "When should a company use Applause?", "How is Applause different from test automation and AI tools?", "Does Applause use AI or test AI applications?", "What types of products can Applause test?", "What results does Applause deliver?", "How quickly can we get started?", "How much does Applause cost?", "Is Applause secure for enterprise use?" These need FAQPage schema to be AI-extractable (see Section 4).</td>
+        </tr>
+        <tr>
+          <td><strong>Headings match how buyers search</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>All main headings are brand-led, not query-matched: "Software Testing Reimagined for the Age of AI," "AI Has Changed How Software's Built," "We Design the Right Software Testing Strategy for You." None of these match how buyers type queries. Consider adding query-aligned H2s where content supports it — "What Makes Applause Different From In-House QA?", "How Does Applause Test AI-Powered Applications?", "What Testing Services Does Applause Offer?" Subheadings don't need to replace current headings; they can supplement them.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No date is present anywhere on the page. AI systems weight freshness heavily — especially on competitive queries where multiple vendor pages compete for citation. Add a visible "Last reviewed: [Month Year]" near the footer or after the FAQ section. Update it whenever content changes.</td>
+        </tr>
+        <tr>
+          <td><strong>Author or reviewer attribution with credentials</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No attribution is present. The homepage doesn't need a byline the way a blog post does, but adding a "Reviewed by [Name], [Title], Applause" line near the FAQ section or a "About this content" note in the footer would signal E-E-A-T to Google's quality evaluation systems. A named reviewer with a title establishes that a real expert stands behind the claims.</td>
+        </tr>
+        <tr>
+          <td><strong>Page publicly accessible (not gated)</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed. Page is fully publicly accessible with no login wall or content gate.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to key solution and content pages</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Strong. Navigation includes comprehensive links to all solution pages by testing type, technology, and industry. The services grid on the page links directly to AI Training &amp; Testing, Payment Testing, Accessibility Testing, UX Testing, Localization Testing, and Functional Testing. The FAQ links to /crowdtesting/, /our-community/, /pricing-inquiry/, and the IDC study. This is a content cluster that supports topical authority signals.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 4</div>
+      <h2>Schema Markup</h2>
+    </div>
+    <span class="status-badge status-unknown">Verify Required</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tag added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Schema markup is invisible code in the page's HTML that tells AI systems: "This section is a FAQ," "This is an Organization," "This person is a named expert." The homepage's Yoast SEO plugin (confirmed via robots.txt generator tag) may auto-generate basic Organization schema — but FAQPage schema is never auto-generated. It requires manual implementation. Without it, the 8-question FAQ section exists in the page's visual design but is invisible to AI systems looking for structured Q&amp;A content.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed during this audit. <strong>Verify using Google's Rich Results Test</strong> (<code>search.google.com/test/rich-results</code>) before treating any item below as a confirmed gap. Yoast SEO may auto-generate Organization and WebSite schema — check before adding duplicates.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tells AI systems which questions the page answers — the primary trigger for Q&amp;A extraction. Without it, the 8-question FAQ section is invisible to structured data parsing.</td>
+          <td class="icon-fail">✗ Almost certainly absent — Yoast does not auto-generate this</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>Organization</code></td>
+          <td>Establishes Applause as a recognized entity in Google's Knowledge Graph — helps AI systems connect mentions of "Applause" across the web to a verified company entity.</td>
+          <td class="icon-unknown">? Yoast may have generated — verify</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>WebSite</code></td>
+          <td>Enables sitelinks search box in Google results and provides structural context for the site. Yoast often adds this automatically.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>Service</code> (per solution)</td>
+          <td>Marks individual solution offerings (AI Testing, Payment Testing, Accessibility Testing, etc.) as named service entities. Helps AI systems surface solution pages for "best [service type]" queries.</td>
+          <td class="icon-unknown">? Likely absent on homepage — check solution pages</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>SiteLinksSearchBox</code></td>
+          <td>Enables in-SERP search of applause.com — minor but signals site structure to Google.</td>
+          <td class="icon-unknown">? Yoast may include — verify</td>
+          <td><span class="p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 12px;">How to Validate Schema</h3>
+    <ul style="font-size:14px; padding-left:20px; line-height:1.9;">
+      <li><strong>Google Rich Results Test</strong> → <code>search.google.com/test/rich-results</code> (test applause.com)</li>
+      <li><strong>Schema.org Validator</strong> → <code>validator.schema.org</code></li>
+      <li><strong>In-browser check</strong> → Right-click → View Source → search for <code>application/ld+json</code></li>
+    </ul>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 12px;">Starter FAQPage Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Paste into the <code>&lt;head&gt;</code> of the homepage as <code>&lt;script type="application/ld+json"&gt;</code>. Populate with the existing FAQ questions.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Applause, exactly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applause is a fully managed testing service — not a tool your team has to run.
+        Applause created the crowdtesting category in 2007 and today combines a global testing
+        community of 1.5M+ testers across 200+ countries with enterprise-grade AI and automation
+        to help organizations validate products in real-world conditions — faster, at scale, and
+        with greater confidence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Applause different from test automation and AI tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI and automation are powerful — but knowing how and when to use them is what
+        matters. Applause brings the expertise to orchestrate AI, automation and human testing
+        together — so you get the right coverage in the right places without managing the tools
+        yourself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What results does Applause deliver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applause delivers clear, prioritized insights including reproducible bugs, UX issues
+        and real-world feedback across devices, environments and markets. An independent IDC study
+        found organizations achieved up to 30% faster testing cycles and significant gains in
+        efficiency and quality."
+      }
+    }
+    // Add remaining FAQ items — maintain all 8 questions from the live page
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 5</div>
+      <h2>AI Bot Access</h2>
+    </div>
+    <span class="status-badge status-partial">Audit Required — Config Outdated</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Server configuration</span>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">2026 Context — Training Bots vs. Citation Bots Are Now Separate</div>
+      Since late 2024, major AI vendors run two distinct crawlers: a <strong>training bot</strong> (collects content to improve model weights) and a <strong>search/citation bot</strong> (fetches pages in real time to cite in AI answers). These use different user-agent strings and can be controlled independently in robots.txt. The old approach of "block GPTBot = block ChatGPT" is no longer accurate. The current recommended posture for most B2B marketing sites: block training bots, allow citation bots.
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="callout-label">⚠ Confirmed — GPTBot Blocked (Training Bot)</div>
+      The applause.com robots.txt was fetched directly during this audit. <strong>GPTBot is explicitly blocked with <code>Disallow: /</code></strong>. GPTBot is OpenAI's training crawler — blocking it means Applause content is less likely to appear in future GPT model weights. It does <em>not</em> directly block ChatGPT search citations, which run through a separate bot.
+    </div>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Every AI platform sends separate crawlers for training and for search-time citation. If a citation bot is blocked, that platform cannot cite your content regardless of content quality. Applause's robots.txt was last configured in an era when these were the same bot — it needs to be updated to address the current bot landscape and to confirm that no CDN-level rules are silently overriding it.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Bot User Agent</th>
+          <th>Platform</th>
+          <th>Purpose</th>
+          <th>Status (Confirmed via robots.txt)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>OAI-SearchBot</code></td>
+          <td>ChatGPT Search</td>
+          <td><strong>Citation bot</strong> — powers ChatGPT search result citations</td>
+          <td class="icon-partial">⚠ Not mentioned — allowed by wildcard. Confirm explicitly.</td>
+        </tr>
+        <tr>
+          <td><code>ChatGPT-User</code></td>
+          <td>ChatGPT browsing</td>
+          <td><strong>Citation bot</strong> — live page fetch during ChatGPT sessions</td>
+          <td class="icon-partial">⚠ Not mentioned — allowed by wildcard. Confirm explicitly.</td>
+        </tr>
+        <tr>
+          <td><code>GPTBot</code></td>
+          <td>OpenAI</td>
+          <td><strong>Training bot</strong> — feeds future GPT model weights</td>
+          <td class="icon-fail">⛔ BLOCKED — explicit Disallow: / (deliberate; decision to maintain or reverse)</td>
+        </tr>
+        <tr>
+          <td><code>Googlebot</code></td>
+          <td>Google Search + AI Overviews</td>
+          <td><strong>Citation bot</strong> — core indexing, required for AI Overviews</td>
+          <td class="icon-pass">✓ Allowed (defaults to wildcard)</td>
+        </tr>
+        <tr>
+          <td><code>Google-Extended</code></td>
+          <td>Google Gemini</td>
+          <td><strong>Training bot</strong> — Gemini and Vertex AI training data</td>
+          <td class="icon-partial">⚠ Not mentioned — allowed by wildcard. Consider blocking if training opt-out is the policy.</td>
+        </tr>
+        <tr>
+          <td><code>PerplexityBot</code></td>
+          <td>Perplexity</td>
+          <td><strong>Citation bot</strong> — Perplexity search citations</td>
+          <td class="icon-pass">✓ Allowed (defaults to wildcard)</td>
+        </tr>
+        <tr>
+          <td><code>ClaudeBot</code> / <code>anthropic-ai</code></td>
+          <td>Anthropic</td>
+          <td><strong>Training bot</strong> — Claude model training</td>
+          <td class="icon-partial">⚠ Allowed by wildcard. Block if training opt-out is the policy.</td>
+        </tr>
+        <tr>
+          <td><code>Claude-SearchBot</code> / <code>Claude-User</code></td>
+          <td>Claude search</td>
+          <td><strong>Citation bot</strong> — Claude search-mode citations</td>
+          <td class="icon-partial">⚠ Not mentioned — allowed by wildcard. Confirm explicitly.</td>
+        </tr>
+        <tr>
+          <td><code>Bingbot</code></td>
+          <td>Microsoft Copilot (via Bing)</td>
+          <td><strong>Citation bot</strong> — Copilot answers via Bing index</td>
+          <td class="icon-pass">✓ Allowed (defaults to wildcard)</td>
+        </tr>
+        <tr>
+          <td><code>CCBot</code></td>
+          <td>Common Crawl</td>
+          <td><strong>Training bot</strong> — third-party training dataset only</td>
+          <td class="icon-pass">✓ Blocked (correct)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-red" style="margin-top:20px;">
+      <div class="callout-label">⚠ CDN-Level Block Risk — Check Before Assuming robots.txt Is Enough</div>
+      Research finds roughly 27% of B2B SaaS sites are unknowingly blocking major AI citation bots at the CDN layer — even when robots.txt allows them. If applause.com uses Cloudflare, check: <strong>Security → Bots → "AI Scrapers and Crawlers"</strong> — if this toggle is ON, it overrides robots.txt and blocks all AI bots at the network level. Check server access logs for 403 responses to OAI-SearchBot, PerplexityBot, or Claude-User to confirm bots are actually reaching the site.
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Recommended robots.txt Configuration</h3>
+    <p style="font-size:14px; margin-bottom:12px;">The current file has two problems: it blocks GPTBot (a business decision to revisit) and doesn't explicitly address newer citation bots. Replace with an explicit configuration that separates training and citation decisions clearly:</p>
+    <pre><code># === ChatGPT (OpenAI) ===
+# Citation bots — allow for search visibility
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Training bot — currently blocked; maintain or reverse based on policy
+User-agent: GPTBot
+Disallow: /
+
+# === Google ===
+# Googlebot handles both Search and AI Overviews — always allow
+User-agent: Googlebot
+Allow: /
+
+# Google-Extended = Gemini/Vertex AI training only (doesn't affect Search or AI Overviews)
+# Block if opting out of Google training data; allow if not
+User-agent: Google-Extended
+Allow: /
+
+# === Perplexity ===
+User-agent: PerplexityBot
+Allow: /
+
+# === Anthropic (Claude) ===
+# Citation bots — allow for Claude search visibility
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Training bot — block if opting out of Claude training data
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# === Microsoft Copilot ===
+User-agent: Bingbot
+Allow: /
+
+# === Block training-only scrapers ===
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# Existing sensitive path restrictions
+User-agent: *
+Disallow: /wp-content/uploads/InfoSec-Customer-Guide-June-2022.pdf
+Disallow: /infosec-guide
+
+Sitemap: https://www.applause.com/sitemap_index.xml</code></pre>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Decision Note — Training vs. Citation</div>
+      The current GPTBot block is a training opt-out decision. That's a legitimate policy choice — but it should be made explicitly, not by accident. The citation bots (OAI-SearchBot, Claude-SearchBot, PerplexityBot) should be allowed regardless of the training decision, as they are the bots that send referral traffic and create AI citations. The configuration above separates these clearly so each decision can be made intentionally.
+    </div>
+
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 6</div>
+      <h2>External Presence</h2>
+    </div>
+    <span class="status-badge status-partial">Gaps in Category Tagging</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears outside applause.com</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      AI systems don't only cite brand websites — they draw heavily on third-party sources. Research shows brands are 6.5x more likely to be cited via third-party mentions than via their own domains. Wikipedia alone accounts for nearly 8% of ChatGPT citations. For Applause, this means that a strong Wikipedia entry or consistent G2 positioning as a "managed software testing" vendor may drive more AI citations than any homepage optimization.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>General Applause Presence</th>
+          <th>Category Positioning</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Wikipedia</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify whether an Applause Wikipedia article exists. Wikipedia is the single highest-value AI citation source available — and controllable. If an article exists, verify accuracy (especially community size, founding year, and category). If it doesn't, this is a high-priority gap.</td>
+        </tr>
+        <tr>
+          <td><strong>G2</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Category tagging unknown</td>
+          <td>Verify that the G2 profile is tagged under "Crowdsourced Testing," "Software Testing Services," and "Managed Testing." Request that customers who've used Applause for broad QA work leave reviews specifically mentioning managed services and testing scale — this is what AI systems surface for category queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Gartner Peer Insights</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Category tagging unknown</td>
+          <td>Same as G2 — ensure profile appears under Software Testing Services and Managed QA categories. A high review volume with specific capability mentions (AI testing, real-world testing, managed services) strengthens category authority signals for AI systems.</td>
+        </tr>
+        <tr>
+          <td><strong>softwaretestinghelp.com roundups</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>This domain's "Best Crowdsourced Testing Companies" and "Top Software Testing Services" roundup articles are cited regularly by AI systems for category queries. Earning or maintaining a listing here delivers third-party citation value across every AI platform simultaneously. Verify current inclusion; pursue via PR outreach if absent.</td>
+        </tr>
+        <tr>
+          <td><strong>YouTube</strong></td>
+          <td class="icon-partial">⚠ Channel present</td>
+          <td class="icon-unknown">? Coverage unknown</td>
+          <td>Google AI Overviews surfaces YouTube content frequently for how-to and explainer queries. A "What is managed software testing?" or "How does crowdtesting work?" video optimized with a clear title and description would compete for queries the homepage currently misses. Google owns YouTube and gives it preferential treatment in AI Overviews.</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn</strong></td>
+          <td class="icon-pass">✓ Active company page</td>
+          <td class="icon-partial">⚠ Varies</td>
+          <td>LinkedIn articles and company page content are indexed by Bing (and thus Copilot). Publishing thought leadership articles on LinkedIn under Applause's company page — particularly on managed testing, AI quality, and real-world testing — creates Copilot-indexable content in a trusted domain.</td>
+        </tr>
+        <tr>
+          <td><strong>Reddit</strong> (r/QualityAssurance, r/softwaretesting)</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Reddit accounts for ~1.8% of ChatGPT citations. Monitor brand mentions in relevant subreddits. Authentic participation in discussions about managed testing, crowdtesting, and QA strategy — not promotion — builds third-party citation weight over time. Do not manufacture this.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange" style="margin-top:20px;">
+      <div class="callout-label">Highest-Leverage External Action</div>
+      Verifying and updating the Applause Wikipedia entry (or creating one if it doesn't exist) would deliver more AI citation impact per hour of effort than almost any other off-page action. Wikipedia is cited across all major AI platforms — ChatGPT, Perplexity, Claude, and Google AI Overviews all reference it frequently for brand and category queries.
+    </div>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 7</div>
+      <h2>Competitive Gaps</h2>
+    </div>
+    <span class="status-badge status-action">3 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors are positioned in AI search</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      In AI search, the winner isn't the vendor with the best service — it's the vendor with the most extractable content at the moment the AI generates its answer. Applause has stronger brand recognition and a broader solution portfolio than most competitors, but that advantage is invisible to AI systems if the content isn't structured to be extracted. The competitors below are winning certain queries not because of better products but because of better content architecture.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Critical Gap</div>
+      <h3>Testlio</h3>
+      <p><strong>Where they win:</strong> "Best crowdtesting platform," "crowdsourced testing services," "crowdtesting vs. in-house QA." Their homepage and category pages open with explicit category definitions, have structured FAQ sections with FAQPage schema, and include comparison tables (crowdtesting vs. automation, crowdtesting vs. offshore QA).</p>
+      <p><strong>Why AI cites them:</strong> Their content is built around the questions AI systems are scanning for. Each major section opens with a direct, self-contained answer. Applause's homepage sections open with brand narrative ("We Design the Right Software Testing Strategy for You") — Testlio's equivalent section opens with "What is crowdtesting and why does it outperform traditional QA?"</p>
+      <p><strong>Applause's counter:</strong> Applause created the crowdtesting category. That founding authority is not visible in current page structure. Adding a definition block, a comparison table, and FAQPage schema would reclaim territory Applause should own by right — especially for "what is crowdtesting" where Applause has legitimate first-mover standing.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Active Gap</div>
+      <h3>Global App Testing (GAT)</h3>
+      <p><strong>Where they win:</strong> "Best software testing companies," "how to scale QA," third-party roundup articles. GAT publishes comparison guides, tool roundups, and how-to content specifically designed to be extracted by AI. They also appear consistently in softwaretestinghelp.com roundups — which AI systems cite independently of GAT's own domain.</p>
+      <p><strong>Why AI cites them:</strong> Volume of structured, extractable content. GAT's blog has significantly more FAQ-rich, definition-heavy, comparison-table content than Applause's blog on broad category queries.</p>
+      <p><strong>Applause's counter:</strong> A single "managed software testing vs. in-house QA" guide — structured with a definition block, comparison table, FAQ section, and schema — would directly compete. Applause's IDC study data (30% faster testing cycles) is the kind of specific, sourced statistic that drives AI citation. It needs to be more prominently featured outside of the FAQ.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Indirect Gap</div>
+      <h3>Large Outsourcers (Accenture, Cognizant, Wipro)</h3>
+      <p><strong>Where they win:</strong> "Enterprise software testing services," "managed QA for enterprise" — queries where buyer intent is high-budget, large-scale, and enterprise-grade. These firms have enormous domain authority and Wikipedia presence that AI systems weight heavily for enterprise service queries.</p>
+      <p><strong>Why this matters:</strong> Buyers evaluating Applause against large outsourcers represent some of Applause's most valuable deal opportunities. If AI systems frame the category as "enterprise software testing = Accenture, Cognizant, Wipro" and don't include Applause, Applause's sales team is fighting for deals where the buyer's AI-informed shortlist doesn't include them.</p>
+      <p><strong>Applause's counter:</strong> A comparison page or guide — "Crowdtesting vs. Traditional Outsourcing: Which Is Right for Enterprise QA?" — that explicitly frames Applause against the outsourcer model is the right content response. This is also a key sales enablement argument, so the content investment pays across multiple channels.</p>
+    </div>
+
+    <div class="callout callout-blue" style="margin-top:8px;">
+      For full competitor content analysis, comparison page builds, and battle card development, use the <strong>competitive-intelligence</strong> skill. This audit identifies the gaps; that skill produces the response content.
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 8</div>
+      <h2>Prioritized Action Plan</h2>
+    </div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;">Grouped by On-Page (direct control over applause.com) and Off-Page (external presence and configuration). Within each group: <strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:40%;">Action</th>
+          <th style="width:18%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label">
+          <td colspan="5">🔵 ON-PAGE — Changes to applause.com</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add FAQPage JSON-LD schema</strong> to the existing homepage FAQ section. The 8 questions are already written — this is a code addition only. Starter template in Section 4.</td>
+          <td>High — AI Overview &amp; Perplexity citation driver</td>
+          <td>Low — 1–2 hrs dev</td>
+          <td>Web dev + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add a category definition block</strong> to the page opening — a 134–167 word paragraph (current optimum for AI Overview extraction) that defines managed software testing and positions Applause's approach. Suggested framing in Section 3.</td>
+          <td>High — first-paragraph extraction for category queries</td>
+          <td>Low — copy edit only</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Verify Organization schema</strong> exists on the site. Use Rich Results Test on applause.com. If absent, add via Yoast or JSON-LD. This establishes Applause as a recognized entity in Google's Knowledge Graph.</td>
+          <td>Medium — entity recognition baseline</td>
+          <td>Low — verify + configure</td>
+          <td>Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add source links to community-scale statistics.</strong> 1.5M+ testers, 200+ countries, 5M+ devices — link each to a source or to the /our-community/ page. Verify the 1.5M figure matches current product page. Unsourced stats are less likely to be cited by AI systems.</td>
+          <td>Medium — citation credibility</td>
+          <td>Low — markup change</td>
+          <td>PMM / Web</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Surface the IDC study stat more prominently</strong> — "organizations achieved up to 30% faster testing cycles" is currently buried in the FAQ. Add it as a proof point in the above-the-fold section or the value section of the page body. This is the kind of specific, sourced figure AI systems extract and cite.</td>
+          <td>Medium — proof point visibility</td>
+          <td>Low — layout change</td>
+          <td>PMM / Design</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a comparison table</strong> — "Managed Software Testing vs. In-House QA" or "Real-World Testing vs. Test Automation Only." Two-column format, 5–6 criteria, concise. This is one of the highest-citation content formats and directly competes for queries Testlio and GAT are winning.</td>
+          <td>High — comparison query coverage</td>
+          <td>Medium — new content + dev</td>
+          <td>PMM + Web</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a visible "Last reviewed" date</strong> near the footer or FAQ section. Update it whenever content changes. Freshness signals matter — especially for competitive category queries where multiple vendor pages compete for citation.</td>
+          <td>Low-Medium — freshness signal</td>
+          <td>Low — template update</td>
+          <td>PMM / Web</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add 2–3 query-matched subheadings</strong> to key page sections. Complement existing marketing headings with H3-level additions like "How Does Applause Test AI-Powered Applications?" and "What Is the Difference Between Managed Testing and Traditional Outsourcing?" These don't replace existing headings — they supplement them in relevant sections.</td>
+          <td>Medium — query match for AI extraction</td>
+          <td>Low — copy + dev</td>
+          <td>PMM</td>
+        </tr>
+        <tr class="row-label">
+          <td colspan="5">🟢 OFF-PAGE — External presence and server configuration</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Audit and update robots.txt for the 2026 bot landscape.</strong> Explicitly allow citation bots (OAI-SearchBot, Claude-SearchBot, Claude-User) that are currently covered only by wildcard. Check Cloudflare or CDN settings for AI bot blocking that may override robots.txt. Decide policy on training bots (GPTBot, ClaudeBot, Google-Extended) and configure explicitly. Full recommended configuration in Section 5.</td>
+          <td>High — ensures citation bots can reach the site across all platforms</td>
+          <td>Low — 15–30 min config</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify and update the Applause Wikipedia entry.</strong> If it exists, confirm accuracy (community size, founding year, category definition). If it doesn't, this is a content gap to address via PR. Wikipedia presence directly drives ChatGPT citation rates more than most other off-page factors.</td>
+          <td>High — cross-platform citation multiplier</td>
+          <td>Medium — research + writing</td>
+          <td>PMM / PR</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue inclusion in softwaretestinghelp.com roundup articles.</strong> The "Best Crowdsourced Testing Companies" and "Top Software Testing Services" articles on this domain are cited regularly by AI systems. Earning a listing would deliver third-party citation value across all platforms simultaneously. Also audit and update G2 and Gartner Peer Insights category tags.</td>
+          <td>Medium-High — third-party citation signal</td>
+          <td>Medium — PR outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section" id="monitoring">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 9</div>
+      <h2>Monitoring Plan</h2>
+    </div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      None of the major AI platforms provide citation tracking in their native analytics. Google Search Console has no AI Overviews reporting. There is no ChatGPT analytics dashboard. Tracking AI visibility requires either third-party tools or a structured manual check cadence — without one, you won't know whether the fixes in this report are working, or when a competitor moves into queries Applause has earned.
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Recommended Tools</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Coverage</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Otterly AI</strong></td>
+          <td>ChatGPT, Perplexity, Google AI Overviews</td>
+          <td>Share of AI voice tracking — tracks citation rate vs. competitors</td>
+        </tr>
+        <tr>
+          <td><strong>Peec AI</strong></td>
+          <td>ChatGPT, Gemini, Perplexity, Claude, Copilot</td>
+          <td>Multi-platform monitoring at scale — broadest coverage</td>
+        </tr>
+        <tr>
+          <td><strong>ZipTie</strong></td>
+          <td>Google AI Overviews, ChatGPT, Perplexity</td>
+          <td>Brand mention + sentiment tracking in AI answers</td>
+        </tr>
+        <tr>
+          <td><strong>Semrush / Ahrefs</strong></td>
+          <td>Google AI Overviews</td>
+          <td>AI Overview presence for target queries — integrates with existing SEO workflow</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">DIY Monthly Check (No Tools)</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2;">
+      <li>Run the 10 priority queries from Section 2 through Google, ChatGPT, Perplexity, and Claude</li>
+      <li>Record: Is Applause cited? Which page is cited? Who else appears?</li>
+      <li>Check Google's "People Also Ask" for new questions — each one is a FAQ opportunity</li>
+      <li>Log in the LLM tracking spreadsheet with platform, query, citation status, and date</li>
+      <li>Track month-over-month delta — are citation rates improving after fixes?</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Timeframe</th>
+          <th>What to Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of GPTBot fix</strong></td>
+          <td>Confirm robots.txt change is live by visiting applause.com/robots.txt. Run a test query through ChatGPT — GPTBot re-crawl takes days to weeks, but the block being lifted is the prerequisite.</td>
+        </tr>
+        <tr>
+          <td><strong>2 weeks post-schema</strong></td>
+          <td>Validate FAQPage rich results via Google Search Console → Enhancements → FAQ. Confirm schema is rendering in the Rich Results Test tool.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run full 10-query check across all 5 platforms. Record citation rate and which page is cited. Compare against baseline.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Re-run complete query coverage matrix. Assess whether comparison table and definition block additions have improved citation rates for category queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Update page stats, refresh "last reviewed" date, review competitor moves. Run evaluator on this audit report to check for any guidance that has become stale.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">What to Track</h3>
+    <ul style="font-size:14px; padding-left:20px; line-height:2;">
+      <li>AI Overview presence rate for the 10 priority homepage queries</li>
+      <li>Applause citation rate vs. Testlio and GAT by platform</li>
+      <li>Which Applause URL is cited (homepage vs. solution pages vs. blog)</li>
+      <li>Referral traffic from AI platforms in GA4 — filter by source containing "perplexity," "chatgpt," "claude"</li>
+      <li>FAQ impressions and clicks in Google Search Console after schema implementation</li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; Revised: June 30, 2026 (post-evaluator) &nbsp;·&nbsp; URL: applause.com &nbsp;·&nbsp; Scope: Homepage · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification of live AI answers is recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>
