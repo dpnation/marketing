@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — About Applause Page</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item.p3-item { border-left-color: var(--blue-500); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .award-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .award-card { background: var(--blue-100); border-radius: 6px; padding: 14px; }
+    .award-card .org { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); margin-bottom: 4px; }
+    .award-card .name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .award-card .years { font-size: 12px; color: #555; }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) { .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .award-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>About Applause Page</h1>
+  <div class="sub">applause.com/about-applause/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Page type: <strong>Company About / Entity page</strong></span>
+    <span>No published or modified date in metadata</span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Best Brand Statement on the Site, Wrong H1</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout — Best Company Description Statement on the Site</div>
+      The page's opening sentence is the clearest, most citable brand statement across the entire audit batch: <em>"As crowdtesting pioneers, we connect the world's greatest enterprises with the world's largest testing community, supported by AI and automation."</em> This is what AI systems should extract when answering "what is Applause?" — and it's already here. The gap is purely structural: it follows an H1 of "Release Faster, With Confidence" (the tagline), which means AI systems have to work harder to find it.
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">⚠ Same H1 Problem as the Demo Page</div>
+      H1 is "Release Faster, With Confidence" — Applause's tagline, not a query and not a brand description. The browser title, og:title, and breadcrumb all say "About Applause." The H1 should match them. This is a one-line fix.
+    </div>
+
+    <p style="margin-bottom:16px;">This page also contains the site's most authoritative third-party recognition data: Stevie Awards (2022–2025), SD Times Best in Show (2022–2025), Tech Breakthrough Award (2025), USA Today Top Workplaces (2024–2025). Plus confirmed office locations (Boston HQ, Berlin EU HQ, Israel, Poland, India, Remote), investor identity (Vista Equity Partners), and a named CEO quote. All of this is entity data AI systems use to build an accurate model of Applause — and none of it is schema-tagged. Organization schema with full entity attributes is the primary technical action.</p>
+
+  </div>
+</div>
+
+<!-- WHAT'S ON THE PAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Entity Data on This Page — What AI Systems Need</h2></div>
+    <span class="status-badge status-partial">Rich Data, No Schema</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      About pages are the canonical source for entity data — AI systems use them to build a structured understanding of what a company is, where it operates, who leads it, and what recognition it has received. This page has all of that. The problem is that it's in unstructured prose and image alt text rather than machine-readable schema. Adding Organization schema here establishes the authoritative entity record that AI systems use when describing Applause across any query.
+    </div>
+
+    <h3 style="font-size:14px; font-weight:700; margin: 16px 0 10px;">Confirmed Entity Data — Ready to Schema-Tag</h3>
+
+    <table>
+      <thead>
+        <tr><th>Data Type</th><th>Content Confirmed on Page</th><th>Schema Needed</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Brand description</strong></td>
+          <td>"Crowdtesting pioneers… the world's largest testing community, supported by AI and automation"</td>
+          <td><code>Organization.description</code></td>
+          <td class="icon-partial">⚠ Text present, not schema'd</td>
+        </tr>
+        <tr>
+          <td><strong>Headquarters</strong></td>
+          <td>Boston (Global HQ)</td>
+          <td><code>Organization.address</code></td>
+          <td class="icon-fail">✗ Text present, no Location schema</td>
+        </tr>
+        <tr>
+          <td><strong>Additional offices</strong></td>
+          <td>Berlin (EU HQ), Herzliya Israel, Warsaw Poland, Hyderabad India, Remote</td>
+          <td><code>Organization.location</code></td>
+          <td class="icon-fail">✗ Text present, no schema</td>
+        </tr>
+        <tr>
+          <td><strong>Investor / parent</strong></td>
+          <td>Vista Equity Partners</td>
+          <td><code>Organization.parentOrganization</code></td>
+          <td class="icon-fail">✗ Text present, no schema</td>
+        </tr>
+        <tr>
+          <td><strong>CEO</strong></td>
+          <td>Chris Malone, Chief Executive Officer</td>
+          <td><code>Organization.founder</code> / <code>ceo</code></td>
+          <td class="icon-fail">✗ Text present, no schema</td>
+        </tr>
+        <tr>
+          <td><strong>CEO quote</strong></td>
+          <td>"Today, brands win or lose based on their digital experiences…"</td>
+          <td><code>Statement</code> or <code>Quotation</code></td>
+          <td class="icon-fail">✗ Not schema'd</td>
+        </tr>
+        <tr>
+          <td><strong>Awards (4 categories)</strong></td>
+          <td>Stevie, SD Times, Tech Breakthrough, USA Today — see below</td>
+          <td><code>Award</code> on <code>Organization</code></td>
+          <td class="icon-fail">✗ Text present, no schema</td>
+        </tr>
+        <tr>
+          <td><strong>Community size</strong></td>
+          <td>"Over 1.5M+ independent experts and end users"</td>
+          <td><code>Organization.numberOfEmployees</code> (proxy)</td>
+          <td class="icon-partial">⚠ Text present, not schema'd</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:14px; font-weight:700; margin: 20px 0 10px;">Awards Section — Third-Party Validation Data</h3>
+    <p style="font-size:14px; margin-bottom:12px;">These are multi-year recognitions from named organizations — strong, citable third-party validation that is currently in image/alt-text format only:</p>
+
+    <div class="award-grid">
+      <div class="award-card">
+        <div class="org">Stevie Awards</div>
+        <div class="name">Company of the Year — Computer Software</div>
+        <div class="years">2025 · 2024 · 2023 · 2022</div>
+      </div>
+      <div class="award-card">
+        <div class="org">SD Times</div>
+        <div class="name">Best in Show — Software Development</div>
+        <div class="years">2025 · 2024 · 2022</div>
+      </div>
+      <div class="award-card">
+        <div class="org">Tech Breakthrough Awards</div>
+        <div class="name">AI Breakthrough Award · RetailTech Breakthrough Award</div>
+        <div class="years">2025</div>
+      </div>
+      <div class="award-card">
+        <div class="org">USA Today</div>
+        <div class="name">Top Workplaces</div>
+        <div class="years">2025 · 2024</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Findings &amp; Actions</h2></div>
+    <span class="status-badge status-partial">7 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Update H1 to "About Applause" (or a keyword-bearing variant).</h4>
+      <p>The browser title, og:title, meta description, and breadcrumb all use "About Applause." The H1 is "Release Faster, With Confidence." One copy edit — the fastest H1 fix in the batch. Optional upgrade: "About Applause — Crowdtesting Pioneer and Leader in Managed Software Testing" combines the brand name with keyword-bearing context.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add Organization schema with full entity attributes.</h4>
+      <p>This About page is the canonical location for Applause's Organization schema. It should include: name, description (the opening brand statement), url, headquarters address (Boston), additional office locations, investor (Vista Equity Partners), CEO (Chris Malone), founding claim ("crowdtesting pioneers"), number of community members (1.5M+), and knowsAbout attributes. Starter template below. This is the single highest-impact schema action across all product pages in the batch — it builds the entity model AI systems use to describe Applause sitewide.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add award data as text in the HTML — not just in image alt text.</h4>
+      <p>The four award categories (Stevie, SD Times, Tech Breakthrough, USA Today) are confirmed on the page, but their names and years appear primarily in image filenames and alt text rather than in body HTML text. Add each award as a visible text element beneath the award logo: "[Organization] — [Award Name] — [Years]." This makes the award data indexable and extractable without relying on image alt text parsing. Award schema (via <code>award</code> property on the Organization) can then reference this confirmed text content.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Schema-tag the CEO quote.</h4>
+      <p>Chris Malone's quote ("Today, brands win or lose based on their digital experiences…") is a named executive statement with full title confirmation. Adding a <code>Person</code> schema block for Chris Malone (with <code>jobTitle: "Chief Executive Officer"</code> and <code>worksFor: Applause</code>) reinforces the entity model. The quote itself can be referenced via the <code>Statement</code> type. Minor but contributes to overall entity recognition.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add inline outcome metrics for the three customer success stories.</h4>
+      <p>Western Union, Intermarché, and Dow Jones are named, but each description is a single generic sentence with no outcome metrics. Adding one quantified result per customer — e.g., "Western Union: payment testing across 200+ markets and 130+ currencies" — gives AI systems a citable outcome fact, not just a brand name association.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Make the founding/pioneer claim explicit and dated.</h4>
+      <p>The page says "crowdtesting pioneers" without a founding year. Adding "Founded in 2009, Applause pioneered the crowdtesting model…" gives AI systems a chronological anchor for the brand history. This is the type of specific founding fact Wikipedia and AI entity models use to describe company histories. Confirm the founding year with the team before adding.</p>
+    </div>
+
+    <div class="action-item p3-item">
+      <div style="margin-bottom:6px;"><span class="p3">P3</span></div>
+      <h4>Add a brief "What is Applause?" definition block.</h4>
+      <p>The opening brand statement is strong but buried after the H1 in a paragraph. Adding a single sentence before it — formatted as a clear definition: "Applause is a managed software testing company and the pioneer of crowdtesting, providing enterprises with real-world testing at global scale." — gives AI systems a clean, schema-friendly definition to extract for "what is Applause?" queries.</p>
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin: 24px 0 12px;">Organization Schema Starter Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">This is the most important schema addition across all product pages. Verify founding year and current community size before implementing. Confirm whether Yoast has a conflicting Organization schema in place first.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Applause",
+  "legalName": "Applause App Quality, Inc.",
+  "url": "https://www.applause.com/",
+  "logo": "https://www.applause.com/wp-content/uploads/applause-logo-1.svg",
+  "description": "Applause is a managed software testing company and pioneer of
+  crowdtesting. We connect enterprises with the world's largest testing community
+  — 1.5M+ independent experts and end users — supported by AI and automation, to
+  help brands release digital experiences with confidence.",
+  "foundingDate": "2009",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Boston",
+    "addressRegion": "MA",
+    "addressCountry": "US"
+  },
+  "location": [
+    { "@type": "Place", "name": "Boston, MA — Global HQ" },
+    { "@type": "Place", "name": "Berlin, Germany — EU HQ" },
+    { "@type": "Place", "name": "Herzliya, Israel" },
+    { "@type": "Place", "name": "Warsaw, Poland" },
+    { "@type": "Place", "name": "Hyderabad, India" }
+  ],
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Vista Equity Partners"
+  },
+  "ceo": {
+    "@type": "Person",
+    "name": "Chris Malone",
+    "jobTitle": "Chief Executive Officer"
+  },
+  "knowsAbout": [
+    "crowdtesting", "managed software testing", "functional testing",
+    "accessibility testing", "payment testing", "AI testing",
+    "user experience testing", "digital quality assurance"
+  ],
+  "award": [
+    "Stevie Awards — Company of the Year, Computer Software (2022, 2023, 2024, 2025)",
+    "SD Times — Best in Show, Software Development (2022, 2024, 2025)",
+    "Tech Breakthrough Awards — AI Breakthrough Award (2025)",
+    "Tech Breakthrough Awards — RetailTech Breakthrough Award (2025)",
+    "USA Today — Top Workplaces (2024, 2025)"
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/company/applause",
+    "https://twitter.com/Applause",
+    "https://www.youtube.com/channel/UCgOuw8ZRoV4LDEJVIgmr59Q"
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI CITATION CONTEXT -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>AI Citation Goals for This Page</h2></div>
+    <span class="status-badge status-unknown">Entity Recognition — Different Goal Than Blog Pages</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">What This Page Should Win</div>
+      About pages target entity recognition queries — not knowledge queries. The citation goal is: when AI systems are asked "what is Applause?", "who is Applause?", "where is Applause headquartered?", "has Applause won any awards?", or "who are Applause's investors?", this page provides the authoritative answer. Organization schema is the mechanism that makes this page the canonical entity source across all AI platforms.
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Query</th><th>Pre-Schema</th><th>Post-Schema</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>What is Applause?</td>
+          <td class="icon-partial">⚠ Possible — good opening statement, H1 mismatch</td>
+          <td class="icon-pass">✓ Strong — Organization schema + H1 fix makes this the canonical source</td>
+        </tr>
+        <tr>
+          <td>Where is Applause headquartered?</td>
+          <td class="icon-partial">⚠ Possible — "Boston (Global HQ)" in text</td>
+          <td class="icon-pass">✓ Strong — PostalAddress in schema makes it unambiguous</td>
+        </tr>
+        <tr>
+          <td>Applause awards / recognition</td>
+          <td class="icon-partial">⚠ Partial — present in image alt text</td>
+          <td class="icon-pass">✓ Strong — award text in HTML + schema makes each award citable</td>
+        </tr>
+        <tr>
+          <td>Who owns Applause?</td>
+          <td class="icon-partial">⚠ Possible — "Vista Equity Partners" in body text</td>
+          <td class="icon-pass">✓ Strong — parentOrganization in schema</td>
+        </tr>
+        <tr>
+          <td>Applause CEO</td>
+          <td class="icon-partial">⚠ Possible — "Chris Malone, Chief Executive Officer" in body</td>
+          <td class="icon-pass">✓ Strong — ceo Person schema</td>
+        </tr>
+        <tr>
+          <td>Applause crowdtesting pioneer</td>
+          <td class="icon-partial">⚠ Partial — present in text, H1 mismatch reduces signal</td>
+          <td class="icon-pass">✓ Strong — foundingDate + knowsAbout + description in schema</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:14px; margin-top:12px; color:#666;">Add "what is Applause" and "Applause headquartered" to Pam's monthly LLM citation tracking as entity validation queries. These are lower priority than product queries but valuable signals for whether the Organization schema is propagating correctly.</p>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/about-applause/ &nbsp;·&nbsp; Scope: Company About page — focused audit<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Primary AI visibility goal: entity recognition. Organization schema is the mechanism. Award text visibility and H1 alignment are the content prerequisites.</span>
+</div>
+
+</body>
+</html>

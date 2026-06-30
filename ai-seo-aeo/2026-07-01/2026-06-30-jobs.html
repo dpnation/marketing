@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Jobs / Careers Page</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item.p3-item { border-left-color: var(--blue-500); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) { .report-header { padding: 24px 20px; } .section-body { padding: 20px; } }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Jobs / Careers Page</h1>
+  <div class="sub">applause.com/jobs/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Page type: <strong>Candidate-facing utility page</strong></span>
+    <span>No published or modified date in metadata</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-unknown">Out of Scope for AI Citation Optimization</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Page Type Note</div>
+      This is a candidate-facing utility page, not a marketing content page. Its primary purpose is to display open job listings — a function handled by a JavaScript-rendered widget (likely Greenhouse or a similar ATS). This page type has fundamentally different AI visibility considerations from the rest of the audit batch and warrants a different treatment.
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">⛔ Primary Finding — Job Listings Are Invisible to AI Crawlers</div>
+      The "Explore Our Openings" section of this page rendered completely empty when fetched. The actual job listings are loaded via JavaScript — which AI citation bots, like most web crawlers, cannot execute. Anyone asking an AI system "what jobs does Applause have open?" receives no useful answer from this page, because the jobs themselves don't exist in the indexable text layer. This is the expected behavior for ATS-embedded job listings; fixing it would require either a static rendering solution or JobPosting schema fed from the ATS.
+    </div>
+
+    <p style="margin-bottom:16px;">The visible text content of this page is three sentences and one short paragraph. There is nothing for AI systems to extract, cite, or summarize beyond the company name and the fact that jobs exist. This is not a meaningful AI citation target in the way that blog posts, solution pages, and brand pages are — job listings change constantly, candidate queries are served better by LinkedIn and Indeed, and there is no static content AI systems could use to answer queries about Applause's hiring. The appropriate AI-visibility investment for Applause's employer brand is on the <strong>/life-at-applause/</strong> page, not here.</p>
+
+    <p><strong>Recommendation: Deprioritize this page for the AI visibility audit program.</strong> The three actions below are the full scope of what's appropriate here. This page does not require the full 9-section audit format applied to other pages.</p>
+
+  </div>
+</div>
+
+<!-- WHAT'S HERE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>What the Page Actually Contains</h2></div>
+    <span class="status-badge status-unknown">Minimal Static Content</span>
+  </div>
+  <div class="section-body">
+
+    <p style="margin-bottom:16px;">The full text content of this page, excluding navigation and footer:</p>
+
+    <table>
+      <thead>
+        <tr><th>Element</th><th>Content</th><th>AI Citation Value</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>H1</strong></td>
+          <td>"Job Openings"</td>
+          <td class="icon-partial">⚠ Low — generic, no employer brand signal</td>
+        </tr>
+        <tr>
+          <td><strong>Intro paragraph</strong></td>
+          <td>"We're always looking for new talent. Grow your career in a collaborative environment operating at the edge of innovation. See below for openings."</td>
+          <td class="icon-partial">⚠ Low — generic, no differentiating content</td>
+        </tr>
+        <tr>
+          <td><strong>H2: "Explore Our Openings"</strong></td>
+          <td>Empty — JS-rendered job listings not present in crawlable text layer</td>
+          <td class="icon-fail">✗ None — content invisible to crawlers</td>
+        </tr>
+        <tr>
+          <td><strong>H2: "What Makes Us Unique?"</strong></td>
+          <td>"Our customers, our employees, our unmatched leadership. But that's not all. Fun, bright people; accessible executives; a flexible work environment; massive opportunity to grow and much more than we can fit in this small space."</td>
+          <td class="icon-partial">⚠ Low — vague; no specific employer brand claims</td>
+        </tr>
+        <tr>
+          <td><strong>Link: "Explore Our Culture"</strong></td>
+          <td>→ /life-at-applause/</td>
+          <td class="icon-pass">✓ Positive internal link to the page with substantive employer brand content</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Where the Employer Brand Content Lives</div>
+      The page that should be optimized for employer brand AI visibility is <strong>/life-at-applause/</strong> — not this page. That page is where substantive content about Applause's culture, values, team, and employee experience would live. If "what is it like to work at Applause" or "Applause company culture" are priority queries, the audit investment goes there.
+    </div>
+
+  </div>
+</div>
+
+<!-- GOOGLE JOBS -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>The Relevant Optimization: Google Jobs, Not AI Overviews</h2></div>
+    <span class="status-badge status-unknown">Different Goal, Different Standard</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The correct SEO standard for a jobs page is not AI Overview citation — it's Google Jobs integration, which uses JobPosting schema to surface individual job listings directly in Google Search results. This is where jobs pages earn search visibility, and it operates entirely outside the AI citation framework used for the rest of this audit batch.
+    </div>
+
+    <p style="margin-bottom:16px;">Job listings are ephemeral, constantly changing, and not the type of content AI systems are designed to synthesize and cite. AI systems do not answer "what specific jobs does Applause have open today?" — they answer knowledge and research questions. The correct measurement for this page is whether individual job listings appear in Google Jobs, not whether the page is cited in an AI Overview.</p>
+
+    <table>
+      <thead>
+        <tr><th>Optimization Goal</th><th>Relevant Standard</th><th>Current Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Individual job listings appear in Google Search / Google Jobs</td>
+          <td>JobPosting JSON-LD schema on each listing</td>
+          <td class="icon-unknown">? Unknown — depends on whether ATS emits schema. Check via Google's Rich Results Test on a sample job URL.</td>
+        </tr>
+        <tr>
+          <td>Job listings crawlable by search engines</td>
+          <td>Server-side rendering or static HTML for job content</td>
+          <td class="icon-fail">✗ Listings are JS-rendered — not in crawlable text layer</td>
+        </tr>
+        <tr>
+          <td>"Applause careers" brand query</td>
+          <td>H1 / meta title alignment with query</td>
+          <td class="icon-partial">⚠ Partial — "Job Openings" is functional but "Applause Careers" would better match how candidates search</td>
+        </tr>
+        <tr>
+          <td>Employer brand AI visibility</td>
+          <td>Substantive content on /life-at-applause/ rather than this page</td>
+          <td class="icon-partial">⚠ This page links to /life-at-applause/ — audit that page if employer brand AI visibility is a goal</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Actions — Minimal, Appropriate to Page Type</h2></div>
+    <span class="status-badge status-unknown">3 Actions — Low Priority vs. Rest of Batch</span>
+  </div>
+  <div class="section-body">
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Verify whether the ATS (Greenhouse / Lever / etc.) emits JobPosting schema on individual job URLs.</h4>
+      <p>If individual job listing URLs exist (e.g., applause.com/jobs/123456-senior-engineer), check one via Google's Rich Results Test. Most modern ATS platforms emit JobPosting schema by default. If it's present, no action is needed. If it's absent, contact the ATS vendor to enable it — this is the correct Google Search optimization for job content. Owner: Web / HR.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Update H1 from "Job Openings" to "Careers at Applause."</h4>
+      <p>"Careers at Applause" better matches how candidates search ("Applause careers," "jobs at Applause") and is a minor improvement for brand-query alignment. Low effort; no new content required. Owner: Web dev.</p>
+    </div>
+
+    <div class="action-item p3-item">
+      <div style="margin-bottom:6px;"><span class="p3">P3</span></div>
+      <h4>If employer brand AI visibility is a priority, add /life-at-applause/ to the audit batch.</h4>
+      <p>That page is where substantive content about Applause's culture, values, and employee experience lives — and where AI systems would look to answer "what is it like to work at Applause?" queries. The jobs page links to it; the jobs page itself is not the right vehicle for employer brand AI citation. Owner: PMM.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>Monitoring — Not Applicable</h2></div>
+    <span class="status-badge status-unknown">Excluded from AI Visibility Tracking</span>
+  </div>
+  <div class="section-body">
+    <p>This page should be excluded from the monthly LLM citation tracking program (Pam's tracker). Job pages are utility pages that serve a transactional candidate audience — tracking AI citation rates for "Applause job openings" is not a meaningful marketing metric. If employer brand AI visibility becomes a priority, add /life-at-applause/ to the tracking set instead.</p>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/jobs/ &nbsp;·&nbsp; Scope: Utility page — abbreviated audit<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">This page is not a meaningful AI citation target. Employer brand AI visibility should be addressed via /life-at-applause/ rather than this page.</span>
+</div>
+
+</body>
+</html>
