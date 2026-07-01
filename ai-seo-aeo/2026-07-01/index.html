@@ -110,6 +110,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
+    width: 100%;
   }
 
   /* REPORT CARD */
@@ -125,6 +126,7 @@
     flex-direction: column;
     text-decoration: none;
     color: inherit;
+    min-width: 0; /* prevent grid track blowout from long content */
   }
   .report-card:hover { box-shadow: 0 4px 16px rgba(2,114,180,0.12); }
 
