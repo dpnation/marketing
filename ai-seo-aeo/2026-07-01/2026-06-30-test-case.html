@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — What Is a Test Case? Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>What Is a Test Case? Blog Post</h1>
+  <div class="sub">applause.com/blog/what-is-a-test-case-examples-types-format/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>February 1, 2022</strong></span>
+    <span>Last modified: <strong>April 24, 2026</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Format Table + April 2026 Freshness Both Hidden Assets</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout — Only Blog Post in the Batch With a Real HTML Table</div>
+      The test case format section contains a proper 12-row HTML table with Field and Description columns — the only functioning HTML comparison table in the blog batch (the training data article has one too, but misplaced after the CTA). This table is the article's primary AI citation asset for "test case format" and "test case template" queries and is already in extractable format. No content work needed here — just schema.
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Second Freshest Blog in the Batch — April 24, 2026</div>
+      Modified April 24, 2026 — only the SQA Explained article (May 2026) is more recent. Only February 2022 is visible on the page. Making the April 2026 date visible is a one-template-change action that activates the second-strongest freshness signal in the blog batch on an article that is 4+ years old by its visible date.
+    </div>
+
+    <p style="margin-bottom:16px;">The article is the most comprehensive in the batch — 16 minutes covering definitions, four comparison pairs, eight test case types with concrete named examples each, test case results categories, the format table, writing tips, and test case management. It also links cleanly to Applause's /test-case-management/ solution page in the body — one of the better solution page connections in the blog. The gaps are structural: definition not leading, four comparison pairs in prose not tables, no FAQ, no statistics, no ItemList schema for the eight test case types.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⚠</span><span>April 2026 modification invisible — only February 2022 showing; second-best freshness signal in batch wasted</span></li>
+          <li><span>✗</span><span>Four "vs." comparison pairs (vs. test scenario, vs. test script, vs. test plan, vs. use case) in prose — no comparison table</span></li>
+          <li><span>✗</span><span>Definition in the "What is a test case?" H3 sub-section, not the opening paragraph</span></li>
+          <li><span>✗</span><span>Eight test case types with examples — no ItemList schema</span></li>
+          <li><span>✗</span><span>No FAQ section despite natural question-format structure</span></li>
+          <li><span>✗</span><span>Zero statistics in a 16-minute article</span></li>
+          <li><span>✗</span><span>Minor H1 / meta title mismatch ("and Tips" added to H1, missing from meta title)</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>12-row HTML format table — only functioning HTML data table in the blog batch; directly extractable by AI</span></li>
+          <li><span>✓</span><span>April 2026 modification — second-freshest blog in the batch (once visible)</span></li>
+          <li><span>✓</span><span>Eight test case types each with a named, concrete example — strong structured content</span></li>
+          <li><span>✓</span><span>H1 "What Is a Test Case? Examples, Types, Format and Tips" — well query-matched</span></li>
+          <li><span>✓</span><span>Internal link to /test-case-management/ solution page in the article body — one of the best solution-page connections in the batch</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager</span></li>
+          <li><span>✓</span><span>Test case results categories (pass, fail, not executed, blocked) — clean, extractable definitions</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add "Last updated: April 2026" alongside the published date.</h4>
+      <p>April 24, 2026 is confirmed from metadata. February 2022 is the only visible date. One template change makes this the second-most-recently-updated article in the blog batch instead of appearing 4 years old. Same fix as SQA Explained, training data, and QA vs. QC — all in this batch.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add ItemList schema for the 8 test case types.</h4>
+      <p>Eight named test case types (Functionality, UI, Integration, Performance, Security, Usability, Database, User Acceptance, Exploratory — actually 9 counting Exploratory) each have a named description and a concrete example. ItemList schema tags this as a named, ordered list — exactly what AI systems extract for "types of test cases" enumeration queries. The content is already structured; schema makes it machine-readable.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add FAQPage schema to the existing Q&A structure — and convert the four vs. pairs to a comparison table.</h4>
+      <p>The article already answers: "What is a test case?", "What are the types of test cases?", "What is test case format?", "How do you write test cases efficiently?" — all FAQPage-ready. Simultaneously, the four "test case vs." pairs (vs. test scenario, vs. test script, vs. test plan, vs. use case) are a comparison table waiting to happen. Two columns (Concept | Test Case Difference), four rows. Covers the comparison queries that currently go to Guru99 entirely.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Competitive — Format Table Is the Strongest Asset</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is a test case" is one of the foundational QA knowledge queries — searched by developers, QA leads, product managers, and anyone building a testing program. Being cited as the authoritative source for test case format, types, and template positions Applause as the entry point for QA practitioners starting their testing journey. The format table is the article's primary competitive differentiator — it's more specific and actionable than what Guru99 typically provides.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status inferred from page structure and competitive analysis. Manual verification required before stakeholder distribution. ChatGPT: OAI-SearchBot allowed by wildcard per homepage audit.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is a test case</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — definition in H3, not opening</td>
+          <td>Guru99, Software Testing Help, Atlassian</td>
+        </tr>
+        <tr>
+          <td>test case format</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Strong — 12-row HTML table already present</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>test case template fields</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Strong — HTML table with 12 named fields; best in batch for table extraction</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>types of test cases</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — 9 types named; no ItemList schema</td>
+          <td>Guru99, Software Testing Help, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>test case vs test scenario</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — prose only, no comparison table</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>test case examples software testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — 9 concrete named examples present</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>how to write a test case</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — writing tips section present, no HowTo schema</td>
+          <td>Guru99, BrowserStack</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">Test case format / template</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:70%;"></div></div><span style="font-size:13px; color:var(--green);">Strong — HTML table already in place</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">Types of test cases</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — 9 types + examples; schema would strengthen</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">"What is a test case" definition</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — definition in H3, not opening</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">Comparison queries (vs. test scenario, etc.)</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:10%;"></div></div><span style="font-size:13px; color:var(--red);">Weak — prose only</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">4 Pass · 1 Partial · 5 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This is the most content-rich article in the audit batch — 16 minutes covering every dimension of test cases. The HTML format table is already extractable. The eight test case types with concrete examples are structured for extraction. The primary gaps are the invisible freshness date, missing comparison table for the vs. pairs, and missing schema on the types list. None of these require new content.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition in opening</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The article opens with two paragraphs about software testing value before reaching the H3 "What is a test case?" definition: "A test case is a singular set of actions or instructions for a tester to perform that validates a specific aspect of a product or application functionality." Move this to be the opening sentence. The broader software testing context can follow. Same fix as most articles in this batch.</td>
+        </tr>
+        <tr>
+          <td><strong>HTML format table — the standout structural asset</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>A 12-row HTML table with Field and Description columns covers: Test case ID/name, Module name, Tester name, Priority, Test data, Assumptions/preconditions, Test scenario, Testing environment, Testing steps, Expected results, Actual results, Pass/fail determination. This is properly marked up with <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code> (assumed from rendering) — already machine-readable by AI systems. This is the article's primary citation asset for "test case format" and "test case template fields" queries. No content changes needed; schema wrapper would formalize it.</td>
+        </tr>
+        <tr>
+          <td><strong>Nine test case types with named examples</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Nine types (Functionality, UI, Integration, Performance, Security, Usability, Database, User Acceptance, Exploratory) each with a paragraph description followed by "X test case example: [concrete scenario]." The examples are specific: "Validate that new customer PII data is stored in encrypted format" (Database), "Validate that a user can register for a new account and receive email confirmation" (UAT). Well-structured for extraction. ItemList schema would make the list machine-readable (see Section 4).</td>
+        </tr>
+        <tr>
+          <td><strong>Four "vs." comparison pairs in prose</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Test case vs. test scenario, vs. test script, vs. test plan, vs. use case — all covered in 1–2 sentence prose explanations with bolded labels. Converting to a single 4-row comparison table (rows: test scenario / test script / test plan / use case; columns: concept + key difference from a test case) would directly serve "test case vs. X" comparison queries. Content is already written; formatting only.</td>
+        </tr>
+        <tr>
+          <td><strong>Test case results section</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Four result categories (pass, fail, not executed, blocked) defined clearly. The distinction between positive/negative tests and pass/fail results is explained well. This is citable content for "test case results" queries. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ. Suggested questions: "What is a test case in software testing?", "What are the different types of test cases?", "What fields does a test case include?", "What is the difference between a test case and a test plan?", "How do you write an effective test case?", "What is a test case management tool?" — The last question creates a direct commercial link to Applause's test case management solution.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Zero statistics in a 16-minute article on test cases. Relevant data: World Quality Report benchmarks on test case coverage rates, NIST data on defect costs relative to test coverage depth, or Applause-specific proof points on defect detection rates from well-structured test cases. At minimum, add one sourced statistic in the "Why test cases matter" context of the opening.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>February 1, 2022 is visible. April 24, 2026 modification is confirmed from metadata — not visible. On a topic where content changes are substantive (test case management tools have evolved since 2022), the invisible freshness signal is a material competitive disadvantage. One template change makes this the second-freshest blog in the batch.</td>
+        </tr>
+        <tr>
+          <td><strong>H1 and meta title alignment</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>H1 says "What Is a Test Case? Examples, Types, Format and Tips." Meta title says "What Is a Test Case? Examples, Types and Format" — "and Tips" missing. Minor but worth aligning — standardize to whichever version better matches the queries you want to own. The H1 version with "Tips" is slightly more comprehensive.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, with photo and author page link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Link to /test-case-management/ appears twice in the article body — once in the intro ("test case format, types and management") and once in the CTA section. Also links to /crowdtesting/. This is one of the stronger solution-page link structures in the blog batch. No changes needed here.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge" style="background:#FEE2DC;color:var(--red);">ItemList + FAQPage — Both Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The HTML format table is already machine-readable — it doesn't need additional schema to be extracted by AI systems. The two schema gaps that do require action are: (1) ItemList for the nine test case types — naming each type makes the list explicitly enumerable for AI extraction; (2) FAQPage for the Q&A structure — the article already answers the most common test case questions, just without the schema wrapper that makes them reliably extractable.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test before adding. Yoast likely generates Article/BlogPosting — check before adding.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ItemList</code> (9 test case types)</td>
+          <td>Tags all nine named test case types as a structured list — makes "types of test cases" enumeration queries machine-readable. Each item should include name and description (the example would make a good description attribute).</td>
+          <td class="icon-fail">✗ Almost certainly absent — not auto-generated by Yoast</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags the Q&A content for direct extraction. The existing section structure already answers the most common test case questions — schema formalizes this for People Also Ask appearances.</td>
+          <td class="icon-fail">✗ Absent — FAQ section not yet formalized</td>
+          <td><span class="p2">P2 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>Table</code> (for the format table)</td>
+          <td>The HTML format table is already machine-readable via proper HTML semantics. If the table uses <code>&lt;thead&gt;</code>/<code>&lt;tbody&gt;</code> with column headers, no additional schema is needed. Verify table markup is semantically correct.</td>
+          <td class="icon-partial">⚠ Verify semantic HTML markup — likely adequate</td>
+          <td><span class="p2">P2 — verify only</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Verify Yoast is updating <code>dateModified</code> to April 2026. This is the machine-readable freshness signal AI systems use.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified reflects April 2026</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-unknown">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. Confirm Cloudflare CDN-level bot blocking is not active — see Homepage report §5.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">QA Knowledge Ecosystem — Standard Competitors</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the test case knowledge ecosystem</span>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>Test Case Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Their test case articles are cited frequently. A named Applause expert quote on test case management at scale — particularly how crowdtesting teams manage large test suites across global tester communities — would be credible and citable in their practitioner-focused content.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Test case)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify whether Applause is cited in the Wikipedia test case article. A reference in the "test case management" section — where Applause's platform is a named tool — would be appropriate and high-value for cross-platform citation.</td>
+        </tr>
+        <tr>
+          <td><strong>Atlassian / Jira</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Atlassian's test management documentation and blogs are cited heavily for test case and test management queries. An integration reference (Applause's platform integrates with Jira) in Atlassian content would be high-value third-party placement.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 (Test Case Management category)</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Ensure G2 profile is tagged under "Test Case Management" specifically. Customer reviews mentioning test case creation, management, or coverage tracking with Applause would directly reinforce the article's commercial CTA angle.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge" style="background:#FEE2DC;color:var(--red);">2 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for test case queries</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Guru99 / Software Testing Help</h3>
+      <p><strong>Where they win:</strong> "What is a test case," "test case format," "test case vs. test scenario." Their content includes comparison tables for all "vs." pairs, FAQPage schema, and statistics on test case coverage rates. They also include downloadable test case template files — a resource type Applause's blog doesn't offer.</p>
+      <p><strong>Why AI cites them:</strong> Schema markup, comparison tables, and regular updates. The Applause article's HTML format table is actually more complete and usable than Guru99's, but without schema it's harder to extract as a structured resource.</p>
+      <p><strong>Applause's counter:</strong> The 12-row HTML format table is already more detailed than Guru99's — once ItemList schema is added to the types and FAQPage schema to the Q&A structure, this article becomes structurally comparable on the automated extraction dimensions. Adding a comparison table for the vs. pairs directly closes the remaining structural gap.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Adjacent Gap</div>
+      <h3>Test Management Tool Vendors (Zephyr, Xray, TestRail)</h3>
+      <p><strong>Where they win:</strong> "Test case management," "test case template," "how to write test cases." These vendors publish practitioner guides on test case creation that double as product marketing — they win both the knowledge query and the vendor evaluation query simultaneously.</p>
+      <p><strong>Applause's counter:</strong> Applause's article already links to /test-case-management/ and mentions Applause's TCM platform. A more explicit comparison — "how Applause's test case management solution differs from standalone TCM tools" — would capture the evaluation query that tool vendors own, positioning Applause as the managed-service alternative to self-serve TCM tools.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add "Last updated: April 2026"</strong> alongside the published date. One template change activates the second-strongest freshness signal in the blog batch.</td>
+          <td>High — freshness signal</td>
+          <td>Low — template</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add ItemList JSON-LD schema</strong> for the 9 test case types (Functionality, UI, Integration, Performance, Security, Usability, Database, User Acceptance, Exploratory). Each item: position, name, description (drawn from each type's concrete example).</td>
+          <td>High — types enumeration queries</td>
+          <td>Low — schema only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Align meta title with H1</strong> — add "and Tips" to the meta title to match the H1, or remove it from the H1 for consistency. Minor gap but easy to fix.</td>
+          <td>Low — consistency signal</td>
+          <td>Low — copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Move the definition to opening sentence.</strong> "A test case is a singular set of actions or instructions for a tester to perform that validates a specific aspect of a product or application functionality." This should lead the article before the contextual framing paragraphs.</td>
+          <td>High — definition query citation</td>
+          <td>Low — copy reorder</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Convert the four "vs." pairs to a comparison table.</strong> One 4-row table: Test Scenario / Test Script / Test Plan / Use Case, each with a "Key Difference from Test Case" column. Content already written; formatting only.</td>
+          <td>High — comparison queries</td>
+          <td>Low — formatting + markup</td>
+          <td>Content (Jennifer) / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–6 questions. See Section 1 — especially "What is a test case management tool?" which creates a direct commercial link to Applause's TCM solution. Add FAQPage JSON-LD schema.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content (Jennifer) + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify the HTML format table uses semantic markup</strong> (<code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, column headers) — this is the article's primary AI citation asset and it needs to be fully machine-readable. Confirm via the page's DOM or source inspection.</td>
+          <td>Medium — table extractability verification</td>
+          <td>Low — verify + fix if needed</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 2–3 statistics with named sources</strong> — defect detection rates correlated with test case coverage depth, test case management ROI benchmarks, or World Quality Report data on test case practices. At minimum one sourced statistic in the opening section.</td>
+          <td>High — citation credibility</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify Yoast's dateModified reflects April 2026</strong> in Article schema output. Run through Rich Results Test.</td>
+          <td>Medium — structured freshness signal</td>
+          <td>Low — verify</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add a brief "Test cases in the AI era" section</strong> — how test case writing changes when the software under test includes AI features, Gen AI outputs, or agentic behaviors. The article comprehensively covers traditional testing but has zero AI-era content. A 2–3 paragraph addition would future-proof the article for 2026 queries.</td>
+          <td>Medium — emerging query coverage</td>
+          <td>Medium — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>what is a test case in software testing</li>
+      <li>test case format template fields</li>
+      <li>types of test cases</li>
+      <li>test case vs test scenario</li>
+      <li>test case vs test plan</li>
+      <li>test case examples software</li>
+      <li>how to write a test case</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema</strong></td>
+          <td>Validate ItemList and FAQPage (once added) via Rich Results Test. Verify the HTML format table's semantic markup is correct. Confirm Article dateModified shows April 2026.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 7 queries across platforms. Key tests: (1) Is the HTML format table being cited for "test case format template" queries? (2) Are comparison queries (vs. test scenario, vs. test plan) now returning Applause citations after the comparison table is added?</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask for test case queries — each new question is a FAQ addition opportunity. Assess whether the "types of test cases" ItemList schema is improving citation rates for enumeration queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Update "Last updated" date after any content changes. Monitor whether "test cases for AI features" or similar AI-era variants of test case queries are emerging — if yes, the P3 AI era section becomes P1. Keep the test case format table fields current as testing practices evolve.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/what-is-a-test-case-examples-types-format/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>
