@@ -11,7 +11,7 @@
 | Skill | What it does | Primary output |
 |---|---|---|
 | `product-marketing-context` | Meta-skill. Captures product, ICP, personas, competitive landscape, and GTM motion in a shared context file all other skills reference. | `.agents/product-marketing-context.md` |
-| `messaging-positioning` | Positioning statements, message houses, and value props using April Dunford's *Obviously Awesome* framework. | Markdown positioning doc |
+| `messaging-positioning` | Positioning statements, message houses, and value props using PMM framework. | Markdown positioning doc |
 | `go-to-market` | Launch plans, campaign briefs, launch checklists, and channel strategy. | Markdown GTM plan |
 | `competitive-intelligence` | Competitor research, battle card content, comparison pages, and RFP support. Pairs with Battlecard Builder for .docx output. | Markdown intel brief / .docx via Battlecard Builder |
 | `customer-research` | Buyer personas, ICP definition, win/loss interview guides, and voice-of-customer analysis. | Markdown personas and research framework |
