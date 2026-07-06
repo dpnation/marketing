@@ -1,1 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Receipts - Case Study</title>
+<style>
+  :root {
+    --blue-500: #0272B4;
+    --blue-700: #01446C;
+    --blue-100: #E6F3FA;
+    --blue-50: #F7FBFE;
+    --aqua-500: #00C0A3;
+    --gray-700: #3D3D3D;
+    --yellow-500: #FFC400;
+    --font-primary: 'Proxima Nova', Arial, sans-serif;
+  }
 
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-primary);
+    color: var(--gray-700);
+    background: #FFFFFF;
+    line-height: 1.5;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+    color: #FFFFFF;
+    padding: 64px 24px 56px;
+    text-align: left;
+  }
+
+  .hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--aqua-500);
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 34px;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    color: #FFFFFF;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: var(--blue-100);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  h2 {
+    font-weight: 800;
+    font-size: 21px;
+    color: var(--blue-700);
+    margin: 44px 0 14px;
+    line-height: 1.3;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--blue-700);
+    margin: 22px 0 8px;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0 0 14px;
+  }
+
+  ul {
+    margin: 0 0 16px;
+    padding-left: 22px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  li ul {
+    margin-top: 10px;
+  }
+
+  .card {
+    background: var(--blue-50);
+    border: 1px solid var(--blue-100);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 16px 0 20px;
+  }
+
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+
+  .label-pmm, .label-ai {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .label-pmm {
+    background: var(--blue-100);
+    color: var(--blue-700);
+  }
+
+  .label-ai {
+    background: rgba(0, 192, 163, 0.15);
+    color: #007A69;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 20px 0 8px;
+  }
+
+  .stat {
+    flex: 1 1 200px;
+    background: #FFFFFF;
+    border: 1px solid var(--blue-100);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .stat .num {
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--blue-500);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat .desc {
+    font-size: 13px;
+    color: var(--gray-700);
+  }
+
+  em.note {
+    display: block;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--gray-700);
+    background: #FFF8E1;
+    border-left: 3px solid var(--yellow-500);
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-top: 12px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--blue-100);
+    margin-top: 56px;
+    padding-top: 24px;
+    font-size: 13px;
+    color: #6B6B6B;
+  }
+
+  a { color: var(--blue-500); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 27px; }
+    .hero { padding: 48px 20px 40px; }
+    .container { padding: 36px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">AI Tooling Case Study</p>
+    <h1>Work Receipts: Building a self-service record of impact</h1>
+    <p class="subtitle">How a one-person product marketing function used Claude to solve a reporting problem that scaled with her AI tool ecosystem — not just her manual workload.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <h2>What it is</h2>
+  <p>Work Receipts is a Claude Project built to solve two connected problems for a one-person product marketing team: no reliable system of record for completed work (no project management connector, work scattered across a distribution platform, a code-hosted content site, chat, and email), and quarterly performance reporting that otherwise required reconstructing three months of work from memory under deadline pressure.</p>
+
+  <h2>How it works</h2>
+  <p>Deliverables get logged in the moment they're completed, not batched at quarter-end. Two examples from a recent quarter show how the same system handles very different types of work:</p>
+
+  <div class="card">
+    <span class="label-pmm">Traditional PMM</span>
+    <p>A newly built competitive battlecard goes live on the internal sales enablement platform. Claude turns the update into a structured work receipt: human baseline estimate, AI-assisted time, what still needs review, risk flags, and a value call — small assist, major time saver, or not worth using AI for.</p>
+  </div>
+
+  <div class="card">
+    <span class="label-ai">AI-Assisted Output</span>
+    <p>Running an AI-search-visibility audit tool against twenty web pages got the same treatment, with real numbers attached:</p>
+    <div class="stat-row">
+      <div class="stat"><span class="num">18–25 hrs</span><span class="desc">Estimated human baseline to audit that many pages manually</span></div>
+      <div class="stat"><span class="num">4–6 hrs</span><span class="desc">Actual active time spent with Claude</span></div>
+    </div>
+    <p>The receipt didn't stop at the time saved — it also flagged what still needed human verification before the report went anywhere near external stakeholders: a couple of stats with source discrepancies, and a technical claim that needed IT confirmation before it could be cited. The tool sped up the work; the receipt kept the shortcut honest.</p>
+  </div>
+
+  <h2>Why she built it</h2>
+  <ul>
+    <li>No automated rollup existed for her tools and workflows, so manual tracking was either skipped under time pressure or reconstructed inaccurately at reporting time.</li>
+    <li>She needed defensible proof points tied to her actual goals, not just a list of activities — real time-saved estimates and business impact framing.</li>
+    <li>As a team of one running a growing AI tool ecosystem, she needed a system that could recall work from early in a reporting period, not just whatever was top of mind recently.</li>
+  </ul>
+
+  <h2>How it's been tweaked</h2>
+  <ul>
+    <li><strong>From append to replace.</strong> The original approach logged each new deliverable as a separate memory entry. This got unwieldy fast — the system now maintains a single consolidated running tally per period, updated by replacing the entry rather than appending to it, to keep it scannable and prevent duplication or drift.</li>
+    <li><strong>Human confirms before it's logged.</strong> Each receipt is confirmed before it's committed to memory — nothing gets logged unilaterally.</li>
+    <li><strong>A built-in "don't oversell" guardrail.</strong> When work is complete but not yet live — for example, content built but publishing after a reporting deadline — the system defaults to conservative framing over an inflated one, even when a more generous claim would be arguable.</li>
+  </ul>
+
+  <h2>Demonstrated impact</h2>
+  <p>Over one full quarter, the system consolidated more than a dozen shipped AI tools, a search-visibility measurement suite, several analyst relations engagements, an originated industry webinar, and a cross-functional adoption signal (another team independently adopted one of her tools) into a single, structured performance report — with the reasoning behind each attainment claim documented, not just asserted.</p>
+
+  <h2>What's next</h2>
+  <ul>
+    <li>A direct project-management connector, if one becomes available, would close the manual-tracking gap this system currently fills by hand.</li>
+    <li>The same receipt structure is already being extended into a newer competitive intelligence project — an automated weekly discovery-scan pipeline is being logged the same way.</li>
+  </ul>
+
+  <div class="footer">
+   Work Receipts case study 
+  </div>
+
+</div>
+
+</body>
+</html>
