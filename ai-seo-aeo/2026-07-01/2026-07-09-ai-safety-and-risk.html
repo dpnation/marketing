@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Visibility Audit — AI Safety & Risk Testing</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background:#F7FBFE; color:#3D3D3D; margin:0; padding:0; }
+  .wrap { max-width:900px; margin:0 auto; padding:0 20px 60px; }
+  header.cover { background:#01446C; color:#fff; padding:40px 20px; }
+  header.cover .inner { max-width:900px; margin:0 auto; }
+  header.cover h1 { font-weight:800; font-size:32px; margin:0 0 8px; }
+  header.cover .meta { font-size:14px; opacity:.9; line-height:1.6; }
+  .badge { display:inline-block; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-top:12px; }
+  .badge-weak { background:#D42D0E; color:#fff; }
+  .badge-partial { background:#ED7200; color:#fff; }
+  .badge-strong { background:#0F8919; color:#fff; }
+  .card { background:#fff; border:1px solid #E6F3FA; border-radius:8px; padding:24px; margin:20px 0; }
+  h2 { color:#01446C; font-weight:800; font-size:22px; }
+  h3 { color:#0272B4; font-weight:700; font-size:16px; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+  th { text-align:left; padding:8px 10px; background:#0272B4; color:#fff; font-size:12px; text-transform:uppercase; letter-spacing:.3px; }
+  td { padding:8px 10px; border-bottom:1px solid #E6F3FA; vertical-align:top; }
+  tr:nth-child(even) td { background:#F7FBFE; }
+  .pill { display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:700; text-transform:uppercase; }
+  .pass { background:#0F8919; color:#fff; }
+  .fail { background:#D42D0E; color:#fff; }
+  .unknown { background:#ED7200; color:#fff; }
+  .p1 { background:#D42D0E; color:#fff; }
+  .p2 { background:#ED7200; color:#fff; }
+  .p3 { background:#0272B4; color:#fff; }
+  .callout { border-left:4px solid #00C0A3; background:#F0FBF9; padding:14px 18px; margin:14px 0; font-size:14px; border-radius:4px; }
+  .alert { border-left:4px solid #D42D0E; background:#FDEEEC; padding:14px 18px; margin:14px 0; font-size:14px; border-radius:4px; }
+  .info { border-left:4px solid #0272B4; background:#EAF4FB; padding:14px 18px; margin:14px 0; font-size:14px; border-radius:4px; }
+  .divider { text-align:center; margin:40px 0; padding:20px 0; border-top:3px solid #0272B4; border-bottom:3px solid #0272B4; background:#EAF4FB; }
+  .divider h2 { margin:0; }
+  nav.anchor { text-align:center; font-size:13px; }
+  nav.anchor a { color:#0272B4; margin:0 8px; text-decoration:none; font-weight:600; }
+  .tag { font-size:11px; font-weight:700; text-transform:uppercase; color:#0F8919; }
+  .tag.offpage { color:#00857a; }
+  footer { text-align:center; font-size:12px; color:#888; margin-top:40px; }
+  code { background:#F0F4F7; padding:2px 6px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="inner">
+    <h1>AI Visibility Audit</h1>
+    <div class="meta">
+      Applause — /ai-safety-and-risk-testing/<br>
+      Audit date: July 9, 2026 &nbsp;|&nbsp; Platform focus: Google AI Overviews, ChatGPT, Perplexity, Claude
+    </div>
+    <span class="badge badge-weak">Weak Visibility</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<h2>Executive Summary</h2>
+<p><strong>Applause has zero AI-citation presence for AI red teaming and AI safety testing queries — a market currently owned entirely by cybersecurity vendors and Big 4 consultancies, not by any of Applause's tracked crowdtesting competitors.</strong> This page competes in a category Applause isn't currently framed to win.</p>
+
+<p><strong>Top 3 findings:</strong></p>
+<ol>
+<li>Every "AI red teaming" / "AI safety testing" vendor roundup checked (Mend, Synack, Redbot, Confident AI, gbhackers, Research and Markets) surfaces CrowdStrike, Synack, Bishop Fox, Mandiant, NCC Group, Confident AI, Mindgard, Protect AI, Lakera, plus Deloitte/Accenture/IBM/PwC/EY/KPMG. Applause appears in none. This is a different competitive set than Testlio/GAT/Qualitest — it's cybersecurity and consulting, not crowdtesting.</li>
+<li>The page has zero extractable structure for query-matching: no definition block, no FAQ, no comparison table, and four unsourced statistics (39%, 50%, 40%, 46%) with no attribution — a repeat of the unsourced-proof-statistics risk flagged across prior audits.</li>
+<li>Community size stated as "1.5M+" on this page, matching other live Applause pages checked — confirms the open brand-fact conflict is in <code>product-marketing-context.md</code> (1M+), not the site.</li>
+</ol>
+
+<p><strong>Top actions:</strong></p>
+<ul>
+<li><span class="pill p1">P1</span> Add a definition block answering "What is AI red teaming?" / "What is AI safety testing?" — Jennifer</li>
+<li><span class="pill p1">P1</span> Source all four statistics or remove them — Jennifer</li>
+<li><span class="pill p2">P2</span> Add FAQPage schema and a comparison block distinguishing Applause's model from pentesting/cybersecurity red teaming — Jennifer / Tammy</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Where the Brand Shows Up Today</h2>
+<div class="callout"><strong>Why this matters:</strong> When someone asks ChatGPT or Google "who does AI red teaming" or "best AI safety testing services," the AI pulls from articles that already rank for that question. If Applause isn't in those articles or structured to answer that question directly, the AI has no reason to mention it — no matter how good the underlying service is.</div>
+
+<table>
+<tr><th>Query</th><th>Tier</th><th>AI Answer Exists</th><th>Brand Cited</th><th>Who's Cited Instead</th></tr>
+<tr><td>AI red teaming services / companies</td><td>New — not in current Tier 1-3 set</td><td>Yes</td><td>No</td><td>CrowdStrike, Synack, Bishop Fox, Mandiant, NCC Group, Redbot, Confident AI, Mindgard, Protect AI, Lakera</td></tr>
+<tr><td>Best AI safety testing tools</td><td>New</td><td>Yes</td><td>No</td><td>Confident AI, DeepTeam, Mindgard, Synack</td></tr>
+<tr><td>"AI safety and risk testing" (brand + product term)</td><td>N/A</td><td>N/A</td><td>Yes — own domain</td><td>Applause's own blog/report pages surface (generative-ai-testing, ai-training-testing, State of Digital Quality report), not this page specifically</td></tr>
+</table>
+
+<div class="info"><strong>Caveat:</strong> <code>web_search</code> returns organic results, not confirmed AI Overview panels. Coverage above is inferred from top-ranking content AI systems are most likely drawing from. Manual verification in live ChatGPT/Perplexity/Google AI Overview panels is recommended before treating this as final before wider distribution.</div>
+</div>
+
+<div class="divider">
+  <h2>Detailed Findings &amp; Action Plan</h2>
+  <nav class="anchor">
+    <a href="#extract">Extractability</a> ·
+    <a href="#schema">Schema</a> ·
+    <a href="#bots">Bot Access</a> ·
+    <a href="#thirdparty">External Presence</a> ·
+    <a href="#competitive">Competitive Gaps</a> ·
+    <a href="#actions">Action Plan</a> ·
+    <a href="#monitor">Monitoring</a>
+  </nav>
+</div>
+
+<div class="card" id="extract">
+<h3 class="tag">🔵 On-Page</h3>
+<h2>Page Content Extractability</h2>
+<div class="callout"><strong>Why this matters:</strong> AI engines lift short, self-contained chunks of text to build their answers. A page written as a marketing narrative — without a plain definition, an FAQ, or a table — gives the AI nothing clean to lift, so it skips the page even if a human reader would find it persuasive.</div>
+
+<table>
+<tr><th>Check</th><th>Status</th><th>What to Do</th></tr>
+<tr><td>Clear definition in first paragraph ("What is AI red teaming/safety testing?")</td><td><span class="pill fail">Fail</span></td><td>Opens with a value-prop line, not a definition. Add a 2-3 sentence definition block before the value prop.</td></tr>
+<tr><td>Self-contained answer blocks (134–167 words)</td><td><span class="pill fail">Fail</span></td><td>Paragraphs run 40-70 words, marketing tone. Expand the "Conventional Testing Methods" section into one self-contained 134-167 word answer block.</td></tr>
+<tr><td>Statistics with named sources and dates</td><td><span class="pill fail">Fail</span></td><td>39%, 50%, 40%, 46% figures have no source or link. Attribute to the underlying Applause research (State of Digital Quality report) or remove — 2026 research shows AI Overviews increasingly fact-check claims before citing, so unsourced stats aren't just a trust gap, they're a citation blocker.</td></tr>
+<tr><td>Comparison table (AI red teaming vs. pentesting vs. in-house)</td><td><span class="pill fail">Fail</span></td><td>None present. This is the single highest-leverage addition — the whole citation landscape here is comparison-driven content.</td></tr>
+<tr><td>FAQ section</td><td><span class="pill fail">Fail</span></td><td>None present. Add 4-6 natural-language Q&As ("How much does AI red teaming cost?" "Is red teaming required by law?").</td></tr>
+<tr><td>Headings match query phrasing</td><td><span class="pill fail">Fail</span></td><td>Headings are brand-voice ("AI Is Forcing Us to Rethink Digital QA") not query-shaped. Add one query-phrased H2/H3 per section without losing brand voice elsewhere.</td></tr>
+<tr><td>"Last updated" date visible</td><td><span class="pill fail">Fail</span></td><td>Not visible in rendered content. Add a visible date stamp.</td></tr>
+<tr><td>Author attribution / expert credentials</td><td><span class="pill fail">Fail</span></td><td>No named author or expert quote, despite the page discussing credentialed testers (CFOs, licensed physicians). Attribute the case study/regulatory content to a named Applause expert.</td></tr>
+<tr><td>Gated content limiting AI access</td><td><span class="pill pass">Pass</span></td><td>Page is fully open, no login wall.</td></tr>
+<tr><td>Multi-modal reinforcement (text + labeled image/diagram + schema)</td><td><span class="pill fail">Fail</span></td><td>Page has 6+ images but none are captioned or tied to a data point (e.g. a labeled chart of the 39%/50%/40%/46% stats). Current 2026 research puts multimodal integration among the strongest AI Overview correlation factors — pair the existing stat callouts with a captioned graphic.</td></tr>
+</table>
+</div>
+
+<div class="card" id="schema">
+<h3 class="tag">🔵 On-Page</h3>
+<h2>Schema Markup</h2>
+<div class="callout"><strong>Why this matters:</strong> Schema is a structured label AI systems can read without guessing — it's the difference between the AI inferring "this is a service page" and the AI knowing it for certain.</div>
+
+<table>
+<tr><th>Schema Type</th><th>Target Content on This Page</th><th>Status</th></tr>
+<tr><td><code>FAQPage</code></td><td>N/A — no FAQ content exists yet</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>Service</code> / <code>Product</code></td><td>AI safety & risk testing service description</td><td><span class="pill unknown">Unknown — needs verification</span></td></tr>
+<tr><td><code>Article</code></td><td>Case study block</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>Organization</code></td><td>Sitewide</td><td><span class="pill unknown">Unknown</span></td></tr>
+</table>
+<div class="info">Schema presence cannot be confirmed from a markdown fetch. Tammy to verify directly in WordPress or via Google's Rich Results Test (<code>search.google.com/test/rich-results</code>) before this is asserted either way.</div>
+</div>
+
+<div class="card" id="bots">
+<h3 class="tag">🟢 Off-Page</h3>
+<h2>AI Bot Access</h2>
+<div class="callout"><strong>Why this matters:</strong> If an AI crawler is blocked, that platform physically cannot read this page — no amount of on-page optimization matters until access is confirmed.</div>
+<table>
+<tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+<tr><td><code>GPTBot</code> / <code>ChatGPT-User</code></td><td>ChatGPT</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>PerplexityBot</code></td><td>Perplexity</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>ClaudeBot</code> / <code>anthropic-ai</code></td><td>Claude</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>Google-Extended</code></td><td>Gemini / AI Overviews</td><td><span class="pill unknown">Unknown</span></td></tr>
+<tr><td><code>Bingbot</code></td><td>Copilot</td><td><span class="pill unknown">Unknown</span></td></tr>
+</table>
+<div class="info">robots.txt for applause.com is not retrievable via <code>web_fetch</code> or search — this is a known, standing gap across every audit in this program. Manual browser check of <code>applause.com/robots.txt</code> is the only way to close it. This applies site-wide, not just to this page.</div>
+</div>
+
+<div class="card" id="thirdparty">
+<h3 class="tag">🟢 Off-Page</h3>
+<h2>External Presence</h2>
+<div class="callout"><strong>Why this matters:</strong> AI engines cite third-party mentions more than brand-owned pages. Being absent from the roundups and lists AI already trusts for this specific topic matters more than anything on the page itself.</div>
+<table>
+<tr><th>Source</th><th>General Applause Presence</th><th>AI-Red-Teaming-Specific Presence</th></tr>
+<tr><td>Industry roundups (Mend, Synack, Redbot, gbhackers, Confident AI)</td><td>N/A</td><td><span class="pill fail">Missing</span></td></tr>
+<tr><td>Wikipedia</td><td>Unknown — verify</td><td><span class="pill fail">Missing</span></td></tr>
+<tr><td>G2 / Gartner Peer Insights</td><td>Likely present for crowdtesting/QA category</td><td><span class="pill fail">Missing — no AI safety/red teaming category listing found</span></td></tr>
+<tr><td>Market research reports (Research and Markets, McKinsey-style coverage)</td><td>N/A</td><td><span class="pill fail">Missing</span></td></tr>
+</table>
+</div>
+
+<div class="card" id="competitive">
+<h3 class="tag">🟢 Off-Page</h3>
+<h2>Competitive Gaps</h2>
+<div class="callout"><strong>Why this matters:</strong> This page competes in a category with a completely different competitive set than the rest of applause.com. Every roundup Applause needs to appear in is currently written by and for cybersecurity buyers, not QA buyers.</div>
+
+<p><strong>The competitive landscape here is not Testlio/GAT/Qualitest.</strong> It's cybersecurity red-teaming firms (CrowdStrike, Synack, Bishop Fox, Mandiant, NCC Group, Redbot Security) and AI-security-specific tooling (Confident AI, Mindgard, Lakera, Protect AI), plus Big 4 consultancies (Deloitte, Accenture, IBM, PwC, EY, KPMG). This is a new, page-specific instance of the recurring competitive-set gap flagged across prior audits — except here the mismatch is total, not partial.</p>
+
+<table>
+<tr><th>Competitor Type</th><th>Where They're Cited</th><th>Applause Counter</th></tr>
+<tr><td>Cybersecurity red-team firms (CrowdStrike, Synack, Bishop Fox)</td><td>"Best AI red teaming providers/companies" roundups</td><td>Applause isn't a security vendor and shouldn't try to out-position them on pentesting depth — the counter is domain-credentialed human testers (CFOs, physicians) at global scale, which security firms don't offer</td></tr>
+<tr><td>AI-security tooling (Confident AI, Mindgard, Lakera, Protect AI)</td><td>"Best AI red teaming tools" comparisons</td><td>These are automated/platform tools, not managed services — Applause's differentiation is the human-expert-led model, but this argument isn't made explicitly on the page</td></tr>
+<tr><td>Big 4 consultancies (Deloitte, Accenture, IBM, PwC)</td><td>Market report vendor lists</td><td>Applause is not currently positioned against these at all in this content; likely out of scope for a single page but worth flagging for the broader GEO project</td></tr>
+</table>
+</div>
+
+<div class="card" id="actions">
+<h2>Prioritized Action Plan</h2>
+
+<h3>🔵 On-Page</h3>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Owner</th><th>Effort</th></tr>
+<tr><td>Add a definition block: "What is AI red teaming?" / "What is AI safety testing?" in first 100 words</td><td><span class="pill p1">P1</span></td><td>Jennifer</td><td>Low</td></tr>
+<tr><td>Source or remove the four unattributed statistics (39%, 50%, 40%, 46%)</td><td><span class="pill p1">P1</span></td><td>Jennifer</td><td>Low</td></tr>
+<tr><td>Add a comparison block: AI red teaming vs. traditional pentesting vs. in-house evaluation</td><td><span class="pill p1">P1</span></td><td>Jennifer</td><td>Medium</td></tr>
+<tr><td>Add 4-6 question FAQ block (cost, compliance, timeline, difference from Applause's other AI testing services)</td><td><span class="pill p2">P2</span></td><td>Jennifer</td><td>Medium</td></tr>
+<tr><td>Add visible "last updated" date</td><td><span class="pill p2">P2</span></td><td>Jennifer / Tammy</td><td>Low</td></tr>
+<tr><td>Attribute case study and regulatory section to a named Applause expert (Sheehan or similar)</td><td><span class="pill p2">P2</span></td><td>Jennifer</td><td>Low</td></tr>
+<tr><td>Implement/verify FAQPage + Service schema</td><td><span class="pill p2">P2</span></td><td>Tammy</td><td>Medium</td></tr>
+<tr><td>Rewrite 2-3 headings to match query phrasing while keeping brand voice elsewhere</td><td><span class="pill p3">P3</span></td><td>Jennifer</td><td>Low</td></tr>
+<tr><td>Turn the 4 stat callouts into one captioned, sourced graphic (multimodal integration is a top-strength 2026 AI Overview factor)</td><td><span class="pill p2">P2</span></td><td>Jennifer / Michelle</td><td>Medium</td></tr>
+</table>
+
+<h3>🟢 Off-Page</h3>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Owner</th><th>Effort</th></tr>
+<tr><td>Manually verify robots.txt allows GPTBot, PerplexityBot, ClaudeBot, Google-Extended, Bingbot</td><td><span class="pill p1">P1</span></td><td>Tammy</td><td>Low</td></tr>
+<tr><td>Pitch inclusion in one existing "AI red teaming providers" roundup (start with Mend or gbhackers — both recently updated)</td><td><span class="pill p2">P2</span></td><td>Dana / PR</td><td>Medium</td></tr>
+<tr><td>Evaluate G2/Gartner category listing for AI red teaming or AI safety testing, separate from crowdtesting category</td><td><span class="pill p3">P3</span></td><td>Dana</td><td>Medium</td></tr>
+<tr><td>Reconcile 1.5M+ (live site, consistent across pages) vs. 1M+ in product-marketing-context.md</td><td><span class="pill p1">P1</span></td><td>Dana</td><td>Low</td></tr>
+</table>
+</div>
+
+<div class="card" id="monitor">
+<h2>Monitoring Plan</h2>
+<ul>
+<li>Add "AI red teaming services," "AI safety testing companies," and "AI red teaming vs pentesting" to the monthly LLM citation tracker (Pam) — these are new queries, not currently in the Tier 1-3 set</li>
+<li>Re-check ChatGPT, Perplexity, and Google AI Overviews monthly for these queries specifically; this category moves fast (market report cites 28.5% CAGR)</li>
+<li>Re-audit this page after the P1 fixes ship, before the next full site pass</li>
+</ul>
+</div>
+
+</div>
+
+<footer>
+Generated with Applause AI SEO/AEO Visibility Audit — Skill v2.1.1 &nbsp;|&nbsp; July 9, 2026 &nbsp;|&nbsp; QA'd with ai-seo-aeo-evaluator v1.0.0 — 22/24, Distribute
+</footer>
+
+</body>
+</html>

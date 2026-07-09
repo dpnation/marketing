@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Visibility Audit — AI Data Collection Page</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  .header { background: #01446C; color: #fff; padding: 40px 20px; }
+  .header .inner { max-width: 900px; margin: 0 auto; }
+  .header h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  .header .meta { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+  .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-weak { background: #D42D0E; color: #fff; }
+  .badge-partial { background: #ED7200; color: #fff; }
+  .badge-strong { background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { text-align: left; background: #E6F3FA; color: #01446C; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pass { background: #0F8919; color: #fff; }
+  .fail { background: #D42D0E; color: #fff; }
+  .unknown { background: #ED7200; color: #fff; }
+  .p1 { background: #D42D0E; color:#fff; }
+  .p2 { background: #ED7200; color:#fff; }
+  .p3 { background: #0272B4; color:#fff; }
+  .why { background: #E6FBF7; border-left: 4px solid #00C0A3; padding: 14px 18px; margin: 16px 0; font-size: 14px; border-radius: 4px; }
+  .alert { background: #FDEAE6; border-left: 4px solid #D42D0E; padding: 14px 18px; margin: 16px 0; font-size: 14px; border-radius: 4px; }
+  .info { background: #E6F3FA; border-left: 4px solid #0272B4; padding: 14px 18px; margin: 16px 0; font-size: 14px; border-radius: 4px; }
+  .divider { background: #01446C; color: #fff; padding: 20px; text-align: center; border-radius: 8px; margin: 30px 0; }
+  .divider a { color: #7FD8C9; text-decoration: none; margin: 0 10px; font-size: 13px; font-weight: 600; }
+  .section-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 4px; }
+  .onpage { background: #E6F3FA; color: #0272B4; }
+  .offpage { background: #E6FBF7; color: #00806B; }
+  .exec-verdict { font-size: 17px; font-weight: 700; color: #D42D0E; }
+  footer { text-align: center; font-size: 12px; color: #888; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="inner">
+    <h1>AI Visibility Audit</h1>
+    <div class="meta">
+      Page: applause.com/ai-data-collection/<br>
+      Audit date: July 9, 2026 &nbsp;|&nbsp; Platforms: Google AI Overviews, ChatGPT, Perplexity, Claude<br>
+      <span class="badge badge-weak">Weak Coverage</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>Executive Summary</h2>
+    <p class="exec-verdict">Applause has zero AI-search presence in the AI data collection / RLHF category — and the page as written won't fix that, because it competes on scale claims every rival makes and offers no proof it has actually served an AI model builder as a client.</p>
+    <p>Across nine independent "best AI training data / RLHF provider" roundups checked (Scale AI, TELUS International, Cogito Tech, Twine, Shaip, RWS/TrainAI, AlignList, Forage.ai, Unidata), Applause does not appear once. The category is owned by Scale AI, Surge AI, TELUS International/Lionbridge, Appen, iMerit, Sama, Cogito Tech, Centific, and Innodata — none of which are in Applause's tracked competitor set. This is the same pattern flagged on prior audits (LLM-ops/observability vendors dominating the AI testing space) showing up again in a second, adjacent category.</p>
+    <p><strong>Top 3 findings:</strong></p>
+    <ol>
+      <li>Complete blackout: not cited anywhere in this query space, and the page has none of the structural signals (FAQ, comparison table, definition block) that would change that.</li>
+      <li>Every named competitor leads with named AI clients (OpenAI, Anthropic, Meta, Microsoft, Google). Applause's page uses three anonymized case studies ("Major retailer," "High-tech company," "Consumer tech company") — a credibility gap for an AI-buyer audience specifically evaluating who else trusted this vendor with model data.</li>
+      <li>The community-size stat conflicts with the brand's own product-marketing-context.md (page says 1.5M+, context file says 1M+) — the same unresolved discrepancy flagged on the AI Evaluation & Benchmarking audit, now confirmed live on a second page.</li>
+    </ol>
+    <p><strong>Top 3 actions:</strong></p>
+    <ul>
+      <li><span class="pill p1">P1</span> Resolve the 1.5M+ vs 1M+ community figure before any further AI-facing content ships — Owner: Dana</li>
+      <li><span class="pill p1">P1</span> Replace or supplement anonymized case studies with named AI/tech clients where legally permitted — Owner: Jennifer / Suzanne</li>
+      <li><span class="pill p2">P2</span> Add an FAQ block and a comparison table targeting "AI training data provider," "RLHF data collection," and "in-house vs. outsourced AI data sourcing" — Owner: Jennifer</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Where the Brand Shows Up Today</h2>
+    <div class="why">
+      <strong>Why this matters:</strong> AI Overviews and chatbot answers are how enterprise AI teams increasingly shortlist data vendors before ever visiting a website. If Applause isn't surfaced when someone asks an AI assistant "who provides RLHF training data," it's invisible at the moment of vendor selection — full stop, regardless of how good the page itself reads to a human.
+    </div>
+    <table>
+      <tr><th>Query</th><th>Tier</th><th>AI Answer Exists</th><th>Applause Cited</th><th>Who Is</th><th>Gap?</th></tr>
+      <tr><td>best AI training data companies</td><td>New</td><td>Yes</td><td>No</td><td>Scale AI, TELUS Int'l, Cogito Tech, Appen, iMerit, Sama</td><td>Yes</td></tr>
+      <tr><td>RLHF data collection provider</td><td>New</td><td>Yes</td><td>No</td><td>Scale AI, Surge AI, Shaip, LXT, HitechDigital</td><td>Yes</td></tr>
+      <tr><td>AI data collection companies for enterprises</td><td>New</td><td>Yes</td><td>No</td><td>Centific, Innodata, Twine AI, RWS/TrainAI, OneForma</td><td>Yes</td></tr>
+      <tr><td>how to source AI training data</td><td>New</td><td>Yes</td><td>No</td><td>Same set, framed as buyer's-guide content</td><td>Yes</td></tr>
+    </table>
+    <p><strong>Coverage rating: Weak (0% cited).</strong> This is a genuine blackout, not an inference — confirmed across multiple independent search passes, not a single organic query surfaced Applause.</p>
+    <div class="info">Note: <code>web_search</code> results approximate organic/AI-source visibility, not confirmed live AI Overview panels. Given the 0% hit rate held across nine independent third-party roundups, high confidence this reflects real absence rather than a query-phrasing artifact — but a 15-minute manual spot-check in ChatGPT/Perplexity is still worth doing before this goes to Suzanne.</div>
+  </div>
+
+  <div class="divider">
+    <strong>Part 2 — Detailed Findings & Action Plan</strong><br>
+    <a href="#extract">Extractability</a> · <a href="#schema">Schema</a> · <a href="#bots">Bot Access</a> · <a href="#external">External Presence</a> · <a href="#competitive">Competitive Gaps</a> · <a href="#actions">Action Plan</a> · <a href="#monitoring">Monitoring</a>
+  </div>
+
+  <div class="card" id="extract">
+    <span class="section-tag onpage">🔵 On-Page</span>
+    <h2>Page Content Extractability</h2>
+    <div class="why"><strong>Why this matters:</strong> AI systems lift self-contained passages, not full pages. A page built entirely of short marketing bullets, with no FAQ and no direct-answer paragraph, gives an AI engine nothing clean to extract — so it reaches for a competitor's FAQ block instead.</div>
+    <table>
+      <tr><th>Check</th><th>Status</th><th>What to Do</th></tr>
+      <tr><td>Clear definition in first paragraph</td><td><span class="pill fail">Fail</span></td><td>Opens with a tagline ("The Training Data Your AI Models Actually Need"), not a definition. Add a 1–2 sentence "AI data collection is..." lead.</td></tr>
+      <tr><td>Self-contained answer blocks (134–167 words)</td><td><span class="pill fail">Fail</span></td><td>All content is in short bullets/cards (20–60 words). Rewrite the core "sources data at scale" section into one 134–167 word standalone block.</td></tr>
+      <tr><td>Statistics with named sources + dates</td><td><span class="pill fail">Fail</span></td><td>1.5M+ participants, 200+ countries, 150+ languages, &gt;98% acceptance rate all appear with no source or date. Add "as of [date], internal program data."</td></tr>
+      <tr><td>Comparison table (X vs Y)</td><td><span class="pill fail">Fail</span></td><td>None present. Add "in-house vs. managed AI data sourcing" or "Applause vs. marketplace annotation platforms."</td></tr>
+      <tr><td>FAQ section</td><td><span class="pill fail">Fail</span></td><td>None present. Add FAQ answering "What is AI training data collection," "What is RLHF," "How is bias reduced in training data."</td></tr>
+      <tr><td>Headings match query phrasing</td><td><span class="pill unknown">Partial</span></td><td>H2s are benefit-led ("Unparalleled Multimodal Data Sourcing Coverage") rather than query-matched. Add one query-phrased H2 per section.</td></tr>
+      <tr><td>"Last updated" date visible</td><td><span class="pill fail">Fail</span></td><td>Not shown. Add a visible freshness date — this page reads evergreen but AI engines discount undated content.</td></tr>
+      <tr><td>Named client / authority proof</td><td><span class="pill fail">Fail</span></td><td>Case studies are fully anonymized ("Major retailer," "High-tech company"). Competitors in this exact category name OpenAI, Anthropic, Meta, AWS as clients. Get legal/PR clearance to name at least one.</td></tr>
+      <tr><td>Gated content limiting AI access</td><td><span class="pill pass">Pass</span></td><td>Page is fully open — no gate.</td></tr>
+      <tr><td>Multi-modal reinforcement (stat + labeled visual + schema)</td><td><span class="pill fail">Fail</span></td><td>Images are decorative (stock photography), not tied to the stat blocks. Per current research this is now a top-priority factor (~92% correlation) — pair the 1.5M+/200-country stat with a labeled map or chart.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="schema">
+    <span class="section-tag onpage">🔵 On-Page</span>
+    <h2>Schema Markup</h2>
+    <div class="why"><strong>Why this matters:</strong> Schema doesn't change what a human sees, but it hands AI systems structured facts (Q&A pairs, product/service details) they can lift with confidence, instead of having to parse prose.</div>
+    <table>
+      <tr><th>Schema Type</th><th>Target Content</th><th>Status</th></tr>
+      <tr><td><code>FAQPage</code></td><td>None — no FAQ exists yet</td><td><span class="pill unknown">Unknown / N/A until FAQ added</span></td></tr>
+      <tr><td><code>Service</code> / <code>Product</code></td><td>AI data collection service description</td><td><span class="pill unknown">Unknown — needs verification</span></td></tr>
+      <tr><td><code>Organization</code></td><td>Sitewide entity signals</td><td><span class="pill unknown">Unknown — needs verification</span></td></tr>
+    </table>
+    <div class="alert">Schema absence cannot be confirmed from a markdown fetch. WordPress + WP Rocket/Cloudflare on this site has previously caused CDN metadata extraction issues (missing modified-time metadata). <strong>Tammy: verify directly in WordPress or via Google's Rich Results Test</strong> before this is treated as confirmed absent.</div>
+  </div>
+
+  <div class="card" id="bots">
+    <span class="section-tag offpage">🟢 Off-Page</span>
+    <h2>AI Bot Access</h2>
+    <table>
+      <tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+      <tr><td>GPTBot / ChatGPT-User</td><td>ChatGPT</td><td><span class="pill unknown">Unknown</span></td></tr>
+      <tr><td>PerplexityBot</td><td>Perplexity</td><td><span class="pill unknown">Unknown</span></td></tr>
+      <tr><td>ClaudeBot / anthropic-ai</td><td>Claude</td><td><span class="pill unknown">Unknown</span></td></tr>
+      <tr><td>Google-Extended</td><td>Gemini / AI Overviews</td><td><span class="pill unknown">Unknown</span></td></tr>
+      <tr><td>Bingbot</td><td>Copilot</td><td><span class="pill unknown">Unknown</span></td></tr>
+    </table>
+    <div class="alert">robots.txt for applause.com is not retrievable via <code>web_fetch</code> or search — <strong>manual browser verification required</strong> (same standing item as prior audits). Given the blackout finding above, this should move up the priority list: if any of these bots are blocked, that alone would fully explain zero citation and would be the highest-leverage fix available.</div>
+  </div>
+
+  <div class="card" id="external">
+    <span class="section-tag offpage">🟢 Off-Page</span>
+    <h2>External Presence</h2>
+    <table>
+      <tr><th>Source</th><th>Status</th><th>Notes</th></tr>
+      <tr><td>Wikipedia</td><td><span class="pill unknown">Unverified</span></td><td>Applause has general company presence; no evidence of AI-data-collection-specific mentions.</td></tr>
+      <tr><td>G2 / Capterra / TrustRadius</td><td><span class="pill unknown">Unverified</span></td><td>Applause is listed under QA/testing categories on review sites, not under data-annotation/RLHF categories where this competitive set is reviewed.</td></tr>
+      <tr><td>Industry roundups (category-specific)</td><td><span class="pill fail">Missing</span></td><td>Confirmed absent from every "best AI training data provider" list checked.</td></tr>
+      <tr><td>Reddit / YouTube</td><td><span class="pill unknown">Unverified</span></td><td>No evidence found in this pass; not exhaustively checked.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="competitive">
+    <span class="section-tag offpage">🟢 Off-Page</span>
+    <h2>Competitive Gaps</h2>
+    <div class="why"><strong>Why this matters:</strong> The vendors AI engines cite for this query space aren't the ones in Applause's standard competitor set — they're a distinct category of specialist data/annotation firms, several with far bigger, more recent AI-specific client rosters.</div>
+    <ol>
+      <li><strong>Scale AI / Surge AI</strong> — own the "premium frontier-LLM" framing; cited with named clients (OpenAI, Anthropic, Meta, Google) and specific valuation/scale figures. Applause counter: lean into "managed program, not marketplace" — a real structural difference from Scale's self-serve platform model — but this argument isn't made anywhere on the page today.</li>
+      <li><strong>TELUS International (Lionbridge) / Appen / Centific</strong> — win on multilingual breadth (170–235+ countries/dialects) with the exact same "world's largest community" framing Applause uses. Pure scale claims won't differentiate Applause here since three competitors make near-identical claims. The credentialed-specialist angle (clinicians, attorneys, financial pros) is Applause's most ownable differentiator on this page and is currently under-emphasized relative to the generic scale stats.</li>
+      <li><strong>Cogito Tech / iMerit / Sama</strong> — win on named enterprise AI clients and quantified project volume (e.g., "10,000+ projects," "60M+ AI elements"). Applause's anonymized case studies can't compete with this level of specificity for an AI-buyer audience doing vendor diligence.</li>
+    </ol>
+    <p>Handoff: recommend a dedicated competitive-intelligence pass on Scale AI, TELUS International, and Cogito Tech specifically for the AI data collection / RLHF category — these are not currently in the tracked competitor set and should be added for this content line.</p>
+  </div>
+
+  <div class="card" id="actions">
+    <h2>Prioritized Action Plan</h2>
+    <h3>🔵 On-Page</h3>
+    <table>
+      <tr><th>Priority</th><th>Action</th><th>Owner</th><th>Effort</th></tr>
+      <tr><td><span class="pill p1">P1</span></td><td>Resolve 1.5M+ vs. 1M+ community figure conflict before further AI-facing content ships</td><td>Dana</td><td>Low</td></tr>
+      <tr><td><span class="pill p1">P1</span></td><td>Add named AI/tech client to at least one case study (legal/PR clearance required)</td><td>Jennifer / Suzanne</td><td>Medium</td></tr>
+      <tr><td><span class="pill p2">P2</span></td><td>Add FAQ block (What is AI training data collection / RLHF / how is bias reduced) + FAQPage schema</td><td>Jennifer / Tammy</td><td>Medium</td></tr>
+      <tr><td><span class="pill p2">P2</span></td><td>Add comparison table: managed program vs. self-serve data marketplace</td><td>Jennifer</td><td>Medium</td></tr>
+      <tr><td><span class="pill p2">P2</span></td><td>Rewrite lead section into a 134–167 word self-contained definition/answer block</td><td>Jennifer</td><td>Low</td></tr>
+      <tr><td><span class="pill p2">P2</span></td><td>Source and date the key stats (1.5M+, &gt;98% acceptance rate, etc.)</td><td>Jennifer</td><td>Low</td></tr>
+      <tr><td><span class="pill p3">P3</span></td><td>Pair the 1.5M+/200-country stat with a labeled chart/map (multi-modal reinforcement)</td><td>Jennifer / Michelle</td><td>Medium</td></tr>
+      <tr><td><span class="pill p3">P3</span></td><td>Verify FAQPage/Service/Organization schema via Rich Results Test</td><td>Tammy</td><td>Low</td></tr>
+    </table>
+    <h3>🟢 Off-Page</h3>
+    <table>
+      <tr><th>Priority</th><th>Action</th><th>Owner</th><th>Effort</th></tr>
+      <tr><td><span class="pill p1">P1</span></td><td>Manually verify robots.txt allows GPTBot/ClaudeBot/PerplexityBot/Google-Extended — a block would fully explain the blackout</td><td>Tammy</td><td>Low</td></tr>
+      <tr><td><span class="pill p2">P2</span></td><td>Add Scale AI, TELUS International, Cogito Tech to tracked competitor set for this content line</td><td>Dana</td><td>Low</td></tr>
+      <tr><td><span class="pill p3">P3</span></td><td>Build content cluster on adjacent fan-out queries (instruction-tuning data, red-teaming data, synthetic vs. human data)</td><td>Jennifer / Dana</td><td>High</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="monitoring">
+    <h2>Monitoring Plan</h2>
+    <ul>
+      <li>Add "best AI training data companies," "RLHF data collection provider," and "AI data annotation companies" to the next monthly LLM citation tracker run — new blackout category (Pam)</li>
+      <li>Re-check query coverage 4–6 weeks after FAQ + comparison table ship</li>
+      <li>DIY monthly check: run these 4 queries through ChatGPT, Perplexity, Google AI Overviews; log cited/not-cited and who</li>
+    </ul>
+  </div>
+
+  <footer>
+    Generated with ai-seo-aeo v2.1.1 · Applause AI Visibility Audit Program · July 9, 2026
+  </footer>
+
+</div>
+</body>
+</html>
