@@ -36,7 +36,8 @@
 <h1>AI Visibility Audit</h1>
 <div class="meta">
   Page: AI Apps & Agents Testing (<a href="https://www.applause.com/ai-apps-and-agents-testing/">applause.com/ai-apps-and-agents-testing</a>)<br>
-  Audit date: July 9, 2026 &middot; Skill: ai-seo-aeo v2.2.0
+  Audit date: July 9, 2026 &middot; Skill: ai-seo-aeo v2.2.0<br>
+  Scope: Google AI Overviews, ChatGPT, Perplexity, Claude &middot; Evaluator QA: 20/24 — Distribute (see footer)
 </div>
 
 <div class="verdict">
@@ -44,7 +45,7 @@
   <p>No FAQ, no definition block, no comparison table, no schema-visible content, no named author, no sourced statistics. The page reads as a sales page, not a citable source. Case studies contain strong specific numbers (500 evals, 900+ prompts, 2.9/5 score) but they're buried in prose with no dates or methodology sourcing — an easy fix with high payoff.</p>
 </div>
 
-<h2>1. Query Coverage</h2>
+<h2 id="query-coverage">1. Query Coverage</h2>
 <div class="info">Coverage below reflects content-structure analysis of this page against Applause's priority query set. It is not a confirmed record of live AI Overview / ChatGPT / Perplexity citations — that requires manual query testing (see Monitoring Plan) or the llm-visibility-analyzer tracker.</div>
 <table>
 <tr><th>Query</th><th>Page Relevance</th><th>Structural Readiness</th></tr>
@@ -54,11 +55,11 @@
 <tr><td>"what is agentic AI testing"</td><td>Secondary</td><td class="fail">Fail — no definition block; agentic AI described only as a benefit statement, not defined</td></tr>
 </table>
 
-<h2>2. Content Extractability</h2>
+<h2 id="extractability">2. Content Extractability</h2>
 <table>
 <tr><th>Check</th><th>Result</th></tr>
 <tr><td>Clear definition in first paragraph?</td><td class="fail">Fail — opens with a benefit statement ("launch AI features that perform reliably and safely"), not a definition</td></tr>
-<tr><td>Self-contained answer blocks?</td><td class="fail">Fail — paragraphs run long and depend on surrounding context; none work as standalone quotable passages</td></tr>
+<tr><td>Self-contained answer blocks?</td><td class="fail">Fail — paragraphs run long and depend on surrounding context; none work as standalone quotable passages. Current AI Overview target is 134-167 words per self-contained block; this page's paragraphs run well over that with no single passage isolatable as a complete answer</td></tr>
 <tr><td>Statistics with sources cited?</td><td class="fail">Fail — "1.5 million testers," "200+ countries," "900+ prompts," "2.9/5 score" all appear with no source, no date</td></tr>
 <tr><td>Comparison tables?</td><td class="fail">Fail — none present; page is prose-only throughout</td></tr>
 <tr><td>FAQ section?</td><td class="fail">Fail — none present</td></tr>
@@ -71,13 +72,14 @@
 </table>
 <div class="why">Why this matters: AI systems extract passages, not pages. A page built entirely of marketing prose with no self-contained facts gives ChatGPT, Perplexity, and Claude nothing to lift and cite. This is the single biggest lever available on this page.</div>
 
-<h2>3. Schema Markup</h2>
+<h2 id="schema">3. Schema Markup</h2>
 <div class="card">
 <p><strong>Status: Unknown, not implementation-confirmed.</strong> Markdown fetch cannot confirm JSON-LD presence. Given the page has zero FAQ content and no visible structured Q&A, FAQPage schema is very likely absent regardless of what's implemented elsewhere on the domain.</p>
 <p><strong>Recommendation:</strong> Tammy to verify via Google's Rich Results Test or direct WordPress inspection (CDN/WP Rocket caching has previously caused metadata extraction gaps on this site). Target schema: <code>Service</code> or <code>Product</code> for the offering, <code>FAQPage</code> once FAQ content is added, <code>Organization</code> sitewide if not already present.</p>
 </div>
+<div class="why">Why this matters: schema doesn't directly rank a page, but it's the clearest signal Claude, ChatGPT, and Perplexity have that a block of content is a definition, an FAQ answer, or a service description rather than ordinary prose. Without it, AI systems have to guess at structure — and they usually guess wrong or skip the page.</div>
 
-<h2>4. AI Bot Access</h2>
+<h2 id="bot-access">4. AI Bot Access</h2>
 <table>
 <tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
 <tr><td>GPTBot / ChatGPT-User</td><td>ChatGPT</td><td class="unknown">Unknown</td></tr>
@@ -87,17 +89,17 @@
 <tr><td>Bingbot</td><td>Copilot</td><td class="unknown">Unknown</td></tr>
 </table>
 <div class="info">robots.txt for applause.com cannot be confirmed via web_fetch or search. Manual browser check required — flag as Unknown, not Pass, until verified.</div>
+<div class="why">Why this matters: every other fix on this page is wasted if a bot is blocked at the door. This is a five-minute check with a hard stop on the other side — worth doing before investing in the content fixes below.</div>
 
-<h2>5. External Presence</h2>
+<h2 id="external-presence">5. External Presence</h2>
+<div class="info">This is a page-level audit, not a brand-level sweep — Wikipedia, Reddit, and review-site presence are assessed at the Applause org level, not per-page. Full brand-level presence is better answered by the llm-visibility-analyzer tracker; the row below is the one finding that's specific to this page's topic.</div>
 <table>
 <tr><th>Platform</th><th>Status</th></tr>
-<tr><td>Wikipedia</td><td class="unknown">Not assessed this pass — check against Applause org entry</td></tr>
-<tr><td>Reddit / community discussion</td><td class="unknown">Not assessed this pass</td></tr>
-<tr><td>Review sites (G2, Capterra)</td><td class="unknown">Not assessed this pass — likely present under Applause's general listing, not this specific service page</td></tr>
 <tr><td>Industry roundups (AI testing/QA category)</td><td class="fail">Gap — competitive landscape for this query space is dominated by LLM-ops/observability vendors (Galileo, Braintrust, Arize, Langfuse, Confident AI, Maxim AI, Kili Technology), none of whom are in Applause's tracked competitor set</td></tr>
 </table>
+<div class="why">Why this matters: this page is competing for a different set of "who's the authority here" signals than the rest of applause.com. If Applause isn't showing up alongside the LLM-ops vendors in third-party roundups and comparison content, this page is fighting that battle alone with no outside reinforcement.</div>
 
-<h2>6. Competitive Gaps</h2>
+<h2 id="competitive-gaps">6. Competitive Gaps</h2>
 <table>
 <tr><th>Competitor</th><th>Positioning Angle They'd Win With</th><th>Applause Gap on This Page</th></tr>
 <tr><td>Galileo / Braintrust / Arize (LLM observability)</td><td>Technical eval infrastructure, benchmarking rigor, developer-facing tooling language</td><td>Page never engages this comparison; a developer or ML lead researching "AI agent testing tools" won't find Applause differentiated from these vendors here</td></tr>
@@ -106,7 +108,7 @@
 </table>
 <div class="why">Why this matters: The tracked competitor set (Testlio, GAT, Qualitest, large outsourcers) doesn't overlap with who actually shows up when someone asks an LLM about AI agent testing tools. This page competes in a different bracket than the rest of the site, and content strategy should reflect that.</div>
 
-<h2>7. Content Quality Notes</h2>
+<h2 id="content-quality">7. Content Quality Notes</h2>
 <div class="card">
 <h3>What's working</h3>
 <ul>
@@ -125,6 +127,13 @@
 <div class="divider"></div>
 
 <div class="anchornav">
+  <a href="#query-coverage">Query Coverage</a>
+  <a href="#extractability">Extractability</a>
+  <a href="#schema">Schema</a>
+  <a href="#bot-access">Bot Access</a>
+  <a href="#external-presence">External Presence</a>
+  <a href="#competitive-gaps">Competitive Gaps</a>
+  <a href="#content-quality">Content Notes</a>
   <a href="#actions">Action Plan</a>
   <a href="#monitoring">Monitoring Plan</a>
 </div>
@@ -151,6 +160,7 @@
 <tr><td class="p2">P2</td><td>Confirm Service/Product schema is live via Rich Results Test (CDN caching has caused metadata gaps before)</td><td>Tammy</td><td>Low</td></tr>
 <tr><td class="p3">P3</td><td>Assess whether AI agent testing content should be pitched for an industry roundup or comparison piece to compete in the LLM-ops observability conversation, not just the crowdtesting one</td><td>Dana Prey</td><td>Medium</td></tr>
 </table>
+<div class="why">Why this matters: On-page fixes are within Applause's control and move fast. Off-page items (bot access, schema confirmation) are prerequisites — if either is broken, the on-page work won't get picked up regardless of quality.</div>
 
 <h2 id="monitoring">9. Monitoring Plan</h2>
 <div class="card">
@@ -162,7 +172,7 @@
 </div>
 
 <footer>
-Generated with ai-seo-aeo v2.2.0 &middot; Evaluator QA pending &middot; July 9, 2026
+Generated with ai-seo-aeo v2.2.0 &middot; Evaluator QA: 20/24 — Distribute (ai-seo-aeo-evaluator v1.0.0, July 9, 2026) &middot; July 9, 2026
 </footer>
 
 </div>
