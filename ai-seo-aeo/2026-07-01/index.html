@@ -319,7 +319,7 @@
   </div>
   <h1>AI Visibility Audit Log</h1>
   <p>All completed AI search visibility audits for applause.com — each page assessed for extractability, schema, bot access, external presence and competitive gaps.</p>
-  <div class="header-meta">GEO / AEO Optimization Program &nbsp;·&nbsp; ai-seo-aeo v2.1.1 &nbsp;·&nbsp; Last updated June 30, 2026</div>
+  <div class="header-meta">GEO / AEO Optimization Program &nbsp;·&nbsp; ai-seo-aeo v2.2.0 &nbsp;·&nbsp; Last updated July 9, 2026</div>
 </header>
 
 <main class="main">
@@ -327,15 +327,15 @@
   <!-- STATS -->
   <div class="stats-row">
     <div class="stat-item">
-      <span class="stat-num">20</span>
+      <span class="stat-num">24</span>
       <div class="stat-label">Pages audited</div>
     </div>
     <div class="stat-item">
-      <span class="stat-num">14</span>
+      <span class="stat-num">18</span>
       <div class="stat-label">Evaluator runs</div>
     </div>
     <div class="stat-item">
-      <span class="stat-num">13</span>
+      <span class="stat-num">16</span>
       <div class="stat-label">Cleared for distribution</div>
     </div>
     <div class="stat-item">
@@ -627,6 +627,70 @@
     </div>
   </div>
 
+  <!-- REPORTS GRID: BLACKOUT CATEGORY AUDITS -->
+  <div class="section">
+    <div class="section-label">Audit Reports — AI Category Blackout Audits</div>
+    <div class="three-col">
+
+      <!-- Report: AI Evaluation & Benchmarking — July 7, 2026 -->
+      <a class="report-card" href="2026-07-07-ai-evals.html">
+        <span class="status-chip chip-revised">~ Revise Before Distribute</span>
+        <div><span class="badge badge-blue">Page Audit</span></div>
+        <h3>AI Evaluation & Benchmarking</h3>
+        <div class="report-date">July 7, 2026</div>
+        <div class="report-url">applause.com/ai-evaluation-and-benchmarking/</div>
+        <div class="report-summary">Zero citations in a category owned by Galileo, Braintrust, Arize. Strong case studies, no comparison table, no FAQ, no schema. 1.5M vs. 1M+ community stat conflict flagged.</div>
+        <div class="report-footer">
+          <span class="eval-pill revise">19/24 Evaluator</span>
+          <span class="view-link">View report →</span>
+        </div>
+      </a>
+
+      <!-- Report: AI Data Collection Page — July 9, 2026 -->
+      <a class="report-card" href="2026-07-09-ai-data-collection.html">
+        <span class="status-chip chip-distribute">✓ Distribute</span>
+        <div><span class="badge badge-blue">Page Audit</span></div>
+        <h3>AI Data Collection Page</h3>
+        <div class="report-date">July 9, 2026</div>
+        <div class="report-url">applause.com/ai-data-collection/</div>
+        <div class="report-summary">Complete blackout across 9 RLHF/training-data roundups — Scale AI, Appen, iMerit own the category. Anonymized case studies vs. named-client competitors is a credibility gap.</div>
+        <div class="report-footer">
+          <span class="eval-pill">22/24 Evaluator</span>
+          <span class="view-link">View report →</span>
+        </div>
+      </a>
+
+      <!-- Report: AI Safety & Risk Testing — July 9, 2026 -->
+      <a class="report-card" href="2026-07-09-ai-safety-and-risk.html">
+        <span class="status-chip chip-distribute">✓ Distribute</span>
+        <div><span class="badge badge-blue">Page Audit</span></div>
+        <h3>AI Safety & Risk Testing</h3>
+        <div class="report-date">July 9, 2026</div>
+        <div class="report-url">applause.com/ai-safety-and-risk-testing/</div>
+        <div class="report-summary">Zero citations for AI red teaming queries — owned by CrowdStrike, Synack, Big 4 consultancies, not tracked crowdtesting competitors. No definition block, 4 unsourced stats.</div>
+        <div class="report-footer">
+          <span class="eval-pill">22/24 Evaluator</span>
+          <span class="view-link">View report →</span>
+        </div>
+      </a>
+
+      <!-- Report: AI Apps & Agents Testing Page — July 9, 2026 -->
+      <a class="report-card" href="2026-07-09-ai-apps-and-agents.html">
+        <span class="status-chip chip-distribute">✓ Distribute</span>
+        <div><span class="badge badge-blue">Page Audit</span></div>
+        <h3>AI Apps & Agents Testing Page</h3>
+        <div class="report-date">July 9, 2026</div>
+        <div class="report-url">applause.com/ai-apps-and-agents-testing/</div>
+        <div class="report-summary">Zero extractable structure — no FAQ, definition, or comparison table. Strong case-study numbers (500 evals, 900+ prompts) buried in unsourced prose.</div>
+        <div class="report-footer">
+          <span class="eval-pill">20/24 Evaluator</span>
+          <span class="view-link">View report →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
   <hr class="divider">
 
   <!-- SITEWIDE FINDINGS -->
@@ -694,6 +758,18 @@
           <td><strong>Named customer quote schema absent</strong> — Watch Demo page has four named executive quotes (Microsoft AI Platform, Western Union, Cisco, Peet's Coffee) with no Review schema. These are the strongest E-E-A-T assets on the site and currently invisible to AI systems as structured data.</td>
           <td><span class="open-tag">⚠ Open</span></td>
           <td>Add Review JSON-LD schema for all four quotes on Watch Demo page. Template in Watch Demo report §3.</td>
+          <td>Tammy (Web dev)</td>
+        </tr>
+        <tr>
+          <td><strong>Tracked competitor set misses AI-category rivals</strong> — AI Evaluation, AI Data Collection, AI Safety & Risk, and AI Apps & Agents audits all surface a different competitive set (Galileo, Braintrust, Arize, Scale AI, Appen, iMerit, CrowdStrike, Synack, Big 4 consultancies) than the tracked crowdtesting set (Testlio, GAT, Qualitest). None of these AI-category rivals are in product-marketing-context.md.</td>
+          <td><span class="open-tag">⚠ Open</span></td>
+          <td>Add an AI-category competitor set to product-marketing-context.md, distinct from the crowdtesting set. See individual audit reports §6 for full lists.</td>
+          <td>Dana Prey</td>
+        </tr>
+        <tr>
+          <td><strong>robots.txt AI-bot access unverified across all 4 new audits</strong> — GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot status could not be confirmed via fetch/search on any of the 4 newly audited pages</td>
+          <td><span class="open-tag">⚠ Open</span></td>
+          <td>One manual check of applause.com/robots.txt covers all 4 pages plus the rest of the queue.</td>
           <td>Tammy (Web dev)</td>
         </tr>
         <tr>
