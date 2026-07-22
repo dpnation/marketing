@@ -90,6 +90,9 @@
   .skill-name { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
   .skill-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; }
   .tag-meta { background: #FFF8E1; color: #B8860B; border: 1px solid #FFE082; }
+  .tag-step { background: var(--blue-100); color: var(--blue-600); border: 1px solid var(--blue-100); }
+  .ci-flow-note { grid-column: 1 / -1; background: var(--blue-50); border-radius: 8px; padding: 0.85rem 1.1rem; font-size: 0.83rem; color: var(--blue-700); line-height: 1.6; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .ci-flow-note strong { color: var(--blue-800); }
   .skill-desc { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
   .skill-body { font-size: 0.85rem; color: var(--gray-700); line-height: 1.6; }
   .skill-triggers { background: var(--blue-50); border-radius: 6px; padding: 0.75rem 1rem; }
@@ -155,9 +158,9 @@
 <div class="hero-inner">
   <div class="hero-eyebrow">Product Marketing</div>
   <h1>PMM Skills Pack<br>for <em>Applause</em></h1>
-  <p class="hero-sub">5 Claude skills purpose-built for product marketers - covering positioning, GTM, competitive intelligence, customer research, and foundational context. Each skill is pre-loaded with Applause's solutions portfolio, brand voice, and testing taxonomy so you never start from scratch.</p>
+  <p class="hero-sub">8 Claude skills purpose-built for product marketers - covering positioning, GTM, competitive intelligence, customer research, and foundational context. Each skill is pre-loaded with Applause's solutions portfolio, brand voice, and testing taxonomy so you never start from scratch.</p>
   <div class="hero-stats">
-    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Skills included</span></div>
+    <div class="stat"><span class="stat-num">8</span><span class="stat-label">Skills included</span></div>
     <div class="stat-divider"></div>
     <div class="stat"><span class="stat-num">Shared</span><span class="stat-label">Enterprise skill type</span></div>
     <div class="stat-divider"></div>
@@ -171,7 +174,7 @@
 <section class="section" id="skills">
 <div class="section-inner">
   <div class="section-label">The Skills</div>
-  <h2 class="section-title">5 skills, one pack</h2>
+  <h2 class="section-title">8 skills, one pack</h2>
   <p class="section-lead">Each skill activates automatically when you describe your task in Claude. No forms, no menus - just plain language. All outputs follow Applause brand guidelines and reference our product, solution areas and industries automatically.</p>
 
   <div class="start-here">
@@ -261,30 +264,82 @@
       </div>
     </div>
 
+    <div class="ci-flow-note">
+      <strong>⚡ Competitive Intelligence, three steps:</strong> competitor-profiling (research) → competitive-intelligence (comparison pages + RFPs) → battlecard-builder (rep-ready .docx). Run in sequence for a new competitor, or jump to step 3 if intel already exists.
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-aqua">🔎</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">competitor-profiling <span class="skill-tag tag-step">Step 1</span></div>
+          <div class="skill-desc">Deep research on a competitor, from URLs to a structured profile.</div>
+        </div>
+      </div>
+      <div class="skill-body">Takes competitor URLs or company names, fetches and researches their live sites, and produces structured competitor profile documents. This is the intel layer everything else in the CI stack builds on.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"profile this competitor"</span>
+          <span class="trigger-pill">"competitor deep dive"</span>
+          <span class="trigger-pill">"who are my competitors"</span>
+          <span class="trigger-pill">"research these competitors"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">competitor profile doc</span>
+        <span class="output-badge">market landscape</span>
+        <span class="output-badge">raw intel</span>
+      </div>
+    </div>
+
     <div class="skill-card">
       <div class="skill-card-header">
         <div class="skill-icon icon-blue">⚡</div>
         <div class="skill-card-meta">
-          <div class="skill-name">competitive-intelligence</div>
-          <div class="skill-desc">Competitor research, battle cards, comparison pages, and RFP support.</div>
+          <div class="skill-name">competitive-intelligence <span class="skill-tag tag-step">Step 2</span></div>
+          <div class="skill-desc">Turns competitor intel into deal-facing content.</div>
         </div>
       </div>
-      <div class="skill-body">Researches competitors, builds battle cards, creates alternative/comparison pages, and supports RFP responses. Pairs with the <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:var(--blue-500);font-weight:600;">Battlecard Builder ↗</a> for formatted Word output. Covers known tracked competitors and auto-researches unknown ones.</div>
+      <div class="skill-body">Builds comparison/alternative pages and RFP response sections from profiled competitor intel, using Applause's positioning framework. Focused on public-facing and deal-support assets — battlecards themselves are step 3.</div>
       <div class="skill-triggers">
         <div class="triggers-label">Triggers on</div>
         <div class="triggers-list">
-          <span class="trigger-pill">"competitor analysis"</span>
-          <span class="trigger-pill">"battle card"</span>
-          <span class="trigger-pill">"competitive research"</span>
-          <span class="trigger-pill">"how do we beat [competitor]"</span>
+          <span class="trigger-pill">"compare us to [competitor]"</span>
+          <span class="trigger-pill">"alternative to [competitor]"</span>
           <span class="trigger-pill">"RFP response"</span>
+          <span class="trigger-pill">"competitive positioning"</span>
         </div>
       </div>
       <div class="skill-outputs">
-        <span class="output-badge">battle cards</span>
         <span class="output-badge">comparison pages</span>
-        <span class="output-badge">RFP support</span>
+        <span class="output-badge">RFP response sections</span>
         <span class="output-badge">comp positioning</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon icon-aqua">🃏</div>
+        <div class="skill-card-meta">
+          <div class="skill-name">battlecard-builder <span class="skill-tag tag-step">Step 3</span></div>
+          <div class="skill-desc">Packages intel into the rep-ready battlecard.</div>
+        </div>
+      </div>
+      <div class="skill-body">Generates polished Applause battlecards as .docx files, exactly matching the established format. Supports known competitors, solution/category cards, and unknown competitors (auto-triggers the research flow). See the <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:var(--blue-500);font-weight:600;">Battlecard Builder guide ↗</a> for the full walkthrough.</div>
+      <div class="skill-triggers">
+        <div class="triggers-label">Triggers on</div>
+        <div class="triggers-list">
+          <span class="trigger-pill">"build a battlecard"</span>
+          <span class="trigger-pill">"battle card for [competitor]"</span>
+          <span class="trigger-pill">"refresh our battlecard"</span>
+          <span class="trigger-pill">"battlecard for [solution]"</span>
+        </div>
+      </div>
+      <div class="skill-outputs">
+        <span class="output-badge">battlecard .docx</span>
+        <span class="output-badge">rep-ready format</span>
+        <span class="output-badge">known + unknown competitors</span>
       </div>
     </div>
 
@@ -394,7 +449,7 @@
     <div class="tip-card"><div class="tip-icon">🗺️</div><div class="tip-title">Context file = force multiplier</div><div class="tip-text">The richer your product-marketing-context file, the less every other skill needs to ask. Invest 20 minutes in it upfront — it pays off across every GTM, messaging, and research task you run.</div></div>
     <div class="tip-card"><div class="tip-icon">🎯</div><div class="tip-title">Add solution area context</div><div class="tip-text">Specifying the solution area ("for a payments conversation" or "for an agentic AI deal") gives you sharper, more targeted output than a generic request. Applause's breadth is a strength — use it.</div></div>
     <div class="tip-card"><div class="tip-icon">🔄</div><div class="tip-title">Chain skills together</div><div class="tip-text">Run customer-research → messaging-positioning → go-to-market in sequence. Each skill builds on the last, and the shared context file keeps everything consistent. This is the full PMM workflow in Claude.</div></div>
-    <div class="tip-card"><div class="tip-icon">⚡</div><div class="tip-title">Pair with Battlecard Builder</div><div class="tip-text">competitive-intelligence feeds directly into the <a href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" style="color:var(--blue-500);font-weight:600;">Battlecard Builder ↗</a>. Use the CI skill for research and analysis; use Battlecard Builder for formatted .docx output ready for reps.</div></div>
+    <div class="tip-card"><div class="tip-icon">⚡</div><div class="tip-title">Stack the CI skills</div><div class="tip-text">competitor-profiling → competitive-intelligence → battlecard-builder is one workflow, not three separate tools. Profile the competitor, turn that into comparison/RFP content, then generate the rep-ready .docx battlecard. Skip to step 3 if intel already exists.</div></div>
     <div class="tip-card"><div class="tip-icon">✏️</div><div class="tip-title">Outputs are starting points</div><div class="tip-text">Treat skill output as a strong first draft, not a final. Human review — especially for win/loss stories and unverified competitor claims — is always the last step before field use.</div></div>
     <div class="tip-card"><div class="tip-icon">🔁</div><div class="tip-title">Update context quarterly</div><div class="tip-text">Re-run product-marketing-context when positioning shifts, you enter new markets, or launch major features. Stale context degrades all downstream skill output.</div></div>
   </div>
