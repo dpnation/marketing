@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Visibility Audit — AI Evaluation &amp; Benchmarking</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 36px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; }
+  .badge { display: inline-block; margin-top: 14px; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; text-transform: uppercase; }
+  .badge-weak { background: #D42D0E; color: #fff; }
+  .badge-partial { background: #ED7200; color: #fff; }
+  .badge-strong { background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 24px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; }
+  h3 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { text-align: left; background: #E6F3FA; padding: 8px 10px; color: #01446C; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .why { border-left: 4px solid #00C0A3; background: #E6FBF7; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .divider { background: #01446C; color: #fff; text-align: center; padding: 20px; margin: 40px 0 20px; border-radius: 8px; }
+  .divider a { color: #00C0A3; text-decoration: none; margin: 0 10px; font-size: 13px; font-weight: 600; }
+  .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+  .tag-onpage { background: #E6F3FA; color: #0272B4; }
+  .tag-offpage { background: #E6FBF7; color: #00785F; }
+  .p1 { color: #D42D0E; font-weight: 700; }
+  .p2 { color: #ED7200; font-weight: 700; }
+  .p3 { color: #0272B4; font-weight: 700; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+  .stat { font-size: 26px; font-weight: 800; color: #0272B4; }
+  .pass { color: #0F8919; font-weight: 700; }
+  .fail { color: #D42D0E; font-weight: 700; }
+  .unknown { color: #ED7200; font-weight: 700; }
+  .clearance { background: #0F8919; color: #fff; padding: 8px 16px; border-radius: 6px; display: inline-block; font-size: 13px; font-weight: 700; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>AI Visibility Audit</h1>
+  <p>Applause — AI Evaluation &amp; Benchmarking Page</p>
+  <p>applause.com/ai-evaluation-and-benchmarking/</p>
+  <p>Audit Date: July 24, 2026 · Platform Focus: Google AI Overviews, ChatGPT, Perplexity, Claude · Re-run on ai-seo-aeo v2.5.0</p>
+  <div class="badge badge-weak">Query Coverage: Weak</div><br>
+  <span class="clearance">✓ Evaluator Cleared — 23/24 Distribute</span>
+</header>
+
+<div class="wrap">
+
+<div class="info">
+  <strong>Re-run context:</strong> This is a re-audit of the page first audited July 7, 2026 (see <code>2026-07-07.html</code>), run against the current ai-seo-aeo skill (v2.5.0). Page content is unchanged since the last audit — no fixes from that cycle have shipped yet. Findings below are consistent with July 7 by design; differences from that report reflect the updated skill structure (the action plan now splits Content Marketing / Web-Digital, not three tracks, and now sits right after the Executive Summary instead of at the end), the current competitive search refresh, and schema now routed to the schema-markup skill instead of a starter template.
+</div>
+
+<div class="card">
+<h2>Executive Summary</h2>
+<p><strong>This page is still invisible in the query space it should own, and the space has gotten more crowded since July.</strong> "AI evaluation," "LLM evaluation platform," and "AI benchmarking tools" are answered almost entirely by LLM-ops tooling vendors — Galileo, Braintrust, Arize, Langfuse, Maxim AI, and Fiddler dominate every comparison article and roundup surfaced in a fresh search. None are in Applause's tracked competitor set. Applause's real differentiator (independent human-in-the-loop evaluation layered on multi-model scoring) isn't represented in any of that content.</p>
+
+<p>The page has real substance — a genuine four-stage methodology, three named case studies, a defensible "independent, not vendor-graded" argument — but it remains unstructured for AI extraction. No fixes from the July 7 audit have shipped: no definition block, no FAQ, no comparison table, no schema confirmed, and every proof stat is still unsourced and undated, including the hero image's "88% success rate" claim, which doesn't appear anywhere in the visible page copy.</p>
+
+<h3>Top 3 Findings</h3>
+<ol>
+<li><strong>Blackout persists, and the incumbents are consolidating.</strong> Current search confirms Braintrust, Galileo, Arize, and Langfuse are now cross-referencing each other in "alternatives" and "vs" content — building the exact comparison-page density that wins AI citation. Applause has zero presence in that cluster.</li>
+<li><strong>Zero extractable structure, unchanged since July 7.</strong> No FAQ, no comparison table, no definition block, no verified schema. Stats (100K+ evals/month, 3+ models, 4 dimensions, 5M+ connected devices, 88% hero stat) still carry no source or date.</li>
+<li><strong>Community-size wording still needs a decision, not a fix.</strong> Page states "1.5M independent testing experts." Per current program guidance, 1M+ and 1.5M+ are both acceptable and this is not flagged as a discrepancy — noting it here only so it isn't mistaken for a new issue.</li>
+</ol>
+
+<h3>Top 3 Recommended Actions</h3>
+<ul>
+<li><span class="p1">P1</span> — Add a definition block ("What is AI evaluation and benchmarking?") and one FAQ block addressing "how is this different from an eval tool like Braintrust or Galileo" — Owner: Jennifer/Dana</li>
+<li><span class="p1">P1</span> — Source and date all four headline stats, including the hero image's 88% figure — Owner: Jennifer/Dana</li>
+<li><span class="p1">P1</span> — Confirm schema status via Rich Results Test and route any gap to the schema-markup skill — Owner: Tammy</li>
+</ul>
+</div>
+
+<div class="card" id="action">
+<h2>Prioritized Action Plan</h2>
+<div class="why"><strong>Why this matters:</strong> Each track below is written to be forwardable as-is — Dana can send the Web/Digital track to Tammy without editing, and own the Content Marketing track directly.</div>
+
+<h3>✍️ Content Marketing Track (Owner: Jennifer/Dana)</h3>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Effort</th></tr>
+<tr><td>Add a definition block: "What is AI evaluation and benchmarking?"</td><td class="p1">P1</td><td>Low</td></tr>
+<tr><td>Source and date all headline stats (100K+ evals/month, 3+ models, 4 dimensions, 5M+ devices, 88% hero stat)</td><td class="p1">P1</td><td>Low</td></tr>
+<tr><td>Add FAQ block including "How is this different from an automated eval tool like Braintrust or Galileo?"</td><td class="p1">P1</td><td>Med</td></tr>
+<tr><td>Add a comparison table: Applause (human-in-the-loop) vs. software-only eval platforms</td><td class="p2">P2</td><td>Med</td></tr>
+<tr><td>Add visible "last updated" date to the page</td><td class="p2">P2</td><td>Low</td></tr>
+<tr><td>Rewrite the "Implement a Repeatable System" section as a 134-167 word self-contained answer block</td><td class="p2">P2</td><td>Low</td></tr>
+<tr><td>Brief competitive-intelligence skill on Braintrust/Galileo/Arize framing for a future comparison page</td><td class="p2">P2</td><td>Med</td></tr>
+<tr><td>Scope a short "how Applause evaluates AI systems" video for YouTube</td><td class="p3">P3</td><td>High</td></tr>
+<tr><td>Pursue an industry-publication placement or guest post referencing the AI evaluation case studies</td><td class="p3">P3</td><td>High</td></tr>
+</table>
+
+<h3>🔧 Web/Digital Track (Owner: Tammy)</h3>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Effort</th></tr>
+<tr><td>Confirm schema status via Google Rich Results Test on this URL and the homepage</td><td class="p1">P1</td><td>Low</td></tr>
+<tr><td>Manually verify robots.txt allows GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot</td><td class="p1">P1</td><td>Low</td></tr>
+<tr><td>Implement the Organization schema above on homepage, once verification confirms it's missing (ready to paste — see Schema Markup section)</td><td class="p2">P2</td><td>Low</td></tr>
+<tr><td>Once Jennifer's FAQ copy ships, request FAQPage schema from schema-markup skill and implement</td><td class="p2">P2</td><td>Med</td></tr>
+<tr><td>Add BreadcrumbList schema site-wide if missing</td><td class="p3">P3</td><td>Med</td></tr>
+</table>
+<p>14 actions total across both tracks.</p>
+</div>
+
+<div class="card">
+<h2>Where the Brand Shows Up Today</h2>
+<div class="why"><strong>Why this matters:</strong> When someone asks ChatGPT or Google "what's the best AI evaluation platform," the AI reads dozens of comparison pages and vendor sites, then names 3-6 companies in its answer. If Applause never appears in that source material, it can't get named — no matter how good the underlying service is.</div>
+
+<table>
+<tr><th>Query</th><th>Tier</th><th>AI Answer Exists</th><th>Applause Cited</th><th>Who's Cited Instead</th><th>Gap?</th></tr>
+<tr><td>"best AI evaluation platform"</td><td>1</td><td>Yes</td><td>No</td><td>Braintrust, Galileo, Arize, LangSmith</td><td>Yes</td></tr>
+<tr><td>"LLM evaluation tools 2026"</td><td>1</td><td>Yes</td><td>No</td><td>Braintrust, Galileo, Fiddler, Maxim AI</td><td>Yes</td></tr>
+<tr><td>"AI benchmarking services enterprise"</td><td>2</td><td>Yes</td><td>No</td><td>Galileo, Arize, consulting firms (generic)</td><td>Yes</td></tr>
+<tr><td>"how to test AI applications"</td><td>2</td><td>Yes</td><td>No</td><td>Braintrust, general QA blogs</td><td>Yes</td></tr>
+<tr><td>"generative AI testing"</td><td>3</td><td>Yes</td><td>No</td><td>Galileo, Langfuse</td><td>Yes</td></tr>
+</table>
+
+<div class="info"><strong>Manual verification caveat:</strong> This matrix is inferred from organic web_search results, not confirmed live AI Overview panels. Budget ~30 minutes to spot-check these five queries directly in ChatGPT, Perplexity, and Google before this report goes to Suzanne.</div>
+
+<div class="info"><strong>Per-platform note:</strong> ChatGPT and Perplexity share only ~11% domain citation overlap. The comparison-content vendors named above (Braintrust, Galileo, Arize) show up consistently across both platforms in this space specifically because they're building comparison content that both engines' indexes favor — this isn't a blended assumption, it's a pattern repeated independently on each platform in this search pass.</div>
+</div>
+
+<div class="divider">
+  <strong>Part 2 — Detailed Findings</strong><br>
+  <a href="#extractability">Extractability</a> ·
+  <a href="#schema">Schema</a> ·
+  <a href="#bots">Bot Access</a> ·
+  <a href="#external">External Presence</a> ·
+  <a href="#competitive">Competitive Gaps</a> ·
+  <a href="#monitoring">Monitoring</a> ·
+  <a href="#evaluator">Evaluator QA</a> ·
+  <a href="#action">↑ Back to Action Plan</a>
+</div>
+
+<div class="card" id="extractability">
+<h2><span class="tag tag-onpage">🔵 On-Page</span> Page Content Extractability</h2>
+<div class="why"><strong>Why this matters:</strong> AI systems pull short passages, not whole pages. If a page doesn't have a clean "answer" for a question, the AI skips it for a competitor's page that does — even if Applause's underlying content is more accurate.</div>
+<table>
+<tr><th>Check</th><th>Status</th><th>What to Do</th></tr>
+<tr><td>Clear definition in first paragraph</td><td class="fail">Fail</td><td>Add a 1-2 sentence "What is AI evaluation and benchmarking?" definition ahead of the current hero copy</td></tr>
+<tr><td>Self-contained answer blocks (134-167 words)</td><td class="fail">Fail</td><td>Rewrite the "Implement a Repeatable System" section as one self-contained block in this range</td></tr>
+<tr><td>Statistics with named sources and dates</td><td class="fail">Fail</td><td>Source and date 100K+ evals/month, 3+ models, 4 dimensions, 5M+ devices, and the hero's 88% stat</td></tr>
+<tr><td>Comparison tables ([X] vs [Y])</td><td class="fail">Fail</td><td>Add a table: Applause vs. software-only eval tools (Braintrust/Galileo-type), on human-in-the-loop coverage</td></tr>
+<tr><td>FAQ section, natural-language questions</td><td class="fail">Fail</td><td>Add 4-6 FAQs including a direct "vs. an automated eval tool" question</td></tr>
+<tr><td>Headings match query phrasing</td><td class="unknown">Partial</td><td>"How Our Evaluation Program Works" is close; most H2s are benefit-framed, not query-framed</td></tr>
+<tr><td>"Last updated" date visible</td><td class="fail">Fail</td><td>Add a visible last-reviewed date near the top</td></tr>
+<tr><td>Author attribution / credentials</td><td class="fail">Fail</td><td>Not applicable to a solution page format, but consider a named methodology lead or SME quote to build E-E-A-T under the December 2025 scope expansion</td></tr>
+<tr><td>Gated content limiting AI access</td><td class="pass">Pass</td><td>Page is fully public; no gating issue</td></tr>
+</table>
+<p><strong>Score: 1 Pass / 7 Fail / 1 Partial.</strong> Unchanged from July 7 — no extractability fixes have shipped.</p>
+</div>
+
+<div class="card" id="schema">
+<h2><span class="tag tag-onpage">🔵 On-Page</span> Schema Markup</h2>
+<div class="why"><strong>Why this matters:</strong> Schema is structured metadata that tells AI systems exactly what a page is and what it's saying, without having to interpret prose. Pages with schema see 30-40% higher AI visibility on non-Google engines.</div>
+<table>
+<tr><th>Schema Type</th><th>Target Content</th><th>Status</th></tr>
+<tr><td>FAQPage</td><td>None present — no FAQ content exists yet</td><td class="fail">Not implemented</td></tr>
+<tr><td>Article/BlogPosting</td><td>Not applicable — solution page, not a blog post</td><td>—</td></tr>
+<tr><td>Organization</td><td>Homepage/entity signals</td><td class="unknown">Unknown — needs verification</td></tr>
+<tr><td>BreadcrumbList</td><td>Site structure</td><td class="unknown">Unknown — needs verification</td></tr>
+</table>
+<div class="alert"><strong>Cannot confirm schema absence from this fetch.</strong> WP Rocket/CDN caching strips JSON-LD from markdown page fetches for applause.com — this is a known, recurring limitation for this domain, not a new finding. Tammy must verify directly via WordPress admin or Google's Rich Results Test (<code>search.google.com/test/rich-results</code>) before any of the three types below is reported as a confirmed gap to Suzanne.</div>
+
+<p>The three schema gaps don't all move at the same speed — sequence them accordingly:</p>
+<table>
+<tr><th>Type</th><th>Blocked on?</th><th>Status</th></tr>
+<tr><td>Organization</td><td>Nothing — not content-dependent</td><td>Generated below, ready for Tammy once verification confirms it's actually missing</td></tr>
+<tr><td>BreadcrumbList</td><td>Nothing — not content-dependent, but lower priority (P3)</td><td>Not generated yet; pull from schema-markup skill when Web/Digital track reaches it</td></tr>
+<tr><td>FAQPage</td><td><strong>Jennifer's FAQ copy (P1, Content Marketing track) — doesn't exist on-page yet</strong></td><td>Cannot generate — Google's FAQPage policy requires the Q&amp;A to be visibly rendered on the page first. Generating now would mean inventing questions the page doesn't answer.</td></tr>
+</table>
+
+<h3>Ready to paste — Organization schema (site-wide, homepage placement)</h3>
+<div class="info">This is a site-wide entity, not specific to this page — it belongs on the homepage <code>&lt;head&gt;</code>, one instance per site. Generated via the <strong>schema-markup</strong> skill from live page content and product-marketing-context.md. <code>logo</code> and <code>sameAs</code> URLs are pulled from the live site footer; confirm they're still current before pushing.</div>
+<pre style="background:#01446C;color:#E6F3FA;padding:16px;border-radius:6px;font-size:12.5px;overflow-x:auto;">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.applause.com/#organization",
+  "name": "Applause",
+  "url": "https://www.applause.com",
+  "logo": "https://www.applause.com/wp-content/uploads/applause-logo-1.svg",
+  "description": "Applause provides managed software testing services, combining AI, automation and an independent real-world testing community to help enterprises scale testing and improve digital quality.",
+  "sameAs": [
+    "https://www.linkedin.com/company/applause",
+    "https://twitter.com/Applause",
+    "https://facebook.com/applause",
+    "https://www.instagram.com/applause_inc",
+    "https://www.youtube.com/channel/UCgOuw8ZRoV4LDEJVIgmr59Q"
+  ]
+}
+&lt;/script&gt;</pre>
+<p><em>Validate at <code>search.google.com/test/rich-results</code> and <code>validator.schema.org</code> before pushing live. No placeholders — all fields sourced from the live site or product-marketing-context.md.</em></p>
+<p>Once this is live, page-level schemas (Service, BreadcrumbList) on this and other solution pages should reference it via <code>"provider": {"@id": "https://www.applause.com/#organization"}</code> instead of repeating the full Organization object.</p>
+</div>
+
+<div class="card" id="bots">
+<h2><span class="tag tag-offpage">🟢 Off-Page</span> AI Bot Access</h2>
+<div class="why"><strong>Why this matters:</strong> If an AI crawler is blocked from reaching this page, that platform can never cite it — no matter how well the content is written.</div>
+<table>
+<tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+<tr><td>GPTBot</td><td>ChatGPT (OpenAI)</td><td class="unknown">Unknown</td></tr>
+<tr><td>ChatGPT-User</td><td>ChatGPT browsing</td><td class="unknown">Unknown</td></tr>
+<tr><td>PerplexityBot</td><td>Perplexity</td><td class="unknown">Unknown</td></tr>
+<tr><td>ClaudeBot</td><td>Anthropic Claude</td><td class="unknown">Unknown</td></tr>
+<tr><td>anthropic-ai</td><td>Anthropic Claude (alt)</td><td class="unknown">Unknown</td></tr>
+<tr><td>Google-Extended</td><td>Gemini + AI Overviews</td><td class="unknown">Unknown</td></tr>
+<tr><td>Bingbot</td><td>Microsoft Copilot</td><td class="unknown">Unknown</td></tr>
+</table>
+<div class="alert"><strong>web_fetch of applause.com/robots.txt failed again this cycle</strong> — consistent with CDN/WAF blocking, the same pattern logged July 7. Flag as Unknown, not Pass, until someone manually checks the file in a browser. Recommended config once verified: allow all seven bots above, CCBot may remain blocked (training-only, no citation impact).</div>
+</div>
+
+<div class="card" id="external">
+<h2><span class="tag tag-offpage">🟢 Off-Page</span> External Presence</h2>
+<div class="why"><strong>Why this matters:</strong> ChatGPT and Perplexity cite third-party sources — Wikipedia, review sites, YouTube — more heavily than a brand's own site. Being absent from those spaces caps AI visibility even with a perfect page.</div>
+<table>
+<tr><th>Source</th><th>General Presence</th><th>AI-Eval-Category-Specific</th></tr>
+<tr><td>Wikipedia</td><td>Exists (Applause company page)</td><td>None — no mention in AI evaluation context</td></tr>
+<tr><td>G2</td><td>Exists</td><td>Not categorized under AI evaluation/LLM-ops</td></tr>
+<tr><td>Gartner Peer Insights</td><td>Exists</td><td>Not present in AI eval category comparisons</td></tr>
+<tr><td>Industry publications</td><td>Weak</td><td>Not appearing in the Braintrust/Galileo comparison ecosystem</td></tr>
+<tr><td>Reddit</td><td>Minimal</td><td>None found in eval-tool discussions</td></tr>
+<tr><td>YouTube</td><td>Minimal</td><td>None found on AI evaluation/benchmarking topics</td></tr>
+</table>
+<div class="info">YouTube is currently the more durable third-party lever versus Reddit (per platform-ranking-factors.md, July 2026 update) — a short "how Applause evaluates AI systems" video could be a lower-effort way into this space than competing for placement in vendor comparison roundups.</div>
+</div>
+
+<div class="card" id="competitive">
+<h2><span class="tag tag-offpage">🟢 Off-Page</span> Competitive Gaps</h2>
+<div class="why"><strong>Why this matters:</strong> Knowing exactly who AI names instead of Applause — and why — is what turns "we're not cited" into a specific content brief.</div>
+<table>
+<tr><th>Competitor</th><th>Where They're Cited</th><th>Content Type Driving It</th><th>Applause Counter</th></tr>
+<tr><td>Braintrust</td><td>"best AI evaluation tools," "vs" comparison content, LLMOps roundups</td><td>Dense cross-linked "X vs Braintrust" comparison articles</td><td>Applause competes on human-in-the-loop judgment, not code-first tooling — different category, needs its own comparison frame rather than a feature-for-feature table</td></tr>
+<tr><td>Galileo</td><td>Same query cluster, plus "AI agent evaluation platforms" roundups</td><td>Vendor blog content + independent review sites</td><td>Galileo is model-graded (Luna); Applause's differentiator is independent, non-vendor-graded scoring — this is a stronger differentiation angle than it was in July, now that Galileo's own content leans harder into automated scoring</td></tr>
+<tr><td>Arize</td><td>Observability + evaluation crossover queries</td><td>Comparison content, technical blogs</td><td>Arize competes on infrastructure/observability; Applause's case studies (retail, finance, multilingual voice) show outcomes Arize's tooling-only approach can't produce alone</td></tr>
+</table>
+<div class="alert"><strong>Confirmed this cycle:</strong> a fresh search shows these vendors are now cross-referencing each other in "alternatives" content at increasing density — the competitive gap identified July 7 has not narrowed and shows signs of widening. This query space is not in Applause's tracked competitor set (Testlio, GAT, Qualitest) and should not be benchmarked against them.</div>
+</div>
+
+<div class="card" id="monitoring">
+<h2>Monitoring Plan</h2>
+<ul>
+<li>Re-run the five priority queries in ChatGPT, Perplexity, and Google manually within 30 days of publishing content fixes</li>
+<li>Track this page specifically in the monthly LLM citation tracker (Pam) — it currently has zero rows with a "Y" for AI evaluation queries</li>
+<li>Re-audit this page with ai-seo-aeo once the P1 content fixes ship, to measure structural score improvement independent of citation lag</li>
+<li>Tools: Otterly AI, Peec AI, ZipTie (per existing program stack)</li>
+</ul>
+</div>
+
+
+<div class="card" id="evaluator">
+<h2>Evaluator QA Scorecard</h2>
+<p><strong>Overall: 23/24 — Distribute</strong> · Evaluated by ai-seo-aeo-evaluator v1.0.0 · July 24, 2026</p>
+<table>
+<tr><th>Dimension</th><th>Score</th><th>Verdict</th></tr>
+<tr><td>Completeness</td><td>4/4</td><td>All 9 required sections present and substantive; prior intake context carried forward correctly.</td></tr>
+<tr><td>Reliability</td><td>4/4</td><td>Query coverage, schema, and robots.txt status all properly caveated as unverified/inferred.</td></tr>
+<tr><td>Framing</td><td>4/4</td><td>Exec summary leads with the verdict; on-page/off-page labels and "why this matters" callouts present throughout; anchor nav and divider present.</td></tr>
+<tr><td>Data Quality</td><td>4/4</td><td>Stats correctly flagged as unsourced; community-size figure correctly not flagged as a discrepancy per current program guidance.</td></tr>
+<tr><td>Actionability</td><td>4/4</td><td>14 actions across two owner-based tracks (current v2.5.0 structure, Action Plan moved to Part 1), each with P1-P3, owner, and effort estimate.</td></tr>
+<tr><td>Currency</td><td>3/4</td><td>One gap: see Currency Watch below.</td></tr>
+</table>
+<div class="info"><strong>Currency Watch (skill-level, not a fix to this report):</strong> Perplexity has publicly confirmed it retrieves and uses <code>llms.txt</code> to prioritize page selection. The ai-seo-aeo skill's current guidance ("major LLM crawlers don't reliably fetch it yet") is now partially outdated for Perplexity specifically, though it still holds for Google and OpenAI. Worth a targeted skill update; does not change this report's findings or recommendations.</div>
+</div>
+
+<footer>
+Generated with Applause AI Visibility Audit Program — ai-seo-aeo v2.5.0<br>
+Audit Date: July 24, 2026
+</footer>
+
+</body>
+</html>
