@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — The Applause Difference Page</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+    .stat-card { background: var(--blue-100); border-radius: 6px; padding: 14px; text-align: center; }
+    .stat-card .num { font-size: 22px; font-weight: 800; color: var(--blue-700); }
+    .stat-card .label { font-size: 12px; color: var(--gray-700); margin-top: 4px; }
+    .stat-card .source { font-size: 11px; color: var(--red); font-weight: 600; margin-top: 4px; }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; }
+      .summary-grid, .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>The Applause Difference Page</h1>
+  <div class="sub">applause.com/the-applause-difference/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Page type: <strong>Brand differentiation / Why-us page</strong></span>
+    <span>No published or modified date in metadata</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Strong Data, Zero Attribution</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-red">
+      <div class="callout-label">⛔ Critical Issue — Six Proof Point Statistics With No Source</div>
+      This page carries Applause's most compelling performance data — 150% more releases, 36% faster testing cycles, $2.38M incremental revenue, 600%+ ROI — but none of it is attributed to a source. These figures almost certainly originate from the IDC study referenced on the homepage. Without that citation, AI systems treat all six as unsourced marketing claims and will not cite them. <strong>Adding a single source attribution ("Source: IDC, 2024" or equivalent) next to each stat unlocks this page's primary citation value.</strong>
+    </div>
+
+    <p style="margin-bottom:16px;">This is the third product page in the audit batch and the most substantive one. Unlike the solutions hub (which had almost no extractable content), this page has real proof points, a clear community scale claim, a named customer case study, and a strong positioning statement. The barriers are structural: the H1 "The Applause Difference" is a brand phrase that matches no search query, the statistics lack attribution, and there's no comparison content on a page that exists specifically to explain why Applause is different. Fix those three things and this page becomes one of the strongest AI citation assets on the site for buyer-evaluation queries.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⛔</span><span>Six proof point stats (150%, 36%, 70%, 30%, $2.38M, 600%+) with no source attribution</span></li>
+          <li><span>✗</span><span>H1 "The Applause Difference" — brand phrase, matches no search query</span></li>
+          <li><span>✗</span><span>Meta description is customer-facing brand copy, not a keyword-bearing summary</span></li>
+          <li><span>✗</span><span>No comparison content — "the difference" is implied but never articulated vs. specific alternatives</span></li>
+          <li><span>✗</span><span>No FAQ section for buyer evaluation questions</span></li>
+          <li><span>✗</span><span>No schema — no Organization, Service, or FAQPage markup</span></li>
+          <li><span>⚠</span><span>Community size: page says 1.5M+, but product-marketing-context.md says 1M+ — needs resolution before any stat is used in AI-cited content</span></li>
+          <li><span>✗</span><span>Audi case study links to a PDF — AI systems may not reliably access or cite PDF-only content</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>Strong opening positioning: "Only Applause combines insights from the world's largest testing community, with AI and automation for global quality at scale"</span></li>
+          <li><span>✓</span><span>Six quantified outcome stats (all need sourcing but the data is strong)</span></li>
+          <li><span>✓</span><span>Community scale data: 1.5M+ testers, 200+ countries, 80+ languages, 5M+ devices</span></li>
+          <li><span>✓</span><span>"Applause pioneered crowdtesting" — strong, citable differentiation claim</span></li>
+          <li><span>✓</span><span>Named customer reference (Audi)</span></li>
+          <li><span>✓</span><span>Benefit bullet list at page bottom — extractable for "what does Applause offer" queries</span></li>
+          <li><span>✓</span><span>DE/FR localized versions exist</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Source all six proof point statistics.</h4>
+      <p>The performance stats (150% more releases, 36% faster testing cycles, 70% more efficient teams, 30% faster time to market, $2.38M incremental revenue, 600%+ ROI) are the most citable data on the page — but only if attributed. Add "Source: IDC" or the specific study name beneath each stat, or add a single footnote reference. AI systems require traceable claims to cite them. Unsourced statistics are treated as assertions, not evidence. This is one line of copy per stat and the highest-leverage change on the page.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Rewrite H1 and meta description to be query-matched.</h4>
+      <p>"The Applause Difference" is the page's brand name, not its H1. Update the H1 to a query-bearing statement: "Why Applause: The Leader in Managed Real-World Software Testing" or "What Makes Applause Different — Testing at Global Scale." The meta description ("The most inventive brands in the world... trust Applause with their digital products") should be rewritten to include keywords buyers actually search: "Applause delivers managed software testing with 1.5M+ real-world testers across 200+ countries — giving enterprises the coverage, speed, and confidence to release faster."</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add explicit comparison content — "Applause vs. X".</h4>
+      <p>A page called "The Applause Difference" that never states what Applause is different from is invisible to comparison queries. Add a structured section — a table or three-column layout — comparing Applause's approach against the two most common alternatives buyers consider: in-house QA teams and traditional offshore QA. This is the content AI systems extract for "why Applause" and "Applause vs. [alternative]" queries and is currently absent from every page on the site.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Weak — H1 Provides No Query Signal</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This page is the natural citation target when a buyer asks an AI system "why should I choose Applause?" or "what makes Applause different from other testing vendors?" These are high-intent, late-stage evaluation queries — buyers who reach these questions are close to a decision. Being cited here has direct commercial impact. The page has the content to win these queries; the H1 and missing source attribution are preventing it.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status inferred from page structure. Manual verification required. ChatGPT: OAI-SearchBot likely allowed by wildcard per homepage audit. "Why Applause" queries are brand-specific — they should be easier to win than generic category queries, but only if the page has extractable, structured answers to those specific questions.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:13%;">This Page Cited?</th>
+          <th style="width:14%;">What's Cited Instead</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>why choose Applause for software testing</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no structured "why us" answers</td>
+          <td>Applause homepage, G2 reviews</td>
+        </tr>
+        <tr>
+          <td>what makes Applause different</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-fail">✗ Unlikely — no comparison content</td>
+          <td>Applause homepage, competitor review sites</td>
+        </tr>
+        <tr>
+          <td>Applause testing results ROI</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-fail">✗ Unlikely — stats present but unsourced</td>
+          <td>Applause homepage (IDC study mentioned there)</td>
+        </tr>
+        <tr>
+          <td>Applause crowdtesting community size</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — 1.5M+, 200+, 5M+ data present</td>
+          <td>Applause homepage, uTest community page</td>
+        </tr>
+        <tr>
+          <td>crowdtesting vs in-house QA</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison content</td>
+          <td>Testlio, GAT, various blog posts</td>
+        </tr>
+        <tr>
+          <td>best software testing service providers</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no competitive differentiation content</td>
+          <td>G2, Gartner, TechRadar roundups</td>
+        </tr>
+        <tr>
+          <td>Applause testing community testers</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — community scale stats present</td>
+          <td>Applause community page (/our-community/)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Potential by Query Type</h3>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Brand "why us" queries (pre-fix)</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:10%;"></div></div><span style="font-size:13px; color:var(--red);">Near-zero — no structured answers to "why" questions</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Brand "why us" queries (post-fix)</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:70%;"></div></div><span style="font-size:13px; color:var(--green);">Strong — sourced stats + comparison = citable</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Community scale queries</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:45%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — stats present, attribution missing</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Comparison ("Applause vs. X")</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:5%;"></div></div><span style="font-size:13px; color:var(--red);">Not covered — comparison content absent</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the page) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">2 Pass · 3 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the brand page</span>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Note on Page Type</div>
+      This is a brand differentiation page — the "Why Us" page in Applause's site architecture. Checks for blog-post conventions (author, dates, HowTo schema) don't apply. The relevant standard: can AI systems extract a clear, structured, attributed answer to "what makes Applause different and what results do clients see?" Currently: partially.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>H1 and meta title match target queries</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>"The Applause Difference" is a brand name, not a search query. The meta title adds "- Applause" but still carries no keywords. Rewrite H1 to: "Why Applause: Real-World Software Testing at Global Scale" or "What Makes Applause Different — Managed Testing by the World's Largest Testing Community." Update meta title to match. The existing H2 subheading — "Software Testing That Keeps Pace With Innovation" — is closer to query-language than the H1; consider swapping their roles.</td>
+        </tr>
+        <tr>
+          <td><strong>Opening positioning statement</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The H2 immediately under the H1 reads: "Only Applause combines insights from the world's largest testing community, with AI and automation for global quality at scale." This is a strong, citable positioning statement — it directly answers "what does Applause offer that others don't?" But it's an H2, not the H1, and follows an H1 that provides no keyword signal. If the H1 is rewritten, this positioning statement should remain as the lead sub-heading or move into the opening paragraph as a definition block.</td>
+        </tr>
+        <tr>
+          <td><strong>Proof point statistics — present but unsourced</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Six strong outcome statistics appear on the page with no attribution. The figures — particularly $2.38M incremental revenue and 600%+ ROI — are almost certainly from an IDC study (referenced on the homepage as "IDC study"). Without the source, AI systems cannot treat these as citable evidence. Add attribution beneath each stat or as a footnote section: "Source: IDC, [year] commissioned study" or equivalent. This applies to all six figures simultaneously.</td>
+        </tr>
+        <tr>
+          <td><strong>Community scale data</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The page states 1.5M+ Experts and End Users, 200+ Countries, 80+ Languages, 5M+ Connected Devices — all strong, citable community scale claims. These appear in a dedicated stats section with reasonable visual prominence. Two issues: (1) No source attributed. (2) The community size figure (1.5M+) conflicts with the 1M+ figure in product-marketing-context.md. <strong>This discrepancy must be resolved before any of these figures appear in AI-cited content</strong> — AI systems that cite a figure on one page and encounter a different figure on another will flag the inconsistency or avoid citation. Confirm the current accurate figure with the community or product team and update all pages consistently.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison content — "different from what?"</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>A page titled "The Applause Difference" implies comparison but never delivers one. The most common alternatives Applause buyers consider are: in-house QA teams, offshore QA agencies, and self-serve automation tools. Add a structured comparison section — even a simple 3-column table (Dimension / In-House QA / Applause) covering scale, geographic coverage, specialization, and managed service model. This is the content AI systems extract for "crowdtesting vs. in-house QA" and "why use Applause instead of building an internal team" queries, neither of which this page currently addresses.</td>
+        </tr>
+        <tr>
+          <td><strong>"Applause pioneered crowdtesting" claim</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The claim "Applause pioneered crowdtesting" appears mid-page in the "A Strategic Team" section — a strong, citable differentiator that should be much more prominent. Move this claim to the opening section, directly after the positioning statement. It answers "what makes Applause unique" more concisely than any other sentence on the page and is the kind of founding-claim statement AI systems weight heavily for brand entity recognition.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ / structured buyer-question content</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section. For a "Why Us" page, the most valuable FAQ questions are the ones buyers actually ask during evaluation: "How quickly can Applause scale testing for my needs?", "Is Applause a tool or a managed service?", "How does Applause handle security and confidentiality?", "What industries does Applause specialize in?", "How does crowdtesting differ from offshore QA?" These answers exist in scattered form across the page — a structured FAQ section with FAQPage schema would make them extractable.</td>
+        </tr>
+        <tr>
+          <td><strong>Customer evidence</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Audi case study is referenced with a brief description. The link goes to a PDF, which limits AI accessibility. Consider adding a brief inline summary (1–2 sentences with a quantified outcome from the Audi engagement) rather than relying on the PDF click-through for AI extraction. Even without PDF access, the Audi name appearing on the page creates a brand association signal.</td>
+        </tr>
+        <tr>
+          <td><strong>Page publicly accessible</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange" style="margin-top:16px;">
+      <div class="callout-label">⚠ Community Size Discrepancy — Resolve Before Any AI Citation Work</div>
+      This page states <strong>1.5M+</strong> community members. The product-marketing-context.md file in this project states <strong>1M+</strong>. This same discrepancy has been flagged in the digital quality solutions evaluator run. AI systems that encounter both figures — on different Applause pages or in different citation contexts — will either average them, cite the lower figure conservatively, or flag the inconsistency. Confirm the current accurate number with the community or product team and update all pages, the product-marketing-context.md file, and any published content consistently before this figure appears in any AI-optimized copy.
+    </div>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">Organization + FAQPage — Both Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      A brand differentiation page benefits most from schema that establishes Applause as a recognized entity with specific, verifiable capabilities. Organization schema with <code>hasOfferCatalog</code> and <code>knowsAbout</code> attributes tells AI systems what Applause does and where to find more. FAQPage schema on buyer evaluation questions tells AI systems what questions this page answers. Together, they make this page the machine-readable source of record for Applause brand and capability queries.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Yoast likely generates sitewide Organization and WebSite schema — verify before adding duplicates. Check specifically whether the existing Organization schema includes <code>knowsAbout</code> and <code>hasOfferCatalog</code> linking to the solutions page.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Organization</code> with <code>knowsAbout</code></td>
+          <td>Establishes Applause as a recognized entity with named expertise areas (crowdtesting, functional testing, accessibility testing, AI testing, etc.) and links to the community size and coverage claims as verifiable attributes.</td>
+          <td class="icon-unknown">? Likely present via Yoast sitewide — verify and extend with knowsAbout array</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags buyer evaluation questions and their answers as machine-readable Q&amp;A pairs. Needed once the FAQ section is added. Directly improves citation for "why Applause" and "how does Applause work" queries.</td>
+          <td class="icon-fail">✗ Absent — no FAQ section yet</td>
+          <td><span class="p2">P2 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>WebPage</code> with <code>speakable</code></td>
+          <td>Marks specific text passages as the most important, speakable sections of the page — useful for voice search and AI assistant extraction of the positioning statement and proof points.</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td><span class="p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. Confirm no Cloudflare CDN-level bot blocking is active — see homepage audit Section 5. This page is a high-value target for brand entity citation bots once sourced stats and comparison content are added.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">Brand Entity Recognition — Third-Party Validation Gap</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause's differentiation is described externally</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For a "Why Us" page, off-page presence is especially important. AI systems build entity models of companies from multiple sources — the company's own pages carry less weight than independent third-party descriptions. Buyers asking AI systems "why choose Applause?" will receive answers sourced from G2 reviews, analyst reports, and Wikipedia as much as from Applause's own content. Ensuring third-party sources consistently describe Applause's key differentiators (crowdtesting pioneer, 1.5M+ community, real-world device coverage) is high-leverage here.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Presence</th>
+          <th>Differentiator Coverage</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>G2</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Quality unknown</td>
+          <td>Ensure reviews specifically mention the differentiators on this page — community scale, real-device testing, managed service model, global geographic coverage. Reviews that use the language of this page's differentiators reinforce the entity model AI systems build for "why Applause." Encourage review campaigns that prompt customers to describe these specific outcomes.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify the Applause Wikipedia article exists and accurately describes the crowdtesting pioneer claim, community size, and testing model. Wikipedia is cited in ~8% of ChatGPT responses — for brand entity queries like "what is Applause" and "what does Applause do," Wikipedia is frequently the first citation. An inaccurate or outdated Wikipedia entry directly undermines AI-generated descriptions of Applause.</td>
+        </tr>
+        <tr>
+          <td><strong>IDC Study</strong></td>
+          <td class="icon-partial">⚠ Referenced on homepage</td>
+          <td class="icon-unknown">? Linkable publicly?</td>
+          <td>The IDC study is the source for the six performance stats on this page. Confirm whether a public URL exists for the study. If so, link directly from this page's stat section. If gated, add "Source: IDC commissioned study" with the year. A publicly accessible IDC URL would be the single highest-impact citation addition to the entire site.</td>
+        </tr>
+        <tr>
+          <td><strong>Gartner / Forrester</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify whether Applause appears in any current Gartner or Forrester research on software testing services. Analyst recognition — even a mention in a market overview — is one of the strongest AI citation signals for vendor capability claims. If not currently covered, this is a long-term analyst relations priority.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-partial">Brand Differentiation — Comparison Content Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors position their "Why Us" pages</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Testlio</h3>
+      <p><strong>Where they win:</strong> "Why Testlio," "Testlio vs. Applause," "managed testing services." Their differentiation page explicitly compares their model to in-house QA and offshore alternatives, includes sourced customer outcome statistics (with named clients and quantified results), and has a structured FAQ section answering buyer evaluation questions. Their stats are attributed to specific customer case studies, not a single commissioned study — which gives them more citation surface across individual pages.</p>
+      <p><strong>Applause's counter:</strong> The IDC study (if citeable publicly) is a stronger independent validation than individual case studies. The 1.5M+ community and 200+ country coverage are scale advantages Testlio cannot match. The Audi case study is a recognizable brand that Testlio cannot replicate. All of these are on the page — they just need attribution, structure, and the comparison context that "why Applause instead of Testlio" queries require.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Context Gap</div>
+      <h3>In-House QA (the status quo)</h3>
+      <p><strong>Where they "win":</strong> Default choice. In-house QA doesn't have a "why us" page — it's the path of least resistance. AI systems answering "should I build an internal QA team or use a vendor?" default to describing the trade-offs without a clear structured comparison. Applause's "The Applause Difference" page should be the cited source for this comparison, but only if it directly addresses "Applause vs. building an internal team."</p>
+      <p><strong>Applause's counter:</strong> The page's bullet list at the bottom ("world's largest community of QA professionals", "millions of real devices", "24/7/365 global availability") implicitly answers this comparison. Making it explicit — a table showing what in-house teams can't provide at Applause's scale — turns this from implied to citable. The 200%+ increase in internal team capacity proof point (in product-marketing-context.md) would be the anchor stat for this comparison.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">12 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Source attribution and community size resolution are prerequisites for any stat-based AI citation work.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the brand page</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Source all six proof point statistics.</strong> Add "Source: IDC, [year]" beneath each of the six performance stats (150%, 36%, 70%, 30%, $2.38M, 600%+). If a public URL for the IDC study exists, link it. Unsourced stats cannot be cited by AI systems regardless of how strong the numbers are.</td>
+          <td>Critical — unlocks all stat-based citation</td>
+          <td>Low — copy addition</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Resolve the 1.5M+ vs. 1M+ community size discrepancy.</strong> Confirm the current accurate figure with the community or product team. Update this page, the solutions page, product-marketing-context.md, and any other pages using this figure consistently. This is a prerequisite for sourcing community scale stats.</td>
+          <td>Critical — data integrity across all pages</td>
+          <td>Low — verify + update</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Rewrite H1 to be query-matched.</strong> Replace "The Applause Difference" with: "Why Applause: Real-World Software Testing at Global Scale" or similar. Update meta title and meta description to include keywords buyers search. Keep "The Applause Difference" as a brand sub-label if needed, but not as the primary H1.</td>
+          <td>High — primary query signal</td>
+          <td>Low — copy edit</td>
+          <td>PMM / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Promote "Applause pioneered crowdtesting"</strong> to the opening section, immediately after the positioning statement. This founding claim is the most concise, citable answer to "what makes Applause unique" and is currently buried mid-page.</td>
+          <td>High — brand differentiation signal</td>
+          <td>Low — copy restructure</td>
+          <td>PMM / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a comparison section</strong> — "Applause vs. In-House QA vs. Offshore QA" — as a structured table. Criteria rows: geographic coverage, scale, specialization, time to start, managed service model, device coverage. This directly addresses the queries this page is positioned to win but currently can't.</td>
+          <td>High — comparison query coverage</td>
+          <td>Medium — new content + dev</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 4–5 buyer evaluation questions. See Section 1 for suggestions. Add FAQPage JSON-LD schema. Focuses on questions buyers ask during vendor evaluation — different from the homepage FAQ which is more introductory.</td>
+          <td>High — evaluation-stage query coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>PMM + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add inline Audi case study outcomes</strong> — 1–2 sentences with a quantified result visible on the page without a PDF click-through. AI systems can rarely reliably access or cite PDF content. The brand name (Audi) is valuable; the outcome (what Applause delivered for them) is what makes it citable.</td>
+          <td>Medium — customer evidence signal</td>
+          <td>Low — copy addition</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add Organization schema</strong> extending the Yoast-generated base with <code>knowsAbout</code> attributes (crowdtesting, functional testing, accessibility testing, AI testing, payment testing) and <code>hasOfferCatalog</code> linking to the solutions page. This builds the machine-readable entity model AI systems use to describe Applause.</td>
+          <td>Medium — entity recognition</td>
+          <td>Low — schema addition</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Source the community scale stats</strong> (1.5M+, 200+, 80+, 5M+) with a reference date and methodology note. Community size changes over time — a dated reference adds credibility and freshness signal.</td>
+          <td>Medium — scale citation credibility</td>
+          <td>Low — copy addition</td>
+          <td>PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add additional named customer logos or outcomes</strong> inline on the page. The homepage references Google, Uber, PayPal, Sony, Expedia — this page references only Audi. Named customer logos on a "Why Us" page are citation anchors for "who uses Applause" queries.</td>
+          <td>Medium — social proof signal</td>
+          <td>Medium — approvals + design</td>
+          <td>PMM / Design</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. This page is a primary brand entity citation target — citation bot access is essential.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Audit and update G2, Gartner, and Wikipedia</strong> to ensure the crowdtesting pioneer claim, current community size, and managed service model are accurately described. Third-party sources carry more AI citation weight for brand entity queries than the company's own pages.</td>
+          <td>High — entity model accuracy</td>
+          <td>Medium — research + outreach</td>
+          <td>PMM / PR</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>why choose Applause for software testing</li>
+      <li>what makes Applause different from other testing vendors</li>
+      <li>Applause testing results ROI</li>
+      <li>crowdtesting vs in-house QA team</li>
+      <li>Applause community size testers</li>
+      <li>who uses Applause software testing</li>
+      <li>Applause vs offshore QA</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead><tr><th>Timeframe</th><th>What to Check</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Immediate (after stat sourcing)</strong></td>
+          <td>Confirm the IDC citation or study attribution is live on the page. Run a manual check on one AI platform for "Applause testing ROI" — does the platform now cite the stat with attribution? This is the clearest test of whether sourcing unlocked the citation.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 7 priority queries across platforms. Key signals: (1) Is Applause cited for "why choose Applause" queries? (2) Do any platforms cite the sourced stats from this page specifically (vs. the homepage)? (3) Does the comparison section improve citation for "crowdtesting vs. in-house QA" queries?</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check how AI systems describe Applause in generated answers — is the language shifting toward Applause's own positioning ("pioneered crowdtesting," "real-world testing at scale") or still reflecting generic descriptions? Improvement indicates entity model updates are propagating.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Update stats when new IDC or commissioned research is available. Keep customer logos and case study outcomes current — AI systems weight recency even on brand pages. Add new named customers as approvals are obtained.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/the-applause-difference/ &nbsp;·&nbsp; Scope: Brand differentiation page · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

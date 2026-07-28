@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — QA vs. QC Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Quality Assurance vs. Quality Control Blog Post</h1>
+  <div class="sub">applause.com/blog/quality-assurance-qa-vs-quality-control-qc/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>October 26, 2021</strong></span>
+    <span>Last modified: <strong>December 1, 2025</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Comparison Table Locked in an Image</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-red">
+      <div class="callout-label">⛔ Critical Issue — The Comparison Table Is a PNG, Not Text</div>
+      The article's primary comparison asset — a table showing "QA is: Proactive / Throughout the SDLC / All about process / Prevents defects / Organization-wide" vs. "QC is: Reactive / After development / All about product / Identifies defects / Team-wide" — exists as a <strong>PNG image</strong>, not as HTML text or a structured table. AI systems cannot extract text from images. The most citable piece of content on a "QA vs. QC" query page is invisible to every AI platform. This comparison data needs to exist in HTML — either as a table or as structured text — in addition to the image.
+    </div>
+
+    <p style="margin-bottom:16px;">The article's bones are among the stronger in the blog batch: a strong H1 with "vs." framing, clearly defined QA and QC with activity lists, five named similarities, and five named differences with bolded headers. The December 2025 modification means freshness is manageable — not ideal at 4+ years since publication, but not the override condition it was for the regression testing article. The gap list is fixable without a full rewrite: convert the image comparison to HTML text, make the modification date visible, add FAQPage schema to the existing Q-and-A structure, add statistics, and update the stale 2023 report link.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⛔</span><span>QA vs. QC comparison table exists only as a PNG image — AI cannot extract it</span></li>
+          <li><span>✗</span><span>December 2025 modification invisible on page — October 2021 pub date is the only visible date</span></li>
+          <li><span>✗</span><span>Zero statistics in an 8-minute article on a heavily-researched topic</span></li>
+          <li><span>✗</span><span>No FAQ section despite naturally question-framed sub-headings</span></li>
+          <li><span>✗</span><span>FAQPage schema absent — existing Q&amp;A structure not schema-tagged</span></li>
+          <li><span>✗</span><span>Internal link to "State of Digital Quality 2023" — stale; should point to current report</span></li>
+          <li><span>✗</span><span>No links to core solution pages (/digital-quality-solutions/, /manual-functional-testing/)</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>H1 "Quality Assurance vs. Quality Control: QA and QC Explained" — strong "vs." query match</span></li>
+          <li><span>✓</span><span>Both QA and QC are clearly defined in the first sub-section — clean extractable definitions</span></li>
+          <li><span>✓</span><span>5 named similarities, 5 named differences — each with bolded headers that function as sub-questions</span></li>
+          <li><span>✓</span><span>Key structural fact stated early: "Quality control is a subset of QA" — highly citable answer to a common query</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager</span></li>
+          <li><span>✓</span><span>December 2025 modification — fresher than regression testing; not an override condition</span></li>
+          <li><span>✓</span><span>Sub-section headings are question-formatted and query-matched throughout</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Reproduce the comparison image as an HTML table.</h4>
+      <p>The PNG image shows a side-by-side comparison: QA is Proactive / Throughout the SDLC / All about process / Prevents defects / Organization-wide. QC is Reactive / After development / All about product / Identifies defects / Team-wide. This is exactly what AI systems extract for "QA vs. QC" queries — and it's currently invisible to all of them. Add an HTML table with this data immediately after the differences prose section. The image can remain as a visual aid; the HTML table makes the data machine-readable.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add "Last updated: December 2025" alongside the published date.</h4>
+      <p>The page shows "Published On: October 26, 2021" — nearly 5 years old with no visible update signal. The December 2025 modification is confirmed in metadata. Making it visible converts the page from appearing stale to appearing recently maintained, which is the difference between being deprioritized and being cited on freshness-weighted AI platforms like Perplexity and ChatGPT.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add FAQPage schema — the question structure is already there.</h4>
+      <p>The article's sub-section headings are already questions: "What are the similarities between quality assurance and quality control?" and "What are the differences between quality assurance and quality control?" These are natural FAQPage schema targets. Adding schema markup to these existing Q&amp;A sections requires no new content — just structured tagging of what already exists. This directly competes for People Also Ask appearances for high-volume "QA vs. QC" queries.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Competitive — Image Gap Hurts Comparison Queries</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "QA vs. QC" is one of the most searched QA knowledge queries — it's a foundational question for anyone building or joining a software quality team. Being cited as the authoritative source positions Applause in front of practitioners at the beginning of their QA journey. The article already has what it takes to win this query in text form; the image gap is the only structural reason it's not already doing so for comparison queries specifically.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status inferred from page structure. Manual verification required. All-platform assessment; ChatGPT column reflects OAI-SearchBot access — allowed by wildcard per homepage audit.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>QA vs QC</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — strong H1, image gap hurts</td>
+          <td>Guru99, Software Testing Help, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>quality assurance vs quality control</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — H1 matches exactly</td>
+          <td>Guru99, ASQ, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>difference between QA and QC</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — key differences locked in PNG image</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>what is quality assurance in software</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — clean definition in sub-section</td>
+          <td>Guru99, Atlassian, IBM</td>
+        </tr>
+        <tr>
+          <td>what is quality control in software</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — clean definition in sub-section</td>
+          <td>Guru99, ASQ, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>is QC part of QA</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — answered directly: "Quality control is a subset of QA"</td>
+          <td>Guru99, ASQ</td>
+        </tr>
+        <tr>
+          <td>QA activities list</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — 10-item bullet list present</td>
+          <td>Guru99, ASQ, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>similarities between QA and QC</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — dedicated section with 5 similarities</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>All statuses inferred — manual verification required. "Difference between QA and QC" is the query most directly hurt by the PNG image gap — converting the comparison table to HTML would immediately improve citation probability for this query.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Definition ("what is QA / QC")</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — clean definitions in sub-section</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Primary "vs." query</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — H1 matches, freshness is manageable</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Differences ("difference between...")</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:15%;"></div></div><span style="font-size:13px; color:var(--red);">Weak — core comparison data locked in PNG</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Similarities / relationship queries</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:45%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — dedicated section with 5 similarities</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">4 Pass · 2 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article's primary AI citation barrier is technical, not structural. The prose content is well-organized and extractable. The image-locked comparison is the specific failure point — it means AI systems can read the definition and similarities sections but cannot extract the structured differences that make a "QA vs. QC" answer complete. Fix the image; improve citation across the board.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definitions in opening</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Both terms are defined clearly and early. QA: "quality assurance is a subset of quality management… involves a set of activities and procedures occurring during product development." QC: "teams ensure that the developed product meets the organization's quality standards." Both are within the first sub-section. No change needed. One quotable line appears even earlier: "There are two primary ways that organizations approach digital quality: quality assurance (QA) and quality control (QC)" — a strong framing sentence that works as a standalone citation.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison table — HTML vs. image</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The page includes an image (<code>mkt2344-stlc-comparison-graphic-v1.png</code>) showing a comparison table: QA is Proactive / Throughout the SDLC / All about process / Prevents defects / Organization-wide vs. QC is Reactive / After development / All about product / Identifies defects / Team-wide. This is the primary structured comparison on the page — and it is invisible to every AI platform. Add an HTML table with this exact data in the "5 key differences" section. The image can remain as a visual aid; the HTML version makes the data extractable.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The five similarities (bolded name + 2–3 sentences each) and five differences (bolded name + 2–3 sentences each) are well-structured for extraction. The sub-section headings ("What are the similarities?", "What are the differences?") work as question anchors. The "is QC a subset of QA?" question is answered crisply and early: "Quality control is a subset of QA." Each bolded difference heading ("Proactive vs. reactive", "Process vs. product") functions as a standalone answer label. Minor improvement: each section opener could add a 1-sentence direct answer before the bolded subsections.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No statistics. For a topic with rich quantitative data available — defect cost escalation across SDLC phases, QA team size benchmarks from the World Quality Report, ASQ survey data on QA/QC outcomes — this is a gap. At minimum, add 2–3 statistics: the cost of detecting defects late in SDLC (cite NIST), the percentage of organizations using both QA and QC frameworks (cite World Quality Report or ASQ survey), or Applause-specific proof points on defect reduction rates. Statistics increase AI citation rates by 37–40% and provide the kind of citable numbers that AI systems actively seek for knowledge queries.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No explicit FAQ block. However, the article's structure is already question-oriented — the two major sub-section headings are complete questions. Converting "What are the similarities between quality assurance and quality control?" and "What are the differences between quality assurance and quality control?" into FAQPage schema is the primary schema opportunity. Additional FAQ questions to add: "Is QA or QC more important?", "Can the same team do both QA and QC?", "What is QA in Agile development?", "What tools are used for quality control in software?"</td>
+        </tr>
+        <tr>
+          <td><strong>Sub-section headings match query patterns</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Strong throughout. H1 "Quality Assurance vs. Quality Control: QA and QC Explained" uses "vs." framing. Sub-headings "What are the similarities…?" and "What are the differences…?" are natural-language questions. The differences sub-headings ("Proactive vs. reactive", "Process vs. product") mirror comparison query fragments. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published October 26, 2021 is the only visible date. The December 1, 2025 modification is confirmed in metadata. On a topic where 2021-vintage content faces competition from 2025–2026 updates on Guru99 and Software Testing Help, the invisible modification date is a meaningful competitive disadvantage. Add "Last updated: December 2025" alongside the published date — one template change that makes 4 years of perceived staleness disappear.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, with photo and author page link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Page accessible</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links current and solution-focused</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The article links to /payment-testing/ and /retail/ contextually, and several blog posts. However: (1) The inline resource link points to "State of Digital Quality 2023" — stale, should be updated to the most current State of Digital Quality report. (2) No links to /digital-quality-solutions/, /manual-functional-testing/, or /integrated-functional-testing/ — the Applause solutions most relevant to practitioners implementing QA/QC programs. Add contextual solution links in the conclusion section and update the report link.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange" style="margin-top:16px;">
+      <div class="callout-label">⚠ Stale Resource Link</div>
+      The page embeds a promotional block for the "State of Digital Quality 2023" — linked as a CTA mid-article. We are in 2026. This should be updated to the current State of Digital Quality report. A 3-year-old research link used as a mid-article trust signal is counterproductive on a page trying to establish content authority.
+    </div>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">FAQPage Schema — Easiest Win in the Batch</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article's existing question headings ("What are the similarities…?" "What are the differences…?") are already structured as FAQ content — they just lack the schema tag that tells AI systems to treat them as machine-readable Q&amp;A pairs. FAQPage schema here requires no new content, just a markup addition. It's the lowest-effort schema opportunity in the entire audit batch.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast likely generates Article/BlogPosting — check before adding.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags the existing question headings and their answers as machine-readable Q&amp;A pairs. Directly triggers People Also Ask appearances. No new content required — only markup around existing structure.</td>
+          <td class="icon-fail">✗ Absent — existing Q&amp;A structure is untagged</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>Table</code> (for the HTML comparison)</td>
+          <td>Once the PNG comparison is reproduced as an HTML table, semantic table markup (<code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, descriptive headers) makes it machine-readable. No additional JSON-LD needed beyond proper HTML structure.</td>
+          <td class="icon-fail">✗ N/A — HTML table doesn't exist yet; add content first</td>
+          <td><span class="p1">P1 — add HTML table first</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic signals. Verify Yoast is populating <code>dateModified</code> with the December 2025 update correctly — this is the freshness signal AI systems read from structured data.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">FAQPage Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Wraps existing content — no new writing needed for the first two questions. Add the additional FAQs from Section 1 recommendations at the same time.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between quality assurance and quality control?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Quality assurance (QA) is a proactive, process-focused discipline that
+        spans the entire SDLC, establishing policies and procedures to prevent defects.
+        Quality control (QC) is a reactive, product-focused discipline that identifies
+        and remediates defects in developed software. QC is a subset of QA."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the similarities between quality assurance and quality control?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "QA and QC both ensure high-quality products, use defined policies and
+        procedures, mitigate major defects and costs, require time and resource
+        investment, and help organizations improve their product development processes
+        over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is quality control part of quality assurance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Quality control is a subset of quality assurance. QA establishes
+        the broader framework of policies and processes; QC operates within that
+        framework to identify and fix defects in developed products."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What activities does quality assurance include?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Quality assurance activities include requirements definition, design and
+        prototyping, code reviews, version control, CI/CD processes, configuration
+        management, test planning and execution, release management, and customer
+        acceptance and feedback processes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the same team handle both QA and QC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "QA is an organization-wide effort requiring cross-functional collaboration
+        between business, development, and testing teams. QC is typically the
+        responsibility of a dedicated testing team. While some team members may
+        participate in both, the two functions require different mindsets — preventive
+        for QA, detective for QC."
+      }
+    }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. CDN-level override check applies — see homepage audit Section 5. "QA vs. QC" is a high-volume general knowledge query where Perplexity and Claude are frequently cited by practitioners. Confirmed bot access is especially valuable for this article.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">QA Knowledge Ecosystem — Standard Pattern</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the QA/QC knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "QA vs. QC" is a foundational QA knowledge query dominated by Guru99 and ASQ (American Society for Quality). ASQ is particularly relevant — it's the professional body for quality management and is cited across all AI platforms for QA/QC definitional queries. An Applause expert perspective cited in ASQ-adjacent or industry trade content would carry more citation weight per effort than most on-page optimization on this specific topic.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>QA/QC Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ASQ (American Society for Quality)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>ASQ is the authoritative third-party voice on QA/QC definitions and is cited by all major AI platforms for these queries. An Applause expert contribution to ASQ content — or an ASQ-cited reference to Applause's real-world testing approach — would be the highest-value off-page citation opportunity for this specific topic.</td>
+        </tr>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>This domain's QA vs. QC article is frequently cited by AI systems. A named Applause expert quote on how QA and QC work together in a crowdtesting managed service context — addressing a practical angle that academic QA content doesn't cover — would be credible and citable.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Quality assurance / Quality control)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Both QA and QC have Wikipedia articles. Verify whether Applause is cited in either context. A non-promotional mention of Applause in the "software testing" section of either article would be appropriate and high-value for cross-platform citation.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 / Gartner (QA Testing category)</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Ensure G2 profile is tagged under "Software Quality Assurance" specifically — not just "Testing." Customer reviews that mention Applause's role in their QA program (not just testing execution) would reinforce the QA-strategy angle this article addresses.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-action">2 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for QA vs. QC queries</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Guru99 / Software Testing Help</h3>
+      <p><strong>Where they win:</strong> "QA vs. QC," "difference between QA and QC," "quality assurance vs. quality control." Their content includes both a visual comparison table AND an HTML comparison table — so the data is accessible to AI systems regardless of whether they read images. They also link to ISO standards directly and include a downloadable PDF version of the comparison, which Perplexity in particular cites frequently.</p>
+      <p><strong>Why AI cites them:</strong> Same content as Applause's article structurally, but with the comparison in HTML — making the key data extractable. The freshness advantage is also real; Guru99's QA/QC article was updated in 2025.</p>
+      <p><strong>Applause's counter:</strong> Converting the PNG to an HTML table closes the primary structural gap. Applause's actual differentiation angle — connecting QA/QC theory to managed real-world testing practice — is underrepresented in Guru99's content and could be the article's cited-for-expertise angle once the structural fixes are in place.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Authority Gap</div>
+      <h3>ASQ (American Society for Quality)</h3>
+      <p><strong>Where they win:</strong> "What is quality assurance," "QA definition," "quality control definition." ASQ is the authoritative professional body for quality management globally — AI systems treat their definitions as the canonical source in a way that no vendor content can replicate via on-page optimization alone.</p>
+      <p><strong>Applause's counter:</strong> Can't out-authority ASQ for pure definitions. Applause's angle is the applied, digital-software-specific perspective that ASQ's manufacturing-era definitions don't fully cover. The article already frames QA/QC specifically in the context of digital experiences and software releases — that framing is the differentiation. Amplify it by making Applause's digital-specific perspective explicit in the definitions section and early in the article.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Content actions in Jennifer's scope; schema in Tammy's scope.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Reproduce the PNG comparison as an HTML table.</strong> Add a properly structured <code>&lt;table&gt;</code> with <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code> immediately after the 5-differences prose section. Columns: Dimension | QA | QC. Rows: Approach (Proactive / Reactive), Timing (Throughout SDLC / After development), Focus (Process / Product), Goal (Prevent defects / Identify defects), Scope (Organization-wide / Team-wide). The image can remain above for visual readers; the HTML table makes it AI-readable.</td>
+          <td>High — comparison query extraction</td>
+          <td>Low — markup only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add FAQPage JSON-LD schema.</strong> Wraps existing question headings — no new content required. Starter template in Section 4. This is the lowest-effort schema action in the entire audit batch.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Low — schema only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add "Last updated: December 2025"</strong> alongside the published date. One template change. Converts October 2021 perception of staleness to "actively maintained" without any content change.</td>
+          <td>High — freshness signal</td>
+          <td>Low — template</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Update the "State of Digital Quality 2023" embedded link</strong> to the current State of Digital Quality report. A 3-year-old research reference used as a credibility signal actively undermines the page's authority positioning.</td>
+          <td>Medium — currency signal</td>
+          <td>Low — link update</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 3–4 statistics with named sources.</strong> Suggested: NIST cost-of-defect data by SDLC phase; ASQ survey data on QA program adoption rates; Applause's own proof points (50% reduction in defects released to production) framed in the context of effective QA/QC programs.</td>
+          <td>High — citation credibility</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a standalone FAQ section</strong> with 2–3 additional questions beyond what's already tagged via schema. Suggested: "Is QA or QC more important?", "What tools are used for quality control in software?", "How does crowdtesting fit into a QA/QC strategy?" The last question creates an Applause-specific angle no competitor covers.</td>
+          <td>Medium — long-tail query coverage</td>
+          <td>Medium — new copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add contextual links to solution pages</strong> in the conclusion section. Link /digital-quality-solutions/ where Applause's testing programs are mentioned; link /manual-functional-testing/ and /integrated-functional-testing/ where QC execution is discussed.</td>
+          <td>Medium — internal authority + user journey</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a digital/software-specific QA definition framing</strong> — the article covers QA/QC generally but could more explicitly position the definitions in the context of software and digital experiences (vs. manufacturing QA, where ASQ's definitions originate). A brief note distinguishing software QA from manufacturing QA would be a genuine differentiation from competitor content.</td>
+          <td>Medium — differentiation angle</td>
+          <td>Low — copy addition</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add an "Applause's role in QA and QC" section</strong> connecting the article's educational content to Applause's managed testing services — specifically how crowdtesting augments internal QC teams and how Applause's platform supports QA planning and defect tracking. This is the commercial anchor the article currently lacks.</td>
+          <td>Medium — conversion angle</td>
+          <td>Medium — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. "QA vs. QC" is a practitioner query — Claude and Perplexity are the AI platforms most used by technical practitioners researching this topic.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue ASQ-adjacent placement</strong> — an Applause expert contribution to an ASQ publication, webinar, or podcast on QA/QC in the context of digital product testing. This creates third-party authority signal where AI systems most reliably look for QA/QC expertise.</td>
+          <td>High — authority citation signal</td>
+          <td>High — industry relations</td>
+          <td>PMM / PR</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>QA vs QC</li>
+      <li>quality assurance vs quality control</li>
+      <li>difference between QA and QC</li>
+      <li>what is quality assurance in software testing</li>
+      <li>is QC part of QA</li>
+      <li>similarities between QA and QC</li>
+      <li>what is quality control in software</li>
+      <li>QA activities list</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of HTML table + schema</strong></td>
+          <td>Validate FAQPage schema via Rich Results Test. Confirm HTML table renders correctly and is included in the accessible page DOM. Confirm <code>dateModified</code> is populating December 2025 in Yoast.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 8 queries across platforms. Key test: does Applause now appear for "difference between QA and QC" — the query most directly helped by converting the PNG to HTML? That's the clearest indicator the image fix worked.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask for QA/QC queries — each new question is a FAQ addition. Assess whether the FAQPage schema is triggering featured snippet appearances for the sub-question queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Update "Last updated" date with each content refresh. Ensure the State of Digital Quality report link stays current. Add new QA/QC terminology as the field evolves — particularly around AI-assisted QA and continuous testing in AI-powered SDLC environments.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/quality-assurance-qa-vs-quality-control-qc/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

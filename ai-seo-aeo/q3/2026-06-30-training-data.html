@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Training vs. Validation vs. Test Data Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Training vs. Validation vs. Test Data Blog Post</h1>
+  <div class="sub">applause.com/blog/training-data-validation-data-vs-test-data/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>January 15, 2025</strong></span>
+    <span>Last modified: <strong>April 1, 2026</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Table Exists, Wrong Location</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-orange">
+      <div class="callout-label">⚠ Structural Issue — The Comparison Table Is After the CTA</div>
+      This article already has a well-structured comparison table covering Training Data, Validation Data, and Test Data across three criteria rows. The problem: it's positioned <em>after the Applause sales CTA</em> — at the very end of the article. AI systems weight content position heavily. A table that answers "training data vs. validation data vs. test data" needs to appear immediately after the definitions section, not after the conclusion. This is a repositioning task, not a content creation task.
+    </div>
+
+    <p style="margin-bottom:16px;">This is the most recently updated article in the batch — April 1, 2026 — but that freshness signal is invisible on the page. The article covers the right topics, has the right definitions, and even has the right comparison asset. The issues are structural: the table is misplaced, the H1 and meta title use different phrasing from how buyers search, the typical data split ratios (70/15/15, 80/10/10) that practitioners search for most are entirely absent, and a typo ("gGenerative AI") sits mid-article. Fix the structure and this page becomes one of the stronger candidates for AI citation in the batch — the subject matter aligns directly with Applause's AI training and testing services.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⚠</span><span>Comparison table positioned after the sales CTA — needs to move to immediately after the definitions</span></li>
+          <li><span>✗</span><span>Typical data split ratios (70/15/15, 80/10/10) entirely absent — the most common practical follow-up query</span></li>
+          <li><span>✗</span><span>H1 and meta title use different phrasing; neither uses the "vs." framing buyers search</span></li>
+          <li><span>✗</span><span>Opening paragraphs are general AI framing — no definition of training/validation/test data in first 200 words</span></li>
+          <li><span>✗</span><span>April 2026 modification date invisible — most fresh content in the batch, signal is wasted</span></li>
+          <li><span>✗</span><span>No FAQ section despite several naturally question-framed headings</span></li>
+          <li><span>✗</span><span>Zero statistics in an 11-minute article; no data on model accuracy, bias rates, or dataset size benchmarks</span></li>
+          <li><span>⚠</span><span>Typo: "gGenerative AI" mid-article (capital G in the middle of a sentence)</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>Comparison table exists with good structure (Primary Purpose, When Used, Data Labeling rows)</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager</span></li>
+          <li><span>✓</span><span>April 2026 modification — freshest content in the batch once date is made visible</span></li>
+          <li><span>✓</span><span>Comparison sub-sections ("Training data vs. validation data," "Validation data vs. testing data") are query-matched</span></li>
+          <li><span>✓</span><span>Strong Applause CTA linking to /ai-training-testing/ and /generative-ai-testing/ with specific capability descriptions</span></li>
+          <li><span>✓</span><span>Concrete vertebrate classification example runs through both comparison sections consistently</span></li>
+          <li><span>✓</span><span>Good internal links to AI-focused solution pages</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Move the comparison table to immediately after the definitions section.</h4>
+      <p>The table currently lives after the Applause CTA — effectively the last thing on the page. It should appear right after "What are training data, validation data and test data?" as a visual summary of the three definitions. AI systems extract comparison tables from wherever they appear in the document, but position still matters for extraction priority. This is a cut-and-paste edit, not a content change.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add typical data split ratios — the most-searched practical follow-up.</h4>
+      <p>After understanding what the three datasets are, practitioners immediately search "training validation test split ratio" or "70 20 10 split machine learning." This article answers "what is each" but never answers "how much of each." Add a section or callout with the common splits (70/15/15, 80/10/10, or the 60/20/20 for smaller datasets) with the factors that influence the ratio (dataset size, model complexity, use case). This fills the most common content gap in competing articles.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Align H1 and meta title to match how buyers search — use "vs." framing.</h4>
+      <p>The URL slug already gets it right: <code>training-data-validation-data-vs-test-data</code>. The meta description uses "vs." framing. But the H1 ("Training Data, Validation Data and Test Data in Machine Learning") and meta title ("Training, Validation and Testing Data in ML Explained") both drop it. Update both to: "Training Data vs. Validation Data vs. Test Data: ML Explained." This aligns all three fields with the highest-volume query pattern for this topic.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Unverified — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This topic sits at the intersection of ML education and AI application quality — exactly where Applause has a differentiated story. Practitioners researching training vs. test data are actively building or evaluating AI systems. Being cited as the source on this topic positions Applause as an authority on AI data quality before buyers reach the vendor evaluation stage. The article's AI training service CTA means citation could directly influence pipeline.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      All citation statuses inferred from page content structure and competitive analysis. Manual verification required before stakeholder distribution. ChatGPT: OAI-SearchBot likely allowed by wildcard per homepage audit findings.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:13%;">Applause Cited?</th>
+          <th style="width:14%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>training data vs validation data vs test data</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — table misplaced</td>
+          <td>Google ML, IBM, Coursera, Towards Data Science</td>
+        </tr>
+        <tr>
+          <td>what is training data in machine learning</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — definition exists in sub-section</td>
+          <td>Google ML, IBM Developer, AWS</td>
+        </tr>
+        <tr>
+          <td>what is validation data</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — covered in sub-section</td>
+          <td>Google ML, DataCamp, Towards Data Science</td>
+        </tr>
+        <tr>
+          <td>difference between training and test data</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Partial — prose comparison, table at page bottom</td>
+          <td>IBM, Coursera, DataCamp</td>
+        </tr>
+        <tr>
+          <td>training validation test split ratio</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Absent — not covered at all</td>
+          <td>Towards Data Science, DataCamp, Google ML crash course</td>
+        </tr>
+        <tr>
+          <td>what is overfitting machine learning</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — only briefly mentioned</td>
+          <td>Google ML, IBM, Coursera</td>
+        </tr>
+        <tr>
+          <td>what is a training dataset for AI</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — covered in definitions</td>
+          <td>IBM, Google, AWS, NVIDIA</td>
+        </tr>
+        <tr>
+          <td>AI training data quality diversity</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — Quantity/Quality/Diversity section exists</td>
+          <td>IBM, Google, MIT research, academic papers</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>All statuses inferred — manual verification required. Note: "training validation test split ratio" is a significant gap — one of the most searched follow-up queries for this topic and completely unaddressed in the article.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">"X vs Y vs Z" (primary query)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:45%;"></div></div><span style="font-size:13px; color:var(--orange);">Table exists but misplaced — moderate shot</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">Individual definitions</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:40%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — sub-section definitions present</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">Split ratios / practical guidance</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:0%;"></div></div><span style="font-size:13px; color:var(--red);">Not covered — complete miss</span></div>
+      <div class="meter-row"><span style="width:210px; font-size:13px;">AI data quality / diversity</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:35%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — dedicated section exists</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">2 Pass · 3 Partial · 5 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article's primary extractability challenge is positional, not structural. The content AI systems need to extract for the main comparison query already exists — the table just needs to be moved. For the practical split-ratio queries, the content doesn't exist yet and needs to be written. Both are solvable at low-to-medium effort.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear category definition in opening</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article opens with two paragraphs of general AI/ML framing before reaching any definitions. "What are training data, validation data and test data?" is a sub-section heading several paragraphs in. The definitions under that heading are clean and usable — but buried. Add a 134–167 word definition block as the true first paragraph that leads directly with: "In machine learning, three distinct datasets do three distinct jobs: training data teaches the model, validation data tunes it, and test data confirms it works." Then the existing sub-section can expand on each.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The three definitions under "What are training data, validation data and test data?" are individually usable as extracts. The comparison sections ("Training data vs. validation data" and "Validation data vs. testing data") are discursive prose with a running vertebrate example — good for readability, but the key distinctions aren't extractable as self-contained answers. Each comparison section should open with a 1–2 sentence direct answer to the comparison before expanding into the example.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison table placement</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>A well-structured 3-column comparison table (Training Data / Validation Data / Test Data, rows: Primary Purpose, When it's Used, Data Labeling) exists — but is placed after the Applause CTA, making it effectively the last element on the page. Move it to immediately after "What are training data, validation data and test data?" as a visual summary of the three definitions. No new content required — this is a cut-and-paste repositioning.</td>
+        </tr>
+        <tr>
+          <td><strong>Typical split ratios — missing content</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The most common practical follow-up query — "training validation test split ratio" or "80 10 10 split" — is entirely absent. The article explains what each dataset is but never explains how much data to allocate to each. Add a dedicated callout or section: common ratios are 70/15/15 or 80/10/10 (larger datasets lean toward smaller validation/test shares since even 5% of a million samples is enough). Factors: dataset total size, model complexity, and whether cross-validation is used. This is the content gap that most directly converts browsers into practitioners who trust Applause's data expertise.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No statistics appear in the article. For a topic about ML data quality, relevant statistics are abundant: model accuracy degradation rates from data contamination, bias impact statistics from academic research, or dataset size benchmarks. At minimum: cite the IBM/NIST finding on labeled data costs, or a Gartner/McKinsey figure on AI project failure rates attributable to data quality issues. These directly support Applause's crowdsourced data angle.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section. Suggested questions: "What is the typical split ratio for training, validation, and test data?", "Can you reuse validation data as test data?", "What happens if training and test data overlap?", "What is overfitting and how does validation data prevent it?", "Do I need all three datasets for every ML project?", "What is cross-validation and when should I use it instead of a separate validation set?"</td>
+        </tr>
+        <tr>
+          <td><strong>H1 and meta title alignment</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>Three different title variants exist: H1 ("Training Data, Validation Data and Test Data in Machine Learning (ML)"), meta title ("Training, Validation and Testing Data in ML Explained"), and breadcrumb ("Training Data vs. Validation Data vs. Test Data for ML Algorithms"). The breadcrumb uses "vs." — the highest-volume search pattern. Align H1, meta title, and og:title to a single consistent string: "Training Data vs. Validation Data vs. Test Data: ML Explained." The URL slug already embeds the "vs." pattern — the visible titles should match it.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published January 15, 2025. Last modified April 1, 2026 — confirmed from page metadata. This is the most recently updated article in the entire audit batch, but the April 2026 update is invisible on the page. Add "Last updated: April 2026" alongside the published date immediately. This converts the strongest freshness signal in the batch from wasted to active.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, with photo and author page link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Good. In-body links to /ai-training-testing/ (opening section), and the CTA section links to /generative-ai-testing/ with a specific description of Applause's LLM training capabilities. This is the best Applause service integration of any blog post in the batch — the connection between the educational content and the commercial offering is explicit and contextually earned.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange" style="margin-top:16px;">
+      <div class="callout-label">⚠ Typo — Fix Before Next Content Update</div>
+      Mid-article text reads: "Consider how gGenerative AI must adapt its outputs for a general purpose audience." The capital "G" in "gGenerative" is a typo. Minor but worth fixing before any optimization work draws additional attention to the page.
+    </div>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">FAQPage and Table Schema Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The comparison table on this page is well-structured but invisible to AI systems as structured data — it's an HTML table with no schema markup. Adding <code>Table</code> schema or wrapping the comparison in an <code>ItemList</code> makes the comparison explicitly machine-readable. Combined with FAQPage schema for the recommended FAQ section, this page would have the two highest-impact schema types for the queries it targets.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast likely generates Article/BlogPosting — check before adding.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags Q&amp;A content for direct AI extraction — needed once the FAQ section is added. Direct trigger for "People Also Ask" appearances on ML data questions.</td>
+          <td class="icon-fail">✗ Absent — no FAQ section yet</td>
+          <td><span class="p1">P1 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>ItemList</code> (for the comparison)</td>
+          <td>Once the table is repositioned, wrapping it as an ItemList or adding explicit table header schema makes the three dataset types explicitly machine-readable as a named, structured comparison — not just an HTML table.</td>
+          <td class="icon-fail">✗ Absent — HTML table only, no schema</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic signals. Verify Yoast is populating <code>dateModified</code> with the April 2026 update correctly.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. GPTBot (OpenAI training) explicitly blocked; OAI-SearchBot allowed by wildcard; all other citation bots allowed. The AI/ML topic of this article makes it especially valuable for Perplexity and Claude — both of which are heavily used by technical practitioners researching ML concepts. Confirming those bots have unobstructed access is a priority for this specific page. See homepage audit Section 5 for full recommended configuration and CDN override check.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">ML / AI Ecosystem — High-Authority Competition</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the ML data knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The competitive set for ML education content includes Google, IBM, AWS, Coursera, and academic ML resources — all with substantially higher domain authority than a testing services vendor. Applause won't out-rank these sources via traditional authority signals. The off-page angle is different here: Applause's unique credibility comes from being a practitioner of real-world ML data collection and quality at scale. Positioning that expertise in third-party ML community contexts — particularly around AI bias, data diversity, and real-world data quality — is the citation lever that academic ML content can't match.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>ML Data Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Towards Data Science / Medium ML</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>TDS is cited frequently by AI systems for ML education queries. An Applause expert guest post — specifically on real-world data diversity and how crowdsourced data collection addresses AI bias — would place Applause in a domain AI systems trust for ML content. Unique angle: most TDS content is academic/synthetic data focused; Applause's real-world data angle is genuinely differentiated.</td>
+        </tr>
+        <tr>
+          <td><strong>Google ML / Coursera</strong></td>
+          <td class="icon-unknown">? Absent</td>
+          <td class="icon-unknown">? N/A</td>
+          <td>These are authoritative but not an outreach target. Monitor which of their pages AI systems cite for this query set — they set the bar for content depth and structure this article should aim to match or exceed on the practical/real-world angle.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Training, validation, test sets)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Wikipedia covers training/validation/test split. Verify if Applause is cited or can be cited as a practitioner source on the "real-world data quality" dimension — specifically the AI bias and data diversity sections, where Applause's crowdtesting angle is relevant and not currently well-covered in Wikipedia's treatment.</td>
+        </tr>
+        <tr>
+          <td><strong>AI/ML community forums (Reddit r/MachineLearning, r/learnmachinelearning)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Reddit accounts for ~5.5% of Google AI Overview citations. ML subreddits have active discussions about training data quality and real-world data challenges. Authentic Applause participation — sharing real-world insights on crowdsourced training data at scale — would build citation weight for technical practitioner queries over time.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 (AI Training Data category)</strong></td>
+          <td class="icon-partial">⚠ Present (general)</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Ensure the G2 profile is tagged under "AI Training Data," "ML Data Collection," and "AI Testing" categories. Reviews that specifically mention training data quality, data diversity, and bias reduction would reinforce Applause's positioning for the queries this article targets.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-action">2 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors are positioned for ML data queries</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The competitive set here is fundamentally different from the QA knowledge articles. Google, IBM, and Coursera have effectively unlimited domain authority for ML education queries. The path to citation isn't out-ranking them — it's owning the specific angle they don't cover: real-world, human-sourced training data quality, diversity, and the crowdsourcing approach. That's a gap in the academic ML content ecosystem that Applause can own.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Structural Gap</div>
+      <h3>Google ML Crash Course / Coursera / IBM Developer</h3>
+      <p><strong>Where they win:</strong> All primary definition and comparison queries — "training vs. test data," "what is validation data," "training validation test split." Their content leads with clean, single-sentence definitions immediately, includes split ratio guidance, has FAQs, and links to interactive examples. They are the default cited sources across all AI platforms for this topic.</p>
+      <p><strong>Why AI cites them:</strong> Institutional authority + content structure. Their pages define the three data types in the first sentence, include specific ratio guidance (the 70/20/10 or 80/10/10 split), and link to hands-on examples. Every structural element Applause's article is currently missing.</p>
+      <p><strong>Applause's counter:</strong> Applause can't out-authority Google or IBM. But Applause can own the practical, real-world angle: why real-world crowdsourced data is superior to synthetic training data, how demographic diversity in training data affects model performance, and what enterprise-scale training data collection actually looks like. That perspective doesn't exist in Google's or IBM's educational ML content.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Content Gap</div>
+      <h3>Towards Data Science / Analytics Vidhya</h3>
+      <p><strong>Where they win:</strong> "Training validation test split ratio," "how to split dataset machine learning," "overfitting vs underfitting." Their content is practitioner-focused and consistently includes specific ratio guidance, code examples, and visual diagrams of the split process.</p>
+      <p><strong>Why AI cites them:</strong> Volume of practitioner-relevant content with code examples and specific numbers. The 70/20/10 or 80/10/10 split is mentioned in nearly every article on this topic from these sources.</p>
+      <p><strong>Applause's counter:</strong> Adding the split ratio section described in the action plan closes the main structural gap. A diagram or visual showing the three datasets as portions of a total dataset (even a simple SVG or image) would add the multimodal signal these sources also benefit from. For AI training data specifically, Applause should expand the "Quantity, Quality, Diversity" section into the definitive guide to real-world AI training data — a level of depth these sources don't provide.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Content actions in Jennifer's scope; schema in Tammy's scope.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Reposition the comparison table</strong> from after the CTA to immediately after the "What are training data, validation data and test data?" definitions sub-section. Cut-and-paste only — no content changes required. Also expand the table to add a "Typical data volume" row showing rough split ratios.</td>
+          <td>High — primary comparison query extraction</td>
+          <td>Low — edit + markup</td>
+          <td>Content (Jennifer) / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add typical split ratio guidance.</strong> Add a dedicated callout or paragraph after the repositioned table covering common splits (70/15/15, 80/10/10, 60/20/20 for smaller datasets) and the factors that determine the ratio. This is the single most searched follow-up question for this topic and currently returns a complete miss.</td>
+          <td>High — closes the split ratio query gap entirely</td>
+          <td>Low — new copy only</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Align H1, meta title, and og:title</strong> to: "Training Data vs. Validation Data vs. Test Data: ML Explained." The URL slug already uses "vs." — the visible titles should match the highest-volume query pattern. Fix the "gGenerative AI" typo at the same time.</td>
+          <td>High — query match for primary search pattern</td>
+          <td>Low — copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add "Last updated: April 2026"</strong> alongside the published date. April 2026 is the most recent modification in the entire batch — an invisible freshness signal that should be made visible immediately.</td>
+          <td>High — strongest freshness signal in the batch</td>
+          <td>Low — template change</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add an opening definition block</strong> — 134–167 words leading with a direct definition of all three data types before any contextual framing. Current opening is general AI context; the definitions need to come first.</td>
+          <td>Medium-High — definitional query coverage</td>
+          <td>Low — new copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–6 questions. See Section 1 for suggested questions — particularly "What is the typical split ratio?" (most searched), "Can you reuse validation data as test data?", and "What is cross-validation?" Add FAQPage JSON-LD schema once the section is written.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 3–4 statistics with named sources.</strong> Suggested: Gartner or McKinsey figure on AI project failure rates attributable to data quality, IBM/NIST data on labeled training data costs, or academic research on bias reduction through diverse training data. Directly supports Applause's data quality expertise positioning.</td>
+          <td>High — citation credibility</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add each comparison section's direct answer as a lead sentence.</strong> "Training data vs. validation data" and "Validation data vs. testing data" sections currently open with general context. Each should open with a 1–2 sentence direct answer: "The key difference between training and validation data is that training data teaches the model while validation data tests whether it has learned to generalize." Then expand with the vertebrate example.</td>
+          <td>Medium — comparison query extraction</td>
+          <td>Low — copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Expand "Quantity, Quality, Diversity" into the definitive guide to AI training data best practices</strong> — with specific recommendations, Applause case examples, and links to /ai-training-testing/. This section has the potential to own "AI training data best practices" queries that academic ML content doesn't address from a real-world enterprise perspective.</td>
+          <td>High — Applause differentiation queries</td>
+          <td>High — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Claude and Perplexity are especially relevant for this page — technical ML practitioners are heavy users of both for knowledge queries.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Towards Data Science or Analytics Vidhya guest post</strong> on real-world AI training data collection — crowdsourcing approach, bias reduction, diversity at scale. Links back to this Applause article and the /ai-training-testing/ solution page. This is the highest-leverage off-page action for the ML data topic area.</td>
+          <td>Medium-High — ML community citation</td>
+          <td>High — guest content production</td>
+          <td>Content (Jennifer) + PR</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>training data vs validation data vs test data</li>
+      <li>what is validation data in machine learning</li>
+      <li>training validation test split ratio</li>
+      <li>difference between training data and test data</li>
+      <li>what is training data for AI</li>
+      <li>overfitting machine learning training validation</li>
+      <li>AI training data quality diversity</li>
+      <li>how to split dataset machine learning</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of table repositioning</strong></td>
+          <td>Confirm the table renders correctly after the definitions section. Run the page through Rich Results Test once FAQPage schema is added.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 8 queries across platforms. Key test: does Applause now appear for "training validation test split ratio" — the query that is currently a complete miss and should be directly addressed by the new ratio section.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask for ML data queries — each new question is a FAQ addition. Assess whether the April 2026 freshness date (now visible) is improving citation competitiveness against older content on the same topic.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Refresh any statistics cited (ML research moves fast), update "Last updated" date, and evaluate whether the expanded "Quantity, Quality, Diversity" section (if commissioned) is driving AI citation for Applause-specific data quality queries.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/training-data-validation-data-vs-test-data/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

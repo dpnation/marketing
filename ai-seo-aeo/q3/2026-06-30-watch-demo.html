@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Watch Demo Page</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item.p3-item { border-left-color: var(--blue-500); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .quote-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 18px; margin: 12px 0; background: var(--bg); }
+    .quote-card .company { font-size: 13px; font-weight: 700; color: var(--blue-700); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .quote-card .attribution { font-size: 12px; color: #666; margin-top: 8px; }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) { .report-header { padding: 24px 20px; } .section-body { padding: 20px; } }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Watch Demo Page</h1>
+  <div class="sub">applause.com/watch-demo/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Page type: <strong>Mid-funnel demo / social proof page</strong></span>
+    <span>No published or modified date in metadata</span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Outstanding Quotes, Wrong H1, No Schema</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout Finding — Best Named Customer Quote Evidence in the Batch</div>
+      This page has four named executive customer quotes with full titles and company names — Microsoft (AI Platform), Western Union (Global Money Transfer), Cisco (WebEx Contact Center), and Peet's Coffee. These are the strongest social proof assets on the entire Applause site and the best E-E-A-T signals in the batch. They are also completely invisible to AI systems because they carry no Quote or Review schema. Adding schema is the single highest-impact action on this page.
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">⚠ H1 Is the Brand Tagline, Not a Query</div>
+      The H1 is "Release Faster, With Confidence" — Applause's marketing tagline. The browser title tag ("Watch a Demo of Applause's Crowdtesting Platform") is substantially better and already query-matched. The H1 just needs to match it. This is the fastest H1 fix in the batch.
+    </div>
+
+    <p style="margin-bottom:16px;">This is a mid-funnel social proof and conversion page. Its AI citation goal is different from blog posts and solution pages: it should be cited when AI systems answer "what do Applause customers say?" or "can I see a demo of Applause?" The named customer quotes are exactly what AI systems extract for those queries — they just need to be schema-tagged to become reliably citable.</p>
+
+  </div>
+</div>
+
+<!-- WHAT'S WORKING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>The Customer Quotes — The Page's Primary Asset</h2></div>
+    <span class="status-badge status-partial">Present but Unschema'd</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Named customer quotes with executive titles and company names are one of the strongest E-E-A-T signals AI systems recognize. They answer "who uses Applause and what do they say?" — a high-value brand validation query at the evaluation stage. Each of these quotes could be independently extracted and cited. Without Quote schema, AI systems have to infer the attribution from surrounding text rather than from structured markup.
+    </div>
+
+    <div class="quote-card">
+      <div class="company">Microsoft</div>
+      <p style="font-size:14px; font-style:italic;">"There's no extra up-front work required for product teams. You just have one onboarding call with the research team to explain what you're trying to test, what you'd like to learn about… the team will recruit users and make sure the study is conducted in an inclusive way."</p>
+      <div class="attribution">Ailsa Leen, Senior Design Program Manager, AI Platform @ Microsoft</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="company">Western Union</div>
+      <p style="font-size:14px; font-style:italic;">"Applause has been able to identify testers for any country that we want in a timely manner, with the payment instruments that we want, using different devices, browsers… We are able to find defects earlier, before the product reaches our customers."</p>
+      <div class="attribution">Rajeev Tiwari, Senior Director, Product Strategy & Governance @ Global Money Transfer BU, Western Union</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="company">Cisco</div>
+      <p style="font-size:14px; font-style:italic;">"Applause has really guided us throughout the whole journey, making sure that we get it right. They're there with resources, hands on support, office hours for designers, and really showing us what good looks like."</p>
+      <div class="attribution">Cheryl Couris, Design Director @ WebEx Contact Center, Cisco</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="company">Peet's Coffee</div>
+      <p style="font-size:14px; font-style:italic;">"Our customers expect the best when they interact with us, whether that's in person, on our website or a mobile app. Applause gives us both the speed and flexibility we need to deliver quality digital properties and great experiences to our customers."</p>
+      <div class="attribution">Jeff Pierce, Director of Digital Product Management @ Peet's Coffee</div>
+    </div>
+
+    <p style="font-size:14px; margin-top:16px;">These four quotes are the strongest named testimonial evidence in the entire audit batch. Microsoft (AI Platform) and Western Union (Global Money Transfer) in particular are powerful validators for Applause's AI testing and payment testing capabilities respectively. All four should be schema-tagged before any other work on this page.</p>
+
+  </div>
+</div>
+
+<!-- FINDINGS & ACTIONS -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Findings &amp; Actions</h2></div>
+    <span class="status-badge status-partial">6 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Finding</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">Detail / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Named customer quotes with titles</strong></td>
+          <td class="icon-pass">✓ Strong</td>
+          <td>Four named executive quotes confirmed — Microsoft AI Platform, Western Union, Cisco WebEx, Peet's Coffee. The strongest social proof content on the site. No action on content itself; add schema (see below).</td>
+        </tr>
+        <tr>
+          <td><strong>Quote / Review schema</strong></td>
+          <td class="icon-fail">✗ Absent</td>
+          <td>No <code>Review</code> or <code>Quote</code> schema on any of the four named testimonials. Adding schema directly tags each quote with its author name, job title, company, and the text — making them machine-readable for "what do Applause customers say?" queries. Starter template below. <span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>H1 matches browser title / queries</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>H1 is "Release Faster, With Confidence" (brand tagline). Browser title is "Watch a Demo of Applause's Crowdtesting Platform" (query-matched). Update H1 to match the browser title. One-line copy edit with immediate query-signal benefit. <span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>7-item "This demo will help you…" benefit list</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>Good structured benefit list — covers real-time feedback, diverse use cases, in-market testing services, 1.5M+ community, onboarding, pilot programs, and ROI facts. It's extractable as-is. Minor improvement: reframe from "this demo will help you…" (future promise) to "Applause delivers…" (present capability) to make each bullet independently citable without the context of watching a demo.</td>
+        </tr>
+        <tr>
+          <td><strong>Case study outcome metrics visible on page</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>All three linked case studies (Audi, Microsoft, Western Union, Cisco) go to PDFs or videos — no outcome metrics are visible in the crawlable text layer. Adding 1–2 quantified outcomes per case study inline (e.g., "Western Union: defect detection before customer impact across 200+ markets") creates citable brand validation data without requiring a PDF click-through. <span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Demo video accessible to crawlers</strong></td>
+          <td class="icon-fail">✗ N/A</td>
+          <td>The actual demo video is not in the crawlable text layer — expected for a video embed. Not a gap to fix; just an inherent characteristic of this page type. AI systems won't extract video content, but the surrounding page text is what matters for citation purposes.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin: 24px 0 12px;">Priority Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add Review schema for all four named customer quotes.</h4>
+      <p>This is the highest-value schema addition in the batch — four named executive quotes from Microsoft, Western Union, Cisco, and Peet's Coffee, all with full titles. Review schema with <code>author</code>, <code>reviewBody</code>, and <code>itemReviewed</code> makes each quote independently machine-readable. Starter template below.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Update H1 to match the browser title.</h4>
+      <p>Change "Release Faster, With Confidence" to "Watch the Applause Crowdtesting Platform Demo" or "See How Applause Works — Platform Demo." The browser title is already correct; the H1 just needs to align with it.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add inline outcome metrics for each case study.</h4>
+      <p>One or two quantified results per customer (e.g., Western Union: defect detection across 200+ markets before customer impact; Cisco: accessibility testing for WebEx with real users with disabilities). These should appear as visible text alongside the quote — not gated behind a PDF or video link.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Reframe the benefit bullets as present capability, not demo promises.</h4>
+      <p>Change "This demo will help you understand how Applause delivers…" to "Applause delivers real-time feedback and insights…" — making each bullet independently extractable without context about a demo.</p>
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin: 24px 0 12px;">Review Schema Starter Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Add as JSON-LD in <code>&lt;head&gt;</code>. One <code>Review</code> per customer quote. All four can be nested in a single <code>@graph</code> block.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Applause Crowdtesting Platform",
+  "brand": { "@type": "Brand", "name": "Applause" },
+  "review": [
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "Ailsa Leen",
+        "jobTitle": "Senior Design Program Manager, AI Platform",
+        "worksFor": { "@type": "Organization", "name": "Microsoft" }
+      },
+      "reviewBody": "There's no extra up-front work required for product teams. You
+      just have one onboarding call with the research team to explain what you're
+      trying to test — the team will recruit users and make sure the study is conducted
+      in an inclusive way.",
+      "itemReviewed": { "@type": "Service", "name": "Applause UX Research Testing" }
+    },
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "Rajeev Tiwari",
+        "jobTitle": "Senior Director, Product Strategy and Governance",
+        "worksFor": { "@type": "Organization", "name": "Western Union" }
+      },
+      "reviewBody": "Applause has been able to identify testers for any country that
+      we want in a timely manner, with the payment instruments that we want, using
+      different devices and browsers. We are able to find defects earlier, before
+      the product reaches our customers.",
+      "itemReviewed": { "@type": "Service", "name": "Applause Payment Testing" }
+    },
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "Cheryl Couris",
+        "jobTitle": "Design Director, WebEx Contact Center",
+        "worksFor": { "@type": "Organization", "name": "Cisco" }
+      },
+      "reviewBody": "Applause has really guided us throughout the whole journey,
+      making sure that we get it right. They're there with resources, hands on
+      support, office hours for designers, and really showing us what good looks like.",
+      "itemReviewed": { "@type": "Service", "name": "Applause Accessibility Testing" }
+    },
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "Jeff Pierce",
+        "jobTitle": "Director of Digital Product Management",
+        "worksFor": { "@type": "Organization", "name": "Peet's Coffee" }
+      },
+      "reviewBody": "Our customers expect the best when they interact with us,
+      whether that's in person, on our website or a mobile app. Applause gives us
+      both the speed and flexibility we need to deliver quality digital properties
+      and great experiences to our customers.",
+      "itemReviewed": { "@type": "Service", "name": "Applause Digital Quality Testing" }
+    }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI CITATION CONTEXT -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>AI Citation Context for This Page Type</h2></div>
+    <span class="status-badge status-unknown">Mid-Funnel — Different Goal Than Blog Pages</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">What This Page Should Win</div>
+      Demo pages are not discovery pages — they don't need to win "what is regression testing?" They should win evaluation-stage queries: "what do Applause customers say?", "Applause customer reviews", "does Applause work for companies like mine?", "Microsoft uses Applause for testing." The named quotes are the mechanism for all of these, and Review schema is what makes them reliably citable.
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Query</th><th>Pre-Schema</th><th>Post-Schema</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Applause customer reviews</td>
+          <td class="icon-partial">⚠ Partial — quotes present, not extractable as structured reviews</td>
+          <td class="icon-pass">✓ Strong — Review schema makes each quote independently citable</td>
+        </tr>
+        <tr>
+          <td>What do Microsoft / Western Union say about Applause</td>
+          <td class="icon-partial">⚠ Possible — text content exists</td>
+          <td class="icon-pass">✓ Strong — named author + company in schema makes attribution unambiguous</td>
+        </tr>
+        <tr>
+          <td>Applause platform demo</td>
+          <td class="icon-partial">⚠ Partial — H1 mismatch hurts</td>
+          <td class="icon-pass">✓ Competitive — once H1 matches browser title</td>
+        </tr>
+        <tr>
+          <td>Applause payment testing results</td>
+          <td class="icon-fail">✗ Missing — no outcome metrics visible</td>
+          <td class="icon-partial">⚠ Possible — once inline metrics added from Western Union case study</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:14px; margin-top:12px;">Exclude from Pam's monthly LLM citation tracking for knowledge queries. Add to any supplementary tracking focused on "Applause reviews" and brand validation queries.</p>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/watch-demo/ &nbsp;·&nbsp; Scope: Demo / social proof page — focused audit<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Primary AI citation value: named executive customer quotes. Review schema is the prerequisite for this page's citation potential.</span>
+</div>
+
+</body>
+</html>

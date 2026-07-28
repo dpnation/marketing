@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Software Quality Assurance (SQA) Explained</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Software Quality Assurance (SQA) Explained</h1>
+  <div class="sub">applause.com/blog/software-quality-assurance-sqa-explained/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>November 16, 2022</strong></span>
+    <span>Last modified: <strong>May 7, 2026</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Freshest Blog in the Batch, Date Still Hidden</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Best Blog Freshness in the Batch — May 7, 2026 Modification</div>
+      This article was modified <strong>May 7, 2026</strong> — less than two months ago, confirmed from page metadata. It is the most recently updated blog post in the entire audit batch. That freshness signal is currently invisible on the page, showing only "Published On: November 16, 2022." Making the May 2026 date visible is the single highest-ROI one-minute change in the blog batch.
+    </div>
+
+    <p style="margin-bottom:16px;">The structural foundation is strong: the H1 is query-matched, the definition is clear and early, the content covers industry standards in unusual depth (ISO 9000, CMMI with all 5 maturity levels named, TMMi with all 5 levels, military standards), and the pros/cons section is well-structured. The article also cross-links to the QA vs. QC article cleanly. The gaps are standard blog-batch gaps — the definition isn't the very first paragraph, FAQPage schema hasn't been added to the question-format H3s, no comparison table for SQA vs. QC, and only one statistic. None of these require significant new content.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⚠</span><span>May 2026 modification invisible — only November 2022 shows; strongest freshness signal in the blog batch wasted</span></li>
+          <li><span>✗</span><span>Definition is in the first H3 sub-section, not the opening paragraph — contextual framing comes first</span></li>
+          <li><span>✗</span><span>FAQPage schema absent despite six question-format H3 headings</span></li>
+          <li><span>✗</span><span>No comparison table for SQA vs. QC (prose comparison covers it; a table would win the query directly)</span></li>
+          <li><span>✗</span><span>Only one attributed statistic in 14 minutes of content (ISO 9001: 1M+ orgs, 170 countries)</span></li>
+          <li><span>✗</span><span>CMMI and TMMi maturity levels not schema'd — two natural ItemList targets sitting untagged</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>H1 "Software Quality Assurance (SQA) Explained" — query-matched and includes the acronym</span></li>
+          <li><span>✓</span><span>Clean definition: "the proactive, continuous process of ensuring that digital assets consistently align with an organization's established quality standards"</span></li>
+          <li><span>✓</span><span>Industry standards depth: ISO 9000, CMMI (5 levels named), TMMi (5 levels named), military standards — comprehensive</span></li>
+          <li><span>✓</span><span>Pros and cons section: 4 pros + 3 cons, all bolded with named labels</span></li>
+          <li><span>✓</span><span>Internal link to QA vs. QC article — smart topical cluster linking</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager</span></li>
+          <li><span>✓</span><span>May 2026 modification — most current blog post in batch (once visible)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add "Last updated: May 2026" alongside the published date.</h4>
+      <p>This is the fastest, highest-ROI action in the entire blog batch. The May 2026 modification date is already in the page metadata — it just isn't visible. One template change flips the perceived age from "4 years old" to "updated 2 months ago." Content updated in the last 30 days gets cited 3.2x more often. The May date won't meet that threshold, but it's still orders of magnitude better than November 2022 for freshness-weighted AI platforms.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add FAQPage JSON-LD schema — six question H3s require no new content.</h4>
+      <p>The article already has six question-format H3 headings: "What is software quality assurance?", "How does software quality assurance differ from software quality control?", "What are the industry standards for software quality assurance?", "What are common software quality assurance techniques?", and "What are the pros and cons of software quality assurance?" Each has a direct answer immediately following it. FAQPage schema wraps what's already written — zero new content needed. Direct trigger for People Also Ask appearances on high-volume SQA queries.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Move the SQA definition to the opening paragraph.</h4>
+      <p>The article opens with two paragraphs of contextual framing ("What's the difference between a product that users love and one they abandon forever? Thorough testing.") before reaching the definition sub-section. The definition — "Software quality assurance (SQA) is the proactive, continuous process of ensuring that digital assets consistently align with an organization's established quality standards" — should be the first sentence. The contextual framing can follow as supporting context. This one reorder directly improves citation rates for "what is SQA" queries.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Competitive — May 2026 Freshness Once Visible</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is SQA" and "software quality assurance explained" are practitioner-level queries searched by QA leads, engineering managers, and product teams — Applause's exact buyer personas. Being cited as the authoritative source on SQA fundamentals positions Applause as the knowledge leader before a buyer ever starts evaluating vendors. The CMMI and TMMi standards coverage in particular is rare in competitor articles and creates differentiated citation opportunities for standards-specific queries.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status inferred from page structure and competitive analysis. Manual verification required before stakeholder distribution. ChatGPT: OAI-SearchBot allowed by wildcard per homepage audit.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is software quality assurance</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — good H1, definition in sub-section not opening</td>
+          <td>Guru99, ASQ, Software Testing Help, IBM</td>
+        </tr>
+        <tr>
+          <td>SQA explained</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — H1 matches exactly</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>software quality assurance vs quality control</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — prose comparison, no table; linked article not this page</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>CMMI maturity levels software</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — all 5 levels named with descriptions</td>
+          <td>CMMI Institute, IBM, Guru99</td>
+        </tr>
+        <tr>
+          <td>TMMi levels testing maturity</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — all 5 TMMi levels named; a rare coverage depth</td>
+          <td>TMMi Foundation, Guru99</td>
+        </tr>
+        <tr>
+          <td>software quality assurance techniques</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — three techniques covered (continuous improvement, benchmarking, cost-benefit)</td>
+          <td>Guru99, Software Testing Help, Atlassian</td>
+        </tr>
+        <tr>
+          <td>ISO 9000 software quality</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — ISO 9000 family covered with external link to ISO.org</td>
+          <td>ISO.org, IBM, ASQ</td>
+        </tr>
+        <tr>
+          <td>pros and cons of software quality assurance</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — dedicated section with bolded pros and cons</td>
+          <td>Guru99, Software Testing Material</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">"What is SQA" / definition</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:65%;"></div></div><span style="font-size:13px; color:var(--green);">Competitive — strong H1, clean definition once visible</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Standards (CMMI, TMMi, ISO)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — rare depth; ItemList schema would improve</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">SQA vs. QC comparison</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:15%;"></div></div><span style="font-size:13px; color:var(--red);">Weak — prose only; linked article is the better resource</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Pros/cons / techniques</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — well-structured sections</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">4 Pass · 2 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article is the most content-dense of all blog posts audited — 14 minutes of reading covering definition, historical evolution, SQA vs. QC, four international standards frameworks with maturity levels, three SQA techniques, and a full pros/cons analysis. That depth is both an asset (comprehensive topical coverage) and a risk (AI systems extract passages, not pages — the most citable content needs to be front-loaded and schema'd). The gaps below are primarily about surfacing what's already written.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear SQA definition in opening paragraph</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>A clean, citable definition exists: "Software quality assurance (SQA) is the proactive, continuous process of ensuring that digital assets — such as software, applications or features — consistently align with an organization's established quality standards." But it appears in the first H3 sub-section, not the opening paragraph. Two contextual paragraphs precede it. Move the definition sentence to become the first sentence of the article — the remaining context can follow. Same fix as several other blog posts in this batch.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>The article has multiple strong extractable sections. The CMMI levels block (five named maturity levels with one-line descriptions each) is particularly clean. The TMMi levels follow the same structure. The pros section (four named, bolded pros with supporting sentences) and cons section (three named, bolded cons) work well as standalone extracts. The SQA techniques section (Continuous improvement, Benchmarking, Cost-benefit analysis) each have a named heading and explanation paragraph.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>One confirmed attributed statistic: "More than one million organizations in 170 countries have gained ISO 9001 certification, according to the organization [ISO]." This is well-sourced and valuable. However, for a 14-minute article on software quality, at least 3–4 more statistics are needed: defect cost escalation (NIST), SQA adoption rates (World Quality Report or ASQ survey data), or ROI metrics from Applause's IDC study. The article discusses the business value of SQA but backs up none of it with data.</td>
+        </tr>
+        <tr>
+          <td><strong>SQA vs. QC comparison table</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The "How does software quality assurance differ from software quality control?" section covers the comparison well in prose: prevention-oriented vs. detection-oriented, all-SDLC vs. testing-phase-only, process vs. product focus. A compact HTML comparison table (4–5 criteria rows) would directly compete for "SQA vs. QC" queries — a high-volume search that this page could own given its explicit section on the topic. The linked QA vs. QC article is relevant but sends traffic away. The table could live on this page with a "full comparison here" link to the other article.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No formal FAQ section. The article's existing H3 question-headings are already FAQ-structured — "What is software quality assurance?", "How does SQA differ from QC?", "What are the industry standards?", "What are common SQA techniques?", "What are the pros and cons?" Adding FAQPage JSON-LD schema to these existing Q&A pairs requires no new content at all. This is the same situation as the QA vs. QC article — existing structure, missing schema.</td>
+        </tr>
+        <tr>
+          <td><strong>H1 matches target queries</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>"Software Quality Assurance (SQA) Explained" is query-matched, includes the acronym in parentheses (which captures both "SQA" and "software quality assurance" searchers), and mirrors the title tag exactly. No changes needed. This is the strongest H1 in the blog batch.</td>
+        </tr>
+        <tr>
+          <td><strong>Sub-section headings match query patterns</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>All six H3 sub-headings are natural-language questions that mirror search queries. "What is software quality assurance?", "How does software quality assurance differ from software quality control?", "What are the industry standards for software quality assurance?", etc. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible on page</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published November 16, 2022 visible on page. May 7, 2026 modification confirmed from metadata — not visible. This is the most damaging invisible freshness signal in the blog batch, because this article has the most to gain from making its recency known. Add "Last updated: May 2026" immediately.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, with photo and author page link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article links to /manual-functional-testing/ in the Applause CTA section, and to the QA vs. QC blog post — good. But /integrated-functional-testing/ and /digital-quality-solutions/ are missing from the body, despite being directly relevant to organizations implementing SQA programs. Add contextual links in the "SQA techniques" and "pros of SQA" sections where scale and managed testing are discussed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">FAQPage + ItemList — Both Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article has two distinct schema opportunities — both requiring zero new content. FAQPage wraps the six existing question H3s. ItemList tags the CMMI and TMMi maturity levels as named, ordered lists. Together they make this article one of the most schema-optimized SQA resources on the web, which is currently untapped.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test before adding. Yoast likely generates Article/BlogPosting — check for conflicts.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags the six existing question H3s and their answers as machine-readable Q&A pairs. Zero new content needed — just schema markup around existing structure. Direct trigger for People Also Ask appearances on SQA queries.</td>
+          <td class="icon-fail">✗ Absent — question structure is untagged</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>ItemList</code> for CMMI levels</td>
+          <td>Tags all five CMMI maturity levels (Initial, Managed, Defined, Quantitatively Managed, Optimizing) as a named, ordered list. Makes the levels explicitly machine-readable for "CMMI maturity levels" enumeration queries.</td>
+          <td class="icon-fail">✗ Absent — levels are in prose/bullets without schema</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>ItemList</code> for TMMi levels</td>
+          <td>Tags all five TMMi levels as a named ordered list. Same approach as CMMI. The combination of both standards' levels in schema would be the most complete TMMi/CMMI coverage in the AI citation ecosystem.</td>
+          <td class="icon-fail">✗ Absent</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic signals. Verify Yoast is correctly updating <code>dateModified</code> with the May 2026 update date — this is the freshness signal AI systems read from structured data.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified reflects May 2026</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. Confirm Cloudflare CDN-level bot blocking is not active — see Homepage report §5. The SQA topic is frequently researched via Perplexity and Claude by technical practitioners; confirmed bot access is directly valuable for this article's citation potential.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">SQA Knowledge Ecosystem — ASQ and Guru99 Dominated</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the SQA knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is SQA" is a foundational QA knowledge query. ASQ (American Society for Quality) and Guru99 dominate AI citations for definitional SQA queries. Applause's differentiated angle — connecting SQA principles to real-world, managed testing at scale — is not covered in ASQ or Guru99 content, making it a genuine third-party content opportunity. CMMI and TMMi standards coverage is the specific area where Applause's article goes deeper than most competitors.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>SQA Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ASQ (American Society for Quality)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>ASQ's SQA definition pages are cited across all AI platforms. An Applause expert perspective cited in ASQ-adjacent content — specifically on applied SQA in agile/DevOps environments or crowdtested real-world SQA — would create high-value third-party citation signal where the professional QA audience already is.</td>
+        </tr>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>Their SQA content is cited frequently for practitioner queries. A named Applause quote on modern SQA practices — connecting CMMI/TMMi frameworks to real-world managed testing implementation — would be credible and citable in their articles.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Software quality assurance)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify whether Applause is referenced in the Wikipedia Software Quality Assurance article. A practitioner-source citation — particularly for the real-world testing / crowdtesting dimension of SQA — would be appropriate and high-value for AI citation across all platforms.</td>
+        </tr>
+        <tr>
+          <td><strong>CMMI Institute / TMMi Foundation</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Applause's CMMI and TMMi coverage in this article is substantively accurate — an opportunity to be cited in or linked from these authoritative standards bodies' practitioner resources. Low-effort verification: check both sites for Applause mentions or testing partner references.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-action">2 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for SQA queries</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Guru99 / Software Testing Help</h3>
+      <p><strong>Where they win:</strong> "What is SQA," "SQA vs. QC," "SQA techniques." Their content includes comparison tables for SQA vs. QC, schema markup, and regular updates that create freshness signals. They also include more statistics — specific numbers on defect detection rates, cost savings, and adoption metrics that the Applause article lacks.</p>
+      <p><strong>Why AI cites them:</strong> Combination of consistent freshness updates, schema markup, and statistics. The Applause article matches or exceeds their content depth on standards (CMMI, TMMi coverage is better) but loses on freshness visibility and structured data.</p>
+      <p><strong>Applause's counter:</strong> Making the May 2026 modification date visible, adding FAQPage and ItemList schema, and adding statistics directly closes the structural gap. The CMMI/TMMi standards depth is a genuine differentiation that Guru99 doesn't match — once schema'd, this coverage becomes a competitive advantage for standards-specific queries.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Authority Gap</div>
+      <h3>ASQ / IBM Developer</h3>
+      <p><strong>Where they win:</strong> Definitional SQA queries — "what is software quality assurance," "SQA definition." Their institutional authority means AI systems treat their definitions as canonical references.</p>
+      <p><strong>Applause's counter:</strong> Can't out-authority ASQ or IBM on the definition query. Applause's angle is the applied, implementation-level perspective that these authoritative sources don't cover — specifically how SQA principles translate to crowdtested real-world environments, Agile/DevOps continuous testing, and global market testing. The "software quality assistance" term nuance in the article is a rare, citable differentiation not present in ASQ content.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Content actions in Jennifer's scope; schema in Tammy's scope.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add "Last updated: May 2026"</strong> alongside the published date. One template change activates the strongest freshness signal in the blog batch.</td>
+          <td>High — freshness signal</td>
+          <td>Low — template</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add FAQPage JSON-LD schema</strong> to the six existing question H3s and their answers. Zero new content needed — wrap what already exists. See Section 4 for approach.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Low — schema only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Move the SQA definition to the opening sentence.</strong> The definition ("SQA is the proactive, continuous process of ensuring that digital assets consistently align with an organization's established quality standards") should precede the contextual framing paragraphs, not follow them.</td>
+          <td>High — definition query citation</td>
+          <td>Low — copy reorder</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add ItemList schema for CMMI maturity levels</strong> (Initial, Managed, Defined, Quantitatively Managed, Optimizing) and separately for TMMi levels (same structure). Two ItemList blocks — one per standards framework — with position, name, and description per level.</td>
+          <td>Medium-High — standards enumeration queries</td>
+          <td>Low — schema only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 3–4 statistics with named sources.</strong> Suggested: NIST cost-of-defect data by SDLC phase, ASQ survey on SQA adoption or ROI, or World Quality Report data on test coverage or automation rates. The single ISO 9001 stat is good but insufficient for a 14-minute article.</td>
+          <td>High — citation credibility</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a compact SQA vs. QC comparison table</strong> (4–5 rows: purpose, timing, scope, focus, who does it) in the "How does SQA differ from QC?" section. Keep it brief and link to the full QA vs. QC article for depth — this page doesn't need to replace that article, just win the comparison query.</td>
+          <td>High — SQA vs. QC comparison queries</td>
+          <td>Low — markup + brief copy</td>
+          <td>Content (Jennifer) / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add contextual links to solution pages</strong> in the techniques and pros sections. Link /integrated-functional-testing/ where managed testing at scale is discussed; link /digital-quality-solutions/ in the CTA section for full solution discovery.</td>
+          <td>Medium — internal authority + user journey</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify Yoast's dateModified is updating to May 2026</strong> in the Article schema. This is the machine-readable freshness signal AI systems use alongside the visible date. Check via Google's Rich Results Test.</td>
+          <td>Medium — structured freshness signal</td>
+          <td>Low — verify</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Expand the "software quality assistance" nuance</strong> into a mini-section. This alternative framing — that testers assist rather than assure quality — is a rare perspective not covered by ASQ or Guru99 and creates a citable differentiation point for advanced practitioner queries.</td>
+          <td>Medium — differentiation angle</td>
+          <td>Low — copy addition</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add an AI-era SQA section</strong> — how SQA evolves for AI-generated code, LLM outputs, and agentic software. The article covers traditional SQA comprehensively; an AI-era extension would be a genuine content differentiator for 2026 queries that none of the competitor articles cover.</td>
+          <td>High — emerging query ownership</td>
+          <td>Medium — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Claude and Perplexity are frequently used by QA practitioners for SQA knowledge queries — confirmed citation bot access is important for this article specifically.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>what is software quality assurance</li>
+      <li>SQA explained</li>
+      <li>software quality assurance vs quality control</li>
+      <li>CMMI maturity levels software testing</li>
+      <li>TMMi levels testing maturity model</li>
+      <li>software quality assurance techniques</li>
+      <li>ISO 9000 software quality standards</li>
+      <li>pros and cons of software quality assurance</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema addition</strong></td>
+          <td>Validate FAQPage and ItemList schema via Rich Results Test. Confirm Article dateModified is May 2026 in structured data output. Confirm "Last updated: May 2026" is rendering on the page.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 8 queries across platforms. Key tests: (1) Does Applause now appear for "CMMI maturity levels" queries? (2) Has the freshness date visibility improved citation rates compared to the November 2022-only state? (3) Are People Also Ask features appearing for SQA queries?</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask boxes for SQA queries — new questions appearing are FAQ addition opportunities. Assess whether the SQA vs. QC comparison table (once added) is being cited for comparison queries separately from the linked QA vs. QC article.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Keep "Last updated" current — particularly if the AI-era SQA section is added. Update statistics with the current year's World Quality Report or ASQ survey data. The May 2026 modification is a strong baseline; maintain it by scheduling quarterly content reviews for this article.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/software-quality-assurance-sqa-explained/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>
