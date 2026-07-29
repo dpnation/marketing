@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Visibility Audit Log — Applause</title>
-<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<title>Applause AI Visibility Program</title>
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -33,7 +33,7 @@
     line-height: 1.5;
   }
 
-  /* HEADER — matches index.html exactly */
+  /* HEADER */
   .header {
     background: var(--blue-700);
     color: var(--white);
@@ -53,24 +53,15 @@
     opacity: 0.88;
     line-height: 1.6;
   }
-  .header-meta {
-    margin-top: 20px;
-    font-size: 12px;
-    opacity: 0.6;
-    letter-spacing: 0.3px;
-  }
 
-  /* MAIN */
+  /* MAIN CONTENT */
   .main {
     max-width: 960px;
     margin: 0 auto;
     padding: 48px 24px 64px;
   }
 
-  /* SECTION */
-  .section { margin-bottom: 40px; }
-
-  /* SECTION LABEL — matches index.html */
+  /* SECTION LABEL */
   .section-label {
     font-size: 11px;
     letter-spacing: 2px;
@@ -79,198 +70,327 @@
     margin-bottom: 16px;
   }
 
-  /* STATS ROW — compact inline */
-  .stats-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 40px;
-  }
-  .stat-item {
+  /* CARD */
+  .card {
     background: var(--white);
     border: 1px solid #D9EDF8;
     border-radius: 8px;
-    padding: 14px 20px;
-    flex: 1;
-    text-align: center;
+    padding: 24px;
+    position: relative;
   }
-  .stat-num {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--blue-700);
+
+  /* TWO-COLUMN GRID */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ARROW */
+  .arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    color: var(--blue-500);
+  }
+  .arrow svg {
     display: block;
   }
-  .stat-label {
-    font-size: 12px;
-    color: #888;
-    margin-top: 2px;
-  }
 
-  /* THREE-COLUMN CARD GRID */
-  .three-col {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    width: 100%;
-  }
-
-  /* REPORT CARD */
-  .report-card {
-    background: var(--white);
-    border: 1px solid #D9EDF8;
-    border-radius: 8px;
-    padding: 18px;
-    position: relative;
-    cursor: pointer;
-    transition: box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    min-width: 0; /* prevent grid track blowout from long content */
-  }
-  .report-card:hover { box-shadow: 0 4px 16px rgba(2,114,180,0.12); }
-
-  /* STATUS CHIP — top right, matches index.html */
-  .status-chip {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
-  .chip-partial   { background: #FEF0E0; color: #994A00; }
-  .chip-action    { background: #FDECEA; color: var(--red); }
-  .chip-distribute{ background: #E5F5E7; color: var(--green); }
-  .chip-revised   { background: #E0F8F5; color: var(--aqua-600); }
-  .chip-needs-review { background: #FEF0E0; color: #994A00; }
-
-  /* BADGES — matches index.html */
+  /* BADGES */
   .badge {
     display: inline-flex;
     align-items: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     padding: 3px 10px;
     border-radius: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
-  .badge-blue  { background: var(--blue-100); color: var(--blue-700); }
-  .badge-amber { background: #FEF0E0; color: #994A00; }
-  .badge-teal  { background: #E0F8F5; color: var(--aqua-600); }
-
-  /* CARD CONTENT */
-  .report-card h3 {
-    font-size: 14px;
-    font-weight: 700;
+  .badge-blue {
+    background: var(--blue-100);
     color: var(--blue-700);
-    margin-bottom: 4px;
-    line-height: 1.3;
-    padding-right: 90px; /* clear the chip */
   }
-  .report-url {
+  .badge-amber {
+    background: #FEF0E0;
+    color: #994A00;
+  }
+  .badge-teal {
+    background: #E0F8F5;
+    color: var(--aqua-600);
+  }
+  .badge-mono {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    font-size: 10.5px;
-    color: #999;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 11.5px;
+    font-weight: 600;
   }
-  .report-date {
-    font-size: 11px;
-    color: #aaa;
-    margin-bottom: 8px;
-  }
-  .report-summary {
-    font-size: 12.5px;
-    color: #555;
-    line-height: 1.5;
-    flex: 1;
-  }
-  .report-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 12px;
-    padding-top: 10px;
-    border-top: 1px solid #EEF5FB;
-  }
-  .eval-pill {
+
+  /* STATUS CHIP */
+  .status-chip {
+    position: absolute;
+    top: 16px;
+    right: 16px;
     font-size: 11px;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 2px 9px;
     border-radius: 20px;
     background: #E5F5E7;
     color: var(--green);
   }
-  .eval-pill.revise {
-    background: #FEF0E0;
-    color: #994A00;
+
+  /* CARD CONTENT */
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
   }
-  .view-link {
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--blue-700);
+  }
+  .card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.55;
+  }
+  .card-example {
     font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .card-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--blue-500);
+    text-decoration: none;
   }
+  .card-link:hover { text-decoration: underline; }
 
-  /* DIVIDER */
-  .divider { border: none; border-top: 1px solid #D9EDF8; margin: 40px 0; }
-
-  /* SITEWIDE FINDINGS TABLE */
-  .findings-table {
-    width: 100%;
-    border-collapse: collapse;
+  /* COVERS LIST */
+  .covers-list {
+    margin-top: 12px;
+    list-style: none;
+    padding: 0;
+  }
+  .covers-list li {
     font-size: 13px;
-    background: var(--white);
-    border: 1px solid #D9EDF8;
-    border-radius: 8px;
-    overflow: hidden;
+    color: #555;
+    padding: 3px 0 3px 16px;
+    position: relative;
   }
-  .findings-table th {
-    background: var(--blue-700);
-    color: #fff;
-    padding: 10px 14px;
-    text-align: left;
+  .covers-list li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--aqua-500);
+    font-weight: 700;
+  }
+
+  /* OUTPUT LABEL */
+  .output-label {
+    margin-top: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue-700);
+    background: var(--blue-50);
+    border: 1px solid #D9EDF8;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-block;
+  }
+
+  /* DIMENSION PILLS */
+  .dimension-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .dim-pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--blue-50);
+    border: 1px solid #D9EDF8;
+    color: var(--blue-700);
+  }
+
+  /* VERDICT BADGES */
+  .verdict-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .verdict {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .verdict-green { background: #E5F5E7; color: var(--green); border: 1px solid #b7dfba; }
+  .verdict-orange { background: #FEF0E0; color: var(--orange); border: 1px solid #f8d09a; }
+  .verdict-red { background: #FDECEA; color: var(--red); border: 1px solid #f5b4ac; }
+
+  /* CALLOUT CARD */
+  .callout-card {
+    background: var(--blue-100);
+    border: none;
+    border-left: 4px solid var(--aqua-500);
+    border-radius: 8px;
+    padding: 28px 28px 24px;
+  }
+  .callout-card p {
+    font-size: 15px;
+    color: var(--blue-700);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .callout-card p:last-of-type { margin-bottom: 0; }
+  .callout-card .tagline {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue-700);
+    margin-top: 14px;
+    margin-bottom: 20px;
+  }
+  .callout-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .callout-col {
+    background: rgba(255,255,255,0.65);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--blue-700);
+    line-height: 1.5;
+  }
+  .callout-col strong { display: block; margin-bottom: 4px; font-size: 14px; }
+
+  /* TRACKER CARD */
+  .tracker-card {
+    border: 1px solid #D9EDF8;
+  }
+  .tracker-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--blue-700);
+    margin-bottom: 4px;
+  }
+  .tracker-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .tracker-col-label {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.3px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--aqua-600);
+    margin-bottom: 10px;
   }
-  .findings-table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid #EEF5FB;
-    vertical-align: top;
-    color: #444;
+  .tracker-col ul {
+    list-style: none;
+    padding: 0;
   }
-  .findings-table tr:last-child td { border-bottom: none; }
-  .findings-table tr:nth-child(even) td { background: var(--blue-50); }
-  .open-tag {
-    display: inline-block;
-    background: #FEF0E0;
-    color: #994A00;
-    font-size: 10px;
+  .tracker-col li {
+    font-size: 13px;
+    color: #555;
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .tracker-col li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--aqua-500);
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 20px;
-    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1;
+    top: 2px;
   }
 
-  /* FOOTER — matches index.html */
+  /* SPACING UTILITY */
+  .section { margin-bottom: 8px; }
+  .gap-32 { margin-top: 32px; }
+  .gap-40 { margin-top: 40px; }
+
+  /* FOOTER */
   .footer {
     background: var(--blue-700);
-    padding: 24px 32px;
+    color: rgba(255,255,255,0.75);
+    padding: 20px 24px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer span { color: rgba(255,255,255,0.5); }
+
+  /* TRACK HEADERS */
+  .track-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .track-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .track-blue  { background: var(--blue-100); color: var(--blue-700); }
+  .track-amber { background: #FEF0E0; color: #7A3800; }
+
+  /* CARD TRACK BORDERS */
+  .card-blue-track  { border-top: 3px solid var(--blue-500); }
+  .card-amber-track { border-top: 3px solid var(--orange); }
+
+  /* TWO ARROWS */
+  .two-arrow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 2px 0; }
+  .arrow-col { display: flex; justify-content: center; padding: 8px 0; }
+
+  /* CONVERGE ARROW */
+  .converge-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 4px;
+    gap: 4px;
+  }
+  .converge-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--aqua-600);
   }
 
-  @media (max-width: 700px) {
-    .three-col { grid-template-columns: 1fr 1fr; }
-    .stats-row { flex-wrap: wrap; }
-  }
-  @media (max-width: 480px) {
-    .three-col { grid-template-columns: 1fr; }
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .two-col, .callout-two-col, .tracker-two-col { grid-template-columns: 1fr; }
+    .header h1 { font-size: 22px; }
+    .footer { flex-direction: column; text-align: center; }
   }
 </style>
 </head>
@@ -278,7 +398,7 @@
 
 <!-- NAV -->
 <nav style="background:#012E48; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:44px; position:sticky; top:0; z-index:100;">
-  <a href="https://dpnation.github.io/marketing/ai-seo-aeo/index.html" style="display:flex; align-items:center;">
+  <a href="index.html" style="display:flex; align-items:center;">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 127.2" height="18" aria-label="Applause logo">
       <style>.nv-w{fill:#FFFFFF;}.nv-a{fill:#0E7DC1;}</style>
       <g><g><g>
@@ -295,13 +415,13 @@
       </g></g>
     </svg>
   </a>
-  <a href="https://dpnation.github.io/marketing/ai-seo-aeo/index.html" style="font-size:12px; font-weight:600; background:#00C0A3; color:#fff; padding:5px 13px; border-radius:4px; text-decoration:none;">Program Overview →</a>
+  <a href="skill-guide.html" style="font-size:12px; font-weight:600; background:#00C0A3; color:#fff; padding:5px 13px; border-radius:4px; text-decoration:none;">Skill Guide →</a>
 </nav>
 
 <!-- HEADER -->
 <header class="header">
   <div style="display:flex; justify-content:center; margin-bottom:20px;">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 127.2" height="36" aria-label="Applause logo" role="img">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 127.2" height="36" aria-label="Applause logo" role="img">
       <style>.ko-w{fill:#FFFFFF;}.ko-a{fill:#0E7DC1;}</style>
       <g><g><g>
         <path class="ko-w" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"/>
@@ -317,560 +437,279 @@
       </g></g>
     </svg>
   </div>
-  <h1>AI Visibility Audit Log</h1>
-  <p>All completed AI search visibility audits for applause.com — each page assessed for extractability, schema, bot access, external presence and competitive gaps.</p>
-  <div class="header-meta">GEO / AEO Optimization Program &nbsp;·&nbsp; ai-seo-aeo v2.2.0 &nbsp;·&nbsp; Last updated July 29, 2026 (3 term scorecards added)</div>
+  <h1>AI Visibility Program</h1>
+  <p>A connected set of tools that audits, analyzes, and improves how Applause shows up in AI-generated answers — and feeds directly into the AEO/GEO program.</p>
 </header>
 
 <main class="main">
 
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-item">
-      <span class="stat-num">24</span>
-      <div class="stat-label">Pages audited</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">18</span>
-      <div class="stat-label">Evaluator runs</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">16</span>
-      <div class="stat-label">Cleared for distribution</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">5</span>
-      <div class="stat-label">Audits remaining</div>
-    </div>
-  </div>
-
-  <!-- REPORTS GRID -->
+  <!-- SECTION 1: INPUTS -->
   <div class="section">
-    <div class="section-label">Audit Reports — Page-Level</div>
-    <div class="three-col">
+    <div class="section-label">Inputs</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
+    <div class="two-col">
 
-      <!-- Report: Payment Testing — June 3, 2026 -->
-      <a class="report-card" href="2026-06-30-payments.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Payment Testing Page</h3>
-        <div class="report-date">June 3, 2026</div>
-        <div class="report-url">applause.com/payment-testing/</div>
-        <div class="report-summary">Written to convert, not to be extracted. No definition, FAQ, or schema. Testlio and GAT cited where Applause is not.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
+      <!-- Input A -->
+      <div class="card card-blue-track">
+        <div><span class="badge badge-blue">Page Audit Input</span></div>
+        <div class="card-icon">🔗</div>
+        <h3>A live Applause URL</h3>
+        <p>Point the skill at any Applause page. It fetches the content and runs the audit automatically.</p>
+        <div class="card-example">e.g. applause.com/payment-testing/</div>
+      </div>
 
-      <!-- Report: Homepage — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-homepage.html">
-        <span class="status-chip chip-revised">~ Revised · Ready</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Homepage</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com</div>
-        <div class="report-summary">robots.txt needs 2026 audit. Good FAQ section. FAQPage schema absent. No category definition block or comparison content.</div>
-        <div class="report-footer">
-          <span class="eval-pill revise">19/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Homepage (Term Alignment) — July 28, 2026 -->
-      <a class="report-card" href="2026-07-28-homepage-terms.html">
-        <span class="status-chip" style="background:#E0F0FA;color:#01446C;">68.6/100 · Adequate</span>
-        <div><span class="badge badge-teal">Term Scorecard</span></div>
-        <h3>Homepage</h3>
-        <div class="report-date">July 28, 2026</div>
-        <div class="report-url">applause.com</div>
-        <div class="report-summary">applause-aeo-page-audit companion scorecard (5-dimension term alignment, not the site-wide ai-seo-aeo audit above). Primary term leads but only as a variant missing "software." 3 of 4 secondary terms absent. No date or author signal.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: STLC Blog Post — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-stlc.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>STLC Blog Post</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/software-testing-life-cycle-stlc-phases/</div>
-        <div class="report-summary">Strong H1 and definition. Zero statistics in 14 min article. HowTo schema absent. 19 months old with no freshness signal.</div>
-        <div class="report-footer">
-          <span class="eval-pill">20/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Add new report cards here, in chronological order (oldest first) -->
-
-      <!-- Report: Functional Testing Types — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-functional-testing.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Functional Testing Types</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/functional-testing-types-examples/</div>
-        <div class="report-summary">Meta title says 15 types; article covers 17. No opening definition, comparison tables, or statistics. ItemList schema absent.</div>
-        <div class="report-footer">
-          <span class="eval-pill">20/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: What Is a Hotfix? — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-hotfix.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>What Is a Hotfix?</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/what-is-hotfix-software-patches-explained/</div>
-        <div class="report-summary">Strongest E-E-A-T in the batch — named VP expert quote. Best heading structure. Missing comparison table and HowTo schema.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Training vs. Validation vs. Test Data — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-training-data.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Training vs. Validation vs. Test Data</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/training-data-validation-data-vs-test-data/</div>
-        <div class="report-summary">Comparison table exists but placed after the CTA. Typical data split ratios entirely absent. April 2026 modification invisible on page.</div>
-        <div class="report-footer">
-          <span class="eval-pill">20/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: What Is Regression Testing? — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-regression-testing.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>What Is Regression Testing?</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/what-is-regression-testing-types-approach/</div>
-        <div class="report-summary">Published June 2022 — oldest in batch. No confirmed modification date. Content refresh is prerequisite for all other optimizations.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Digital Quality Solutions — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-digital-quality-solutions.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Digital Quality Solutions Hub</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/digital-quality-solutions/</div>
-        <div class="report-summary">H1 is "OUR SOLUTIONS" — matches no query. Security Testing and Agentic AI Testing absent from catalog. No definition, stats, or ItemList schema.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: QA vs. QC — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-qa-vs-qc.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>QA vs. QC Blog Post</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/quality-assurance-qa-vs-quality-control-qc/</div>
-        <div class="report-summary">Comparison table locked in a PNG — invisible to AI. Dec 2025 modification invisible on page. FAQPage schema absent despite natural Q&A structure.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: The Applause Difference — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-applause-difference.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>The Applause Difference</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/the-applause-difference/</div>
-        <div class="report-summary">Six proof point stats with no source attribution. H1 is the brand tagline. No comparison content on the page that exists to explain why Applause is different.</div>
-        <div class="report-footer">
-          <span class="eval-pill">20/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Watch Demo — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-watch-demo.html">
-        <span class="status-chip chip-revised">~ Focused Audit</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Watch Demo Page</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/watch-demo/</div>
-        <div class="report-summary">Best named customer quote evidence in the batch — Microsoft AI Platform, Western Union, Cisco, Peet's Coffee. All unschema'd. H1 is brand tagline.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: About Applause — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-about-applause.html">
-        <span class="status-chip chip-revised">~ Focused Audit</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>About Applause</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/about-applause/</div>
-        <div class="report-summary">Best company description statement on the site. Four named awards (Stevie, SD Times, Tech Breakthrough, USA Today). No Organization schema — priority fix.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Jobs — June 30, 2026 (abbreviated) -->
-      <a class="report-card" href="2026-06-30-jobs.html">
-        <span class="status-chip" style="background:#F0F0F0;color:#666;">ℹ Out of Scope</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Jobs / Careers Page</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/jobs/</div>
-        <div class="report-summary">Utility page — job listings are JS-rendered and invisible to crawlers. Not a meaningful AI citation target. Excluded from LLM tracking program.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Contact Us — June 30, 2026 (abbreviated) -->
-      <a class="report-card" href="2026-06-30-contact.html">
-        <span class="status-chip" style="background:#F0F0F0;color:#666;">ℹ Out of Scope</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Contact Us Page</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/contact-us/</div>
-        <div class="report-summary">Lead gen utility page — contact form is JS-rendered. No sales email or phone number in visible HTML. Not a meaningful AI citation target.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: SQA Explained — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-sqa-explained.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>SQA Explained Blog Post</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/software-quality-assurance-sqa-explained/</div>
-        <div class="report-summary">Freshest blog in the batch — May 2026 modification invisible. Best H1 in the batch. CMMI and TMMi maturity level coverage is a rare competitive differentiator. FAQPage schema absent.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Prompt and Response Grading — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-prompt-response-grading.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Prompt and Response Grading</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/evaluate-ai-model-quality-with-prompt-and-response-grading/</div>
-        <div class="report-summary">Strongest author E-E-A-T in the batch — VP of Delivery writing in first person. Grading rubric (Accuracy 40%, Relevance 30%…) needs HTML table format. HowTo schema absent.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: Beta Testing Examples — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-beta-testing.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>Beta Testing Examples</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/beta-testing-examples/</div>
-        <div class="report-summary">Nine named real-world beta programs with links — best example list in the batch. ItemList schema absent. Three comparison pairs (vs. alpha, vs. pilot, vs. UAT) in prose only.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: What Is a Test Case? — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-test-case.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>What Is a Test Case?</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/what-is-a-test-case-examples-types-format/</div>
-        <div class="report-summary">Only blog in the batch with a real HTML table. April 2026 modification invisible — second freshest in the batch. Nine test case types with examples. ItemList and FAQPage schema absent.</div>
-        <div class="report-footer">
-          <span class="eval-pill">21/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: 4 Digital Health Trends 2026 — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-digital-health-trends.html">
-        <span class="status-chip chip-revised">~ Focused Audit</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>4 Digital Health Trends 2026</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/4-digital-health-trends-that-will-define-healthcare-in-2026/</div>
-        <div class="report-summary">Best-sourced article in the batch — 7 named, linked statistics. Freshest article overall (Feb 2026 visible). Four trend headings are H4s not H2s — primary structural gap.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: What Is Agentic AI? — June 30, 2026 -->
-      <a class="report-card" href="2026-06-30-what-is-agentic-ai.html">
-        <span class="status-chip chip-revised">~ Revise Before Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>What Is Agentic AI?</h3>
-        <div class="report-date">June 30, 2026</div>
-        <div class="report-url">applause.com/blog/what-is-agentic-ai/</div>
-        <div class="report-summary">Defines agentic AI but has no bridge to Applause's testing value prop. Tool vendors (UiPath, Autify, Perfecto) own "agentic AI testing" queries. No comparison table, no FAQ, low-credibility market stat source. Author: Rob Mason, Former CTO.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
+      <!-- Input B -->
+      <div class="card card-amber-track">
+        <div><span class="badge badge-amber">Visibility Analysis Input</span></div>
+        <div class="card-icon">📊</div>
+        <h3>Clarity &amp; Motion LLM Report — citation tracker</h3>
+        <p>The June 2026 baseline: 63 queries across Perplexity, ChatGPT, and Gemini, commissioned through Clarity &amp; Motion. Exported as CSV and uploaded to Claude to power the visibility analysis.</p>
+        <a class="card-link" href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank">Open tracker →</a>
+      </div>
 
     </div>
   </div>
 
-  <!-- REPORTS GRID: BLACKOUT CATEGORY AUDITS -->
+  <!-- DUAL ARROW 1 -->
+  <div class="two-arrow">
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#ED7200" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#ED7200" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- SECTION 2: SKILLS -->
   <div class="section">
-    <div class="section-label">Audit Reports — AI Category Blackout Audits</div>
-    <div class="three-col">
+    <div class="section-label">Analysis Skills</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
+    <div class="two-col">
 
-      <!-- Report: AI Evaluation & Benchmarking — July 7, 2026 -->
-      <a class="report-card" href="2026-07-07-ai-evals.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>AI Evaluation & Benchmarking</h3>
-        <div class="report-date">July 7, 2026</div>
-        <div class="report-url">applause.com/ai-evaluation-and-benchmarking/</div>
-        <div class="report-summary">Zero citations in a category owned by Galileo, Braintrust, Arize. Strong case studies, no comparison table, no FAQ, no schema.</div>
-        <div class="report-footer">
-          <span class="eval-pill">19/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
+      <!-- Skill A -->
+      <div class="card card-blue-track">
+        <span class="status-chip">● Built</span>
+        <div><span class="badge badge-blue badge-mono">ai-seo-aeo</span></div>
+        <h3>Page-level audit</h3>
+        <p>Audits a specific page against AI search best practices.</p>
+        <ul class="covers-list">
+          <li>Content structure and extractability</li>
+          <li>Schema markup</li>
+          <li>AI bot access (robots.txt)</li>
+          <li>External presence (G2, Wikipedia, roundups)</li>
+          <li>Competitive citation gaps</li>
+        </ul>
+        <div class="output-label">Produces → Page audit HTML report</div>
+      </div>
 
-      <!-- Report: AI Evaluation & Benchmarking (Term Alignment) — July 28, 2026 -->
-      <a class="report-card" href="2026-07-28-ai-evals-terms.html">
-        <span class="status-chip chip-action">⚠ 58/100 · Weak</span>
-        <div><span class="badge badge-teal">Term Scorecard</span></div>
-        <h3>AI Evaluation & Benchmarking</h3>
-        <div class="report-date">July 28, 2026</div>
-        <div class="report-url">applause.com/ai-evaluation-and-benchmarking/</div>
-        <div class="report-summary">applause-aeo-page-audit companion scorecard (5-dimension term alignment, not the site-wide ai-seo-aeo audit above). Leading on "AI evaluation services" but LLM evaluation services and 4 supporting terms are absent. No definition, FAQ, or date signal.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Data Collection Page — July 9, 2026 -->
-      <a class="report-card" href="2026-07-09-ai-data-collection.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>AI Data Collection Page</h3>
-        <div class="report-date">July 9, 2026</div>
-        <div class="report-url">applause.com/ai-data-collection/</div>
-        <div class="report-summary">Complete blackout across 9 RLHF/training-data roundups — Scale AI, Appen, iMerit own the category. Anonymized case studies vs. named-client competitors is a credibility gap.</div>
-        <div class="report-footer">
-          <span class="eval-pill">22/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Safety & Risk Testing — July 9, 2026 -->
-      <a class="report-card" href="2026-07-09-ai-safety-and-risk.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>AI Safety & Risk Testing</h3>
-        <div class="report-date">July 9, 2026</div>
-        <div class="report-url">applause.com/ai-safety-and-risk-testing/</div>
-        <div class="report-summary">Zero citations for AI red teaming queries — owned by CrowdStrike, Synack, Big 4 consultancies, not tracked crowdtesting competitors. No definition block, 4 unsourced stats.</div>
-        <div class="report-footer">
-          <span class="eval-pill">22/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Safety & Risk Testing (Term Alignment) — July 29, 2026 -->
-      <a class="report-card" href="2026-07-29-ai-safety-and-risk-terms.html">
-        <span class="status-chip chip-action">⚠ 52/100 · Weak</span>
-        <div><span class="badge badge-teal">Term Scorecard</span></div>
-        <h3>AI Safety & Risk Testing</h3>
-        <div class="report-date">July 29, 2026</div>
-        <div class="report-url">applause.com/ai-safety-and-risk-testing/</div>
-        <div class="report-summary">applause-aeo-page-audit companion scorecard (5-dimension term alignment, not the site-wide ai-seo-aeo audit above). Primary term "AI safety testing" leads via the H1, but all 4 secondary and 5 supporting terms are absent — including "agentic AI testing," despite a full dedicated section on agentic AI risk.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Data Collection (Term Alignment) — July 29, 2026 -->
-      <a class="report-card" href="2026-07-29-ai-data-collection-terms.html">
-        <span class="status-chip chip-action">⚠ 46/100 · Weak</span>
-        <div><span class="badge badge-teal">Term Scorecard</span></div>
-        <h3>AI Data Collection</h3>
-        <div class="report-date">July 29, 2026</div>
-        <div class="report-url">applause.com/ai-data-collection/</div>
-        <div class="report-summary">applause-aeo-page-audit companion scorecard. All 9 confirmed terms score Absent — but this is a keyword-list gap, not a content failure: the page's real term, "AI data collection," leads everywhere (H1, title, meta, og:title) and isn't in the 60-term map yet.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Apps & Agents Testing Page — July 9, 2026 -->
-      <a class="report-card" href="2026-07-09-ai-apps-and-agents.html">
-        <span class="status-chip chip-distribute">✓ Distribute</span>
-        <div><span class="badge badge-blue">Page Audit</span></div>
-        <h3>AI Apps & Agents Testing Page</h3>
-        <div class="report-date">July 9, 2026</div>
-        <div class="report-url">applause.com/ai-apps-and-agents-testing/</div>
-        <div class="report-summary">Zero extractable structure — no FAQ, definition, or comparison table. Strong case-study numbers (500 evals, 900+ prompts) buried in unsourced prose.</div>
-        <div class="report-footer">
-          <span class="eval-pill">20/24 Evaluator</span>
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
-
-      <!-- Report: AI Apps & Agents Testing (Term Alignment) — July 29, 2026 -->
-      <a class="report-card" href="2026-07-29-ai-apps-and-agents-terms.html">
-        <span class="status-chip chip-action">⚠ 52.8/100 · Weak</span>
-        <div><span class="badge badge-teal">Term Scorecard</span></div>
-        <h3>AI Apps &amp; Agents Testing</h3>
-        <div class="report-date">July 29, 2026</div>
-        <div class="report-url">applause.com/ai-apps-and-agents-testing/</div>
-        <div class="report-summary">applause-aeo-page-audit companion scorecard. Primary term "AI agent testing" is buried in body copy ~200 words in, never a heading. "Agentic AI Testing" appears verbatim but only as a CTA link. AI evaluation services and LLM evaluation services absent despite heavy evaluation vocabulary.</div>
-        <div class="report-footer">
-          <span class="view-link">View report →</span>
-        </div>
-      </a>
+      <!-- Skill B -->
+      <div class="card card-amber-track">
+        <span class="status-chip">● Built</span>
+        <div><span class="badge badge-amber badge-mono">llm-visibility-analyzer</span></div>
+        <h3>Brand-level visibility analysis</h3>
+        <p>Analyzes completed tracker data to produce a strategic visibility report.</p>
+        <ul class="covers-list">
+          <li>Citation rates by topic, platform, intent type</li>
+          <li>Blackout category diagnosis</li>
+          <li>Competitor frequency analysis</li>
+          <li>Ranked content gap recommendations</li>
+        </ul>
+        <div class="output-label">Produces → LLM visibility HTML report</div>
+      </div>
 
     </div>
   </div>
 
-  <hr class="divider">
+  <!-- DUAL ARROW 2 -->
+  <div class="two-arrow">
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#0272B4" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#0272B4" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="arrow-col">
+      <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="0" x2="12" y2="24" stroke="#ED7200" stroke-width="2"/>
+        <polyline points="5,17 12,26 19,17" fill="none" stroke="#ED7200" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
 
-  <!-- SITEWIDE FINDINGS -->
+  <!-- SECTION 3: OUTPUTS -->
   <div class="section">
-    <div class="section-label">Sitewide Findings — Open Across All Audited Pages</div>
-    <table class="findings-table">
-      <thead>
-        <tr>
-          <th style="width:40%;">Finding</th>
-          <th style="width:14%;">Status</th>
-          <th style="width:32%;">Action</th>
-          <th style="width:14%;">Owner</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>robots.txt bot config outdated</strong> — GPTBot blocked; OAI-SearchBot not explicitly configured; newer citation bots absent</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Update with 2026 bot config. Check Cloudflare for CDN-level overrides. See Homepage report §5.</td>
-          <td>Web / IT</td>
-        </tr>
-        <tr>
-          <td><strong>No FAQPage schema</strong> on any audited page — FAQ content exists on homepage; needs schema to be AI-extractable</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Implement FAQPage JSON-LD on homepage and payment testing page. Templates in each report §4.</td>
-          <td>Tammy (Web dev)</td>
-        </tr>
-        <tr>
-          <td><strong>No "last updated" dates</strong> on any page — AI systems weight freshness heavily; undated content is deprioritized</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Add visible "Last reviewed" date to all pages. Update whenever content changes.</td>
-          <td>PMM / Web</td>
-        </tr>
-        <tr>
-          <td><strong>Wikipedia presence unverified</strong> — Wikipedia cited in ~8% of ChatGPT responses; highest-value off-page citation source</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Verify Applause entry exists and is accurate. Flag to PR if absent or outdated.</td>
-          <td>PMM / PR</td>
-        </tr>
-        <tr>
-          <td><strong>Statistics on product pages unsourced</strong> — 1.5M+ community figure, device/country counts, and six IDC-derived proof points on the Applause Difference page all lack source attribution. AI systems treat unsourced stats as marketing claims, not citable evidence.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Add "Source: IDC, [year]" to Applause Difference stats. Verify 1.5M+ vs. 1M+ discrepancy and update all pages consistently. See Applause Difference report §3.</td>
-          <td>PMM</td>
-        </tr>
-        <tr>
-          <td><strong>Community size discrepancy</strong> — live pages say 1.5M+ testers; product-marketing-context.md says 1M+. Also: About page says 80+ languages; product-marketing-context.md says 150+. Inconsistency prevents reliable AI citation of any community scale figure.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Confirm current accurate figures with the community/product team. Update all pages and product-marketing-context.md consistently before any stat is optimized for AI citation.</td>
-          <td>PMM</td>
-        </tr>
-        <tr>
-          <td><strong>Comparison content locked in PNG images</strong> — QA vs. QC page has its key comparison table (QA is Proactive / QC is Reactive, etc.) as a PNG image. AI citation bots index text, not image pixels — the comparison data is invisible to all platforms.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Reproduce the QA vs. QC comparison as an HTML table. Audit other pages for similar image-locked comparison content. See QA vs. QC report §3.</td>
-          <td>Tammy (Web dev) / Content</td>
-        </tr>
-        <tr>
-          <td><strong>Organization schema absent from About page</strong> — Applause's canonical entity data (HQ address, offices, CEO, awards, founding claim, investor) exists on the About page as unstructured text. No Organization schema makes it non-machine-readable across AI platforms.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Implement Organization JSON-LD on About page. Verify Yoast sitewide schema before adding. Template in About Applause report §3.</td>
-          <td>Tammy (Web dev)</td>
-        </tr>
-        <tr>
-          <td><strong>Named customer quote schema absent</strong> — Watch Demo page has four named executive quotes (Microsoft AI Platform, Western Union, Cisco, Peet's Coffee) with no Review schema. These are the strongest E-E-A-T assets on the site and currently invisible to AI systems as structured data.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Add Review JSON-LD schema for all four quotes on Watch Demo page. Template in Watch Demo report §3.</td>
-          <td>Tammy (Web dev)</td>
-        </tr>
-        <tr>
-          <td><strong>Tracked competitor set misses AI-category rivals</strong> — AI Evaluation, AI Data Collection, AI Safety & Risk, and AI Apps & Agents audits all surface a different competitive set (Galileo, Braintrust, Arize, Scale AI, Appen, iMerit, CrowdStrike, Synack, Big 4 consultancies) than the tracked crowdtesting set (Testlio, GAT, Qualitest). None of these AI-category rivals are in product-marketing-context.md.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Add an AI-category competitor set to product-marketing-context.md, distinct from the crowdtesting set. See individual audit reports §6 for full lists.</td>
-          <td>Dana Prey</td>
-        </tr>
-        <tr>
-          <td><strong>robots.txt AI-bot access unverified across all 4 new audits</strong> — GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot status could not be confirmed via fetch/search on any of the 4 newly audited pages</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>One manual check of applause.com/robots.txt covers all 4 pages plus the rest of the queue.</td>
-          <td>Tammy (Web dev)</td>
-        </tr>
-        <tr>
-          <td><strong>softwaretestinghelp.com roundup inclusion unverified</strong> — this domain's articles are cited by AI systems for crowdtesting queries</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Verify current inclusion; pursue via PR outreach if absent.</td>
-          <td>PR / PMM</td>
-        </tr>
-        <tr>
-          <td><strong>G2 / Gartner category tagging incomplete</strong> — profiles present but capability-level tags likely absent for specific solution areas</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Audit profiles. Add tags. Request use-case-specific reviews from customers.</td>
-          <td>PMM / Customer Success</td>
-        </tr>
-        <tr>
-          <td><strong>Stray "Read the Transcript" heading</strong> — a rendering artifact from video embeds appears as an H4 heading in both /crowdtesting/ and the Digital Health Trends blog. AI systems parse it as a content section, creating structural noise in the heading hierarchy of both pages.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Remove the stray H4 heading on both pages or replace with the intended resource link as an inline hyperlink or callout block. See Digital Health Trends report §4.</td>
-          <td>Web dev (Tammy)</td>
-        </tr>
-        <tr>
-          <td><strong>Trend/stats content aging in fast-moving topics</strong> — blog posts covering AI testing, digital health, and agentic AI reference 2024 survey data and 2023 market projections. AI systems weight freshness heavily; stale cited statistics reduce citation credibility for time-sensitive queries.</td>
-          <td><span class="open-tag">⚠ Open</span></td>
-          <td>Schedule Q3 2026 content refresh for AI and healthcare vertical posts. Priority: AMA physician AI survey (2024), Grand View Research AI diagnostics projection (2023 base). Replace with current editions.</td>
-          <td>Content (Jennifer)</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="section-label">Outputs</div>
+    <div class="track-headers">
+      <div class="track-header track-blue">Page Audit Track</div>
+      <div class="track-header track-amber">LLM Visibility Track</div>
+    </div>
+    <div class="two-col">
+
+      <!-- Output A -->
+      <div class="card card-blue-track">
+        <div><span class="badge badge-blue">Page Audit Report</span></div>
+        <h3>On-page + off-page action plan</h3>
+        <p>HTML report. What to fix on the page, what to fix externally. P1/P2/P3 prioritized with owners and effort estimates.</p>
+        <ul class="covers-list">
+          <li>Content rewrite brief</li>
+          <li>Schema implementation checklist</li>
+          <li>Bot access verification</li>
+          <li>Third-party presence gaps</li>
+          <li>Competitive content gaps</li>
+        </ul>
+      </div>
+
+      <!-- Output B -->
+      <div class="card card-amber-track">
+        <div><span class="badge badge-amber">LLM Visibility Report</span></div>
+        <h3>Strategic content gap brief</h3>
+        <p>HTML report. Where Applause is invisible, who owns those spaces and the specific content arguments that would close each gap.</p>
+        <ul class="covers-list">
+          <li>17% baseline citation rate (June 2026)</li>
+          <li>4 complete blackout categories</li>
+          <li>Testlio cross-category competitive threat</li>
+          <li>0% evaluative/investigative intent rate</li>
+          <li>6 ranked content recommendations</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONVERGE ARROW -->
+  <div class="converge-arrow">
+    <span class="converge-label">Both tracks</span>
+    <svg width="120" height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- left line from blue track -->
+      <line x1="30" y1="0" x2="60" y2="18" stroke="#0272B4" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- right line from amber track -->
+      <line x1="90" y1="0" x2="60" y2="18" stroke="#ED7200" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- center drop -->
+      <line x1="60" y1="18" x2="60" y2="22" stroke="#00C0A3" stroke-width="2" stroke-linecap="round"/>
+      <polyline points="53,16 60,24 67,16" fill="none" stroke="#00C0A3" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- SECTION 4: QUALITY GATE -->
+  <div class="section">
+    <div class="section-label">Quality Gate</div>
+    <div class="card">
+      <span class="status-chip">● Built</span>
+      <div><span class="badge badge-teal badge-mono">ai-seo-aeo-evaluator</span></div>
+      <h3>QA before stakeholder distribution</h3>
+      <p>Reviews every page audit report across six dimensions before it goes to stakeholders. Runs live web searches to verify best practice guidance is still current.</p>
+      <div class="dimension-pills">
+        <span class="dim-pill">Completeness</span>
+        <span class="dim-pill">Reliability</span>
+        <span class="dim-pill">Framing</span>
+        <span class="dim-pill">Data Quality</span>
+        <span class="dim-pill">Actionability</span>
+        <span class="dim-pill">Currency</span>
+      </div>
+      <div class="verdict-row">
+        <span class="verdict verdict-green">✓ Distribute</span>
+        <span class="verdict verdict-orange">~ Revise Before Distribution</span>
+        <span class="verdict verdict-red">✗ Do Not Distribute</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: HOW THE SKILLS CONNECT -->
+  <div class="section gap-40">
+    <div class="callout-card">
+      <div class="section-label" style="margin-bottom:14px;">How the Skills Connect</div>
+      <p>Run the LLM visibility analyzer first to identify which topics and categories need attention. Then run the page-level audit on each priority page to get the implementation brief.</p>
+      <div class="tagline">Strategy sets the direction. The audit builds the brief.</div>
+      <div class="callout-two-col">
+        <div class="callout-col">
+          <strong>LLM Visibility Analyzer</strong>
+          Answers: <em>where are we invisible and why?</em>
+        </div>
+        <div class="callout-col">
+          <strong>Page-level Audit</strong>
+          Answers: <em>how do we fix this specific page?</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: THE TRACKER -->
+  <div class="section gap-40">
+    <div class="section-label">Data Collection</div>
+    <div class="card tracker-card">
+      <h3>Clarity &amp; Motion LLM Report — Citation Tracker (Google Sheets)</h3>
+      <p style="font-size:13px; color:#666; margin-top:4px;">Baseline query set commissioned June 2026. Ongoing pulse checks run by the Digital Team against this same query library.</p>
+      <a class="card-link" href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank" style="margin-top:6px; font-size:12px;">docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG →</a>
+      <div class="tracker-two-col">
+        <div class="tracker-col">
+          <div class="tracker-col-label">Quarterly Full Audit</div>
+          <ul>
+            <li>63 queries × 3 platforms</li>
+            <li>Run quarterly or after publishing new content</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
+            <li>Output: Export CSV → upload to llm-visibility-analyzer</li>
+          </ul>
+        </div>
+        <div class="tracker-col">
+          <div class="tracker-col-label">Monthly Pulse Check</div>
+          <ul>
+            <li>9 queries × 3 platforms = 27 runs</li>
+            <li>~30 minutes per session</li>
+            <li>Owner: Pam Gazley (Digital Team)</li>
+            <li>Output: Export CSV → upload to llm-visibility-analyzer</li>
+            <li>Duplicate 'Pulse Check Template' tab, rename YYYY-MM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: REPORTS -->
+  <div class="section gap-40">
+    <div class="section-label">Reports</div>
+    <div class="two-col">
+
+      <a href="q3-26/" style="text-decoration:none;">
+        <div class="card" style="cursor:pointer; transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(2,114,180,0.12)'" onmouseout="this.style.boxShadow='none'">
+          <div><span class="badge badge-blue">Page Audit Batch</span></div>
+          <h3>July 2026 — Batch 1</h3>
+          <p style="font-size:13px; color:#888; margin-top:4px;">July 1, 2026 &nbsp;·&nbsp; 20 pages audited</p>
+          <p style="margin-top:8px;">Homepage, Payment Testing, STLC blog post. All-platform scope. Post-evaluator revisions applied.</p>
+          <div style="margin-top:14px; font-size:13px; font-weight:600; color:var(--blue-500);">View audit log →</div>
+        </div>
+      </a>
+
+      <a href="06-17-2026-llm-visibility.html" style="text-decoration:none;">
+        <div class="card" style="cursor:pointer; transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(2,114,180,0.12)'" onmouseout="this.style.boxShadow='none'">
+          <div><span class="badge badge-amber">LLM Visibility Report</span></div>
+          <h3>Applause Brand Visibility — LLM Analysis</h3>
+          <p style="font-size:13px; color:#888; margin-top:4px;">June 17, 2026</p>
+          <p style="margin-top:8px;">Strategic content gap brief based on the Clarity &amp; Motion baseline. 17% citation rate, 4 blackout categories, 6 ranked recommendations.</p>
+          <div style="margin-top:14px; font-size:13px; font-weight:600; color:var(--blue-500);">View report →</div>
+        </div>
+      </a>
+
+    </div>
   </div>
 
 </main>
 
-<!-- FOOTER — matches index.html -->
+<!-- FOOTER -->
 <footer class="footer">
   <div>
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 127.2" height="22" aria-label="Applause logo" role="img">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 127.2" height="24" aria-label="Applause logo" role="img">
       <style>.fo-w{fill:#FFFFFF;}.fo-a{fill:#0E7DC1;}</style>
       <g><g><g>
         <path class="fo-w" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"/>
@@ -887,7 +726,7 @@
     </svg>
   </div>
   <div style="display:flex; align-items:center; gap:1.25rem;">
-    <a href="https://dpnation.github.io/marketing/ai-seo-aeo/index.html" style="color:rgba(255,255,255,0.6); font-size:13px; text-decoration:none;">Program Overview →</a>
+    <a href="skill-guide.html" style="color:rgba(255,255,255,0.6); font-size:13px; text-decoration:none;">Skill Guide →</a>
     <span style="color:rgba(255,255,255,0.85); font-size:13px;">Built by Dana Prey</span>
   </div>
 </footer>
