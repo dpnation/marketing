@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEO Page Audit — AI Data Collection (Term Alignment)</title>
+	<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; font-size: 15px; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 14px; }
+  .badge-weak { background: #ED7200; color: #fff; }
+  .badge-partial { background: #ED7200; color: #fff; }
+  .badge-strong { background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #0272B4; color: #fff; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pill-pass { background: #0F8919; color: #fff; }
+  .pill-fail { background: #D42D0E; color: #fff; }
+  .pill-unknown { background: #ED7200; color: #fff; }
+  .pill-p1 { background: #D42D0E; color: #fff; }
+  .pill-p2 { background: #ED7200; color: #fff; }
+  .pill-p3 { background: #0272B4; color: #fff; }
+  .callout { border-left: 4px solid #00C0A3; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .callout strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .scoregrid { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; font-size: 15px; margin: 10px 0; }
+  .scoregrid .label { color: #3D3D3D; }
+  .scoregrid .val { font-weight: 700; color: #01446C; text-align: right; }
+  .composite { font-size: 44px; font-weight: 800; color: #01446C; margin: 0; }
+  .composite-band { font-size: 14px; font-weight: 700; text-transform: uppercase; color: #ED7200; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>AEO Page Audit — Term Alignment</h1>
+  <p>Applause — AI Data Collection</p>
+  <p>applause.com/ai-data-collection/</p>
+  <p>Audit Date: July 29, 2026 · Preset: AI testing (we test your AI), adapted · Keyword list: 2026-07-28</p>
+  <div class="badge badge-weak">46/100 — Weak</div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<h2>Composite Score</h2>
+<p class="composite">46<span style="font-size:20px;color:#888;"> / 100</span></p>
+<p class="composite-band">Weak — unlikely to be cited for its priority terms; needs a rewrite pass</p>
+
+<div class="scoregrid">
+  <div class="label">Term Alignment</div><div class="val">0.0 / 20</div>
+  <div class="label">Characterization</div><div class="val">20.0 / 20</div>
+  <div class="label">Extractability</div><div class="val">10.0 / 20</div>
+  <div class="label">Evidence</div><div class="val">9.0 / 20</div>
+  <div class="label">Attribution &amp; Freshness</div><div class="val">7.0 / 20</div>
+</div>
+<div class="info"><strong>Note:</strong> this is the <code>applause-aeo-page-audit</code> skill's 5-dimension term-alignment scorecard, run per the keyword map. It's a different instrument than the site-wide ai-seo-aeo audit already on file for this URL (<code>2026-07-09-ai-data-collection.html</code>) — that report covers competitors, schema, and bot access; this one asks a narrower question: does this page earn the terms it's supposed to own.</div>
+<div class="alert"><strong>Keyword-list gap — read this before trusting the 0/20:</strong> this page's actual, unambiguous primary target is <strong>"AI data collection"</strong> — it's the H1, the page title, the meta description, and the og:title, and it's repeated throughout the body. That exact phrase is not in the 60-term keyword map. The closest available term, "LLM training data collection," is narrower (LLM-specific, training-specific) and never appears verbatim on the page, so it scores Absent along with every other confirmed term. The 0/20 below is a measurement artifact of a missing keyword-list entry, not evidence the page fails to state what it does. Recommend adding "AI data collection" to the source spreadsheet and regenerating the map.</div>
+</div>
+
+<div class="card">
+<h2>Term Performance</h2>
+<table>
+<tr><th>Term</th><th>Role</th><th>Placement</th><th>Score</th></tr>
+<tr><td>LLM training data collection</td><td>Primary (proxy)</td><td>Absent</td><td>0.0 / 8.0</td></tr>
+<tr><td>agentic AI testing</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.0</td></tr>
+<tr><td>AI evaluation services</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.0</td></tr>
+<tr><td>AI agent testing</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.0</td></tr>
+<tr><td>responsible AI testing</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.0</td></tr>
+<tr><td>AI agent evaluation</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+<tr><td>AI safety testing</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+<tr><td>AI reliability testing</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+<tr><td>LLM evaluation services</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+<tr><td>LLM-as-judge testing</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+</table>
+<p><strong>Standouts:</strong> none among the confirmed terms — but "AI data collection" itself (not in the map) is Leading by every measure: H1, title, meta description, og:title, and restated repeatedly in body copy ("Applause sources AI data collection based on your specific requirements").</p>
+<p><strong>Misses:</strong> all 9 confirmed terms are absent. This reads more as a proxy-term mismatch than a content gap — none of the "AI testing" preset's evaluation/agent/safety vocabulary appears on a page that is entirely about data sourcing, RLHF collection and instruction-tuning datasets, which is a different (and currently unmapped) service line.</p>
+</div>
+
+<div class="card">
+<h2>Characterization Read <span style="font-weight:400; font-size:14px; color:#888;">(evidence-locked)</span></h2>
+<table>
+<tr><th>Sub-check</th><th>Score</th><th>Anchor</th></tr>
+<tr><td>Category clarity</td><td>5/5</td><td>Meta description: "Applause sources AI data collection based on your specific requirements, whether you're training an LLM, chatbot or AI assistant"; H2 "Applause Sources the Right Testing Data at Scale"</td></tr>
+<tr><td>Audience clarity</td><td>5/5</td><td>H2 "The Right People, Built Into Every Program" — "clinicians for medical AI to attorneys for legal AI to financial professionals for fintech"; scale claims (1.5M+ participants, 200+ countries) signal enterprise AI/ML buyers</td></tr>
+<tr><td>Differentiation</td><td>5/5</td><td>"Applause is different because we source data based on your specific requirements... We find participants that align with your demographic, language, domain, data type and credential parameters" plus the named &gt;98% data acceptance rate metric</td></tr>
+<tr><td>Term association</td><td>5/5</td><td>Repeated, explicit statements that Applause collects LLM/chatbot/AI-assistant training data (Gen AI, RLHF, instruction-tuning datasets) — citable for LLM training data sourcing from this page alone, even though the exact compound phrase "LLM training data collection" is never used</td></tr>
+</table>
+<div class="info">Confidence: this approximates a naive model read and does not reproduce one. Live-prompt validation against <code>audit-prompts.md</code> was not run — out of scope for this skill.</div>
+</div>
+
+<div class="card">
+<h2>Flags</h2>
+<ul>
+<li><strong>Keyword-list gap (primary finding):</strong> "AI data collection" — this page's own service name — has no entry in the 60-term map. Recommend adding it (and possibly "RLHF data collection" / "training data collection services") to the source spreadsheet.</li>
+<li>No guardrail-conflict terms are part of this term set or appear on the page — no positioning flag needed.</li>
+<li>Preset fit is weak across the board: none of the "AI testing" preset's evaluation/agent/safety terms are a natural match for a data-sourcing page. Worth considering a dedicated "AI training data / data collection" preset in the map.</li>
+<li>16 of the page's ~24 images — the 5 dataset-type icons, 5 data-modality icons, and 6 coverage-stat icons — carry empty alt text, capping Extractability.</li>
+<li>All three case studies are anonymized ("Major retailer," "High-tech company," "Consumer tech company") and reuse the identical generic "industry-logo-b2b-software" placeholder graphic — no distinct visual proof or named customer, capping Evidence.</li>
+<li>No visible publish or last-updated date, and no named author or credentialed program owner anywhere on the page.</li>
+<li>One genuine in-content contextual link exists ("Learn More About Our Community" → /our-community/) — better than the zero found on the AI Safety &amp; Risk Testing page audited July 29.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Fix List</h2>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Dimension</th><th>Effort</th></tr>
+<tr><td>Add "AI data collection" (this page's own term) to the AEO keyword map so future scoring reflects the page's real target instead of a mismatched proxy</td><td><span class="pill pill-p1">P1</span></td><td>Term Alignment (process)</td><td>Low</td></tr>
+<tr><td>Add descriptive alt text to the 16 icon graphics (dataset-type, data-modality and coverage-stat icons)</td><td><span class="pill pill-p1">P1</span></td><td>Extractability</td><td>Low</td></tr>
+<tr><td>Name at least one real customer or replace the reused generic logo graphic with distinct case-study art; date the volume figures (750K utterances, 100K+ utterances, etc.)</td><td><span class="pill pill-p2">P2</span></td><td>Evidence</td><td>Med</td></tr>
+<tr><td>Add a visible "last updated" date and name Applause or a program lead as the content owner near the top of the page</td><td><span class="pill pill-p2">P2</span></td><td>Attribution &amp; Freshness</td><td>Low</td></tr>
+<tr><td>Add a 4–6 question FAQ block ("What types of AI training data does Applause collect?", "How is data quality validated before delivery?")</td><td><span class="pill pill-p2">P2</span></td><td>Extractability</td><td>Med</td></tr>
+<tr><td>Combine the two "Applause Sources the Right Testing Data at Scale" paragraphs into one continuous 134–167 word self-contained answer block</td><td><span class="pill pill-p3">P3</span></td><td>Extractability</td><td>Low</td></tr>
+<tr><td>Replace the hedged closing CTA ("Applause can help you source datasets...") with a declarative claim consistent with the rest of the page</td><td><span class="pill pill-p3">P3</span></td><td>Evidence</td><td>Low</td></tr>
+</table>
+<p><strong>Handoff:</strong> Dana to weigh adding "AI data collection" to the keyword map (source spreadsheet + <code>build-keyword-map.py</code> regeneration) before this page is re-scored; <code>geo-blog-optimizer</code> for the alt text, CTA and FAQ work; <code>schema-markup</code> for FAQPage JSON-LD once the FAQ exists.</p>
+</div>
+
+</div>
+
+<footer>
+Applause AEO Page Audit · applause-aeo-page-audit skill · Terms confirmed with Dana Prey · Generated July 29, 2026
+</footer>
+
+</body>
+</html>
