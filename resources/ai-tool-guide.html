@@ -5,87 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Choosing the Right AI Tool | Applause Marketing</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20width%3D%22180%22%20height%3D%22180%22%20viewBox%3D%220%200%20180%20180%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22180%22%20height%3D%22180%22%20fill%3D%22%23E6F3FA%22%2F%3E%3Cpath%20d%3D%22M90%2052.68C97.3575%2052.68%20104.55%2054.8617%20110.667%2058.9493C116.785%2063.0369%20121.553%2068.8467%20124.368%2075.6441C127.184%2082.4415%20127.921%2089.9212%20126.485%2097.1373C125.05%20104.353%20121.507%20110.982%20116.304%20116.184C111.102%20121.387%20104.474%20124.93%2097.2574%20126.365C90.0413%20127.801%2082.5617%20127.064%2075.7643%20124.248C68.9669%20121.433%2063.1571%20116.665%2059.0695%20110.547C54.9819%20104.43%2052.8002%2097.2374%2052.8002%2089.8799C52.8081%2080.0163%2056.7298%2070.559%2063.7045%2063.5844C70.6791%2056.6097%2080.1364%2052.6879%2090%2052.68ZM90%2030C78.1332%2030%2066.5328%2033.5189%2056.6659%2040.1118C46.7989%2046.7047%2039.1085%2056.0755%2034.5673%2067.039C30.026%2078.0026%2028.8378%2090.0666%2031.1529%20101.705C33.468%20113.344%2039.1825%20124.035%2047.5736%20132.426C55.9648%20140.818%2066.6558%20146.532%2078.2947%20148.847C89.9335%20151.162%20101.998%20149.974%20112.961%20145.433C123.925%20140.891%20133.295%20133.201%20139.888%20123.334C146.481%20113.467%20150%20101.867%20150%2090C150%2074.087%20143.679%2058.8258%20132.426%2047.5736C121.174%2036.3215%20105.913%2030%2090%2030Z%22%20fill%3D%22%230272B4%22%2F%3E%3C%2Fsvg%3E">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --blue-500: #0272B4;
+    --blue-600: #025B90;
     --blue-700: #01446C;
+    --blue-300: #CFE9FB;
     --blue-100: #E6F3FA;
     --blue-50: #F7FBFE;
     --aqua-500: #00C0A3;
-    --gray-700: #3D3D3D;
+    --aqua-600: #009A82;
     --yellow-500: #FFC400;
-    --font-primary: 'Proxima Nova', Arial, sans-serif;
+    --gray-700: #3D3D3D;
+    --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2;
+    --white: #FFFFFF;
+    --font: 'DM Sans', Arial, sans-serif;
+    --mono: 'DM Mono', monospace;
   }
 
-  * { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    margin: 0;
-    font-family: var(--font-primary);
-    color: var(--gray-700);
+    font-family: var(--font);
     background: var(--blue-50);
+    color: var(--gray-700);
+    min-height: 100vh;
+  }
+
+  /* NAV (shared with index.html) */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--blue-700);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 60px;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo { height: 20px; width: auto; flex-shrink: 0; }
+
+  .nav-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #B9DCEE;
+    letter-spacing: 0.02em;
+    border-left: 1px solid rgba(255,255,255,0.3);
+    padding-left: 14px;
+    white-space: nowrap;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 28px; margin-left: auto; }
+
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+
+  .nav-link {
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #B9DCEE;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover { color: #fff; }
+  .nav-link--active { color: #fff; border-bottom-color: var(--aqua-500); }
+
+  .nav-drive {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #B9DCEE;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    transition: color 0.15s ease, background 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-drive:hover { color: #fff; background: rgba(255,255,255,0.16); }
+  .nav-drive svg { width: 15px; height: auto; }
+
+  /* PAGE HEADER (subpage template: breadcrumb + gradient band) */
+  .page-header {
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+    padding: 48px 2rem 44px;
+  }
+
+  .page-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #B9DCEE;
+  }
+  .breadcrumb a { color: #B9DCEE; text-decoration: none; }
+  .breadcrumb a:hover { color: #fff; }
+  .breadcrumb span.current { color: #fff; font-weight: 600; }
+
+  .page-header h1 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+
+  .page-header .subhead {
+    font-size: 15px;
+    color: #DCEFFA;
+    max-width: 820px;
+    line-height: 1.55;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 2rem 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--blue-700);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 14.5px;
+    color: var(--gray-700);
+    margin-bottom: 24px;
+    max-width: 720px;
     line-height: 1.5;
   }
 
-  header {
-    background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
-    padding: 48px 24px 40px;
-    color: white;
-  }
-
-  .header-inner {
-    max-width: 880px;
-    margin: 0 auto;
-  }
-
-  .logo {
-    height: 28px;
-    margin-bottom: 28px;
-    display: block;
-  }
-
-  h1 {
-    font-weight: 800;
-    font-size: 32px;
-    line-height: 1.25;
-    margin: 0 0 12px;
-  }
-
-  .subhead {
-    font-size: 17px;
-    color: var(--blue-100);
-    max-width: 640px;
-    margin: 0;
-  }
-
-  main {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  section {
-    margin-bottom: 48px;
-  }
-
-  h2 {
-    font-weight: 800;
-    color: var(--blue-700);
-    font-size: 22px;
-    line-height: 1.25;
-    margin: 0 0 8px;
-  }
-
-  .section-intro {
-    margin: 0 0 20px;
-    color: var(--gray-700);
-  }
-
-  /* Tool overview cards */
+  /* Tool overview rows */
   .tool-grid {
-    background: white;
-    border: 1px solid #DCE9F2;
-    border-radius: 12px;
+    background: var(--white);
+    border: 1.5px solid var(--blue-100);
+    border-radius: 16px;
     overflow: hidden;
   }
 
@@ -94,154 +182,162 @@
     align-items: center;
     gap: 24px;
     padding: 24px 28px;
-    border-bottom: 1px solid #EEF4F8;
+    border-bottom: 1px solid var(--blue-100);
   }
+  .tool-row:last-child { border-bottom: none; }
 
-  .tool-row:last-child {
-    border-bottom: none;
-  }
-
-  .tool-icon {
-    flex: 0 0 56px;
-    height: 56px;
-    border-radius: 10px;
+  .tool-row .tool-icon {
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     background: var(--blue-100);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .tool-icon svg {
-    width: 30px;
-    height: 30px;
-  }
+  .tool-row .tool-icon svg { width: 26px; height: 26px; }
 
-  .tool-text strong {
-    color: var(--blue-700);
-    font-weight: 800;
-  }
+  .tool-row-text { font-size: 14px; line-height: 1.55; }
+  .tool-row-text strong { color: var(--blue-700); font-weight: 800; }
 
-  /* Three-question framework */
-  .question-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  /* 3-question framework */
+  .question-list { display: flex; flex-direction: column; gap: 14px; }
 
   .question-card {
-    background: white;
-    border: 1px solid #DCE9F2;
+    background: var(--white);
+    border: 1.5px solid var(--blue-100);
     border-left: 4px solid var(--blue-500);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 18px 22px;
   }
 
   .question-card .q {
     font-weight: 700;
     color: var(--blue-700);
-    margin: 0 0 6px;
+    margin-bottom: 6px;
+    font-size: 14.5px;
   }
 
-  .question-card .a {
-    margin: 0;
-    color: var(--gray-700);
-  }
+  .question-card .a { font-size: 14px; color: var(--gray-700); }
+  .question-card .a strong { color: var(--aqua-600); }
 
-  .question-card .a strong {
-    color: var(--aqua-500);
-  }
-
-  /* Limitations */
+  /* Limitations grid */
   .limit-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
 
-  @media (max-width: 640px) {
-    .limit-grid { grid-template-columns: 1fr; }
-    .tool-row { flex-direction: column; align-items: flex-start; gap: 12px; }
-  }
-
   .limit-card {
-    background: white;
-    border: 1px solid #DCE9F2;
-    border-radius: 10px;
+    background: var(--white);
+    border: 1.5px solid var(--blue-100);
+    border-radius: 12px;
     padding: 20px 22px;
   }
 
   .limit-card h3 {
-    margin: 0 0 8px;
-    font-size: 16px;
+    margin-bottom: 8px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--blue-700);
   }
 
-  .limit-card p {
-    margin: 0;
-    font-size: 15px;
-  }
+  .limit-card p { font-size: 13.5px; line-height: 1.55; color: var(--gray-600); }
 
+  /* FOOTER (shared with index.html) */
   footer {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 24px 60px;
-    color: #7A8B96;
-    font-size: 13px;
+    background: var(--blue-100);
+    padding: 40px 2rem 24px;
   }
 
-  footer a {
-    color: var(--blue-500);
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .footer-brand-col { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+  .footer-logo { height: 18px; width: auto; }
+  .footer-blurb { font-size: 13px; color: var(--gray-700); line-height: 1.5; }
+  .footer-cols { display: flex; gap: 56px; flex-wrap: wrap; }
+  .footer-col { display: flex; flex-direction: column; gap: 10px; }
+  .footer-col-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-700);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .footer-col a, .footer-col span { font-size: 13px; color: var(--gray-700); text-decoration: none; }
+  .footer-col a:hover { color: var(--blue-500); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    border-top: 1px solid var(--blue-300);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-bottom span { font-size: 12px; color: var(--gray-600); }
+
+  @media (max-width: 900px) {
+    .limit-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .tool-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .limit-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <svg class="logo" viewBox="0 0 800 126" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <g>
-          <path fill="#FFFFFF" d="M0.2,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,124c0.7,1.5-0.2,3-2,3h-7.3
-            c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,127-0.5,125.6,0.2,124
-             M52.8,99.4L38.5,67.6H38L23.8,99.4H52.8z"/>
-          <path fill="#FFFFFF" d="M107.6,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3
-            c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V48z M135.6,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8
-            H135.6z"/>
-          <path fill="#FFFFFF" d="M199.8,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3
-            c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V48z M227.8,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8
-            H227.8z"/>
-          <path fill="#FFFFFF" d="M292.1,48c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4
-            c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V48z"/>
-          <path fill="#FFFFFF" d="M363.8,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,124c0.7,1.5-0.2,3-2,3h-7.3
-            c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3
-            C364.1,127,363.1,125.6,363.8,124 M416.4,99.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"/>
-          <path fill="#FFFFFF" d="M467.7,48c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7
-            c12,0,19.5-8.9,19.5-20.4V48c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5
-            c-18.2,0-31.5-13.8-31.5-31.5V48z"/>
-          <path fill="#FFFFFF" d="M570.4,115.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8
-            c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9
-            c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6
-            c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,118.1,569.2,117.3,570.4,115.3"/>
-          <path fill="#FFFFFF" d="M661.2,48c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31
-            c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4
-            c-1.3,0-2.2-1-2.2-2.2V48z"/>
-        </g>
-        <path fill="#0272B4" d="M772.3,11.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2
-          C755.1,19.3,762.8,11.5,772.3,11.5 M772.3,1.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7
-          c15.3,0,27.7-12.4,27.7-27.7C800,13.5,787.6,1.1,772.3,1.1L772.3,1.1z"/>
-      </g>
-    </svg>
-    <h1>Choosing the Right AI Tool</h1>
-    <p class="subhead">A quick-reference guide for marketing team members deciding between ChatGPT, Gemini, Claude and Perplexity — matched to the task, not personal preference.</p>
+<nav>
+  <a class="nav-brand" href="../index.html">
+    <svg class="nav-logo" viewBox="0 0 800 127.2" aria-label="Applause logo"><style>.st0-hdr,.st1-hdr{fill:#fff;}</style><g><g><g><path class="st0-hdr" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"></path><path class="st0-hdr" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"></path><path class="st0-hdr" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"></path><path class="st0-hdr" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"></path><path class="st0-hdr" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"></path><path class="st0-hdr" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"></path><path class="st0-hdr" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"></path><path class="st0-hdr" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"></path></g><path class="st1-hdr" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"></path></g></g></svg>
+    <span class="nav-title">AI Marketing Concierge</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a class="nav-link" href="../index.html">Home</a>
+      <a class="nav-link" href="../index.html#tools">Tools</a>
+      <a class="nav-link nav-link--active" href="../index.html#resources">Resources</a>
+      <a class="nav-link" href="https://dpnation.github.io/marketing/ai-seo-aeo/q3/" target="_blank" rel="noopener">Audit Reports</a>
+    </div>
+    <a class="nav-drive" href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener" title="Marketing Google Drive - skills &amp; md files">
+      <svg viewBox="0 0 87.3 78" aria-hidden="true"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"></path><path fill="#00ac47" d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z"></path><path fill="#ea4335" d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"></path><path fill="#00832d" d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"></path><path fill="#2684fc" d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"></path><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z"></path></svg>
+      Drive
+    </a>
   </div>
-</header>
+</nav>
 
-<main>
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>/</span>
+      <span class="current">AI Tool Guide</span>
+    </div>
+    <h1>Choosing the Right AI Tool</h1>
+    <p class="subhead">A quick-reference guide for marketing team members deciding between ChatGPT, Gemini, Claude and Perplexity &mdash; matched to the task, not personal preference.</p>
+  </div>
+</section>
 
-  <section>
-    <h2>Tool Overview</h2>
-    <p class="section-intro">What each tool is built for and where it tends to shine.</p>
+<main class="main">
+
+  <div>
+    <div class="section-title">Tool Overview</div>
+    <p class="section-sub">What each tool is built for and where it tends to shine.</p>
     <div class="tool-grid">
       <div class="tool-row">
         <div class="tool-icon">
@@ -249,7 +345,7 @@
             <path fill="#0D0D0D" d="M37.53 16.86a9.5 9.5 0 0 0-.82-7.86 9.6 9.6 0 0 0-10.32-4.6A9.5 9.5 0 0 0 19.15 1a9.6 9.6 0 0 0-9.15 6.65 9.5 9.5 0 0 0-6.35 4.6 9.6 9.6 0 0 0 1.18 11.26 9.5 9.5 0 0 0 .82 7.86 9.6 9.6 0 0 0 10.32 4.6A9.5 9.5 0 0 0 22.85 39a9.6 9.6 0 0 0 9.15-6.65 9.5 9.5 0 0 0 6.35-4.6 9.6 9.6 0 0 0-1.18-11.26zM22.86 36.6a7.1 7.1 0 0 1-4.56-1.65l.22-.13 7.58-4.38a1.24 1.24 0 0 0 .62-1.08V18.2l3.2 1.85a.11.11 0 0 1 .06.09v8.86a7.13 7.13 0 0 1-7.12 7.13zM6.9 30.06a7.1 7.1 0 0 1-.85-4.78l.22.13 7.58 4.38a1.24 1.24 0 0 0 1.24 0l9.25-5.34v3.7a.11.11 0 0 1-.05.1l-7.66 4.42a7.14 7.14 0 0 1-9.73-2.61zM4.98 13.8a7.1 7.1 0 0 1 3.73-3.12v9.03a1.23 1.23 0 0 0 .62 1.07l9.25 5.34-3.2 1.85a.12.12 0 0 1-.11 0l-7.66-4.43a7.14 7.14 0 0 1-2.63-9.74zm26.3 6.12-9.25-5.35 3.2-1.84a.12.12 0 0 1 .11 0l7.66 4.42a7.13 7.13 0 0 1-1.1 12.87v-9.03a1.23 1.23 0 0 0-.62-1.07zm3.18-4.79-.22-.14-7.58-4.38a1.25 1.25 0 0 0-1.24 0l-9.25 5.35v-3.7a.11.11 0 0 1 .05-.1l7.66-4.42a7.14 7.14 0 0 1 10.58 7.4zm-20.05 6.6-3.2-1.86a.11.11 0 0 1-.06-.09V10.9a7.14 7.14 0 0 1 11.7-5.48l-.22.12-7.58 4.39a1.24 1.24 0 0 0-.62 1.07zm1.74-3.75 4.13-2.38 4.12 2.38v4.76l-4.12 2.38-4.13-2.38z"/>
           </svg>
         </div>
-        <div class="tool-text"><strong>ChatGPT:</strong> All-purpose productivity and agent-based automation. Well suited to brainstorming, coding reviews, and recurring research tasks, with generous usage limits.</div>
+        <div class="tool-row-text"><strong>ChatGPT:</strong> All-purpose productivity and agent-based automation. Well suited to brainstorming, coding reviews, and recurring research tasks, with generous usage limits.</div>
       </div>
       <div class="tool-row">
         <div class="tool-icon">
@@ -264,7 +360,7 @@
             <path fill="url(#geminiGrad)" d="M14 0c0 7.73 6.27 14 14 14-7.73 0-14 6.27-14 14 0-7.73-6.27-14-14-14C7.73 14 14 7.73 14 0z"/>
           </svg>
         </div>
-        <div class="tool-text"><strong>Gemini:</strong> Large-scale document analysis and Google Workspace integration. Strong at multimodal content (video and image analysis) and visual dashboards, backed by a 2M-token context window.</div>
+        <div class="tool-row-text"><strong>Gemini:</strong> Large-scale document analysis and Google Workspace integration. Strong at multimodal content (video and image analysis) and visual dashboards, backed by a 2M-token context window.</div>
       </div>
       <div class="tool-row">
         <div class="tool-icon">
@@ -285,7 +381,7 @@
             </g>
           </svg>
         </div>
-        <div class="tool-text"><strong>Claude:</strong> Strategic thinking and voice-matched content creation. A strong fit for maintaining a consistent tone, building specialized workflows, and serving as a thought partner for complex decisions.</div>
+        <div class="tool-row-text"><strong>Claude:</strong> Strategic thinking and voice-matched content creation. A strong fit for maintaining a consistent tone, building specialized workflows, and serving as a thought partner for complex decisions.</div>
       </div>
       <div class="tool-row">
         <div class="tool-icon">
@@ -294,14 +390,14 @@
             <circle cx="14" cy="14" r="12.2"/>
           </svg>
         </div>
-        <div class="tool-text"><strong>Perplexity:</strong> Real-time research with verified sources. The go-to for fact-checking, trend monitoring, and gathering current information with trustworthy citations.</div>
+        <div class="tool-row-text"><strong>Perplexity:</strong> Real-time research with verified sources. The go-to for fact-checking, trend monitoring, and gathering current information with trustworthy citations.</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>3-Question Framework: Choosing the Right Tool</h2>
-    <p class="section-intro">Ask these three questions before prompting any AI tool, in order, to land on the right one for the task.</p>
+  <div>
+    <div class="section-title">3-Question Framework: Choosing the Right Tool</div>
+    <p class="section-sub">Ask these three questions before prompting any AI tool, in order, to land on the right one for the task.</p>
     <div class="question-list">
       <div class="question-card">
         <p class="q">1. Does this need real-time or current information?</p>
@@ -316,15 +412,15 @@
         <p class="a">If yes, use <strong>ChatGPT</strong> or <strong>Gemini</strong>. For work involving Google tools or large files, Gemini is the stronger pick.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>What Each Tool Isn't Good For</h2>
-    <p class="section-intro">Understanding limitations matters as much as knowing strengths. Proceed with caution in these areas.</p>
+  <div>
+    <div class="section-title">What Each Tool Isn't Good For</div>
+    <p class="section-sub">Understanding limitations matters as much as knowing strengths. Proceed with caution in these areas.</p>
     <div class="limit-grid">
       <div class="limit-card">
         <h3>ChatGPT</h3>
-        <p>Avoid for real-time information needs — it will confidently generate outdated statistics. Also weaker for high-accuracy data analysis compared to other models.</p>
+        <p>Avoid for real-time information needs &mdash; it will confidently generate outdated statistics. Also weaker for high-accuracy data analysis compared to other models.</p>
       </div>
       <div class="limit-card">
         <h3>Gemini</h3>
@@ -336,15 +432,39 @@
       </div>
       <div class="limit-card">
         <h3>Perplexity</h3>
-        <p>Laser-focused on search — not built for general productivity, creative work, or workflow automation. Even across models, it stays optimized for search-based responses.</p>
+        <p>Laser-focused on search &mdash; not built for general productivity, creative work, or workflow automation. Even across models, it stays optimized for search-based responses.</p>
       </div>
     </div>
-  </section>
+  </div>
 
 </main>
 
 <footer>
-  Applause Marketing &middot; AI Concierge Resource
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <svg class="footer-logo" viewBox="0 0 800 126" aria-label="Applause logo"><style>.st0-ftr{fill:#01446C;}.st1-ftr{fill:#00C0A3;}</style><g><g><g><path class="st0-ftr" d="M0.2,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,127-0.5,125.6,0.2,124 M52.8,99.4L38.5,67.6H38L23.8,99.4H52.8z"></path><path class="st0-ftr" d="M107.6,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V48z M135.6,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"></path><path class="st0-ftr" d="M199.8,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V48z M227.8,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"></path><path class="st0-ftr" d="M292.1,48c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V48z"></path><path class="st0-ftr" d="M363.8,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,127,363.1,125.6,363.8,124 M416.4,99.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"></path><path class="st0-ftr" d="M467.7,48c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V48c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V48z"></path><path class="st0-ftr" d="M570.4,115.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,118.1,569.2,117.3,570.4,115.3"></path><path class="st0-ftr" d="M661.2,48c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V48z"></path></g><path class="st1-ftr" d="M772.3,11.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,19.3,762.8,11.5,772.3,11.5 M772.3,1.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,13.5,787.6,1.1,772.3,1.1L772.3,1.1z"></path></g></g></svg>
+      <p class="footer-blurb">AI tools, skills and resources built for the marketing team. Internal use only.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-title">Explore</span>
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">Tools</a>
+        <a href="../index.html#resources">Resources</a>
+        <a href="https://dpnation.github.io/marketing/ai-seo-aeo/q3/" target="_blank" rel="noopener">Audit Reports</a>
+        <a href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener">Drive</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-title">Chat</span>
+        <span>#ai-tools-watercooler on Slack</span>
+        <a href="mailto:dprey@applause.com">dprey@applause.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Built by Dana Prey</span>
+    <span>&copy; 2026 Applause</span>
+  </div>
 </footer>
 
 </body>
