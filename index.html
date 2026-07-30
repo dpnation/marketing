@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Applause Marketing AI Concierge</title>
+<title>Applause AI Marketing Concierge</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -46,61 +46,91 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(1, 68, 108, 0.97);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: var(--blue-700);
     padding: 0 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
+    gap: 24px;
+    height: 60px;
   }
 
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     text-decoration: none;
+    flex-shrink: 0;
   }
 
   .nav-logo {
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .nav-logo img {
-    height: 22px;
+    height: 20px;
     width: auto;
-    object-fit: contain;
+    flex-shrink: 0;
   }
 
   .nav-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: white;
-    letter-spacing: 0.01em;
-    padding-top: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #B9DCEE;
+    letter-spacing: 0.02em;
+    border-left: 1px solid rgba(255,255,255,0.3);
+    padding-left: 14px;
+    white-space: nowrap;
   }
 
-  .nav-badge {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--aqua-400);
-    background: rgba(0,192,163,0.12);
-    border: 1px solid rgba(0,192,163,0.25);
-    border-radius: 4px;
-    padding: 2px 7px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
   }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #B9DCEE;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover { color: #fff; }
+  .nav-link--active { color: #fff; border-bottom-color: var(--aqua-500); }
+
+  .nav-drive {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #B9DCEE;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    transition: color 0.15s ease, background 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-drive:hover { color: #fff; background: rgba(255,255,255,0.16); }
+  .nav-drive svg { width: 15px; height: auto; }
 
   /* HERO */
   .hero {
-    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 60%, #0291cc 100%);
-    padding: 80px 2rem 72px;
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+    padding: 76px 2rem 84px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 18px;
     position: relative;
     overflow: hidden;
   }
@@ -109,144 +139,168 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,192,163,0.18) 0%, transparent 60%),
       radial-gradient(ellipse 40% 50% at 80% 10%, rgba(255,255,255,0.06) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--aqua-400);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    background: rgba(0,192,163,0.1);
-    border: 1px solid rgba(0,192,163,0.2);
-    border-radius: 20px;
-    padding: 5px 14px;
+  .hero-logo {
+    height: 32px;
+    width: auto;
     position: relative;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--aqua-400);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
   }
 
   .hero h1 {
-    font-size: clamp(32px, 5vw, 54px);
+    font-size: clamp(32px, 5vw, 44px);
     font-weight: 800;
-    color: white;
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    max-width: 760px;
     position: relative;
-  }
-
-  .hero h1 span {
-    color: var(--aqua-400);
   }
 
   .hero-sub {
     font-size: 18px;
     font-weight: 400;
-    color: rgba(255,255,255,0.75);
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.6;
+    color: #DCEFFA;
+    max-width: 620px;
+    line-height: 1.55;
     position: relative;
   }
 
-  .hero-stats {
+  .hero-ctas {
     display: flex;
-    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 32px;
     position: relative;
   }
 
-  .hero-stat {
-    text-align: center;
+  .btn {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    display: inline-block;
   }
-
-  .hero-stat-num {
-    font-size: 28px;
-    font-weight: 800;
-    color: white;
-    line-height: 1;
-  }
-
-  .hero-stat-label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.55);
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .hero-divider {
-    width: 1px;
-    height: 36px;
-    background: rgba(255,255,255,0.15);
-  }
-
-  /* WAVE SEPARATOR */
-  .wave-sep {
-    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 60%, #0291cc 100%);
-    margin-bottom: -2px;
-  }
-  .wave-sep svg { display: block; }
+  .btn-primary { background: var(--yellow-500); color: var(--blue-700); }
+  .btn-primary:hover { background: #e6b100; }
+  .btn-secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
 
   /* MAIN CONTENT */
   .main {
-    padding: 64px 2rem 80px;
-    max-width: 1100px;
+    padding: 0 2rem 0;
+    max-width: 1200px;
     margin: 0 auto;
+  }
+
+  .overview-section {
+    padding: 56px 0;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .overview-card {
+    border: 1px solid var(--blue-100);
+    border-radius: 10px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--blue-50);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .overview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(1,68,108,0.1);
+  }
+
+  .overview-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--icon-bg, var(--blue-100));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .overview-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--blue-700);
+  }
+
+  .overview-body {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+
+  .overview-link {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 4px;
+    color: var(--blue-500);
+  }
+
+  .section-wrap {
+    background: var(--blue-50);
+    padding: 8px 0 64px;
+  }
+  .section-wrap--tint {
+    background: var(--blue-100);
+    padding-top: 56px;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
   .section-label {
     font-size: 12px;
     font-weight: 700;
-    color: var(--blue-500);
-    letter-spacing: 0.12em;
+    color: var(--aqua-600);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
 
   .section-title {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 800;
     color: var(--blue-700);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     margin-bottom: 8px;
   }
 
   .section-sub {
-    font-size: 16px;
-    color: var(--gray-600);
-    margin-bottom: 48px;
-    max-width: 500px;
+    font-size: 14.5px;
+    color: var(--gray-700);
+    margin-bottom: 32px;
+    max-width: 620px;
+    line-height: 1.5;
   }
 
   /* TOOL CARDS */
   .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
+    gap: 20px;
   }
 
   .tool-card {
@@ -316,18 +370,18 @@
   }
 
   .tool-name {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 800;
     color: var(--blue-700);
     letter-spacing: -0.01em;
     margin-bottom: 8px;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .tool-desc {
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--gray-600);
-    line-height: 1.6;
+    line-height: 1.55;
     flex: 1;
     margin-bottom: 20px;
   }
@@ -338,6 +392,7 @@
     justify-content: space-between;
     padding-top: 16px;
     border-top: 1px solid var(--blue-100);
+    gap: 8px;
   }
 
   .tool-cta {
@@ -368,6 +423,7 @@
     border-radius: 4px;
     padding: 3px 8px;
     letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   /* COMPACT CARD MODIFIER (Resources section) */
@@ -377,89 +433,173 @@
   .tool-card--compact .tool-desc { font-size: 13px; line-height: 1.5; margin-bottom: 14px; min-height: 0; }
   .tool-card--compact .tool-footer { padding-top: 12px; }
 
-  /* FEATURE ROW */
-  .feature-row {
-    margin-top: 72px;
-    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
-    border-radius: 20px;
-    padding: 48px;
+  /* INCUBATING CARDS */
+  .incubating-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    position: relative;
-    overflow: hidden;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
   }
 
-  .feature-row::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 50% 60% at 90% 80%, rgba(0,192,163,0.2) 0%, transparent 60%);
-    pointer-events: none;
+  .tool-card--soon {
+    background: var(--blue-50);
+    border: 1px dashed #C9E3F1;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: default;
+    opacity: 0.85;
   }
 
-  .feature-item {
-    position: relative;
+  .soon-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .feature-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--aqua-400);
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
+  .soon-icon { font-size: 17px; }
+
+  .soon-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--gray-600);
   }
 
-  .feature-title {
-    font-size: 17px;
+  .soon-category {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+  }
+
+  .soon-name {
+    font-size: 13.5px;
     font-weight: 800;
-    color: white;
-    margin-bottom: 8px;
-    line-height: 1.25;
+    color: var(--blue-700);
   }
 
-  .feature-desc {
-    font-size: 14px;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.6;
+  .soon-desc {
+    font-size: 12px;
+    color: var(--gray-600);
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  .soon-stage {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: var(--blue-700);
+    padding: 56px 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .cta-banner h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
   }
 
   /* FOOTER */
   footer {
-    background: var(--blue-800);
-    padding: 32px 2rem;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    background: var(--blue-100);
+    padding: 40px 2rem 24px;
   }
 
-  .footer-brand {
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 320px;
+  }
+
+  .footer-logo { height: 18px; width: auto; }
+
+  .footer-blurb {
     font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+
+  .footer-cols {
+    display: flex;
+    gap: 56px;
+    flex-wrap: wrap;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col-title {
+    font-size: 12px;
     font-weight: 700;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.05em;
+    color: var(--blue-700);
     text-transform: uppercase;
-    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
   }
 
-  .footer-sub {
+  .footer-col a, .footer-col span {
     font-size: 13px;
-    color: rgba(255,255,255,0.3);
+    color: var(--gray-700);
+    text-decoration: none;
+  }
+  .footer-col a:hover { color: var(--blue-500); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    border-top: 1px solid var(--blue-300);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  .footer-sub a {
-    color: var(--aqua-400);
-    text-decoration: none;
+  .footer-bottom span {
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+
+  @media (max-width: 1000px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .incubating-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .tools-grid { grid-template-columns: repeat(2, 1fr) !important; }
   }
 
   @media (max-width: 700px) {
-    .feature-row {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      padding: 32px 24px;
-    }
-    .hero-stats { gap: 18px; }
-    .hero-stat-num { font-size: 22px; }
+    .nav-links { display: none; }
+    .incubating-grid { grid-template-columns: repeat(2, 1fr); }
+    .tools-grid { grid-template-columns: 1fr !important; }
   }
 
 </style>
@@ -468,273 +608,291 @@
 
 <nav>
   <a class="nav-brand" href="#">
-    <div class="nav-logo"><img src="https://raw.githubusercontent.com/dpnation/marketing/2e05802ccf89cefd421dfacbee63087cc2a2fa1a/images/applause-one-color-light-logo.svg" alt="Applause"></div>
-    <span class="nav-title">AI Marketing Tools</span>
+    <svg class="nav-logo" viewBox="0 0 800 127.2" aria-label="Applause logo"><style>.st0-hdr,.st1-hdr{fill:#fff;}</style><g><g><g><path class="st0-hdr" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"></path><path class="st0-hdr" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"></path><path class="st0-hdr" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"></path><path class="st0-hdr" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"></path><path class="st0-hdr" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"></path><path class="st0-hdr" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"></path><path class="st0-hdr" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"></path><path class="st0-hdr" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"></path></g><path class="st1-hdr" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"></path></g></g></svg>
+    <span class="nav-title">AI Marketing Concierge</span>
   </a>
-  <span class="nav-badge">Beta</span>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a class="nav-link nav-link--active" href="#">Home</a>
+      <a class="nav-link" href="#tools">Tools</a>
+      <a class="nav-link" href="#resources">Resources</a>
+      <a class="nav-link" href="https://dpnation.github.io/marketing/ai-seo-aeo/q3/" target="_blank" rel="noopener">Audit Reports</a>
+    </div>
+    <a class="nav-drive" href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener" title="Marketing Google Drive - skills &amp; md files">
+      <svg viewBox="0 0 87.3 78" aria-hidden="true"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"></path><path fill="#00ac47" d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z"></path><path fill="#ea4335" d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"></path><path fill="#00832d" d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"></path><path fill="#2684fc" d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"></path><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z"></path></svg>
+      Drive
+    </a>
+  </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Applause Product Marketing</div>
-  <h1><img src="https://raw.githubusercontent.com/dpnation/marketing/2e05802ccf89cefd421dfacbee63087cc2a2fa1a/images/applause-one-color-light-logo.svg" alt="Applause" style="display: block; height: 1.06em; margin: 0 auto 0.2em; padding-bottom: 6px;"><span>Marketing AI Concierge</span></h1>
-  <p class="hero-sub">A growing suite of purpose-built AI tools for Applause Marketing</p>
-
+  <svg class="hero-logo" viewBox="0 0 800 127.2" aria-label="Applause logo"><style>.st0-hero,.st1-hero{fill:#fff;}</style><g><g><g><path class="st0-hero" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"></path><path class="st0-hero" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"></path><path class="st0-hero" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"></path><path class="st0-hero" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"></path><path class="st0-hero" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"></path><path class="st0-hero" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"></path><path class="st0-hero" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"></path><path class="st0-hero" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"></path></g><path class="st1-hero" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"></path></g></g></svg>
+  <h1>AI Marketing Concierge</h1>
+  <p class="hero-sub">A growing suite of purpose-built AI tools, skills and resources for Applause Marketing.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="#tools">Browse the Tools</a>
+    <a class="btn btn-secondary" href="#resources">Start with Resources</a>
+  </div>
 </section>
 
-<div class="wave-sep">
-  <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="40">
-    <path d="M0,40 L0,20 Q360,0 720,20 Q1080,40 1440,20 L1440,40 Z" fill="#F7FBFE"/>
-  </svg>
+<div class="main">
+  <div class="overview-section">
+    <div class="overview-grid">
+      <a class="overview-card" href="#tools" style="--icon-bg: #E6F3FA;">
+        <div class="overview-icon">&#9881;</div>
+        <div class="overview-title">Tools</div>
+        <div class="overview-body">Live, ready-to-use AI tools for everyday marketing work &mdash; audits, drafts, research and more.</div>
+        <div class="overview-link">Browse tools &rarr;</div>
+      </a>
+      <a class="overview-card" href="#resources" style="--icon-bg: #E1F5EE;">
+        <div class="overview-icon">&#128218;</div>
+        <div class="overview-title">Resources</div>
+        <div class="overview-body">Guides, prompts and Claude skills &mdash; start here, then keep them handy.</div>
+        <div class="overview-link" style="color: var(--aqua-600);">View resources &rarr;</div>
+      </a>
+      <a class="overview-card" href="https://dpnation.github.io/marketing/ai-seo-aeo/q3/" target="_blank" rel="noopener" style="--icon-bg: #FFF6DA;">
+        <div class="overview-icon">&#128202;</div>
+        <div class="overview-title">Audit Reports</div>
+        <div class="overview-body">Reports generated using these tools, including AI search visibility audits.</div>
+        <div class="overview-link" style="color: #8a6d00;">See reports &rarr;</div>
+      </a>
+    </div>
+  </div>
 </div>
 
-<main class="main">
+<div id="tools" class="section-wrap">
+  <div class="section-inner">
+    <div class="section-label">Marketing Incubator</div>
+    <div class="section-title" style="margin-bottom: 0;">AI Tools</div>
 
-  <div class="section-label">Marketing Incubator</div>
+    <div class="tools-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 28px;">
 
-  <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr);">
-
-    <!-- Daily Digest -->
-    <a class="tool-card" href="https://dpnation.github.io/daily-marketing-digest/" target="_blank"
-       style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
-      <div class="tool-icon">📰</div>
-      <div class="tool-tag">Content</div>
-      <div class="tool-name">Daily Marketing News Digest</div>
-      <div class="tool-desc">A daily digest across key marketing functions — sourced from leading publications, newsletters, and industry organizations.</div>
-      <div class="tool-footer">
-        <span class="tool-cta">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- PMM Skills Pack -->
-    <a class="tool-card" href="https://dpnation.github.io/marketing/pmm-skills/" target="_blank"
-       style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
-      <div class="tool-icon">🎯</div>
-      <div class="tool-tag">Product Marketing</div>
-      <div class="tool-name">PMM Skills Pack</div>
-      <div class="tool-desc">A curated library of prompts, frameworks, and workflows for product marketers — positioning, messaging, personas, launch planning, and more.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #00C0A3;">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- Battlecard Builder -->
-    <a class="tool-card" href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" target="_blank"
-       style="--card-accent: #025B90; --icon-bg: #CFE9FB; --tag-color: #025B90; --tag-bg: #CFE9FB;">
-      <div class="tool-icon">⚔️</div>
-      <div class="tool-tag">Competitive</div>
-      <div class="tool-name">Battlecard Builder</div>
-      <div class="tool-desc">Generate structured, sales-ready competitive battlecards in minutes. Input a competitor, get a complete card with positioning, objections, and landmines.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- Competitive Intel Scanner -->
-    <a class="tool-card" href="https://dpnation.github.io/competitive-intel/" target="_blank"
-       style="--card-accent: #01446C; --icon-bg: #E6F3FA; --tag-color: #01446C; --tag-bg: #E6F3FA;">
-      <div class="tool-icon">🔍</div>
-      <div class="tool-tag">Intelligence</div>
-      <div class="tool-name">Competitive Intel Scanner</div>
-      <div class="tool-desc">Scan competitor positioning, messaging shifts, and market moves. Built to feed the battlecard builder and keep your intel fresh between cycles.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #01446C;">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-
-    <!-- Logo Permissions Bot -->
-    <a class="tool-card" href="https://gemini.google.com/gem/1zyqeMVaw7aj7BY9P13Eg9y7phvYvtXFC?usp=sharing" target="_blank"
-       style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
-      <div class="tool-icon">™️</div>
-      <div class="tool-tag">Brand</div>
-      <div class="tool-name">Logo Permissions Bot</div>
-      <div class="tool-desc">Guidance on which customer logos we are permitted to use and how.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #00C0A3;">Open in Gemini <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- Persona Council -->
-    <a class="tool-card" href="https://dpnation.github.io/marketing/personas/" target="_blank"
-       style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
-      <div class="tool-icon">🧑‍💼</div>
-      <div class="tool-tag">Messaging</div>
-      <div class="tool-name">Persona Council</div>
-      <div class="tool-desc">Convene Craig, Sam, and Alex to stress-test messaging against your real buyers.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #00C0A3;">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- SEO / AEO -->
-    <a class="tool-card" href="https://dpnation.github.io/marketing/ai-seo-aeo/" target="_blank"
-       style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #025B90; --tag-bg: #E6F3FA;">
-      <div class="tool-icon">🔎</div>
-      <div class="tool-tag">SEO / AEO</div>
-      <div class="tool-name">AI Search Visibility</div>
-      <div class="tool-desc">Audit and optimize Applause's presence in AI-generated answers — ChatGPT, Perplexity, Gemini, and beyond.</div>
-      <div class="tool-footer">
-        <span class="tool-cta">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status">Live</span>
-      </div>
-    </a>
-
-    <!-- Bug Bash -->
-    <a class="tool-card" href="https://dpnation.github.io/marketing/bugbash/index.html" target="_blank"
-       style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
-      <div class="tool-icon">🐛</div>
-      <div class="tool-tag">Lead Gen</div>
-      <div class="tool-name">Bug Bash</div>
-      <div class="tool-desc">A lead gen game where participants fill out a short form, then race the clock to find as many bugs as possible in 60 seconds.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">→</span></span>
-        <span class="tool-status" style="color: #5C3D8F; background: #EDE7F6;">Alpha release</span>
-      </div>
-    </a>
-
-  </div>
-
-  <div class="section-label" style="margin-top: 56px;">Incubating</div>
-
-  <div class="tools-grid">
-
-    <!-- PMM Command Center -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">🛰️</div>
-      <div class="tool-tag">Intelligence</div>
-      <div class="tool-name">PMM Command Center</div>
-      <div class="tool-desc">Product Marketing Intelligence Agents — a team of AI agents that continuously monitor the market, our customers, and industry analysts to help Product Marketing make faster, more informed decisions. Three agents: Competitive Intelligence, Customer Insights, Analyst Intelligence.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Fathoming</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-    <!-- Deck Builder -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">🖥️</div>
-      <div class="tool-tag">Sales</div>
-      <div class="tool-name">Deck Builder</div>
-      <div class="tool-desc">AI-assisted slide generator for sales decks, built from a prompt.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Coming soon</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-    <!-- Campaign Skill -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">📣</div>
-      <div class="tool-tag">Demand Gen</div>
-      <div class="tool-name">Campaign Skill</div>
-      <div class="tool-desc">Build integrated campaign briefs, messaging frameworks, and launch calendars in minutes.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Coming soon</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-    <!-- Leadership Sims -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">🏢</div>
-      <div class="tool-tag">Messaging</div>
-      <div class="tool-name">Leadership Sims</div>
-      <div class="tool-desc">Rehearse executive-level conversations — QBR reviews, analyst briefings, and board-level narratives.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Coming soon</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-    <!-- Content Repurposer -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">♻️</div>
-      <div class="tool-tag">Content Marketing</div>
-      <div class="tool-name">Content Repurposer</div>
-      <div class="tool-desc">Turn long-form assets into social posts, email copy, and sales snippets — instantly, on-brand.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Coming soon</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-    <!-- GTM Engine -->
-    <div class="tool-card tool-card--soon"
-       style="--card-accent: #C2C2C2; --icon-bg: #FAFAFA; --tag-color: #6B6B6B; --tag-bg: #F0F0F0; cursor: default; opacity: 0.75;">
-      <div class="tool-icon">🚀</div>
-      <div class="tool-tag">GTM</div>
-      <div class="tool-name">GTM Engine</div>
-      <div class="tool-desc">End-to-end launch planning — timelines, stakeholder maps, and coordinated channel plans built from a brief.</div>
-      <div class="tool-footer">
-        <span class="tool-cta" style="color: #999;">Coming soon</span>
-        <span class="tool-status" style="color: #6B6B6B; background: #F0F0F0;">Soon</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- RESOURCES SECTION -->
-  <div class="resources-section" style="margin-top: 56px;">
-    <div class="section-label">Resources</div>
-    <div class="section-title" style="font-size: 24px; margin-bottom: 8px;">Guides, Prompts &amp; Claude Skills</div>
-    <div class="section-sub" style="margin-bottom: 32px; max-width: 100%;">Start here, then keep these handy — everything you need to get the most out of Claude and this toolkit.</div>
-
-    <div class="tools-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-
-      <!-- Getting Started Guide -->
-      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/getting-started/" target="_blank"
+      <a class="tool-card" href="https://dpnation.github.io/daily-marketing-digest/" target="_blank"
          style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
-        <div class="tool-icon">📖</div>
-        <div class="tool-tag">Guide</div>
-        <div class="tool-name">Getting Started with Claude</div>
-        <div class="tool-desc">Prompting basics, capabilities, and best practices for Applause Marketing.</div>
+        <div class="tool-icon">&#128240;</div>
+        <div class="tool-tag">Content</div>
+        <div class="tool-name">Daily Marketing News Digest</div>
+        <div class="tool-desc">A daily digest across key marketing functions &mdash; sourced from leading publications, newsletters, and industry organizations.</div>
         <div class="tool-footer">
-          <span class="tool-cta">Open <span class="tool-cta-arrow">→</span></span>
-          <span class="tool-status">Start here</span>
-        </div>
-      </a>
-
-      <!-- Super Prompt -->
-      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/Super-prompt/" target="_blank"
-         style="--card-accent: #FFC400; --icon-bg: #FFF8E1; --tag-color: #7A5C00; --tag-bg: #FFF3CD;">
-        <div class="tool-icon">⚡</div>
-        <div class="tool-tag">Prompt</div>
-        <div class="tool-name">The Super Prompt</div>
-        <div class="tool-desc">Sets context, tone, and constraints so Claude output lands on-brand every time.</div>
-        <div class="tool-footer">
-          <span class="tool-cta" style="color: #7A5C00;">Open <span class="tool-cta-arrow">→</span></span>
-          <span class="tool-status">Step 2</span>
-        </div>
-      </a>
-
-      <!-- AI Tool Guide -->
-      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/resources/ai-tool-guide.html" target="_blank"
-         style="--card-accent: #025B90; --icon-bg: #CFE9FB; --tag-color: #025B90; --tag-bg: #CFE9FB;">
-        <div class="tool-icon">🧭</div>
-        <div class="tool-tag">Guide</div>
-        <div class="tool-name">AI Tool Guide</div>
-        <div class="tool-desc">Which AI tool to reach for and when — Claude, Gemini, and everything on this page.</div>
-        <div class="tool-footer">
-          <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">→</span></span>
+          <span class="tool-cta">Open <span class="tool-cta-arrow">&rarr;</span></span>
           <span class="tool-status">Live</span>
         </div>
       </a>
 
-      <!-- Intent Skill -->
+      <a class="tool-card" href="https://dpnation.github.io/marketing/pmm-skills/" target="_blank"
+         style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
+        <div class="tool-icon">&#127919;</div>
+        <div class="tool-tag">Product Marketing</div>
+        <div class="tool-name">PMM Skills Pack</div>
+        <div class="tool-desc">A curated library of prompts, frameworks, and workflows for product marketers &mdash; positioning, messaging, personas, launch planning, and more.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #00C0A3;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://dpnation.github.io/competitive-intel/ci-tools/battlecard/" target="_blank"
+         style="--card-accent: #025B90; --icon-bg: #CFE9FB; --tag-color: #025B90; --tag-bg: #CFE9FB;">
+        <div class="tool-icon">&#9876;&#65039;</div>
+        <div class="tool-tag">Competitive</div>
+        <div class="tool-name">Battlecard Builder</div>
+        <div class="tool-desc">Generate structured, sales-ready competitive battlecards in minutes. Input a competitor, get a complete card with positioning, objections, and landmines.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://dpnation.github.io/competitive-intel/" target="_blank"
+         style="--card-accent: #01446C; --icon-bg: #E6F3FA; --tag-color: #01446C; --tag-bg: #E6F3FA;">
+        <div class="tool-icon">&#128269;</div>
+        <div class="tool-tag">Intelligence</div>
+        <div class="tool-name">Competitive Intel Scanner</div>
+        <div class="tool-desc">Scan competitor positioning, messaging shifts, and market moves. Built to feed the battlecard builder and keep your intel fresh between cycles.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #01446C;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://gemini.google.com/gem/1zyqeMVaw7aj7BY9P13Eg9y7phvYvtXFC?usp=sharing" target="_blank"
+         style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
+        <div class="tool-icon">&#8482;&#65039;</div>
+        <div class="tool-tag">Brand</div>
+        <div class="tool-name">Logo Permissions Bot</div>
+        <div class="tool-desc">Guidance on which customer logos we are permitted to use and how.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #00C0A3;">Open in Gemini <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://dpnation.github.io/marketing/personas/" target="_blank"
+         style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE;">
+        <div class="tool-icon">&#129489;&#8205;&#128188;</div>
+        <div class="tool-tag">Messaging</div>
+        <div class="tool-name">Persona Council</div>
+        <div class="tool-desc">Convene Craig, Sam, and Alex to stress-test messaging against your real buyers.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #00C0A3;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://dpnation.github.io/marketing/ai-seo-aeo/" target="_blank"
+         style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #025B90; --tag-bg: #E6F3FA;">
+        <div class="tool-icon">&#128270;</div>
+        <div class="tool-tag">SEO / AEO</div>
+        <div class="tool-name">AI Search Visibility</div>
+        <div class="tool-desc">Audit and optimize Applause's presence in AI-generated answers &mdash; ChatGPT, Perplexity, Gemini, and beyond.</div>
+        <div class="tool-footer">
+          <span class="tool-cta">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://dpnation.github.io/marketing/bugbash/index.html" target="_blank"
+         style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
+        <div class="tool-icon">&#128027;</div>
+        <div class="tool-tag">Lead Gen</div>
+        <div class="tool-name">Bug Bash</div>
+        <div class="tool-desc">A lead gen game where participants fill out a short form, then race the clock to find as many bugs as possible in 60 seconds.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status" style="color: #5C3D8F; background: #EDE7F6;">Alpha release</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-label" style="margin-top: 56px;">Incubating</div>
+    <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:20px;">
+      <span class="section-title" style="font-size: 20px; margin-bottom: 0;">What's coming next</span>
+    </div>
+
+    <div class="incubating-grid">
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#128752;&#65039;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">Intelligence</span>
+        <div class="soon-name">PMM Command Center</div>
+        <p class="soon-desc">AI agents that continuously monitor the market, our customers, and industry analysts.</p>
+        <span class="soon-stage">Fathoming</span>
+      </div>
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#128421;&#65039;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">Sales</span>
+        <div class="soon-name">Deck Builder</div>
+        <p class="soon-desc">AI-assisted slide generator for sales decks, built from a prompt.</p>
+        <span class="soon-stage">Coming soon</span>
+      </div>
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#128227;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">Demand Gen</span>
+        <div class="soon-name">Campaign Skill</div>
+        <p class="soon-desc">Build integrated campaign briefs, messaging frameworks, and launch calendars.</p>
+        <span class="soon-stage">Coming soon</span>
+      </div>
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#127970;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">Messaging</span>
+        <div class="soon-name">Leadership Sims</div>
+        <p class="soon-desc">Rehearse QBR reviews, analyst briefings, and board-level narratives.</p>
+        <span class="soon-stage">Coming soon</span>
+      </div>
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#9851;&#65039;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">Content Marketing</span>
+        <div class="soon-name">Content Repurposer</div>
+        <p class="soon-desc">Turn long-form assets into social posts, email copy, and sales snippets.</p>
+        <span class="soon-stage">Coming soon</span>
+      </div>
+
+      <div class="tool-card--soon">
+        <div class="soon-top">
+          <span class="soon-icon">&#128640;</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <span class="soon-category">GTM</span>
+        <div class="soon-name">GTM Engine</div>
+        <p class="soon-desc">End-to-end launch planning &mdash; timelines, stakeholder maps, and channel plans.</p>
+        <span class="soon-stage">Coming soon</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="resources" class="section-wrap section-wrap--tint">
+  <div class="section-inner">
+    <div class="section-label">Resources</div>
+    <div class="section-title">Guides, Prompts &amp; Claude Skills</div>
+    <p class="section-sub">Start here, then keep these handy &mdash; everything you need to get the most out of Claude and this toolkit.</p>
+
+    <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr);">
+
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/getting-started/" target="_blank"
+         style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
+        <div class="tool-icon">&#128214;</div>
+        <div class="tool-tag">Guide</div>
+        <div class="tool-name">Getting Started with Claude</div>
+        <div class="tool-desc">Prompting basics, capabilities, and best practices for Applause Marketing.</div>
+        <div class="tool-footer">
+          <span class="tool-cta">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Start here</span>
+        </div>
+      </a>
+
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/Super-prompt/" target="_blank"
+         style="--card-accent: #FFC400; --icon-bg: #FFF8E1; --tag-color: #7A5C00; --tag-bg: #FFF3CD;">
+        <div class="tool-icon">&#9889;</div>
+        <div class="tool-tag">Prompt</div>
+        <div class="tool-name">The Super Prompt</div>
+        <div class="tool-desc">Sets context, tone, and constraints so Claude output lands on-brand every time.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #7A5C00;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Step 2</span>
+        </div>
+      </a>
+
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/resources/ai-tool-guide.html" target="_blank"
+         style="--card-accent: #025B90; --icon-bg: #CFE9FB; --tag-color: #025B90; --tag-bg: #CFE9FB;">
+        <div class="tool-icon">&#129517;</div>
+        <div class="tool-tag">Guide</div>
+        <div class="tool-name">AI Tool Guide</div>
+        <div class="tool-desc">Which AI tool to reach for and when &mdash; Claude, Gemini, and everything on this page.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">&rarr;</span></span>
+          <span class="tool-status">Live</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="tools-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 20px;">
+
       <div class="tool-card tool-card--compact"
          style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE; cursor: default;">
-        <div class="tool-icon">🧠</div>
+        <div class="tool-icon">&#129504;</div>
         <div class="tool-tag">Claude Skill</div>
         <div class="tool-name">Intent Skill</div>
         <div class="tool-desc">Turns a rough marketing ask into a structured brief before executing.</div>
@@ -744,13 +902,12 @@
         </div>
       </div>
 
-      <!-- Source Accuracy Skill -->
       <div class="tool-card tool-card--compact"
          style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE; cursor: default;">
-        <div class="tool-icon">📌</div>
+        <div class="tool-icon">&#128204;</div>
         <div class="tool-tag">Claude Skill</div>
         <div class="tool-name">Source Accuracy Protocol</div>
-        <div class="tool-desc">Traces every factual claim to a source — flags or drops what can't be verified.</div>
+        <div class="tool-desc">Traces every factual claim to a source &mdash; flags or drops what can't be verified.</div>
         <div class="tool-footer">
           <span class="tool-cta" style="color: #009A82; font-family: var(--mono); font-size: 12px;">/source-accuracy</span>
           <span class="tool-status">Built-in</span>
@@ -759,12 +916,39 @@
 
     </div>
   </div>
+</div>
 
-</main>
+<section class="cta-banner">
+  <h2>Have a workflow that could use an AI assist?</h2>
+  <a class="btn btn-primary" href="mailto:dprey@applause.com">Contact Dana Prey</a>
+</section>
 
 <footer>
-  <div class="footer-brand">Applause Product Marketing</div>
-  <div class="footer-sub">Built by <a href="https://dpnation.github.io/marketing">Dana Prey</a> &bull; dpnation.github.io/marketing</div>
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <svg class="footer-logo" viewBox="0 0 800 126" aria-label="Applause logo"><style>.st0-ftr{fill:#01446C;}.st1-ftr{fill:#00C0A3;}</style><g><g><g><path class="st0-ftr" d="M0.2,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,127-0.5,125.6,0.2,124 M52.8,99.4L38.5,67.6H38L23.8,99.4H52.8z"></path><path class="st0-ftr" d="M107.6,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V48z M135.6,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"></path><path class="st0-ftr" d="M199.8,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V48z M227.8,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"></path><path class="st0-ftr" d="M292.1,48c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V48z"></path><path class="st0-ftr" d="M363.8,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,127,363.1,125.6,363.8,124 M416.4,99.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"></path><path class="st0-ftr" d="M467.7,48c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V48c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V48z"></path><path class="st0-ftr" d="M570.4,115.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,118.1,569.2,117.3,570.4,115.3"></path><path class="st0-ftr" d="M661.2,48c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V48z"></path></g><path class="st1-ftr" d="M772.3,11.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,19.3,762.8,11.5,772.3,11.5 M772.3,1.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,13.5,787.6,1.1,772.3,1.1L772.3,1.1z"></path></g></g></svg>
+      <p class="footer-blurb">AI tools, skills and resources built for the marketing team. Internal use only.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-title">Explore</span>
+        <a href="#">Home</a>
+        <a href="#tools">Tools</a>
+        <a href="#resources">Resources</a>
+        <a href="https://dpnation.github.io/marketing/ai-seo-aeo/q3/" target="_blank" rel="noopener">Audit Reports</a>
+        <a href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener">Drive</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-title">Chat</span>
+        <span>#ai-tools-watercooler on Slack</span>
+        <a href="mailto:dprey@applause.com">dprey@applause.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Built by Dana Prey</span>
+    <span>&copy; 2026 Applause</span>
+  </div>
 </footer>
 
 </body>
