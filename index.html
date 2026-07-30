@@ -370,6 +370,13 @@
     letter-spacing: 0.04em;
   }
 
+  /* COMPACT CARD MODIFIER (Resources section) */
+  .tool-card--compact { padding: 22px 22px 18px; }
+  .tool-card--compact .tool-icon { width: 40px; height: 40px; font-size: 18px; margin-bottom: 14px; }
+  .tool-card--compact .tool-name { font-size: 16px; margin-bottom: 6px; }
+  .tool-card--compact .tool-desc { font-size: 13px; line-height: 1.5; margin-bottom: 14px; min-height: 0; }
+  .tool-card--compact .tool-footer { padding-top: 12px; }
+
   /* FEATURE ROW */
   .feature-row {
     margin-top: 72px;
@@ -455,122 +462,6 @@
     .hero-stat-num { font-size: 22px; }
   }
 
-  /* SKILLS SECTION */
-  .skills-section {
-    margin-top: 72px;
-    padding-top: 56px;
-    border-top: 1.5px solid var(--blue-100);
-  }
-
-  .skills-section .section-label {
-    margin-bottom: 6px;
-  }
-
-  .skills-section-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--blue-700);
-    letter-spacing: -0.02em;
-    margin-bottom: 6px;
-  }
-
-  .skills-section-sub {
-    font-size: 15px;
-    color: var(--gray-600);
-    margin-bottom: 36px;
-    max-width: 100%;
-    line-height: 1.55;
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-  }
-
-  .skill-card {
-    background: var(--white);
-    border-radius: 16px;
-    border: 1.5px solid var(--blue-100);
-    padding: 28px 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .skill-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--blue-500), var(--aqua-500));
-  }
-
-  .skill-command {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--blue-700);
-    background: var(--blue-100);
-    border: 1px solid var(--blue-300);
-    padding: 5px 11px;
-    border-radius: 6px;
-    width: fit-content;
-    margin-bottom: 16px;
-  }
-
-  .skill-command-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--aqua-500);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .skill-name {
-    font-size: 19px;
-    font-weight: 800;
-    color: var(--blue-700);
-    letter-spacing: -0.01em;
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
-
-  .skill-desc {
-    font-size: 14px;
-    color: var(--gray-600);
-    line-height: 1.65;
-    flex: 1;
-    margin-bottom: 18px;
-  }
-
-  .skill-when {
-    background: var(--blue-50);
-    border-left: 3px solid var(--aqua-500);
-    border-radius: 0 6px 6px 0;
-    padding: 10px 13px;
-    margin-top: auto;
-  }
-
-  .skill-when-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--aqua-600);
-    margin-bottom: 4px;
-  }
-
-  .skill-when-text {
-    font-size: 13px;
-    color: var(--gray-700);
-    line-height: 1.5;
-  }
 </style>
 </head>
 <body>
@@ -793,21 +684,21 @@
 
   </div>
 
-  <!-- GETTING STARTED SECTION -->
-  <div class="getting-started-section" style="margin-top: 72px;">
-    <div class="section-label">Getting Started</div>
-    <div class="section-title" style="font-size: 24px; margin-bottom: 8px;">New to AI Marketing Tools?</div>
-    <div class="section-sub" style="margin-bottom: 36px;">Start here. These resources help you get the most out of Claude and every tool in this suite.</div>
+  <!-- RESOURCES SECTION -->
+  <div class="resources-section" style="margin-top: 56px;">
+    <div class="section-label">Resources</div>
+    <div class="section-title" style="font-size: 24px; margin-bottom: 8px;">Guides, Prompts &amp; Claude Skills</div>
+    <div class="section-sub" style="margin-bottom: 32px; max-width: 100%;">Start here, then keep these handy — everything you need to get the most out of Claude and this toolkit.</div>
 
-    <div class="tools-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+    <div class="tools-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
 
-      <!-- Claude Reference Guide -->
-      <a class="tool-card" href="https://dpnation.github.io/marketing/getting-started/" target="_blank"
+      <!-- Getting Started Guide -->
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/getting-started/" target="_blank"
          style="--card-accent: #0272B4; --icon-bg: #E6F3FA; --tag-color: #0272B4; --tag-bg: #E6F3FA;">
         <div class="tool-icon">📖</div>
-        <div class="tool-tag">Reference</div>
-        <div class="tool-name">Getting started with Claude</div>
-        <div class="tool-desc">A practical guide to Claude for the Applause Marketing team. Covers the essentials for getting started — how to prompt, what it can do, and how to get the best results from day one.</div>
+        <div class="tool-tag">Guide</div>
+        <div class="tool-name">Getting Started with Claude</div>
+        <div class="tool-desc">Prompting basics, capabilities, and best practices for Applause Marketing.</div>
         <div class="tool-footer">
           <span class="tool-cta">Open <span class="tool-cta-arrow">→</span></span>
           <span class="tool-status">Start here</span>
@@ -815,54 +706,54 @@
       </a>
 
       <!-- Super Prompt -->
-      <a class="tool-card" href="https://dpnation.github.io/marketing/Super-prompt/" target="_blank"
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/Super-prompt/" target="_blank"
          style="--card-accent: #FFC400; --icon-bg: #FFF8E1; --tag-color: #7A5C00; --tag-bg: #FFF3CD;">
         <div class="tool-icon">⚡</div>
-        <div class="tool-tag">Foundation</div>
+        <div class="tool-tag">Prompt</div>
         <div class="tool-name">The Super Prompt</div>
-        <div class="tool-desc">The master prompt that unlocks Claude's full potential for Applause marketing work. Sets context, tone, and constraints so every output lands on-brand and on-point — every time.</div>
+        <div class="tool-desc">Sets context, tone, and constraints so Claude output lands on-brand every time.</div>
         <div class="tool-footer">
           <span class="tool-cta" style="color: #7A5C00;">Open <span class="tool-cta-arrow">→</span></span>
           <span class="tool-status">Step 2</span>
         </div>
       </a>
 
-    </div>
-  </div>
-
-  <!-- CLAUDE SKILLS SECTION -->
-  <div class="skills-section">
-    <div class="section-label">Claude Skills</div>
-    <div class="skills-section-title">Built-in Superpowers for Claude.ai</div>
-    <div class="skills-section-sub">These skills live inside Claude and activate with a simple command. No tool to open — just type them in any Claude conversation.</div>
-
-    <div class="skills-grid">
-
-      <!-- /intent -->
-      <div class="skill-card">
-        <div class="skill-command">
-          <span class="skill-command-dot"></span>
-          /intent
+      <!-- AI Tool Guide -->
+      <a class="tool-card tool-card--compact" href="https://dpnation.github.io/marketing/resources/ai-tool-guide.html" target="_blank"
+         style="--card-accent: #025B90; --icon-bg: #CFE9FB; --tag-color: #025B90; --tag-bg: #CFE9FB;">
+        <div class="tool-icon">🧭</div>
+        <div class="tool-tag">Guide</div>
+        <div class="tool-name">AI Tool Guide</div>
+        <div class="tool-desc">Which AI tool to reach for and when — Claude, Gemini, and everything on this page.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #025B90;">Open <span class="tool-cta-arrow">→</span></span>
+          <span class="tool-status">Live</span>
         </div>
-        <div class="skill-name">Intent Skill</div>
-        <div class="skill-desc">Transforms a vague or rough marketing request into a structured, expertly-framed brief — then executes it. Before writing anything, Claude shows you exactly how it's reading your ask and waits for your sign-off. Keeps work on-track without back-and-forth.</div>
-        <div class="skill-when">
-          <div class="skill-when-label">When to use</div>
-          <div class="skill-when-text">When your request is rough or open-ended — messaging, positioning, campaign briefs, analyst comms, enablement content, and more.</div>
+      </a>
+
+      <!-- Intent Skill -->
+      <div class="tool-card tool-card--compact"
+         style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE; cursor: default;">
+        <div class="tool-icon">🧠</div>
+        <div class="tool-tag">Claude Skill</div>
+        <div class="tool-name">Intent Skill</div>
+        <div class="tool-desc">Turns a rough marketing ask into a structured brief before executing.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #009A82; font-family: var(--mono); font-size: 12px;">/intent</span>
+          <span class="tool-status">Built-in</span>
         </div>
       </div>
 
-      <!-- /source-accuracy -->
-      <div class="skill-card">
-        <div class="skill-command">
-          <span class="skill-command-dot"></span>
-          /source-accuracy
-        </div>
-        <div class="skill-name">Source Accuracy Protocol</div>
-        <div class="skill-desc">Enforces citation discipline on any document Claude drafts from your materials. Every factual claim gets traced to a source. Unverifiable stats are flagged or removed — never invented. Delivers a clean draft plus a full source map.</div>
-        <div class="skill-when">
-          <div class="skill-when-label">When to use</div>
-          <div class="skill-when-text">Battlecards, analyst briefings, competitor profiles, external reports — any output where facts, figures, and quotes must trace to a real source.</div>
+      <!-- Source Accuracy Skill -->
+      <div class="tool-card tool-card--compact"
+         style="--card-accent: #00C0A3; --icon-bg: #E1F5EE; --tag-color: #009A82; --tag-bg: #E1F5EE; cursor: default;">
+        <div class="tool-icon">📌</div>
+        <div class="tool-tag">Claude Skill</div>
+        <div class="tool-name">Source Accuracy Protocol</div>
+        <div class="tool-desc">Traces every factual claim to a source — flags or drops what can't be verified.</div>
+        <div class="tool-footer">
+          <span class="tool-cta" style="color: #009A82; font-family: var(--mono); font-size: 12px;">/source-accuracy</span>
+          <span class="tool-status">Built-in</span>
         </div>
       </div>
 
