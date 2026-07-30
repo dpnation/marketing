@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — What Is Regression Testing? Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>What Is Regression Testing? Blog Post</h1>
+  <div class="sub">applause.com/blog/what-is-regression-testing-types-approach/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>June 21, 2022</strong></span>
+    <span>Last modified: <strong>Not confirmed — no modified_time in metadata</strong></span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-action">Action Required — 4-Year-Old Content</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-red">
+      <div class="callout-label">⛔ Critical Issue — Published June 2022, No Visible Update Date</div>
+      This is the oldest article in the audit batch by a wide margin — published <strong>June 21, 2022</strong>, with no modification date in page metadata and no visible "last updated" date on the page. At 4 years old, this article is competing against regression testing content from Guru99, BrowserStack, and LambdaTest that was updated in 2025–2026. Content freshness is one of the strongest AI citation factors — content updated within 30 days gets cited 3.2x more often than older content (ConvertMate, 2026). <strong>A full content refresh is the prerequisite for any other optimization on this page.</strong>
+    </div>
+
+    <p style="margin-bottom:16px;">The article has solid bones for its age: a clean definition in the first sub-section, five named and described regression types, a logical 5-step process section ideal for HowTo schema, and comparison content distinguishing regression from retesting, unit testing, and integration testing. It even has one citable statistic — but it's unattributed. The structural gaps (no comparison tables, no FAQ, no schema) are secondary to the freshness problem. Fix the date first by executing a proper content refresh; then schema and structure optimization will actually pay off.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⛔</span><span>Published June 2022 — oldest in batch; no update date in metadata or on page</span></li>
+          <li><span>✗</span><span>No comparison tables for regression vs. retesting, vs. unit testing, vs. integration testing — covered in prose only</span></li>
+          <li><span>✗</span><span>One statistic exists ("saves 20 hours") but is unattributed — "it's estimated" is not a source</span></li>
+          <li><span>✗</span><span>No FAQ section despite 5+ naturally question-framed sub-sections</span></li>
+          <li><span>✗</span><span>No HowTo schema for the 5-step "How to do regression testing" section</span></li>
+          <li><span>✗</span><span>No ItemList schema for the 5 regression testing types</span></li>
+          <li><span>✗</span><span>No AI-era content — zero mention of regression testing for AI-generated features, LLM outputs, or agentic software</span></li>
+          <li><span>✗</span><span>Definition is in a sub-section, not the opening paragraph</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>H1 "What Is Regression Testing? Types, Approach and More" — query-matched</span></li>
+          <li><span>✓</span><span>Clean definition in first sub-section: "a type of functional, black box testing in which the QA team assesses previously tested application features after system changes"</span></li>
+          <li><span>✓</span><span>5 regression testing types named and described (Corrective, Selective, Retest-all, Progressive, Unit regression)</span></li>
+          <li><span>✓</span><span>3 comparison pairs covered in prose (vs. retesting, vs. unit testing, vs. integration testing)</span></li>
+          <li><span>✓</span><span>5-step process section ("How to do regression testing") — perfect HowTo schema fit</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager</span></li>
+          <li><span>✓</span><span>Links to /automated-functional-testing/ with specific Applause product mentions</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Execute a full content refresh — this is the prerequisite for everything else.</h4>
+      <p>A 4-year-old article cannot compete on freshness with 2025–2026 competitor content regardless of structural optimization. The refresh should: update all content for 2025–2026 QA practices, add a section on regression testing for AI-generated features, source the unattributed "20 hours" statistic, add comparison tables, add a FAQ section, and add a visible "Last updated: [Month 2026]" date. The existing structure is a good skeleton — this is an update, not a rewrite.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add comparison tables for all three "vs." pairs.</h4>
+      <p>Regression testing vs. retesting, vs. unit testing, and vs. integration testing are all high-volume comparison queries. The content to populate three compact tables already exists in prose — this is a formatting task. Each table should have 4–5 criteria rows (purpose, timing in SDLC, who runs it, scope, pass/fail basis). These are among the highest-intent queries for this topic and currently a complete miss for structured extraction.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add HowTo schema for the 5-step process and ItemList schema for the 5 types.</h4>
+      <p>The "How to do regression testing" section has 5 named, numbered steps — HowTo schema maps directly. The 5 regression testing types section is a named list — ItemList schema applies. Both can be implemented without changing any visible content. As confirmed in the hotfix and STLC audits, these schema types are the most directly impactful for process and list queries.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-action">Freshness Disadvantage — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is regression testing" is one of the most-searched QA knowledge queries and directly relevant to Applause's functional testing services. Being the cited source positions Applause as the authority on regression testing before vendor evaluation begins. The article has the right structure to compete — but 4-year-old content is actively disadvantaged on every AI platform that weights freshness, which is all of them.
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">⚠ Freshness Context for All Rows Below</div>
+      All citation probability estimates below reflect a page published in June 2022 with no confirmed update. If the content were refreshed to 2026, all "Unlikely" and "Competitive" ratings would improve materially. The freshness gap is the dominant variable in every row.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is regression testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — freshness gap</td>
+          <td>Guru99, BrowserStack, LambdaTest (all updated 2025–2026)</td>
+        </tr>
+        <tr>
+          <td>types of regression testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — freshness gap</td>
+          <td>Guru99, Software Testing Material, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>regression testing vs retesting</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — prose only, no table, stale</td>
+          <td>Guru99, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>regression testing vs unit testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — prose only, no table, stale</td>
+          <td>Guru99, LambdaTest, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>how to do regression testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — 5-step section exists but stale, no HowTo schema</td>
+          <td>BrowserStack, LambdaTest, Software Testing Help</td>
+        </tr>
+        <tr>
+          <td>regression testing in agile</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — dedicated section exists but stale</td>
+          <td>Atlassian, LambdaTest, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>automated regression testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — dedicated section exists but stale, no tool comparison</td>
+          <td>BrowserStack, LambdaTest, Katalon</td>
+        </tr>
+        <tr>
+          <td>regression testing for AI features</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Not covered — zero AI content in article</td>
+          <td>LambdaTest, BrowserStack, newer QA content (emerging query)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>All statuses inferred — manual verification required. Note: the freshness disadvantage affects every query row. Post-refresh, citation probability for all rows would improve materially — the structural foundation is sound.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Current Citation Competitiveness</h3>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">All query types (pre-refresh)</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:10%;"></div></div><span style="font-size:13px; color:var(--red);">Actively disadvantaged — 4-year freshness gap</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">All query types (post-refresh)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — structure is strong once date is addressed</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-action">3 Pass · 2 Partial · 5 Fail — Plus Freshness Override</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-red">
+      <div class="callout-label">Freshness Override — Applies to All Checks Below</div>
+      Individual check scores below reflect the page's structural quality in isolation. In practice, a June 2022 publication date is an override condition that reduces effective citation probability across all query types regardless of structural quality. Address the content refresh first; the checks below become the optimization roadmap once freshness is restored.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition in opening paragraph</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The article opens with two paragraphs of Agile context before reaching the definition sub-section "What is regression testing?" — where the definition is clean: "Software regression testing is a type of functional, black box testing in which the QA team assesses previously tested application features after system changes." That definition should be the true first paragraph of the article. The Agile framing can follow, not precede, the answer to the H1 question.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>Each regression type (Corrective, Selective, Retest-all, Progressive, Unit regression) is described as a bold label followed by a paragraph — usable as an extract. The comparison sections (vs. retesting, vs. unit testing, vs. integration testing) work reasonably well as standalone prose but would be significantly more extractable as comparison tables. The "How to do regression testing" numbered steps are clear and self-contained.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>One statistic appears mid-article: "It's estimated that every issue preemptively found in regression testing and resolved prior to release can save 20 hours of reactive bug fixing. This late in the SDLC, these repairs can be 10-20 times more expensive for the company to fix." — This is a good, citable claim, but "it's estimated" is not a source. Trace and attribute this figure (likely from IBM Systems Sciences Institute or NIST research). If the original source can't be confirmed, replace with a properly cited equivalent.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison tables for "vs." queries</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Three comparison pairs are covered in prose: regression vs. retesting, regression vs. unit testing, and regression vs. integration testing. Each is currently two or three sentences explaining the differences. Converting to compact 2-column tables (criteria rows: purpose, timing in SDLC, who runs it, scope, pass/fail basis) would directly compete for "regression testing vs. X" queries — all high-volume, all currently going to competitors with structured tables.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section despite the article naturally answering several FAQs through its sub-section structure. Suggested questions: "What is the difference between regression testing and retesting?", "When should regression testing be automated?", "How often should you run regression tests?", "What are the types of regression testing?", "What is the difference between regression testing and unit testing?", "How do you select test cases for regression testing?"</td>
+        </tr>
+        <tr>
+          <td><strong>H1 and sub-section headings match queries</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>H1 "What Is Regression Testing? Types, Approach and More" is well query-matched. Sub-section H3s "What is regression testing?", "Types of regression testing", "How to do regression testing", "Regression testing in Agile" — all mirror natural search queries. No changes needed here. This is one of the stronger heading structures in the audit batch.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published June 21, 2022. No modification date appears in page metadata — unusual, as most other audited articles have a <code>meta-article:modified_time</code> field. This suggests the article may not have been substantively updated since 2022. This is the most damaging freshness signal in the batch. After the content refresh, add "Last updated: [Month 2026]" prominently alongside the published date.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, with photo and author page link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Page publicly accessible</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article links to /automated-functional-testing/ within the automation section and mentions "Applause Codeless Automation" — good. But /manual-functional-testing/ and /integrated-functional-testing/ are not linked anywhere in the body, despite being directly relevant to regression testing execution. The Applause CTA section links only to /contact-us/. During the refresh, add contextual links to relevant solution pages where regression testing use cases are discussed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange" style="margin-top:16px;">
+      <div class="callout-label">⚠ Content Gap — No AI-Era Context</div>
+      The article has zero mention of regression testing for AI-generated features, LLM outputs, or agentic AI behavior — all active query areas in 2025–2026. Practitioners building AI-powered software need to know how regression testing applies when the system's outputs are non-deterministic. A brief section ("Regression Testing for AI-Powered Software") would fill an emerging query gap that 2022-era competitor content also doesn't cover, creating a genuine differentiation window for Applause's AI testing expertise.
+    </div>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">HowTo + ItemList Missing — Implement Post-Refresh</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article has two distinct schema opportunities — HowTo for the 5-step process and ItemList for the 5 regression testing types — making it the highest-schema-opportunity page in the batch. However, schema optimization without a content refresh would improve an already-disadvantaged page only marginally. Sequence matters: refresh first, schema second.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast likely generates Article/BlogPosting — verify before adding.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>HowTo</code></td>
+          <td>Tags the 5-step "How to do regression testing" section as a named, sequential process. Directly triggers "how to" query extraction. The steps are already named and numbered — this is a code addition only.</td>
+          <td class="icon-fail">✗ Almost certainly absent</td>
+          <td><span class="p1">P1 — implement during refresh</span></td>
+        </tr>
+        <tr>
+          <td><code>ItemList</code></td>
+          <td>Tags the 5 named regression testing types as a structured list. Improves extraction for "types of regression testing" enumeration queries.</td>
+          <td class="icon-fail">✗ Almost certainly absent</td>
+          <td><span class="p1">P1 — implement during refresh</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags Q&amp;A content for direct extraction. Needed once the FAQ section is added during the refresh.</td>
+          <td class="icon-fail">✗ Absent — no FAQ section yet</td>
+          <td><span class="p1">P1 — add FAQ first, then schema</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic signals. Verify Yoast is present. After refresh, ensure <code>dateModified</code> is populated with the 2026 update date.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified after refresh</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Starter HowTo Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Based on the existing 5-step section. Implement during or after the content refresh.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Do Regression Testing",
+  "description": "A step-by-step approach to planning and executing regression testing
+  after code changes, from gathering test cases through running and reviewing results.",
+  "step": [
+    { "@type": "HowToStep", "position": 1, "name": "Gather test cases",
+      "text": "Identify tests targeting main functionality, error-prone code segments, and
+      complex user sequences. Document test cases so they can be reliably re-executed." },
+    { "@type": "HowToStep", "position": 2, "name": "Decide which tests to automate",
+      "text": "Separate test cases into automated and manual groups. Repeatable, stable,
+      and scriptable tests are strong automation candidates." },
+    { "@type": "HowToStep", "position": 3, "name": "Estimate time and resources",
+      "text": "Factor in test data creation, test planning, tool execution, and reporting
+      when estimating the effort required for the regression cycle." },
+    { "@type": "HowToStep", "position": 4, "name": "Prioritize test cases",
+      "text": "Prioritize by business impact and risk level to maximize coverage within
+      available time. Classify tests for reuse or retirement in future cycles." },
+    { "@type": "HowToStep", "position": 5, "name": "Run tests and document results",
+      "text": "Execute the test suite, document defects found, and update the regression
+      suite with any new test cases discovered during exploratory testing." }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. GPTBot (OpenAI training) explicitly blocked; OAI-SearchBot allowed by wildcard; all other citation bots allowed. Note: the freshness disadvantage means bot access is currently providing limited benefit — AI platforms can crawl the page but are deprioritizing 2022 content. Bot access optimization becomes meaningful again once the content is refreshed to 2026 standards.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">Standard QA Knowledge Ecosystem</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the regression testing knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is regression testing" is one of the most-linked, most-cited QA knowledge queries. Third-party mentions of Applause in regression testing context — on Guru99, BrowserStack roundups, or softwaretestinghelp.com — carry citation weight that a 4-year-old article currently cannot. Off-page presence is the fastest way to create citation signal while the content refresh is in progress.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>Regression Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>This domain's regression testing articles are among the most-cited by AI systems for this topic. A named Applause expert quote in their regression testing content — particularly on regression testing in Agile or automated regression coverage — would create citation leverage while the article is being refreshed.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Regression testing)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Wikipedia has a regression testing article that is widely cited across AI platforms. Verify whether Applause is referenced. A non-promotional mention as a crowdtesting vendor offering regression testing services would be appropriate and high-value.</td>
+        </tr>
+        <tr>
+          <td><strong>Guru99 / LambdaTest regression roundups</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>These domains publish "best regression testing tools" and "top QA vendors" articles cited frequently in AI answers. Pursuing inclusion via PR outreach would place Applause in the citation ecosystem for regression testing queries independently of the article's current freshness disadvantage.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 (Regression Testing category)</strong></td>
+          <td class="icon-partial">⚠ Present (general)</td>
+          <td class="icon-unknown">? Tag status unknown</td>
+          <td>Ensure G2 profile is tagged under "Regression Testing" and "Automated Testing." Reviews specifically mentioning regression coverage, regression cycle speed, or Agile regression support add keyword-level third-party evidence for these queries.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-action">Freshness Is the Primary Gap</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for regression testing queries</span>
+
+    <div class="callout callout-red">
+      <div class="callout-label">The Core Competitive Problem</div>
+      The primary competitive gap is not content quality — it's age. Guru99, BrowserStack, LambdaTest, and Software Testing Help all have regression testing articles updated in 2025–2026. They are not structurally superior to this article in most dimensions. They are just recent. AI systems that weight freshness — which is all of them — consistently prefer recent content for a topic that hasn't fundamentally changed but where practitioners expect current information.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap — Freshness</div>
+      <h3>Guru99 / Software Testing Material</h3>
+      <p><strong>Where they win:</strong> "What is regression testing," "types of regression testing," and "regression testing vs. retesting." Their content is structurally similar to Applause's — definitions, types, comparison pairs — but was updated in 2025 or 2026. That freshness advantage alone accounts for the citation gap.</p>
+      <p><strong>Why AI cites them:</strong> Same topic, same structure, more recent date. AI systems use modification date as a quality proxy. A 2025-updated article beats a 2022 article on equal structural merit.</p>
+      <p><strong>Applause's counter:</strong> A refreshed article with a 2026 update date, HowTo schema, comparison tables, and an AI-era section would match or exceed competitor structural quality with comparable freshness. The existing structure is a genuine advantage — it needs a date, not a rebuild.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Emerging Gap — AI Context</div>
+      <h3>LambdaTest / BrowserStack</h3>
+      <p><strong>Where they win:</strong> "Automated regression testing," "regression testing in DevOps/CI-CD," and "regression testing tools 2025/2026." Their content covers modern toolchains — GitHub Actions, CI/CD pipeline integration, containerized test environments — that the 2022 Applause article doesn't mention.</p>
+      <p><strong>Applause's counter:</strong> Adding a section on regression testing for AI-powered software — specifically, how to handle non-deterministic AI outputs in regression suites, and how Applause's real-world testing community provides the human judgment regression automation can't — creates a differentiated angle neither LambdaTest nor BrowserStack covers from a managed service perspective.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-action">11 Actions — Refresh is prerequisite for all others</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = during/after refresh, P3 = next quarter.</strong> The content refresh is the prerequisite — schema and structural work is sequenced to happen alongside or immediately after.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Execute a full content refresh.</strong> Update for 2025–2026 QA practices. Add an AI-era regression testing section. Source the "20 hours" stat. Reorder opening to lead with definition. Add a visible "Last updated: [Month 2026]" date alongside the published date. This is the prerequisite for all other optimizations — do it first.</td>
+          <td>Critical — restores freshness competitiveness</td>
+          <td>High — full article update</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add HowTo JSON-LD schema</strong> for the 5-step regression testing process. Starter template in Section 4. Implement alongside or immediately after the refresh.</td>
+          <td>High — process query extraction</td>
+          <td>Low — 1–2 hrs dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add 3 comparison tables</strong> — regression vs. retesting, regression vs. unit testing, regression vs. integration testing. All content exists in prose. Convert during the refresh. Criteria rows: purpose, timing in SDLC, who runs it, scope, pass/fail basis.</td>
+          <td>High — all comparison queries</td>
+          <td>Low — formatting + markup</td>
+          <td>Content (Jennifer) / Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add ItemList JSON-LD schema</strong> for the 5 regression testing types (Corrective, Selective, Retest-all, Progressive, Unit regression). Named list — ItemList maps directly.</td>
+          <td>Medium-High — type enumeration queries</td>
+          <td>Low — 1 hr dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–6 questions. See Section 1 for suggested questions. Then add FAQPage JSON-LD schema. Implement as part of the refresh.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Source the "20 hours" statistic.</strong> Trace to IBM, NIST, or another named source. If the original source can't be confirmed, replace with a properly cited equivalent on defect fix cost escalation in SDLC phases.</td>
+          <td>Medium — citation credibility</td>
+          <td>Low — research</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a section on regression testing for AI-powered software.</strong> Cover how non-deterministic AI outputs change regression test design, golden dataset regression, and how crowdtested real-world scenarios complement automated regression for AI features. Links to /ai-training-testing/.</td>
+          <td>High — emerging query ownership, Applause differentiation</td>
+          <td>Medium — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add solution page links in body.</strong> Link /manual-functional-testing/ and /integrated-functional-testing/ in the regression execution and Agile sections where those services are contextually relevant.</td>
+          <td>Medium — internal authority signals</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Move the definition to the opening paragraph.</strong> "Software regression testing is a type of functional, black box testing..." should be sentence one of the article, before the Agile context.</td>
+          <td>Medium — definition query extraction</td>
+          <td>Low — copy reorder</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Bot access is table stakes — the refresh will make bot access meaningful again for this page specifically.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Applause expert placement in softwaretestinghelp.com regression testing content.</strong> Third-party citation signal creates off-page authority independent of the article's freshness — valuable to establish while the refresh is in progress.</td>
+          <td>Medium — cross-platform citation</td>
+          <td>Medium — PR / editorial outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms — Post-Refresh Focus</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-orange">
+      <div class="callout-label">Monitoring Sequence Note</div>
+      Pre-refresh monitoring provides a baseline but is not a useful optimization signal — the freshness gap will dominate all citation results. Set the baseline now, execute the refresh, then track the post-refresh delta at 30 and 60 days to measure the freshness restoration effect.
+    </div>
+
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>what is regression testing</li>
+      <li>types of regression testing</li>
+      <li>regression testing vs retesting</li>
+      <li>regression testing vs unit testing</li>
+      <li>how to do regression testing</li>
+      <li>automated regression testing</li>
+      <li>regression testing in agile</li>
+      <li>regression testing for AI features (emerging — monitor for emergence)</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Refresh Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pre-refresh baseline</strong></td>
+          <td>Run all 8 queries now across all 5 platforms. Record who is cited for each. This is the benchmark the refresh will be measured against.</td>
+        </tr>
+        <tr>
+          <td><strong>Within 48 hrs of refresh + schema</strong></td>
+          <td>Validate HowTo, ItemList, and FAQPage (when added) via Rich Results Test. Confirm "Last updated" date is visible and <code>dateModified</code> is populating in Yoast.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-refresh</strong></td>
+          <td>Re-run all 8 queries. Measure delta against pre-refresh baseline. Key signal: are comparison queries (vs. retesting, vs. unit testing) now returning Applause citations? These should be the fastest movers after schema and table additions.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask for regression testing — each new question is a FAQ addition opportunity. Assess whether "regression testing for AI features" is emerging as a query with volume, and whether the new section is being cited.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Keep "Last updated" current. Add any new regression testing patterns (AI-specific regression approaches, continuous testing evolution). This article has a long-term content calendar need given its strategic query value.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/what-is-regression-testing-types-approach/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution. Content refresh is prerequisite for structural optimizations to be effective.</span>
+</div>
+
+</body>
+</html>

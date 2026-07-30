@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — What Is a Hotfix? Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>What Is a Hotfix? Blog Post</h1>
+  <div class="sub">applause.com/blog/what-is-hotfix-software-patches-explained/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>Amy Reichert, Freelance QA SME/Test Engineer</strong></span>
+    <span>Expert quote: <strong>Hamish Sherlock, VP Solution Consulting, Applause</strong></span>
+    <span>Published: <strong>February 14, 2025</strong></span>
+    <span>Last modified: <strong>December 1, 2025</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Strong Bones, Missing the Table</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout Finding — Best E-E-A-T Signal in the Audit Batch</div>
+      This article contains a named expert quote from <strong>Hamish Sherlock, VP of Solution Consulting, Applause</strong> — with his full title and a substantive, citable statement on hotfix culture. This is the strongest first-person expertise signal across all audited pages and a genuine AI citation differentiator. Lean into it: the quote should be near the top of the article, not buried mid-page, and the author's SME credentials should be reinforced in the bio.
+    </div>
+
+    <p style="margin-bottom:16px;">The H1 matches the primary target query exactly, the sub-section headings are genuinely query-matched throughout, and the 12-step implementation section is a natural HowTo schema target. That's more structural foundation than any other blog post in this batch. The main gap is a single missing asset: a comparison table for hotfix vs. patch vs. bug fix vs. coldfix. That query set is highly searched, clearly answered in prose already, and currently going entirely to competitors because there's no extractable table. Everything else — no statistics, no FAQ, no solution page links, no visible date — compounds the issue but the comparison table is the priority.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>✗</span><span>No comparison table — hotfix vs. bug fix vs. patch vs. coldfix is prose only; all comparison queries going to competitors</span></li>
+          <li><span>✗</span><span>Zero statistics in an 11-minute article on a topic rich with cost and frequency data</span></li>
+          <li><span>✗</span><span>No FAQ section despite 5+ naturally question-framed sub-sections</span></li>
+          <li><span>✗</span><span>No solution page links in article body — CTA only mentions crowdtesting generically</span></li>
+          <li><span>✗</span><span>December 2025 modification buried in metadata — not visible on page</span></li>
+          <li><span>✗</span><span>HowTo schema absent despite a textbook 12-step implementation section</span></li>
+          <li><span>✗</span><span>Opening paragraph frames hotfixes contextually before defining them — definition is in a sub-section, not the first paragraph</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>H1 "What Is a Hotfix? Software Patches Explained" matches target query exactly</span></li>
+          <li><span>✓</span><span>Expert quote: Hamish Sherlock, VP Solution Consulting — strongest named E-E-A-T signal in the batch</span></li>
+          <li><span>✓</span><span>Author: Amy Reichert, Freelance QA SME/Test Engineer — domain-relevant credentials</span></li>
+          <li><span>✓</span><span>All sub-section headings are question-format and query-matched ("What is a hotfix?", "What are some hotfix examples?", "How to implement a hotfix step by step")</span></li>
+          <li><span>✓</span><span>12-step implementation section — named steps, numbered, sequential — perfect HowTo schema fit</span></li>
+          <li><span>✓</span><span>4 concrete hotfix examples with real-world scenarios</span></li>
+          <li><span>✓</span><span>Hotfix benefits and challenges sections are well-structured with bolded sub-items</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add a comparison table — hotfix vs. bug fix vs. patch vs. coldfix.</h4>
+      <p>All four terms are already defined in prose in the article's third section. Converting that content into a structured 4-column comparison table (definition, timing, urgency, testing depth, deployed on live system?) would directly compete for "hotfix vs. bug fix," "hotfix vs. patch," and "software patch vs. hotfix" queries — all high-intent, all currently going to competitors. The content is already written; this is a formatting and schema task.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add HowTo JSON-LD schema to the 12-step implementation section.</h4>
+      <p>The "How to implement a hotfix step by step" section has 12 named, bolded steps in numbered sequence — it maps to HowTo schema with almost no adaptation. This is the clearest schema opportunity in the entire audit batch. Starter template in Section 4.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Move the Hamish Sherlock quote above the fold and strengthen the definition opening.</h4>
+      <p>The expert quote is buried mid-page. An Applause VP's named perspective on hotfix culture is the kind of first-person authority signal AI systems weight heavily — it should appear in or immediately after the opening definition, not after the timeline section. Simultaneously, replace the contextual opening paragraph with a clean 134–167 word definition block that leads with "A hotfix is..." before providing context.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Unverified — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "What is a hotfix" is a high-intent query searched by developers, QA engineers, and engineering managers — exactly Applause's buyer personas. Someone searching this is dealing with a quality problem or trying to prevent one. Being the cited source here puts Applause in front of a practitioner audience at a moment of pain. The article is well-positioned for the primary definition query; the comparison and process queries are where it loses ground.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status is inferred from page structure and competitive analysis. Manual verification required before stakeholder distribution. ChatGPT column: OAI-SearchBot likely allowed by wildcard — per homepage audit recommendation, explicit configuration is still needed.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>what is a hotfix</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — H1 matches exactly</td>
+          <td>Perforce, Atlassian, TechTarget</td>
+        </tr>
+        <tr>
+          <td>hotfix examples in software</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — 4 concrete examples present</td>
+          <td>Perforce, various DevOps blogs</td>
+        </tr>
+        <tr>
+          <td>hotfix vs bug fix</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — prose only, no comparison table</td>
+          <td>Perforce, Atlassian, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>hotfix vs patch</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>Perforce, TechTarget, Atlassian</td>
+        </tr>
+        <tr>
+          <td>how to implement a hotfix</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — 12-step section, no HowTo schema</td>
+          <td>Perforce, DevOps blogs</td>
+        </tr>
+        <tr>
+          <td>hotfix risks and challenges</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — dedicated section with expert quote</td>
+          <td>Perforce, Atlassian</td>
+        </tr>
+        <tr>
+          <td>how to avoid hotfixes</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — dedicated section present</td>
+          <td>Perforce, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>hotfix testing best practices</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — timeline section covers testing steps</td>
+          <td>Perforce, Software Testing Help</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>All citation statuses inferred — manual verification required. The comparison query pattern (hotfix vs. X) is a consistent miss: this page is well-positioned for definition and process queries but loses all comparison queries due to the absence of a structured table.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Definition ("what is a hotfix")</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:65%;"></div></div><span style="font-size:13px; color:var(--green);">Competitive — H1 and sub-section both match</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Examples / scenarios</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — 4 real-world examples present</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Process ("how to implement")</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive once HowTo schema added</span></div>
+      <div class="meter-row"><span style="width:200px; font-size:13px;">Comparison ("hotfix vs X")</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:5%;"></div></div><span style="font-size:13px; color:var(--red);">Very weak — no comparison table</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">3 Pass · 2 Partial · 5 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This article has the strongest heading structure of any audited blog post — every major sub-section opens with a natural-language question that mirrors how buyers search. AI systems parse these headings to understand the document's topic map. The gaps are in what comes after the headings: no statistics to support the claims, no comparison table for the most-searched query pair, and no schema to formalize the 12-step process.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition in opening paragraph</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The very first sentence — "A hotfix means urgency, a software patch response to an issue considered serious enough to fix while the system is 'hot,' or running" — is contextual framing, not a clean definition. The best definition appears in the "What is a hotfix?" sub-section: "Hotfixes are software patches designed to quickly address a bug or defect." That definition should be the true opening of the article, followed by the expert quote, then the context. Current structure buries the extractable definition several paragraphs down.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The benefits and challenges sections work well as standalone extracts — bolded sub-items with clear descriptions. The 12-step implementation section gives each step a name and a description. The "What's the difference between a hotfix, coldfix, patch and bug fix?" section is where the content starts to lose extractability — the distinctions are valid but flow as continuous prose rather than clearly delineated comparisons. Converting to a table would resolve this entirely.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources and dates</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No statistics in the article. This topic has rich quantitative data available: the cost multiplier for production defects vs. pre-release fixes (IBM Systems Sciences Institute), frequency benchmarks from the World Quality Report on hotfix rates, or DORA metrics on deployment frequency. At minimum, one sourced data point per major section (benefits, challenges, how to avoid) would measurably improve citation rates. The expert quote partially compensates, but cited numbers carry more weight with AI systems than opinions alone.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison table — hotfix vs. patch vs. bug fix vs. coldfix</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The "What's the difference between a hotfix, coldfix, patch and bug fix?" section covers all four terms in prose. A 4-column comparison table (rows: definition, urgency level, timing, testing depth, deployed on live system, planned/unplanned) is the exact format AI systems extract for "hotfix vs. patch" and "hotfix vs. bug fix" queries. This is the single change that would most immediately improve coverage for comparison queries. Content already exists — this is a formatting task.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No formal FAQ exists. The article already answers the most common questions through its sub-section structure — converting the existing sub-sections into a FAQ block with FAQPage schema would require minimal new writing. Suggested FAQ questions: "What is the difference between a hotfix and a bug fix?", "When should you use a hotfix instead of waiting for the next release?", "How long does a hotfix take to deploy?", "What are the risks of applying a hotfix?", "How do you test a hotfix?", "How do you avoid hotfixes?"</td>
+        </tr>
+        <tr>
+          <td><strong>Sub-section headings match query patterns</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Excellent — the strongest heading structure in the audit batch. "What is a hotfix?", "What are some hotfix examples?", "What's the difference between a hotfix, coldfix, patch and bug fix?", "How to implement a hotfix step by step", "Keys to avoiding hotfixes" — all mirror natural-language search queries. No changes needed here.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible on page</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published February 14, 2025 is shown. The December 1, 2025 modification date is in page metadata but invisible to users and AI systems parsing visible content. Add "Last updated: December 2025" alongside the published date. The December 2025 update is a genuine freshness signal — make it visible.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution with credentials</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Amy Reichert is credited as "Freelance QA SME/Test Engineer" with a photo and author page link. The "Freelance" designation is accurate but slightly weaker for institutional E-E-A-T than an in-house role. More importantly, Hamish Sherlock's expert quote (VP, Solution Consulting, Applause) adds Applause's own institutional authority to the article. Both attributions should remain; consider adding a sentence to Amy's author bio that establishes her breadth of hotfix testing experience specifically.</td>
+        </tr>
+        <tr>
+          <td><strong>Page publicly accessible</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>No action needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Almost all internal links go to other blog posts (/blog/write-an-impactful-bug-report/, /blog/what-is-regression-testing-types-approach/, etc.). The article's CTA mentions "global crowdtesters" but links only to /contact-us/. No links to /manual-functional-testing/, /integrated-functional-testing/, or /automated-functional-testing/ — the Applause solutions most directly relevant to avoiding hotfixes. Add contextual links in the "Keys to avoiding hotfixes" and "How to implement" sections pointing to relevant solution pages.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge status-action">HowTo Schema Missing — Clearest Fit in the Batch</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The "How to implement a hotfix step by step" section has 12 named, bolded steps in a numbered list — HowTo schema maps to this directly. When implemented, it tells every AI platform: "This page contains a 12-step process called 'How to implement a hotfix.' Here are the steps." For "how to implement a hotfix" and "hotfix process" queries, schema-tagged step content is significantly more likely to be extracted than untagged prose.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify via Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast likely generates Article/BlogPosting — check before adding duplicates.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>HowTo</code></td>
+          <td>Tags the 12-step implementation process as a named, sequential workflow — primary trigger for AI extraction of process content for "how to" queries.</td>
+          <td class="icon-fail">✗ Almost certainly absent — not auto-generated by Yoast</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Marks Q&amp;A pairs for direct extraction — needed once the FAQ section is added. The existing sub-section structure already answers these questions; it just needs the formal schema wrapper.</td>
+          <td class="icon-fail">✗ Absent — FAQ section doesn't exist yet</td>
+          <td><span class="p1">P1 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic signals. Verify Yoast is correctly populating <code>dateModified</code> with the December 2025 update date.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Starter HowTo Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Maps the existing 12 steps directly. Paste into <code>&lt;head&gt;</code> as <code>&lt;script type="application/ld+json"&gt;</code>.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Implement a Hotfix",
+  "description": "A step-by-step guide to implementing a software hotfix safely,
+  from identifying the issue through post-deployment monitoring and forensic inquiry.",
+  "totalTime": "PT0S",
+  "step": [
+    { "@type": "HowToStep", "position": 1, "name": "Identify the issue",
+      "text": "Assess severity and determine whether the issue requires a hotfix now or can wait for the next scheduled update. This is a risk vs. vulnerability exercise." },
+    { "@type": "HowToStep", "position": 2, "name": "Develop a quick solution",
+      "text": "Address the most targeted fix for the issue. Expanding scope beyond the specific bug only opens up additional risk." },
+    { "@type": "HowToStep", "position": 3, "name": "Communicate the details",
+      "text": "Inform the developers coding the fix, including the bug details and the expected software patch result." },
+    { "@type": "HowToStep", "position": 4, "name": "Review the expected functionality",
+      "text": "Guide the testing and product teams in determining what they can and cannot test given time constraints." },
+    { "@type": "HowToStep", "position": 5, "name": "Make a checklist of items to test",
+      "text": "Include any integrated functionality affected by the defect. Checklists are fast to create, easy to follow, and provide base documentation for test cases written post-deployment." },
+    { "@type": "HowToStep", "position": 6, "name": "Test in a staging or test environment",
+      "text": "The environment should closely mirror production before deployment. Test as extensively as time permits." },
+    { "@type": "HowToStep", "position": 7, "name": "Back up the current system state",
+      "text": "Ensure all related components are considered and backed up before deployment." },
+    { "@type": "HowToStep", "position": 8, "name": "Align expectations",
+      "text": "Confirm all stakeholders — internal and external — understand the hotfix is about to be applied and communicate any expected disruptions." },
+    { "@type": "HowToStep", "position": 9, "name": "Deploy the hotfix",
+      "text": "Deploy while the system is running where possible. For multi-server systems, a rolling deployment reduces overall impact risk." },
+    { "@type": "HowToStep", "position": 10, "name": "Regression test around the defect",
+      "text": "Test associated features to confirm the fix has not introduced new issues. Add test steps to the regression or smoke test suite for future execution." },
+    { "@type": "HowToStep", "position": 11, "name": "Monitor the system",
+      "text": "Understand how the system behaves after the software patch is applied." },
+    { "@type": "HowToStep", "position": 12, "name": "Document and conduct forensic inquiry",
+      "text": "Log the issue, urgency, changes made, and future ramifications. Discover what went wrong and seek remedies that do not involve future hotfixes." }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply here unchanged. GPTBot (OpenAI training) explicitly blocked; OAI-SearchBot allowed by wildcard but should be made explicit; all other citation bots allowed. The recommended 2026 bot configuration from the homepage audit Section 5 covers this page. No page-level exceptions.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">DevOps / Engineering Ecosystem — Niche Gap</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the hotfix knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Hotfix content is searched primarily by developers, DevOps engineers, and QA leads — not marketing personas. The sites they trust for this topic are Atlassian, Perforce, and DevOps-focused publishers. Applause's unique angle is the QA and testing perspective: not just "what is a hotfix" but "hotfixes are a symptom of testing gaps." That positioning is rare in this content category and worth pushing into third-party sources where the developer audience already is.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>Hotfix / QA Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Atlassian / Jira blog</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>Atlassian's DevOps and software quality content is cited heavily for hotfix and software patch queries. An Applause expert mention or guest perspective on "how better testing prevents hotfix dependency" in an Atlassian-adjacent context would create high-value cross-platform citation signal where the developer audience is most active.</td>
+        </tr>
+        <tr>
+          <td><strong>Perforce blog</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>Perforce publishes extensively on hotfixes, patches, and version control — and their content ranks and gets cited for these queries. A named Applause perspective cited in a Perforce-adjacent roundup or resource would carry significant AI citation weight for this specific topic.</td>
+        </tr>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>This domain publishes on hotfix testing specifically. Verify whether Applause content or an Applause expert is cited in those articles. If not, outreach for an expert quote from Hamish Sherlock — whose quote is already in this article — would be natural and credible.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Hotfix)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Wikipedia has an article on hotfixes. Verify whether Applause is mentioned as a source or context for QA practices around hotfixes. Not promotional — but a citation to Applause's content as a reference for testing hotfixes would be appropriate and high-value.</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn (Hamish Sherlock)</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Coverage unknown</td>
+          <td>Hamish Sherlock is already quoted in this article. A LinkedIn article from him expanding on the hotfix culture theme — linking back to this Applause post — creates Copilot-indexable expert content, reinforces E-E-A-T signals, and distributes the content to DevOps and QA practitioner audiences organically.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-action">2 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors are positioned for hotfix queries</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The competitive set here is DevOps-adjacent: Perforce, Atlassian, TechTarget. Applause's differentiation angle — that hotfixes are a QA failure signal, not just a deployment tactic — is largely unclaimed in this content category. No competitor is framing hotfix avoidance as a testing strategy argument the way this article does. That angle is Applause's to own if the content is structured to be extracted.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Perforce</h3>
+      <p><strong>Where they win:</strong> "What is a hotfix," "hotfix vs. patch," "hotfix vs. bug fix." Their hotfix content includes an explicit comparison table contrasting hotfix, patch, bug fix, and update across multiple criteria. That table is the primary extraction target for comparison queries.</p>
+      <p><strong>Why AI cites them:</strong> Domain authority in DevOps tooling, structured comparison content, and named expert perspectives from version control specialists. Their angle is deployment mechanics; Applause's angle is testing quality — a complementary and underserved frame.</p>
+      <p><strong>Applause's counter:</strong> Adding a comparison table to the existing "What's the difference?" section immediately closes the structural gap. Applause's QA-focused framing ("hotfixes are symptoms of testing deficiencies") is a stronger, more actionable angle than Perforce's deployment-mechanics framing — but only if it's in an extractable format.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Active Gap</div>
+      <h3>Atlassian / TechTarget</h3>
+      <p><strong>Where they win:</strong> "Hotfix definition," "software patch explained," "hotfix examples." Their content is written for a developer/DevOps persona and cited heavily in AI answers because it's short, structured, and lives on high-authority domains.</p>
+      <p><strong>Why AI cites them:</strong> Institutional domain authority and content brevity — AI systems favor short, dense, well-structured definitions from recognized software companies. Applause's article is longer and more comprehensive, which is an advantage for practitioners but requires more structure to compete for AI citation at the definition level.</p>
+      <p><strong>Applause's counter:</strong> Moving the clean definition ("Hotfixes are software patches designed to quickly address a bug or defect") to the very first sentence — before any contextual framing — would immediately improve citation rates for the primary definition query. This is a one-sentence edit with material impact.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Content actions in Jennifer's scope; schema in Tammy's scope.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add HowTo JSON-LD schema</strong> to the "How to implement a hotfix step by step" section. All 12 steps are already named and numbered. Starter template in Section 4.</td>
+          <td>High — process query extraction</td>
+          <td>Low — 1–2 hrs dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add a comparison table</strong> for hotfix vs. bug fix vs. patch vs. coldfix. Suggested rows: definition, urgency, timing, testing depth, deployed on live system, planned or unplanned. Content already exists in the "What's the difference?" section — this is formatting and markup.</td>
+          <td>High — all comparison queries</td>
+          <td>Low — formatting + dev</td>
+          <td>Content (Jennifer) + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Move the clean definition to the opening sentence</strong> and elevate the Hamish Sherlock quote to immediately follow. Replace the current contextual first paragraph with: "A hotfix is a software patch designed to quickly address a critical bug or defect — applied to a live system outside the normal planned release cycle." Then lead with Hamish's quote as the expert endorsement of why this matters.</td>
+          <td>High — definition query citation</td>
+          <td>Low — copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–6 questions. The article already answers all of them — this is a structural addition with FAQPage schema. See Section 1 for suggested questions.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — copy restructure + schema</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 3–4 statistics with named sources</strong>. Suggested: IBM defect fix cost multiplier (defects cost 100x more to fix in production vs. design phase), DORA metrics on deployment frequency and change failure rate, or World Quality Report on hotfix frequency benchmarks. These directly support the "hotfixes are a testing quality issue" framing.</td>
+          <td>High — citation credibility</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add contextual links to solution pages</strong> in the "Keys to avoiding hotfixes" section: link /manual-functional-testing/ and /integrated-functional-testing/ where regression and pre-release testing are mentioned. Link /automated-functional-testing/ where continuous integration is referenced. These are the Applause solutions that directly prevent hotfixes.</td>
+          <td>Medium — internal authority + user journey</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add "Last updated: December 2025"</strong> alongside the published date. The modification is real and recent — make it visible.</td>
+          <td>Medium — freshness signal</td>
+          <td>Low — template</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Strengthen Amy Reichert's author bio</strong> to include specific hotfix testing experience — number of hotfixes tested, industries covered, or notable environments. The "Freelance" framing slightly weakens institutional E-E-A-T; specific experience details compensate.</td>
+          <td>Low-Medium — E-E-A-T signal</td>
+          <td>Low — copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Commission a Hamish Sherlock LinkedIn article</strong> expanding on hotfix culture and the testing-quality connection, linking back to this post. Creates Copilot-indexable expert content and distributes the article to a DevOps/QA practitioner audience organically.</td>
+          <td>Medium — third-party expert signal</td>
+          <td>Low — executive content</td>
+          <td>PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Developer and QA practitioner audiences are heavy users of Perplexity and ChatGPT for technical queries — citation bot access for this page specifically is valuable.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Hamish Sherlock expert placement</strong> in softwaretestinghelp.com or Perforce-adjacent hotfix content — leveraging the existing quote as a starting point for a broader expert perspective on hotfix culture and testing quality.</td>
+          <td>Medium — cross-platform citation</td>
+          <td>Medium — PR / editorial outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>what is a hotfix</li>
+      <li>hotfix vs bug fix</li>
+      <li>hotfix vs patch</li>
+      <li>hotfix examples software</li>
+      <li>how to implement a hotfix</li>
+      <li>hotfix risks challenges</li>
+      <li>how to avoid hotfixes</li>
+      <li>hotfix testing best practices</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema</strong></td>
+          <td>Validate HowTo and FAQPage (once added) via Rich Results Test. Confirm <code>dateModified</code> is populating correctly in Yoast.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 8 queries across platforms. Key test: does Applause now appear for "hotfix vs. bug fix" and "hotfix vs. patch" — the comparison queries the page currently misses entirely?</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check People Also Ask boxes for hotfix queries — new questions = FAQ addition opportunities. Assess whether moving the definition to the opening improved "what is a hotfix" citation rates.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Update statistics, refresh "last updated" date, check competitor hotfix content for moves. Monitor whether Hamish Sherlock's LinkedIn article (if published) drives referral traffic or citation uplift.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/what-is-hotfix-software-patches-explained/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

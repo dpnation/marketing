@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — 4 Digital Health Trends 2026</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .stat-card { background: var(--blue-100); border-radius: 6px; padding: 14px; }
+    .stat-card .figure { font-size: 22px; font-weight: 800; color: var(--blue-700); margin-bottom: 4px; }
+    .stat-card .context { font-size: 12px; color: #555; }
+    .stat-card .source { font-size: 11px; color: var(--blue-500); margin-top: 4px; font-weight: 600; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; }
+      .summary-grid, .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>4 Digital Health Trends That Will Define Healthcare in 2026</h1>
+  <div class="sub">applause.com/blog/4-digital-health-trends-that-will-define-healthcare-in-2026/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>Tayla Holman, Writer and Editor</strong></span>
+    <span>Published: <strong>February 10, 2026</strong> — visible on page ✓</span>
+    <span>Type: <strong>Industry vertical trends piece</strong></span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — Best-Sourced Article in the Batch; H4 Headings Reduce Extraction Weight</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout — Best Statistics in the Batch</div>
+      This is the most statistics-rich article in the entire audit batch. Seven sourced, linked data points from named organizations: AMA (physician AI adoption), Grand View Research (AI diagnostics market), Deloitte (healthcare executive survey), BioSpace/market analysis (wearables market US and global), Rock Health (virtual care and wearables adoption), and CDC (adults with disabilities). These attributed, linked statistics are the primary reason AI systems would cite this article over less-sourced competitor content.
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="callout-label">⚠ Primary Structural Gap — Four Trend Headings Are H4s, Not H2s</div>
+      The four trend sub-sections ("1. AI-enabled diagnostics demand real-world validation", "2. Increased regulatory scrutiny amid data privacy concerns", "3. The rise of condition-specific wearables", "4. Accessibility becomes a core requirement") use H4 heading tags. For AI extraction, H2 and H3 carry substantially more semantic weight than H4 — the trend sections appear as deep sub-headings rather than primary content pillars. Upgrading to H2 tags is the single most impactful structural change for this article.
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">⚠ Stray "Read the Transcript" H4 Heading</div>
+      An orphaned H4 heading ("Read the Transcript") appears mid-article in the Accessibility section (Trend 4), apparently from an embedded media element that didn't render. To AI crawlers parsing the heading hierarchy, this heading appears as a content section between Trends 3 and the main Trend 4 text, creating structural noise. It should be removed or resolved.
+    </div>
+
+    <p style="margin-bottom:16px;">This is a genuinely strong article: fresh (5 months old), well-sourced, concrete, with a TytoCare case study reference, three eBook CTAs, and direct links to /healthcare/ and /ux-testing/ solution pages. The gaps are structural rather than content-related — H4 headings instead of H2s, no ItemList schema for the four trends, no FAQPage, and statistics that may have more recent versions available by mid-2026.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color:var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>✗</span><span>Four trend headings are H4 tags — should be H2 for primary section identification by AI systems</span></li>
+          <li><span>✗</span><span>Stray "Read the Transcript" H4 heading in Trend 4 section creates structural noise</span></li>
+          <li><span>✗</span><span>ItemList schema absent for the four named trends</span></li>
+          <li><span>✗</span><span>No FAQ section</span></li>
+          <li><span>✗</span><span>AMA survey (2024 data) and some market projections may have more current versions by mid-2026</span></li>
+          <li><span>✗</span><span>No /accessibility-testing/ or /ai-training-testing/ solution page links in article body despite both topics being central to the article</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color:var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>Seven sourced, linked statistics from named organizations — best in the batch</span></li>
+          <li><span>✓</span><span>Published February 10, 2026 — freshest article in the batch; date visible on page</span></li>
+          <li><span>✓</span><span>Four named trend sections with numbered H4 headings — structured enumeration</span></li>
+          <li><span>✓</span><span>TytoCare case study reference with specific metrics (69 device/OS configurations, 17 carriers)</span></li>
+          <li><span>✓</span><span>Three external eBook CTAs + links to /healthcare/ and /ux-testing/</span></li>
+          <li><span>✓</span><span>Article correctly targets healthcare/health tech decision makers with ICP-relevant pain points</span></li>
+          <li><span>✓</span><span>Algorithmic bias and disability access content directly differentiates Applause's real-world testing angle</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin:20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Upgrade the four trend headings from H4 to H2.</h4>
+      <p>The article's four main trend sections — "1. AI-enabled diagnostics demand real-world validation," "2. Increased regulatory scrutiny amid data privacy concerns," "3. The rise of condition-specific wearables," "4. Accessibility becomes a core requirement" — are marked as H4. For AI systems parsing the heading hierarchy, H4 signals a deep sub-point rather than a primary content section. Upgrading to H2 makes each trend section a first-class content pillar, directly improving citation likelihood for trend-specific queries ("healthcare AI testing 2026," "wearable device testing healthcare"). One template/markup change — no copy edit needed.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Remove or resolve the stray "Read the Transcript" H4 heading.</h4>
+      <p>This orphaned heading appears in the Accessibility section between substantive content. It likely links to a podcast transcript that didn't render as intended. To AI crawlers, it reads as a content section — creating structural noise between Trend 4's evidence and its resolution. Remove the heading or replace it with the intended resource link/embed.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add ItemList JSON-LD schema for the four named trends.</h4>
+      <p>The four numbered trend names are a clean list structure. ItemList schema makes this machine-readable as "four digital health trends defining healthcare in 2026," with each trend as a named ListItem. For enumeration queries ("what are the top digital health trends in 2026"), schema makes the list directly extractable without requiring parsing of the full H4 heading hierarchy.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- STATISTICS SHOWCASE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Statistics — The Article's Primary Strength</h2></div>
+    <span class="status-badge status-pass">7 Named, Sourced Statistics — Best in Batch</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Per the Princeton GEO research, statistics and citations boost AI visibility by 37–40% across queries. This article has seven — more than all other blog posts in this batch combined. The statistics are external, linked, and from named authoritative organizations. This is the foundational E-E-A-T advantage that makes this article more citable than most competitor health tech content despite being 5 months old.
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="figure">66%</div>
+        <div class="context">of 1,200 surveyed physicians using healthcare AI — a 78% increase from the prior year</div>
+        <div class="source">Source: American Medical Association, 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="figure">$5.4B</div>
+        <div class="context">AI diagnostics market projected size through 2030, up from $1.2B in 2023</div>
+        <div class="source">Source: Grand View Research (linked)</div>
+      </div>
+      <div class="stat-card">
+        <div class="figure">80%</div>
+        <div class="context">of healthcare executives say regulatory factors will influence their 2026 strategies</div>
+        <div class="source">Source: Deloitte 2026 US Health Care Executive Outlook (linked)</div>
+      </div>
+      <div class="stat-card">
+        <div class="figure">$112.67B</div>
+        <div class="context">US wearables market (consumer + medical-grade) projected by 2033</div>
+        <div class="source">Source: BioSpace / market analysis (linked)</div>
+      </div>
+      <div class="stat-card">
+        <div class="figure">58%</div>
+        <div class="context">of Americans used virtual care in 2024; 53% own a wearable</div>
+        <div class="source">Source: Rock Health (linked)</div>
+      </div>
+      <div class="stat-card">
+        <div class="figure">70M+</div>
+        <div class="context">US adults with disabilities — more than a quarter of the population</div>
+        <div class="source">Source: CDC (linked)</div>
+      </div>
+    </div>
+
+    <p style="font-size:14px; margin-top:4px; color:#666;"><em>All six statistics confirmed from article content with external source links. The seventh data point (global wearables market: $335.90B by 2032) is from the same BioSpace source as the US figure.</em></p>
+
+    <div class="callout callout-orange" style="margin-top:16px;">
+      <div class="callout-label">⚠ Staleness Risk — Verify at First Refresh</div>
+      The AMA physician survey data is from 2024. AI adoption in healthcare has moved quickly — a 2025 or 2026 update from AMA may exist with higher adoption percentages. The Grand View Research AI diagnostics projection ($5.4B by 2030) was from 2023 data. By mid-2026, a more recent projection is likely available and should replace the 2023-sourced figure. Market projections that are more than 18 months old in a fast-moving sector reduce citation credibility for AI systems that weight recency.
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Competitive — Industry Vertical Queries, H4 Limiting Extraction</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note + Article Type Caveat</div>
+      This is an industry vertical trends piece, not a foundational QA knowledge article. Its citation goal is different — it should be cited when AI systems answer "what are the healthcare digital trends in 2026?" or "how is AI changing healthcare testing?" not foundational QA queries. Citation status inferred from content structure. Manual verification required before stakeholder distribution.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:22%;">Key Competition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>digital health trends 2026</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — fresh + sourced, H4 headings limit extraction</td>
+          <td>Rock Health, Deloitte, McKinsey, HIMSS</td>
+        </tr>
+        <tr>
+          <td>AI diagnostics healthcare 2026</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — $5.4B stat + AMA physician data present with links</td>
+          <td>Grand View Research, AMA, NEJM Catalyst</td>
+        </tr>
+        <tr>
+          <td>healthcare wearables market 2026</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — $112.67B US figure with source link present</td>
+          <td>BioSpace, Statista, Grand View Research</td>
+        </tr>
+        <tr>
+          <td>healthcare data privacy trends 2026</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — Deloitte 80% stat present with link</td>
+          <td>Deloitte, Healthcare IT News, Health Affairs</td>
+        </tr>
+        <tr>
+          <td>digital health accessibility testing</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — CDC 70M adults with disabilities stat; real-user testing angle</td>
+          <td>WebAIM, Deque, Applause's own /accessibility-testing/</td>
+        </tr>
+        <tr>
+          <td>testing medical wearable devices</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — TytoCare case study reference (69 configs, 17 carriers)</td>
+          <td>FDA guidance docs, medical device QA publishers</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">AI diagnostics / physician AI stats</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:65%;"></div></div><span style="font-size:13px; color:var(--green);">Strong — AMA + Grand View links; specific figures</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Digital health trends 2026 (broad)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:45%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — fresh but H4s limit extraction vs. analyst firms</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Healthcare accessibility / disability</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — CDC stat + real-user testing angle</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">Medical wearable device testing</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:40%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — TytoCare case study is a differentiator</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">5 Pass · 1 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This is an industry vertical trends piece, not a foundational knowledge article. The evaluation criteria shift accordingly — no "definition in opening" check applies. What matters here is whether the four trend sections are extractable as standalone insights, and whether the statistics are properly attributed. The H4 heading level is the single most impactful structural gap.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Four trend sections: heading level</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Each trend uses an H4 heading tag. For AI extraction, H4 signals a deep sub-point in a section hierarchy. These are the article's primary content sections — they should be H2 (with H3 available for any sub-points within each trend). Upgrading H4 → H2 is a markup change with no copy edit required.</td>
+        </tr>
+        <tr>
+          <td><strong>Seven sourced, linked statistics</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>AMA, Grand View Research, Deloitte, BioSpace, Rock Health, and CDC are all named and linked. Each statistic is specific, dated (2024 or 2026 sources), and attributed. This is the strongest statistical sourcing in the blog batch — no changes needed beyond the staleness verification in Section 2.</td>
+        </tr>
+        <tr>
+          <td><strong>Stray "Read the Transcript" heading</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>An H4 heading ("Read the Transcript") appears mid-article in the Accessibility section. This is a rendering artifact from an embedded media element. It creates structural noise in the heading hierarchy that AI systems parse. Remove or replace with the intended resource link (likely a podcast episode) displayed as a normal hyperlink or callout block.</td>
+        </tr>
+        <tr>
+          <td><strong>Four named trends with self-contained section content</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Each of the four trends has an opening claim, supporting statistics, a risk or challenge framing, and an Applause crowdtesting solution paragraph. Each section is substantively self-contained — AI systems can extract individual trends without needing the full article context. No content changes needed; heading level upgrade (H4→H2) completes this.</td>
+        </tr>
+        <tr>
+          <td><strong>TytoCare case study reference with specific metrics</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>"69 unique device and OS configurations and 17 different mobile carriers" — a specific, named, linked case study. This is the kind of proof point AI systems cite for "wearable device testing" and "healthcare IoT testing" queries. The case study is embedded as a resource block with a PDF link. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>No FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>For a trends article, a brief FAQ of 3–4 questions would be appropriate and citable: "What are the biggest digital health trends in 2026?", "How is AI changing healthcare diagnostics?", "Why is accessibility important in digital health?", "How do companies test medical wearables?" Each is directly answered in the article body. FAQPage schema would make these extractable for People Also Ask appearances on healthcare technology queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal solution page links in body</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The closing CTA section links to /healthcare/ and /ux-testing/. However, Trend 1 (AI diagnostics) has no link to /ai-training-testing/, and Trend 4 (accessibility) has no link to /accessibility-testing/ — both are directly relevant solution pages that should be contextually linked within the trend body, not just in the closing section.</td>
+        </tr>
+        <tr>
+          <td><strong>Date visible on page</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Published February 10, 2026 — visible on the page. Unlike most articles in this batch, no "last updated" fix needed. The publication date is appropriate and recent. If the article is updated, adding a "Last updated" date alongside the published date would be ideal.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Tayla Holman, Writer and Editor — attributed with photo and author page link. Lower E-E-A-T signal than a VP practitioner author (like Chris Munroe in the prompt/response grading article), but adequate for a trend analysis piece. Adding a brief "about the author" or subject matter expert contributor note would strengthen the healthcare industry credibility signal.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics staleness risk</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The AMA 2024 physician AI survey is now 18+ months old. For AI adoption statistics in a fast-moving field, a 2025 or 2026 update from AMA or NEJM Catalyst is likely available. The Grand View Research AI diagnostics projection used 2023 base data — a mid-2026 update of this market projection would replace an increasingly stale reference. These should be verified and updated at first content refresh (recommend Q3 2026).</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>Schema Markup</h2></div>
+    <span class="status-badge" style="background:#FEE2DC;color:var(--red);">ItemList + FAQPage — Both Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ItemList</code> (4 trends)</td>
+          <td>Tags the four trend names as a named, ordered list. For "digital health trends 2026" enumeration queries, schema makes the list machine-readable without requiring heading-level parsing. Each trend: position, name, description (lead sentence of each trend section).</td>
+          <td class="icon-fail">✗ Absent</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags Q&A pairs for direct extraction. Three to four questions directly answered in the article — "What are the biggest digital health trends in 2026?", "How is AI changing healthcare diagnostics?", "Why does accessibility matter in digital health?" Add FAQ content section first, then schema.</td>
+          <td class="icon-fail">✗ Absent — FAQ section not yet created</td>
+          <td><span class="p2">P2 — add FAQ first</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic. Verify Yoast includes the February 2026 publication date in schema output. The <code>about</code> attribute could specify healthcare, AI testing, and wearables as subject areas.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify datePublished correct</td>
+          <td><span class="p2">P2 — verify only</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge" style="background:#F0F0F0;color:#555;">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. Confirm Cloudflare CDN-level bot blocking is not active — see Homepage report §5. Healthcare executives and digital health practitioners frequently use Perplexity and ChatGPT for trend research — confirmed bot access is directly relevant for this article's target audience.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">Health Tech Ecosystem — Third-Party Citation Opportunity</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the digital health ecosystem</span>
+
+    <table>
+      <thead>
+        <tr><th>Source</th><th>Presence</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HIMSS / Health Affairs / Rock Health</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>These are the AI citation authorities for digital health trend queries. The article already cites Rock Health — getting cited back by Rock Health or HIMSS in a roundup of health tech testing perspectives would significantly boost citation weight for these queries. Pursue via PR/editorial outreach as a healthcare testing expert source.</td>
+        </tr>
+        <tr>
+          <td><strong>AMA / NEJM Catalyst</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>The article cites the AMA survey — being cited in return by AMA digital health content (their "AMA Digital Medicine" resources) would be high-value. An expert quote from an Applause healthcare testing leader in AMA Digital Health news or NEJM Catalyst would create direct cross-citation between this article and the sources it references.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Digital health)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Verify whether Applause is referenced in any Wikipedia digital health article. The intersection of crowdtesting and healthcare quality assurance is an underserved topic in Wikipedia health technology pages — a practitioner reference would be appropriate and high-value for AI citation.</td>
+        </tr>
+        <tr>
+          <td><strong>TytoCare case study — the article's credibility anchor</strong></td>
+          <td class="icon-partial">⚠ Present (internal)</td>
+          <td>The TytoCare case study reference is currently internal only (PDF link). If TytoCare mentions Applause in any external content or PR, that third-party validation reinforces this article's medical wearables claims. Verify whether TytoCare's own website or PR cites Applause.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-partial">Analyst Firm Authority Gap</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for digital health trend queries</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Analyst Firms — Rock Health, Deloitte, McKinsey Health</h3>
+      <p><strong>Where they win:</strong> "Digital health trends 2026" — these firms' annual trend reports dominate this query category. Rock Health's 2026 outlook, Deloitte's health executive survey, and McKinsey's healthcare annual report all have institutional authority that Applause cannot match on the trend analysis query itself.</p>
+      <p><strong>Why AI cites them:</strong> Named institutional authority, annual report format, widespread media citations, and data that other publishers reference (making them doubly cited). The article actually cites two of these (Rock Health, Deloitte) — being cited by them in return would close this gap substantially.</p>
+      <p><strong>Applause's counter:</strong> Applause doesn't need to win "digital health trends 2026" against Rock Health — that's an unwinnable battle. The defensible query set is the intersection of trends + testing methodology: "how to test AI diagnostics," "wearable device testing best practices," "healthcare accessibility testing with real users." These queries are where Applause's crowdtesting differentiation is genuinely unique and competitor content is thin.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Differentiation Opportunity</div>
+      <h3>Healthcare IT News / Medical Device Testing Publishers</h3>
+      <p><strong>Where they win:</strong> "Medical device testing," "healthcare software testing compliance," "FDA digital health guidance." These are practitioner-level queries Applause is better positioned to win than broad trend queries.</p>
+      <p><strong>Applause's counter:</strong> The TytoCare case study (69 device configurations, 17 carriers) is a concrete proof point that healthcare IT news publishers would cite — it's the specificity and scale that makes it citable over generic crowdtesting descriptions. Getting this case study referenced in Healthcare IT News, MedCity News, or a HIMSS roundup would build the medical device testing citation authority that this article establishes internally.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">10 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Upgrade H4 trend headings to H2.</strong> Four markup tag changes — "1. AI-enabled diagnostics…", "2. Increased regulatory scrutiny…", "3. The rise of condition-specific wearables", "4. Accessibility becomes a core requirement." No copy edit. Highest-impact structural change for this article.</td>
+          <td>High — section identification by AI</td>
+          <td>Low — markup only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Remove or resolve the stray "Read the Transcript" H4 heading</strong> in the Accessibility section. Replace with the intended resource (podcast link) as a callout block or inline hyperlink, not a heading tag.</td>
+          <td>High — structural noise removal</td>
+          <td>Low — markup fix</td>
+          <td>Web dev (Tammy) / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add ItemList JSON-LD schema</strong> for the four named trends. Each ListItem: position, name, description (lead sentence of that trend's section). Compact implementation — no new content.</td>
+          <td>High — trend enumeration queries</td>
+          <td>Low — schema only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add contextual body links to /ai-training-testing/ within Trend 1</strong> (AI diagnostics) and to <strong>/accessibility-testing/ within Trend 4</strong> (accessibility). These solution pages are directly relevant to their respective trends but are not linked until the closing CTA.</td>
+          <td>High — solution page authority + user journey</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a 3–4 question FAQ section</strong> with direct answers drawn from the article body. See Section 3 for suggested questions. Add FAQPage JSON-LD schema.</td>
+          <td>Medium — People Also Ask coverage</td>
+          <td>Medium — copy + schema</td>
+          <td>Content (Jennifer) + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify Yoast Article schema includes the February 2026 publication date</strong> correctly — run through Rich Results Test to confirm <code>datePublished</code> is set.</td>
+          <td>Low — schema verification</td>
+          <td>Low — verify only</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Update statistics at first content refresh (Q3 2026).</strong> Check for 2025–2026 AMA physician AI survey updates and a current Grand View Research AI diagnostics market projection. Replace the 2024 AMA data and 2023-based market size with the most current available figures.</td>
+          <td>High — freshness of cited statistics</td>
+          <td>Medium — research + copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add a fifth trend or an emerging topic callout</strong> — agentic AI in clinical workflows is a 2026 development not covered. A brief section or callout on AI agents in healthcare (scheduling, prescription management, patient communication) would extend the article's relevance into H2 2026 and beyond.</td>
+          <td>Medium — content freshness extension</td>
+          <td>Medium — new content</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Healthcare executives researching digital health trends frequently use Perplexity and ChatGPT — confirmed citation bot access is directly relevant.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Healthcare IT News or MedCity News expert placement</strong> referencing Applause's crowdtesting approach to wearable medical device validation — specifically the TytoCare case study metrics (69 configs, 17 carriers) as a proof point. Third-party citation signal for medical device testing queries.</td>
+          <td>High — cross-platform citation</td>
+          <td>High — PR / editorial outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 10</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge" style="background:#F0F0F0;color:#555;">All Platforms</span>
+  </div>
+  <div class="section-body">
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>digital health trends 2026</li>
+      <li>AI diagnostics healthcare validation testing</li>
+      <li>healthcare wearable device testing</li>
+      <li>healthcare data privacy security testing 2026</li>
+      <li>digital health accessibility real users testing</li>
+      <li>testing AI-powered healthcare tools</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead><tr><th>Timeframe</th><th>What to Check</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of H4→H2 + ItemList</strong></td>
+          <td>Validate ItemList schema via Rich Results Test. Confirm H2 headings render correctly and that the "Read the Transcript" heading is removed. Check Google Search Console for any heading-related crawl anomalies.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 6 priority queries across platforms. Key test: has the H2 upgrade improved section extraction for trend-specific queries ("AI diagnostics testing," "wearable device testing healthcare")?</td>
+        </tr>
+        <tr>
+          <td><strong>Q3 2026 — first content refresh</strong></td>
+          <td>Update the AMA physician AI survey reference with 2025 or 2026 data. Update the Grand View Research AI diagnostics market size with a current projection. Add the "Last updated: [Q3 2026]" date to the page when these updates are made.</td>
+        </tr>
+        <tr>
+          <td><strong>Annually</strong></td>
+          <td>Publish a "Digital Health Trends 2027" article to replace this one as the primary citation target. Keep this article but add a "See our 2027 update" link at the top to maintain the content cluster's freshness signal.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/4-digital-health-trends-that-will-define-healthcare-in-2026/ &nbsp;·&nbsp; Scope: Industry vertical trends piece · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

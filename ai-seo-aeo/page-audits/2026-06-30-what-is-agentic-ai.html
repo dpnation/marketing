@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Visibility Audit — What is Agentic AI? | Applause</title>
+<style>
+  :root {
+    --blue-500: #0272B4;
+    --blue-700: #01446C;
+    --blue-100: #E6F3FA;
+    --aqua-500: #00C0A3;
+    --gray-700: #3D3D3D;
+    --yellow-500: #FFC400;
+    --green-500: #0F8919;
+    --red-500: #D42D0E;
+    --orange-500: #ED7200;
+    --font-primary: 'Proxima Nova', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-primary);
+    background: #F7FBFE;
+    color: var(--gray-700);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 64px; }
+
+  /* HEADER */
+  .report-header {
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+    color: white;
+    padding: 48px 40px 40px;
+    margin-bottom: 32px;
+  }
+  .report-header .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 12px;
+  }
+  .report-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .report-header .meta {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge-partial { background: var(--orange-500); color: white; }
+  .badge-pass { background: var(--green-500); color: white; }
+  .badge-fail { background: var(--red-500); color: white; }
+  .badge-unknown { background: #888; color: white; }
+  .badge-p1 { background: var(--red-500); color: white; }
+  .badge-p2 { background: var(--orange-500); color: white; }
+  .badge-p3 { background: var(--blue-500); color: white; }
+  .badge-onpage { background: var(--blue-500); color: white; }
+  .badge-offpage { background: var(--aqua-500); color: white; }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border: 1px solid var(--blue-100);
+    border-radius: 8px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue-700);
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--blue-500);
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+  .card p { margin-bottom: 12px; }
+  .card ul { margin-left: 20px; margin-bottom: 12px; }
+  .card li { margin-bottom: 6px; }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 4px solid var(--aqua-500);
+    background: #f0fdf9;
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+  .callout.alert {
+    border-color: var(--red-500);
+    background: #fff5f5;
+  }
+  .callout.info {
+    border-color: var(--blue-500);
+    background: var(--blue-100);
+  }
+  .callout strong { color: var(--blue-700); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th {
+    background: var(--blue-700);
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--blue-100);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .status-pass { color: var(--green-500); font-weight: 700; }
+  .status-fail { color: var(--red-500); font-weight: 700; }
+  .status-unknown { color: var(--orange-500); font-weight: 700; }
+
+  /* DIVIDER */
+  .section-divider {
+    background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
+    color: white;
+    padding: 28px 32px;
+    border-radius: 8px;
+    margin: 40px 0 32px;
+    text-align: center;
+  }
+  .section-divider h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .anchor-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .anchor-nav a {
+    color: white;
+    background: rgba(255,255,255,0.2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .anchor-nav a:hover { background: rgba(255,255,255,0.35); }
+
+  /* SECTION LABEL */
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .label-onpage { background: #dbeeff; color: var(--blue-700); }
+  .label-offpage { background: #d6f5ef; color: #006b5a; }
+
+  /* SCORE BARS */
+  .score-bar-wrap { margin: 10px 0; }
+  .score-bar-label { font-size: 13px; font-weight: 600; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .score-bar-track { background: var(--blue-100); border-radius: 4px; height: 10px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; }
+
+  /* FOOTER */
+  .report-footer {
+    background: var(--blue-700);
+    color: rgba(255,255,255,0.75);
+    padding: 28px 40px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  .report-footer a { color: rgba(255,255,255,0.9); }
+
+  /* FINDING CARDS */
+  .finding-card {
+    border: 1px solid var(--blue-100);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .finding-card .finding-title {
+    font-weight: 700;
+    color: var(--blue-700);
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  .finding-card p { font-size: 14px; margin-bottom: 0; }
+
+  /* ACTION TABLE */
+  .action-priority { white-space: nowrap; }
+
+  @media (max-width: 600px) {
+    .report-header { padding: 32px 20px 28px; }
+    .report-header h1 { font-size: 24px; }
+    table { font-size: 13px; }
+    th, td { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="container">
+    <div class="label">AI Visibility Audit — Page-Level</div>
+    <h1>What is Agentic AI? — applause.com/blog/what-is-agentic-ai/</h1>
+    <div class="meta">
+      <strong>Audit Date:</strong> June 30, 2026 &nbsp;·&nbsp;
+      <strong>Page Published:</strong> April 22, 2025 &nbsp;·&nbsp;
+      <strong>Author:</strong> Rob Mason, Former CTO<br>
+      <strong>Scope:</strong> On-page content extractability, AI citation readiness, competitive gaps, schema &amp; bot access
+    </div>
+    <span class="badge badge-partial">Overall Rating: Partial</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="card">
+  <h2>Executive Summary</h2>
+  <div class="callout alert">
+    <strong>Verdict:</strong> This page is well-indexed and readable, but it is not structured for AI citation and does not connect Applause's testing expertise to the content. It defines agentic AI adequately but surrenders the strategic opportunity: positioning Applause as the testing authority for agentic systems. Tool vendors — UiPath, Autify, Perfecto, Virtuoso QA — are owning the "agentic AI testing" query space. Applause's page sits in the "what is" category but doesn't bridge to its actual offer.
+  </div>
+
+  <h3>3 Critical Findings</h3>
+  <div class="finding-card">
+    <div class="finding-title">1. No strategic bridge to Applause's testing value prop</div>
+    <p>The page defines agentic AI generically. There is no meaningful connection between "what agentic AI is" and "why it requires real-world, human-in-the-loop testing" — Applause's core differentiation. Competitors are winning "agentic AI testing" queries precisely because their definitional content leads into their service offer.</p>
+  </div>
+  <div class="finding-card">
+    <div class="finding-title">2. Content is 14+ months old with no visible "last updated" date</div>
+    <p>Published April 22, 2025, this page has no "last updated" signal. In a fast-moving topic like agentic AI, freshness is a primary citation factor. ChatGPT cites content updated within the last 30 days 3.2x more often than older content. The page also cites a low-credibility source (marketresearchreports.com blog) for its only market statistic.</p>
+  </div>
+  <div class="finding-card">
+    <div class="finding-title">3. No extractable structure for AI citation</div>
+    <p>No FAQ section, no comparison table for Traditional AI / Gen AI / Agentic AI, no self-contained answer blocks at the 134–167 word target for AI Overview extraction. The Gen AI vs. Agentic AI comparison — the most citable section — is buried in editorial prose instead of a structured table that AI systems can lift directly.</p>
+  </div>
+
+  <h3>Top 3 Recommended Actions</h3>
+  <table>
+    <tr>
+      <th>Priority</th>
+      <th>Action</th>
+      <th>Expected Impact</th>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>Add a "Why Agentic AI Demands Specialized Testing" section that bridges the definitional content to Applause's human-in-the-loop testing differentiation</td>
+      <td>Opens the page to "agentic AI testing" query traffic; differentiates from tool vendor content</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>Add visible "Last Updated: [date]" and refresh the market stat to cite Gartner (already cited on Applause's other agentic content)</td>
+      <td>Freshness signal; credibility lift; Gartner citation dramatically more citable than marketresearchreports.com</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>Convert the Traditional AI / Gen AI / Agentic AI comparison to a structured table and add a FAQ section (5–6 Qs) with FAQPage JSON-LD schema</td>
+      <td>Primary AI extraction surface; schema gives AI engines direct Q&A access; table is the single highest-extraction format</td>
+    </tr>
+  </table>
+</div>
+
+<!-- PART 1: WHERE THE BRAND SHOWS UP -->
+<div class="card">
+  <h2>Where Applause Shows Up Today</h2>
+  <div class="callout info">
+    <strong>Why this matters:</strong> AI engines can only cite you for queries where your content appears in their search results. This matrix shows which "agentic AI" query types return Applause content and which return competitors — revealing where the citation gaps are.
+    <br><br><em>Note: This matrix is inferred from organic search results — not confirmed AI Overview panels. Manual verification in a live browser is required before presenting to stakeholders.</em>
+  </div>
+
+  <table>
+    <tr>
+      <th>Query</th>
+      <th>Applause Cited?</th>
+      <th>Who Wins Instead</th>
+      <th>Content Type Winning</th>
+    </tr>
+    <tr>
+      <td>What is agentic AI (general)</td>
+      <td><span class="status-pass">Indexed / Visible</span></td>
+      <td>Broad field (IBM, McKinsey, Salesforce)</td>
+      <td>Brand-agnostic explainers</td>
+    </tr>
+    <tr>
+      <td>What is agentic AI enterprise software testing</td>
+      <td><span class="status-fail">Not visible</span></td>
+      <td>UiPath, Autify, Virtuoso QA, Perfecto, PractiTest</td>
+      <td>Definitional content tied to testing tool</td>
+    </tr>
+    <tr>
+      <td>Agentic AI testing definition</td>
+      <td><span class="status-fail">Not visible</span></td>
+      <td>mabl, TestGrid, Virtuoso QA, VTEST</td>
+      <td>Product pages + definitional guides</td>
+    </tr>
+    <tr>
+      <td>How does agentic AI differ from generative AI</td>
+      <td><span class="status-unknown">Unverified</span></td>
+      <td>IBM, Google, Salesforce</td>
+      <td>High-DA tech explainers</td>
+    </tr>
+    <tr>
+      <td>Risks of agentic AI enterprise</td>
+      <td><span class="status-unknown">Unverified</span></td>
+      <td>Gartner, Forrester, McKinsey</td>
+      <td>Analyst research + thought leadership</td>
+    </tr>
+    <tr>
+      <td>How to test agentic AI applications</td>
+      <td><span class="status-fail">Not visible</span></td>
+      <td>Autify, Perfecto, VTEST, PractiTest</td>
+      <td>How-to guides with testing tool CTAs</td>
+    </tr>
+  </table>
+
+  <div class="callout alert">
+    <strong>Key gap:</strong> Applause has a dedicated Agentic AI Testing service page (applause.com/agentic-ai-testing) and a strong content cluster on the topic, but the "what is agentic AI" blog post — the top-of-funnel entry point — doesn't connect to that cluster in-content. It's orphaned from Applause's testing authority.
+  </div>
+
+  <h3>Competitive Displacement Summary</h3>
+  <p>For every high-value "agentic AI + testing" query, the top results belong to <strong>automation tool vendors</strong> — not managed testing service providers. This is a category-level framing problem: AI engines have learned that "agentic AI testing" = automated testing tools, not human-augmented managed services. Applause's content does not yet disrupt this mental model.</p>
+
+  <div class="score-bar-wrap">
+    <div class="score-bar-label"><span>General "what is" queries</span><span style="color: var(--orange-500)">Partial presence</span></div>
+    <div class="score-bar-track"><div class="score-bar-fill" style="width:40%; background: var(--orange-500);"></div></div>
+  </div>
+  <div class="score-bar-wrap">
+    <div class="score-bar-label"><span>"Agentic AI testing" queries</span><span style="color: var(--red-500)">Not present</span></div>
+    <div class="score-bar-track"><div class="score-bar-fill" style="width:5%; background: var(--red-500);"></div></div>
+  </div>
+  <div class="score-bar-wrap">
+    <div class="score-bar-label"><span>"How to test agentic AI" queries</span><span style="color: var(--red-500)">Not present</span></div>
+    <div class="score-bar-track"><div class="score-bar-fill" style="width:5%; background: var(--red-500);"></div></div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="section-divider">
+  <h2>Part 2 — Detailed Findings &amp; Action Plan</h2>
+  <div class="anchor-nav">
+    <a href="#extractability">Content Extractability</a>
+    <a href="#schema">Schema Markup</a>
+    <a href="#botaccess">Bot Access</a>
+    <a href="#competitive">Competitive Gaps</a>
+    <a href="#actions">Action Plan</a>
+    <a href="#monitoring">Monitoring</a>
+  </div>
+</div>
+
+<!-- EXTRACTABILITY -->
+<div id="extractability" class="card">
+  <div class="section-label label-onpage">🔵 On-Page</div>
+  <h2>Page Content Extractability</h2>
+  <div class="callout">
+    <strong>Why this matters:</strong> AI systems extract passages, not full pages. If a key answer is buried in editorial prose or split across multiple paragraphs, AI engines will skip it in favor of a competitor's tightly packaged answer block. Every critical claim needs to work as a standalone, self-contained statement.
+  </div>
+
+  <table>
+    <tr>
+      <th>Check</th>
+      <th>Status</th>
+      <th>What to Do</th>
+    </tr>
+    <tr>
+      <td>Clear definition in first paragraph</td>
+      <td><span class="status-pass">PASS</span></td>
+      <td>Good — definition appears in first two paragraphs. Consider tightening to a single crisp opening definition block (134–167 words) that leads with the complete answer.</td>
+    </tr>
+    <tr>
+      <td>Self-contained answer blocks (134–167 words)</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>Definitions are split across multiple paragraphs; key answers aren't written as extractable units. Rewrite the core "what is agentic AI" and "how does it differ from Gen AI" sections as 134–167 word standalone blocks.</td>
+    </tr>
+    <tr>
+      <td>Comparison table (Traditional AI vs. Gen AI vs. Agentic AI)</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>This comparison is done in prose across three long paragraphs. Convert to a structured table. Tables are the single highest-extraction format for AI systems and this comparison is exactly what buyers search for.</td>
+    </tr>
+    <tr>
+      <td>Statistics with named sources and dates</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>Only one statistic present ($126.89B by 2029), sourced from marketresearchreports.com/blog — a low-credibility domain. Replace with Gartner's prediction (already cited on Applause's own "6 Crucial Testing" post). Add 2–3 more sourced stats.</td>
+    </tr>
+    <tr>
+      <td>FAQ section with natural-language questions</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>No FAQ section. The page answers multiple questions in prose (components, risks, workflow vs. agent, etc.) that should be structured as FAQ blocks. Add a 5–6 question FAQ section and mark it up with FAQPage JSON-LD.</td>
+    </tr>
+    <tr>
+      <td>Headings match how users phrase queries (H2/H3)</td>
+      <td><span class="status-pass">PASS</span></td>
+      <td>Headings are question-formatted ("What is agentic AI?", "What are the core components?") — strong pattern. Keep these.</td>
+    </tr>
+    <tr>
+      <td>"Last Updated" date visible on page</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>Only "Published On: April 22, 2025" is shown — 14+ months old with no refresh signal. Add a visible "Last Updated" date after refreshing the content. Freshness is a primary ChatGPT and Perplexity citation factor.</td>
+    </tr>
+    <tr>
+      <td>Author attribution with current credentials</td>
+      <td><span class="status-unknown">CAUTION</span></td>
+      <td>Rob Mason is attributed as "Former Chief Technology Officer" — the "former" tag is honest but signals he may no longer be actively involved. Consider adding a brief bio linking to his LinkedIn or noting his current advisory/expert role if applicable.</td>
+    </tr>
+    <tr>
+      <td>In-content links to related Applause testing content</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>No in-content links to the Agentic AI Testing service page, "6 Crucial Testing Considerations," or the Agentic AI Testing webinar content. Sidebar-only linking is insufficient for AI crawlers. Add 3–4 contextual in-content links.</td>
+    </tr>
+    <tr>
+      <td>Expert attribution / third-party citations</td>
+      <td><span class="status-fail">FAIL</span></td>
+      <td>No expert quotes, no cited research beyond one low-credibility market stat. Add at least two sourced external references (Gartner, IDC, MIT, Stanford HAI) and one Applause-sourced data point from the State of Digital Quality report.</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <strong>Quick win:</strong> Applause's own "State of Digital Quality in AI 2026" report (linked in the site nav) almost certainly contains citable statistics on agentic AI adoption. Pull a stat from that report into this post — it's original data that AI engines will prefer over third-party market research aggregators.
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div id="schema" class="card">
+  <div class="section-label label-onpage">🔵 On-Page</div>
+  <h2>Schema Markup</h2>
+  <div class="callout">
+    <strong>Why this matters:</strong> Structured data tells AI engines exactly what your content is — Q&amp;A, article, how-to — without them having to infer it. Pages with FAQPage schema see meaningfully higher extraction rates from ChatGPT, Perplexity and Copilot. Google calls it "not required" for AI Overviews, but it's still the clearest signal you can give every other AI engine.
+  </div>
+
+  <table>
+    <tr>
+      <th>Schema Type</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      <td><code>Article</code> / <code>BlogPosting</code></td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+      <td>Check page source for <code>application/ld+json</code> blocks. Many WordPress themes inject Article schema automatically. Confirm author, datePublished, dateModified fields are present.</td>
+    </tr>
+    <tr>
+      <td><code>FAQPage</code></td>
+      <td><span class="status-fail">MISSING</span></td>
+      <td>Add FAQPage JSON-LD once the FAQ section is created. This is the highest-impact schema for AI citation on this content type. Example template below.</td>
+    </tr>
+    <tr>
+      <td><code>Organization</code></td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+      <td>Confirm this is implemented on applause.com homepage or globally. Establishes entity recognition for Applause across all AI engines.</td>
+    </tr>
+    <tr>
+      <td><code>BreadcrumbList</code></td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+      <td>Confirm presence. Helps AI engines understand site structure and content hierarchy.</td>
+    </tr>
+  </table>
+
+  <h3>Validation Tools</h3>
+  <ul>
+    <li>Google Rich Results Test: <a href="https://search.google.com/test/rich-results" target="_blank">search.google.com/test/rich-results</a></li>
+    <li>Schema.org Validator: <a href="https://validator.schema.org" target="_blank">validator.schema.org</a></li>
+    <li>Browser DevTools → View Source → Search for <code>application/ld+json</code></li>
+  </ul>
+
+  <h3>FAQPage JSON-LD Starter (copy into page &lt;head&gt; or &lt;body&gt;)</h3>
+  <pre style="background: #f4f4f4; padding: 16px; border-radius: 6px; font-size: 13px; overflow-x: auto; line-height: 1.5;">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is agentic AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agentic AI is a type of artificial intelligence that can reason, plan and execute multi-step tasks autonomously to achieve a specific goal. Unlike generative AI, which responds to a single prompt, agentic AI takes initiative — using tools, adapting based on feedback and completing complex workflows with minimal human oversight."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is agentic AI different from generative AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generative AI responds to a user prompt and stops — it creates content on request but doesn't act further without another prompt. Agentic AI is proactive: it sets or receives a goal and works toward it autonomously, looping, retrying and adapting until the task is complete. Gen AI may be a component inside an agentic system, but agentic AI is the broader orchestrating layer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the risks of agentic AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agentic AI introduces unique risks because it acts autonomously: it can make decisions without human review, access or alter sensitive data, chain tools in unsafe ways and compound errors before they are detected. Organizations should mitigate these risks with clear task boundaries, human-in-the-loop oversight, audit trails, sandboxed environments and strong access controls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should enterprises test agentic AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agentic AI requires testing across six dimensions: role fidelity, task completion, traceability, interoperability, efficiency and safety. Because agents produce non-deterministic outputs, automated testing alone is insufficient — human-in-the-loop evaluation is essential, particularly for late-stage validation, edge cases, tone and regulated environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between an AI agent and an agentic workflow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An AI agent is a single autonomous unit designed to achieve a specific goal. An agentic workflow is the structured process — often involving multiple agents — that chains together tasks to complete a larger objective. Agentic AI is the overarching concept describing systems that exhibit these autonomous, goal-directed behaviors."
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+  <p style="margin-top:12px; font-size:13px; color:#888;">Owner: Tammy (web dev). Effort: Low — copy into page template or CMS custom field.</p>
+</div>
+
+<!-- BOT ACCESS -->
+<div id="botaccess" class="card">
+  <div class="section-label label-offpage">🟢 Off-Page</div>
+  <h2>AI Bot Access</h2>
+  <div class="callout">
+    <strong>Why this matters:</strong> Every AI platform has its own crawler. If a crawler is blocked in robots.txt, that platform cannot cite this page — regardless of how well-optimized the content is. Bot access is the prerequisite for everything else.
+  </div>
+
+  <table>
+    <tr>
+      <th>Bot</th>
+      <th>Platform</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td><code>GPTBot</code></td>
+      <td>ChatGPT (OpenAI)</td>
+      <td><span class="status-unknown">UNVERIFIED — check applause.com/robots.txt</span></td>
+    </tr>
+    <tr>
+      <td><code>ChatGPT-User</code></td>
+      <td>ChatGPT browsing</td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+    </tr>
+    <tr>
+      <td><code>PerplexityBot</code></td>
+      <td>Perplexity</td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+    </tr>
+    <tr>
+      <td><code>ClaudeBot</code> / <code>anthropic-ai</code></td>
+      <td>Anthropic Claude</td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+    </tr>
+    <tr>
+      <td><code>Google-Extended</code></td>
+      <td>Google Gemini + AI Overviews</td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+    </tr>
+    <tr>
+      <td><code>Bingbot</code></td>
+      <td>Microsoft Copilot</td>
+      <td><span class="status-unknown">UNVERIFIED</span></td>
+    </tr>
+    <tr>
+      <td><code>CCBot</code></td>
+      <td>Common Crawl (training only)</td>
+      <td>May block — does not affect AI search citation</td>
+    </tr>
+  </table>
+
+  <h3>Verification (5 minutes)</h3>
+  <p>Visit <a href="https://www.applause.com/robots.txt" target="_blank">applause.com/robots.txt</a> and check for <code>Disallow</code> rules targeting any of the bots above. The required configuration to allow all AI search bots:</p>
+  <pre style="background: #f4f4f4; padding: 14px; border-radius: 6px; font-size: 13px; overflow-x: auto; line-height: 1.5;">User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /</pre>
+  <p style="margin-top:12px; font-size:13px; color:#888;">Owner: Tammy (web dev). Effort: Low — 10-minute robots.txt edit if any bots are currently blocked.</p>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div id="competitive" class="card">
+  <div class="section-label label-offpage">🟢 Off-Page</div>
+  <h2>Competitive Gaps</h2>
+  <div class="callout">
+    <strong>Why this matters:</strong> AI engines build their answers from whatever sources they find most authoritative on a topic. Right now, for "agentic AI testing" queries, they're finding automation tool vendors — not managed testing service providers. Understanding what those vendors are doing reveals exactly what Applause needs to counter.
+  </div>
+
+  <table>
+    <tr>
+      <th>Competitor / Source</th>
+      <th>What They're Winning</th>
+      <th>Their Advantage</th>
+      <th>Applause Counter</th>
+    </tr>
+    <tr>
+      <td><strong>UiPath</strong> (uipath.com)</td>
+      <td>"What is agentic testing" definitional queries</td>
+      <td>Long-form guide that connects definition → enterprise QA impact → their platform. High domain authority. Explicitly frames agentic testing as the "next leap" in AI-powered QA.</td>
+      <td>Applause's angle: agentic testing tools are still automation — real-world human judgment is needed for what automation can't catch. Make this argument in-content on the what-is post.</td>
+    </tr>
+    <tr>
+      <td><strong>Autify / mabl / Perfecto</strong></td>
+      <td>"How agentic AI improves QA" queries</td>
+      <td>Definitional content directly tied to their product demo CTA. Buyers searching this query get a tool recommendation, not a testing strategy.</td>
+      <td>Applause offers something these tools don't: real users on real devices in real conditions. Add a section contrasting automated agentic testing vs. real-world agentic evaluation with human oversight.</td>
+    </tr>
+    <tr>
+      <td><strong>VTEST / PractiTest</strong></td>
+      <td>"Agentic testing complete guide" queries</td>
+      <td>2025-2026 dated content with comprehensive guides, enterprise framing, and a specialist testing partner angle — which is exactly Applause's lane.</td>
+      <td>Applause has deeper credentials here (State of Digital Quality report, IBM webinar content, Gartner citations) but isn't surfacing them in the right content. The "what is" post should link to and reference this depth.</td>
+    </tr>
+  </table>
+
+  <div class="callout alert">
+    <strong>Category framing risk:</strong> If AI engines are consistently citing automation tool vendors for "agentic AI testing" queries, they may begin to categorize this topic as "automation tools" rather than "managed testing services." Applause needs content that explicitly repositions the category — making the case that agentic AI testing requires human judgment in ways automation alone can't provide.
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div id="actions" class="card">
+  <h2>Prioritized Action Plan</h2>
+  <p style="margin-bottom:16px;"><strong>P1</strong> = This week &nbsp;·&nbsp; <strong>P2</strong> = This sprint &nbsp;·&nbsp; <strong>P3</strong> = Next quarter</p>
+
+  <h3>🔵 On-Page Actions</h3>
+  <table>
+    <tr>
+      <th class="action-priority">Priority</th>
+      <th>Action</th>
+      <th>Owner</th>
+      <th>Effort</th>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td><strong>Add "Why Agentic AI Demands Specialized Testing" section.</strong> 150–200 words connecting agentic AI's non-determinism, hallucination risk and autonomous decision-making to the need for human-in-the-loop testing. Link to the Agentic AI Testing service page and the "6 Crucial Testing Considerations" post in-context — not just sidebar.</td>
+      <td>Jennifer (content) + Dana</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td><strong>Replace weak market stat with Gartner citation.</strong> Swap the marketresearchreports.com $126.89B stat for the Gartner prediction already cited on Applause's own "6 Crucial Testing Considerations" post: "Gartner predicts that by 2029, agentic AI will autonomously resolve 80% of common customer service issues without human intervention." Add a second stat from the State of Digital Quality in AI 2026 report.</td>
+      <td>Jennifer (content)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td><strong>Add "Last Updated: [date]" display</strong> immediately after updating content. This is a direct freshness signal for ChatGPT and Perplexity citation. The published date alone (April 2025) is working against the page.</td>
+      <td>Tammy (web dev)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td><strong>Convert Traditional AI / Gen AI / Agentic AI comparison to a table.</strong> The current prose comparison across three paragraphs is the highest-value extractable content on the page and the most common AI Overview trigger. A 3-column comparison table (Type | How It Works | Best For | Training Method) is directly extractable by all AI engines.</td>
+      <td>Jennifer (content)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Add FAQ section (5–6 questions)</strong> covering: What is agentic AI, How is it different from Gen AI, What are the risks, How to test agentic AI, What is an agentic workflow, What does agentic AI cost to implement. Write each answer as a 60–100 word self-contained block. Implement FAQPage JSON-LD schema (template above).</td>
+      <td>Jennifer + Tammy</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Rewrite the opening definition block as a 134–167 word self-contained answer.</strong> Currently the definition is split across two paragraphs. Merge and expand into one extractable passage: definition + core differentiator + why it matters for enterprises. This is the passage AI Overviews will pull.</td>
+      <td>Jennifer (content)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Add BlogPosting JSON-LD schema</strong> with <code>author</code>, <code>datePublished</code>, <code>dateModified</code>, <code>description</code> and <code>image</code> fields. Confirm Article schema is present; if not, add it. Verify via Google Rich Results Test.</td>
+      <td>Tammy (web dev)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p3">P3</span></td>
+      <td><strong>Add a "How to Test Agentic AI" subsection</strong> (can be brief — 3–4 bullet points with a "learn more" link to the service page). This would extend the page's topical authority into the "how to test" query space where Applause has no current visibility.</td>
+      <td>Jennifer + Dana</td>
+      <td>Medium</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top:24px;">🟢 Off-Page Actions</h3>
+  <table>
+    <tr>
+      <th class="action-priority">Priority</th>
+      <th>Action</th>
+      <th>Owner</th>
+      <th>Effort</th>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td><strong>Verify robots.txt allows all AI search bots</strong> (GPTBot, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot). Check applause.com/robots.txt and correct any blocking rules. This is the prerequisite for all other optimizations.</td>
+      <td>Tammy (web dev)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Submit updated URL to Bing Webmaster Tools via IndexNow</strong> after content refresh. Bing index freshness directly feeds Microsoft Copilot citation. Many sites only maintain Google Search Console.</td>
+      <td>Tammy / Steven</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Cross-link from the Agentic AI Testing service page.</strong> The service page (applause.com/agentic-ai-testing) should link to this definitional post as "Learn what agentic AI is →". Right now the blog and service page are disconnected. Internal link equity from a higher-authority service page will improve the blog post's citation probability.</td>
+      <td>Tammy / Jennifer</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td><strong>Pitch a Rob Mason byline or expert quote to 1–2 industry publications</strong> (TechTarget, InfoQ, or a software testing trade outlet) on "What enterprises get wrong about agentic AI testing." Link back to this page. Third-party citations of Applause experts on agentic AI are a direct ChatGPT/Perplexity citation lever — brands are 6.5x more likely to be cited via third-party sources than their own domains.</td>
+      <td>Dana + Jennifer</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p3">P3</span></td>
+      <td><strong>Confirm and update Applause's G2 and Gartner Peer Insights listings</strong> with agentic AI testing as a category. As AI engines increasingly pull from review platforms for vendor comparisons, category presence matters.</td>
+      <td>Dana</td>
+      <td>Medium</td>
+    </tr>
+  </table>
+</div>
+
+<!-- MONITORING -->
+<div id="monitoring" class="card">
+  <h2>Monitoring Plan</h2>
+  <div class="callout">
+    <strong>Recommended cadence:</strong> Manual spot-check monthly. Full re-audit after P1 actions are live (target: 30 days post-update).
+  </div>
+
+  <h3>Queries to Track Monthly</h3>
+  <table>
+    <tr>
+      <th>Query</th>
+      <th>Platform(s)</th>
+      <th>What to Note</th>
+    </tr>
+    <tr>
+      <td>What is agentic AI</td>
+      <td>Google AI Overviews, ChatGPT, Perplexity</td>
+      <td>Is Applause cited? What source is used? What page?</td>
+    </tr>
+    <tr>
+      <td>Agentic AI vs generative AI</td>
+      <td>Google AI Overviews, Perplexity</td>
+      <td>Is the comparison table being extracted?</td>
+    </tr>
+    <tr>
+      <td>How to test agentic AI applications</td>
+      <td>ChatGPT, Perplexity</td>
+      <td>Is Applause cited? What testing framework is referenced?</td>
+    </tr>
+    <tr>
+      <td>Risks of agentic AI enterprise</td>
+      <td>ChatGPT, Perplexity</td>
+      <td>Is Applause cited? Is the risk mitigation section extractable?</td>
+    </tr>
+    <tr>
+      <td>Agentic AI testing services</td>
+      <td>All platforms</td>
+      <td>Is Applause in the vendor list? Who else appears?</td>
+    </tr>
+  </table>
+
+  <h3>Tools</h3>
+  <table>
+    <tr>
+      <th>Tool</th>
+      <th>Use For</th>
+    </tr>
+    <tr>
+      <td><strong>Otterly AI</strong></td>
+      <td>Share of AI voice tracking across ChatGPT, Perplexity, Google AI Overviews</td>
+    </tr>
+    <tr>
+      <td><strong>Peec AI</strong></td>
+      <td>Multi-platform monitoring (ChatGPT, Gemini, Perplexity, Claude, Copilot)</td>
+    </tr>
+    <tr>
+      <td><strong>Google Search Console</strong></td>
+      <td>Traditional performance; no AI-specific reporting, but tracks organic health</td>
+    </tr>
+  </table>
+
+  <h3>Re-audit Checkpoint</h3>
+  <p>After P1 and P2 actions are live, run a targeted re-audit of this page within 30 days. Focus on: (1) Does the comparison table appear in AI Overview extractions? (2) Is the FAQ section being pulled by Perplexity? (3) Has citation rate for "agentic AI testing" queries shifted?</p>
+  <p style="margin-top:8px;">Assign this re-audit to Pam Gazley as part of the monthly LLM citation tracking cycle.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <strong style="color:white;">Applause</strong><br>
+  Applause helps organizations build better quality digital experiences faster and release with confidence. Learn more at <a href="https://www.applause.com">www.applause.com</a>.<br><br>
+  <em>Generated with Applause AI SEO / AEO Skill v2.1.1 · Audit date: June 30, 2026 · Page audited: applause.com/blog/what-is-agentic-ai/</em><br>
+  <em>Note: Query coverage matrix is inferred from organic search — not confirmed AI Overview panel appearances. Manual browser verification recommended before stakeholder distribution.</em>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

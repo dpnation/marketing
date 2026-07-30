@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Functional Testing Types Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4;
+      --blue-700: #01446C;
+      --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3;
+      --gray-700: #3D3D3D;
+      --red: #D42D0E;
+      --green: #0F8919;
+      --orange: #ED7200;
+      --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; }
+    .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-action { background: #FEE2DC; color: var(--red); }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; }
+    .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; }
+    .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); }
+    .meter-bar.med { background: var(--orange); }
+    .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; }
+      .section-body { padding: 20px; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Functional Testing Types Blog Post</h1>
+  <div class="sub">applause.com/blog/functional-testing-types-examples/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>David Carty, Senior Content Manager</strong></span>
+    <span>Published: <strong>December 2, 2024</strong></span>
+    <span>Last modified: <strong>December 1, 2025</strong> (meta — not visible on page)</span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 1</div>
+      <h2>Executive Summary</h2>
+    </div>
+    <span class="status-badge status-partial">Partial — Fix the Count, Add the Definition</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-red">
+      <div class="callout-label">⚠ Content Inconsistency — Fix Before Any Other Optimization</div>
+      The meta title says <strong>"15 Functional Testing Types"</strong> but the article covers <strong>17 types</strong> (Unit, Component, Smoke, Sanity, Regression, Integration, API, UI, System, Compatibility, White-box, Black-box, Exploratory, Acceptance, Alpha, Beta, Production). Compatibility testing is in the body but missing from the opening bullet list, and the count doesn't match the title anywhere. AI systems read both the title tag and body content — this inconsistency undermines extractability and credibility. Align the count and update the H1 to match the meta title before doing anything else.
+    </div>
+
+    <p style="margin-bottom:16px;">The article's core structure is its biggest asset: each of 17 testing types gets a definition paragraph followed by a concrete "X testing example:" block. That pattern is naturally extractable and gives AI systems discrete, named answer units to pull from. The problem is what surrounds them — no opening definition of functional testing, no statistics anywhere in a 20-minute article, no FAQ section, and an H1 that doesn't match either the meta title or how buyers search. The December 2025 modification is a freshness win, but it's buried in metadata and invisible on the page.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>⛔</span><span>Meta title says 15 types; article covers 17 — count mismatch undermines trust</span></li>
+          <li><span>✗</span><span>H1 "Learn These Key Functional Testing Types" doesn't match target queries or meta title</span></li>
+          <li><span>✗</span><span>No opening definition of "functional testing" — what AI extracts first for definitional queries</span></li>
+          <li><span>✗</span><span>Zero statistics in a 20-minute article</span></li>
+          <li><span>✗</span><span>No FAQ section</span></li>
+          <li><span>✗</span><span>No comparison tables (smoke vs. sanity, white-box vs. black-box, alpha vs. beta)</span></li>
+          <li><span>✗</span><span>December 2025 modification date buried in metadata — not visible on page</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>Each type has a definition + concrete named example — strong extraction pattern</span></li>
+          <li><span>✓</span><span>Author attributed: David Carty, Senior Content Manager, with photo and author page</span></li>
+          <li><span>✓</span><span>Strong internal links to all relevant solution pages (/manual-functional-testing/, /accessibility-testing/, /ai-training-testing/, etc.)</span></li>
+          <li><span>✓</span><span>"Software testing programs" section ties content directly to Applause capabilities</span></li>
+          <li><span>✓</span><span>Very comprehensive coverage — 17 types is hard for competitors to beat on volume</span></li>
+          <li><span>✓</span><span>Modified December 2025 — relatively fresh content (needs to be made visible)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Fix the count and align the H1 with the meta title.</h4>
+      <p>Either update the meta title to "17 Functional Testing Types with Examples" (accurate to the content) or audit the article and consolidate to 15. Then update the H1 to match — something like "17 Functional Testing Types with Examples" mirrors how buyers actually search. The current H1 "Learn These Key Functional Testing Types and Programs" won't win any query that includes a number, and the number mismatch actively signals unreliable content to AI systems.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add an opening definition of "functional testing" in the first paragraph.</h4>
+      <p>The article opens with "In software testing, the big picture often overshadows the individual details..." — there's no definition of what functional testing actually is before launching into strategy. AI systems extract the first clear, self-contained answer for definitional queries. Add a 134–167 word definition block as the true opening: what functional testing is, what distinguishes it from non-functional testing, and why it matters. This single change would improve citation rates for "what is functional testing" immediately.</p>
+    </div>
+
+    <div class="action-item p2-item">
+      <div style="margin-bottom:6px;"><span class="p2">P2</span></div>
+      <h4>Add ItemList JSON-LD schema tagging each testing type as a named item.</h4>
+      <p>This is a list article — ItemList schema is the exact structured data format built for it. It tells AI systems: "This page contains 17 named items, here they are." Combined with the existing definition+example structure per type, this schema would materially improve citation rates for "types of functional testing" enumeration queries across all platforms.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 2</div>
+      <h2>Where This Page Shows Up Today</h2>
+    </div>
+    <span class="status-badge status-partial">Unverified — Manual Check Required</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "Types of functional testing" is one of the most-searched QA knowledge queries. It sits high in the buyer journey — practitioners researching testing approaches are building vendor shortlists. Appearing as the cited source for this query positions Applause as the authority on functional testing before buyers have even started evaluating vendors. The content structure gives this page a real shot at that position — the gaps are preventing it from fully capitalizing on what's already written.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status is inferred from page content structure and competitive analysis. Manual verification across all five platforms is required before stakeholder distribution. ChatGPT: OAI-SearchBot is likely allowed by wildcard; explicit configuration recommended per homepage audit.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>types of functional testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive</td>
+          <td>Guru99, BrowserStack, LambdaTest</td>
+        </tr>
+        <tr>
+          <td>functional testing types with examples</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — meta title matches</td>
+          <td>Guru99, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>what is functional testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no opening definition</td>
+          <td>Guru99, BrowserStack, Atlassian</td>
+        </tr>
+        <tr>
+          <td>smoke testing vs sanity testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>Guru99, Software Testing Help, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>what is regression testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — dedicated section exists</td>
+          <td>Guru99, BrowserStack, Atlassian</td>
+        </tr>
+        <tr>
+          <td>black-box vs white-box testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>Guru99, LambdaTest, Software Testing Material</td>
+        </tr>
+        <tr>
+          <td>alpha testing vs beta testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>Guru99, BrowserStack</td>
+        </tr>
+        <tr>
+          <td>unit testing vs integration testing</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — no comparison table</td>
+          <td>Guru99, Atlassian, LambdaTest</td>
+        </tr>
+        <tr>
+          <td>software testing programs</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible</td>
+          <td class="icon-partial">⚠ Possible — dedicated section exists</td>
+          <td>Varies — broad query</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13px; color:#888; margin-top:4px;"><em>All citation statuses inferred — manual verification required. A clear pattern: this page is competitive for enumeration queries ("types of functional testing") but loses comparison queries entirely — no comparison tables exist for any of the type pairs buyers research.</em></p>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Enumeration ("X types of...")</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:55%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — 17 types, clear structure</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Individual type ("what is X testing")</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:45%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — each type has a dedicated block</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Definition ("what is functional testing")</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:15%;"></div></div><span style="font-size:13px; color:var(--red);">Weak — no opening definition</span></div>
+      <div class="meter-row"><span style="width:220px; font-size:13px;">Comparison ("X vs Y testing")</span><div class="meter-bar-bg"><div class="meter-bar low" style="width:5%;"></div></div><span style="font-size:13px; color:var(--red);">Very weak — no comparison tables at all</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT EXTRACTABILITY -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 3</div>
+      <h2>Page Content Extractability</h2>
+    </div>
+    <span class="status-badge status-partial">3 Pass · 2 Partial · 5 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For a listicle like this one, AI systems are looking for three things: a clear category definition at the top, structured named items with self-contained descriptions, and comparison content for the pairs buyers research ("X vs. Y"). The article has strong named items with examples. The category definition and all comparison content are missing. That's a specific, fixable gap — not a content rebuild.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition of "functional testing" in opening</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article opens with "In software testing, the big picture often overshadows the individual details…" — no definition of functional testing appears before the second paragraph, and even there it's framed indirectly. Add a 134–167 word definition block as the true first paragraph: what functional testing is, what it validates (that software behaves according to specifications and user expectations), and what distinguishes it from non-functional testing (performance, security, usability). This is the single highest-impact content change for "what is functional testing" citation.</td>
+        </tr>
+        <tr>
+          <td><strong>Self-contained answer blocks (134–167 words)</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Strong. Each testing type follows a consistent pattern: a definition paragraph, followed by "X testing example: [concrete industry scenario]." The examples are specific and named — a calculator app, a banking mobile app, a streaming television platform. These work as standalone extracts for individual-type queries ("what is smoke testing," "regression testing example"). This is the article's primary extractability strength.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources and dates</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Zero statistics appear in this 20-minute article. No research citations, no industry benchmarks, no data on defect detection rates or testing ROI. This is the same gap as the STLC article. Add 4–6 statistics with sources: e.g., the IBM Systems Sciences Institute finding on defect fix cost multipliers across SDLC phases, NIST software defect cost data, or World Quality Report benchmarks on automated vs. manual testing ratios. At least one stat per major section.</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison tables for "[X] vs [Y]" queries</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article describes differences between closely related types in prose — smoke vs. sanity, white-box vs. black-box, alpha vs. beta, unit vs. component, system vs. acceptance — but none appear as structured comparison tables. These are high-volume, high-intent queries that BrowserStack and Guru99 win with dedicated tables. Adding 3–4 compact comparison tables (one for each major pair) would directly compete for queries this page currently misses entirely.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section exists. Suggested questions: "What is the difference between functional and non-functional testing?", "How many types of functional testing are there?", "Which functional testing type should I start with?", "What is the difference between smoke testing and sanity testing?", "Do I need to perform all types of functional testing?", "How does functional testing fit into the STLC?" These map directly to People Also Ask results for this topic.</td>
+        </tr>
+        <tr>
+          <td><strong>H1 and meta title alignment</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Three different titles exist on this page: browser tab says "Key Functional Testing Types and Programs With Examples," H1 says "Learn These Key Functional Testing Types and Programs​," and og:title says "15 Functional Testing Types with Examples." None match the actual content count (17 types). Update to a single consistent title across meta title, og:title, and H1 — "17 Functional Testing Types with Examples" is accurate and query-matched. Remove the trailing invisible whitespace character currently at the end of the H1.</td>
+        </tr>
+        <tr>
+          <td><strong>Heading structure matches query patterns</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The sub-section headings ("Software testing strategy," "Functional testing types," "Software testing programs") are functional but not query-matched. The individual type names are bolded inline text, not subheadings — meaning they don't register as H3s in the document hierarchy. Converting each type name to an H3 would improve structural clarity for AI systems parsing the document and allow for individual-type citation targeting.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible on page</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The page shows "Published On: December 2, 2024" but no "Last updated" date — despite a December 1, 2025 modification date in the page metadata. This is the same issue as the STLC article. Add "Last updated: December 2025" alongside the published date. This converts a hidden freshness signal into a visible one that AI systems can parse and use as a citation factor.</td>
+        </tr>
+        <tr>
+          <td><strong>Author attribution with credentials</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>David Carty, Senior Content Manager, is credited with a photo and a link to his author page. Same strong attribution as the STLC article. No changes needed here.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution and content pages</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Excellent. The article links to /manual-functional-testing/, /automated-functional-testing/, /accessibility-testing/, /ai-training-testing/, /customer-journey-testing/, /payment-testing/, /security-testing/, /ux-testing/, /voice-testing/, and multiple industry verticals. The "Software testing programs" section at the bottom of the article creates a natural, unforced link cluster to every major Applause solution. This is the best internal linking of any audited page.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA MARKUP -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 4</div>
+      <h2>Schema Markup</h2>
+    </div>
+    <span class="status-badge status-action">ItemList Schema Missing — High Priority</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      ItemList schema is the structured data format built specifically for listicle content — it tells AI systems "this page contains N named items, here they are in order." For "types of functional testing" queries, an AI system generating an answer wants a clean list of named items with descriptions. Without ItemList schema, it has to infer the list from the visual formatting. With schema, it's explicit and machine-readable. This is the single highest-priority schema addition for this page type.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Caveat</div>
+      Schema presence could not be programmatically confirmed. Verify using Google's Rich Results Test (<code>search.google.com/test/rich-results</code>). Yoast SEO likely generates Article/BlogPosting schema automatically — check before adding duplicates.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ItemList</code></td>
+          <td>Tags each of the 17 testing types as a named, ordered list item — the primary trigger for AI extraction of enumeration content. Makes the list machine-readable without requiring AI to parse visual formatting.</td>
+          <td class="icon-fail">✗ Almost certainly absent — not auto-generated by Yoast</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Marks Q&amp;A content for direct extraction — needed once the FAQ section is added. Primary trigger for People Also Ask appearances.</td>
+          <td class="icon-fail">✗ Absent — no FAQ section to schema-tag yet</td>
+          <td><span class="p1">P1 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, published date, modified date, topic signals. Yoast likely generates this — verify that <code>dateModified</code> is updating correctly when content changes.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify dateModified</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Starter ItemList Schema Template</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Paste into <code>&lt;head&gt;</code> as <code>&lt;script type="application/ld+json"&gt;</code>. Update the count once the title/H1 is corrected.</p>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "17 Functional Testing Types with Examples",
+  "description": "A comprehensive guide to functional testing types — from unit testing
+  and integration testing to exploratory testing and production testing — with examples
+  for each.",
+  "numberOfItems": 17,
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Unit Testing",
+      "description": "Validates the function of a single unit, ensuring inputs produce
+      the correct output. Provides the foundation for more complex integrated software." },
+    { "@type": "ListItem", "position": 2, "name": "Component Testing",
+      "description": "Checks individual parts of an application in isolation, using stubs
+      and drivers to simulate interactions with dependent components." },
+    { "@type": "ListItem", "position": 3, "name": "Smoke Testing",
+      "description": "An initial check that a new software build and its critical
+      functionality are stable before more comprehensive testing begins." },
+    { "@type": "ListItem", "position": 4, "name": "Sanity Testing",
+      "description": "Unscripted testing performed on stable builds to validate new
+      functionality or bug fixes in the specific area that changed." },
+    { "@type": "ListItem", "position": 5, "name": "Regression Testing",
+      "description": "Ensures software still functions as expected after new code is
+      committed or features are changed." },
+    { "@type": "ListItem", "position": 6, "name": "Integration Testing",
+      "description": "Verifies that modules or microservices work together correctly,
+      including API consistency and data handling between components." },
+    { "@type": "ListItem", "position": 7, "name": "API Testing",
+      "description": "Validates that API connections and responses function as intended,
+      including data handling and user permissions." },
+    { "@type": "ListItem", "position": 8, "name": "UI Testing",
+      "description": "Tests the graphical interface of a software program, including
+      buttons, menus and text input, to ensure the experience flow is optimal." },
+    { "@type": "ListItem", "position": 9, "name": "System Testing",
+      "description": "Tests the complete, integrated software package against its
+      requirements. Also referred to as end-to-end testing." },
+    { "@type": "ListItem", "position": 10, "name": "Compatibility Testing",
+      "description": "Ensures the application works consistently across different
+      browsers, operating systems, devices and network conditions." },
+    { "@type": "ListItem", "position": 11, "name": "White-Box Testing",
+      "description": "Testing where the internal infrastructure, code and design are
+      visible to the tester. Covers unit, integration and system testing approaches." },
+    { "@type": "ListItem", "position": 12, "name": "Black-Box Testing",
+      "description": "Testing against a system where the internal code is not visible.
+      Validates expected outputs against specific inputs as a user would experience them." },
+    { "@type": "ListItem", "position": 13, "name": "Exploratory Testing",
+      "description": "Unscripted testing where testers use intuition and creativity to
+      discover unexpected issues that structured tests miss." },
+    { "@type": "ListItem", "position": 14, "name": "Acceptance Testing",
+      "description": "Ensures the end user can achieve the goals set in the business
+      requirements across the feature-complete application flow." },
+    { "@type": "ListItem", "position": 15, "name": "Alpha Testing",
+      "description": "Acceptance testing performed by internal team members who are
+      knowledgeable about the project but not involved in its development." },
+    { "@type": "ListItem", "position": 16, "name": "Beta Testing",
+      "description": "Testing with a select group of external end users before public
+      release, gathering feedback from unbiased real users." },
+    { "@type": "ListItem", "position": 17, "name": "Production Testing",
+      "description": "Continuous testing in the live production environment to discover
+      and triage user-reported defects after public release." }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- AI BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 5</div>
+      <h2>AI Bot Access</h2>
+    </div>
+    <span class="status-badge status-partial">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Bot access for this page is governed by the same sitewide robots.txt confirmed in the homepage audit. GPTBot (OpenAI training crawler) is explicitly blocked. OAI-SearchBot (ChatGPT search citations) defaults to allowed by wildcard but should be explicitly confirmed. All other citation bots are allowed. The recommended 2026 bot configuration and CDN-level block check from the homepage audit Section 5 apply here — for a high-volume educational page like this one, confirmed bot access is especially valuable since it directly determines whether Perplexity, Claude, and ChatGPT can pull from it for knowledge queries.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 6</div>
+      <h2>External Presence</h2>
+    </div>
+    <span class="status-badge status-partial">Functional Testing Category — Niche Knowledge Gap</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the functional testing knowledge ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "Types of functional testing" is a knowledge query dominated by educational QA sites. AI systems cite those sites because they've built authority specifically in the QA knowledge category over years. Applause's path to citation isn't just content quality on its own page — it's becoming part of the knowledge ecosystem those sites reference. Expert quotes in competitor roundups and mentions in softwaretestinghelp.com articles carry more cross-platform weight per hour of effort than most on-page work.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>Functional Testing Category</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>softwaretestinghelp.com</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>This site's "Types of Software Testing" and "Functional Testing" articles are cited by all major AI platforms. A named Applause expert quote — on a topic like "how real-world testing conditions affect functional test design" — would place Applause in a highly-cited source without requiring Applause to out-rank it.</td>
+        </tr>
+        <tr>
+          <td><strong>Wikipedia (Functional Testing)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Wikipedia's Software Testing article is cited across all AI platforms. Verify whether Applause appears. A non-promotional mention of Applause as the originator of the crowdtesting category — in the context of real-world functional testing — would be appropriate and valuable.</td>
+        </tr>
+        <tr>
+          <td><strong>Guru99 / LambdaTest roundups</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>Guru99 and LambdaTest publish "best tools for functional testing" and "top QA vendors" roundup articles. These are cited frequently for vendor discovery queries. Pursuing inclusion via PR outreach — or providing expert commentary to their editorial teams — creates third-party citation leverage.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 (Functional Testing category)</strong></td>
+          <td class="icon-partial">⚠ Present (general)</td>
+          <td class="icon-unknown">? Category tag unknown</td>
+          <td>Ensure the G2 profile is tagged under "Functional Testing" and "QA &amp; Testing." Reviews that specifically mention functional testing depth — across device types, real-world environments, edge cases — add keyword-level third-party evidence that AI systems use for category queries.</td>
+        </tr>
+        <tr>
+          <td><strong>YouTube</strong></td>
+          <td class="icon-partial">⚠ Channel present</td>
+          <td class="icon-unknown">? No functional testing content known</td>
+          <td>YouTube is the most-cited domain in Google AI Overviews for how-to content. A short "Types of Functional Testing Explained" or "Functional vs. Non-Functional Testing" video embedded in this article creates a multimodal signal and gives Google an Applause-branded video to cite for visual search queries.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 7</div>
+      <h2>Competitive Gaps</h2>
+    </div>
+    <span class="status-badge status-action">3 Active Gaps</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How competitors are positioned for functional testing queries</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      The competitive set for this article is QA knowledge sites, not testing vendors. Applause won't displace Guru99 or BrowserStack on domain authority. The path to citation is content quality differential — being more current, more data-rich, and better-schema'd than the educational sites that currently dominate. The Applause article has one clear structural advantage those sites don't: concrete industry-specific examples (banking app, travel booking site, clothing retailer). That real-world grounding, amplified by schema and data, is the differentiation angle.
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Guru99</h3>
+      <p><strong>Where they win:</strong> "Types of functional testing," "what is functional testing," and nearly every individual type query. Their content includes a comparison table for every major type pair (smoke vs. sanity, white-box vs. black-box, alpha vs. beta) and diagrams showing how types relate. Each type has its own dedicated section with explicit sub-headings.</p>
+      <p><strong>Why AI cites them:</strong> Comparison tables + explicit H3 headings per type + long domain authority in the QA knowledge niche. Their content is structured for extraction in ways that Applause's current article is not.</p>
+      <p><strong>Applause's counter:</strong> Guru99's examples are generic and outdated. Applause's industry-specific examples (a financial services app testing location services, a streaming platform testing search results) are more concrete and citable. Converting those examples into a schema-tagged, comparison-table-enhanced version of this article creates a more authoritative source for practitioners who want real-world context, not just definitions.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Active Gap</div>
+      <h3>BrowserStack</h3>
+      <p><strong>Where they win:</strong> "Types of functional testing," individual type queries for UI testing, API testing, and integration testing — types adjacent to BrowserStack's own product. Their STLC and functional testing articles include embedded diagrams, tool recommendations per testing type, and links to their own platform for each type.</p>
+      <p><strong>Why AI cites them:</strong> Multimodal content (diagrams + text), schema markup, and the commercial authority that comes from being a recognized testing tool. AI systems treat BrowserStack as a subject-matter authority the way they treat Stripe for payment documentation.</p>
+      <p><strong>Applause's counter:</strong> Applause's "Software testing programs" section is a genuine differentiator — it connects each testing type to a live, managed service rather than a self-serve tool. That real-world managed service framing is something BrowserStack can't match and should be made more prominent and extractable earlier in the article.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Emerging Gap</div>
+      <h3>LambdaTest</h3>
+      <p><strong>Where they win:</strong> Modern functional testing queries — "automated functional testing," "API testing tools," "cross-browser functional testing." LambdaTest has invested heavily in recent educational content that ties functional testing types to modern DevOps and CI/CD workflows.</p>
+      <p><strong>Applause's counter:</strong> A section on "How Functional Testing Types Evolve in AI-Era Software Development" — addressing how AI-generated code, agentic AI, and LLM-based features change what functional testing needs to validate — is a gap LambdaTest hasn't fully addressed and aligns directly with Applause's AI testing differentiation.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 8</div>
+      <h2>Prioritized Action Plan</h2>
+    </div>
+    <span class="status-badge status-partial">12 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong> Content actions are Jennifer's scope; schema is Tammy.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:40%;">Action</th>
+          <th style="width:18%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label">
+          <td colspan="5">🔵 ON-PAGE — Changes to the blog post</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Fix the count inconsistency and align H1, meta title, og:title.</strong> Count the types, pick a definitive number (17 is accurate to the content), update all three title fields to match. Remove the trailing invisible character in the H1. One consistent, query-matched title across the board.</td>
+          <td>High — credibility + query match</td>
+          <td>Low — copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add an opening definition of functional testing</strong> — a 134–167 word block defining what functional testing is, what it validates, and how it differs from non-functional testing. Position it as the true first paragraph, before the current strategy discussion.</td>
+          <td>High — definition query coverage</td>
+          <td>Low — new copy</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add ItemList JSON-LD schema</strong> tagging all 17 testing types as named, ordered list items. Starter template in Section 4. This is the schema equivalent of raising your hand and saying "this is a list" to every AI system that crawls the page.</td>
+          <td>High — enumeration query extraction</td>
+          <td>Low — 1–2 hrs dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Convert each testing type name from bold inline text to an H3 heading.</strong> Currently the 17 types are formatted as bold text ("<strong>Unit testing</strong>.") rather than proper subheadings. Converting to H3s creates a document hierarchy AI systems can parse and allows individual-type citation targeting.</td>
+          <td>Medium-High — structural signal for AI parsing</td>
+          <td>Low — markup change</td>
+          <td>Web dev (Tammy) / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 3–4 comparison tables</strong> for the most-searched type pairs: (1) Smoke vs. Sanity, (2) White-Box vs. Black-Box, (3) Alpha vs. Beta, (4) Unit vs. Component. Each table: 2 columns, 5–6 criteria rows. These are the queries this page currently loses entirely and are among the highest-searched functional testing queries.</td>
+          <td>High — comparison query coverage</td>
+          <td>Medium — new content + dev</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 5–7 questions at the bottom. See Section 1 for suggested questions. Then add FAQPage JSON-LD schema. This directly competes for People Also Ask appearances for functional testing queries.</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add 4–6 statistics with named sources</strong> — at minimum one per major section. IBM defect cost data, NIST software error statistics, or World Quality Report benchmarks on testing coverage. Link to primary sources.</td>
+          <td>High — 37-40% citation boost per research</td>
+          <td>Medium — research + copy edit</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add "Last updated: December 2025"</strong> alongside the published date. The December 2025 modification exists in metadata — make it visible on the page so AI systems and readers can see the content is being maintained.</td>
+          <td>Medium — freshness signal</td>
+          <td>Low — template update</td>
+          <td>Web / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add a section on functional testing in AI-era software development</strong> — how AI-generated code, agentic AI features, and LLM outputs change what functional testing needs to validate. Ties to Applause's AI testing differentiation and addresses a gap competitors haven't fully filled.</td>
+          <td>Medium-High — emerging query ownership</td>
+          <td>High — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Embed or link a YouTube video</strong> explaining functional testing types. A short Applause-branded explainer embedded in the article creates a multimodal signal for Google AI Overviews — now one of the strongest correlating factors for AI Overview selection.</td>
+          <td>Medium-High — multimodal signal</td>
+          <td>High — video production</td>
+          <td>Content / Video team</td>
+        </tr>
+        <tr class="row-label">
+          <td colspan="5">🟢 OFF-PAGE — External presence and configuration</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. Explicitly allow OAI-SearchBot, Claude-SearchBot, and Claude-User. Verify no CDN-level block is active. High-volume educational content like this is exactly what AI search citation bots need unblocked access to.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Applause expert placement in softwaretestinghelp.com functional testing content.</strong> A named quote from an Applause testing expert — on real-world functional testing challenges that automated checks miss — would create third-party citation leverage across all AI platforms simultaneously.</td>
+          <td>Medium — cross-platform citation signal</td>
+          <td>Medium — PR outreach</td>
+          <td>PR / PMM</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Section 9</div>
+      <h2>Monitoring Plan</h2>
+    </div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>types of functional testing</li>
+      <li>functional testing types with examples</li>
+      <li>what is functional testing</li>
+      <li>smoke testing vs sanity testing</li>
+      <li>black-box vs white-box testing</li>
+      <li>alpha testing vs beta testing</li>
+      <li>what is regression testing</li>
+      <li>unit testing vs integration testing</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Timeframe</th>
+          <th>What to Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema addition</strong></td>
+          <td>Validate ItemList and FAQPage (once added) using Rich Results Test. Confirm H3 subheadings render correctly in Search Console's page structure view.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run full 8-query check across all 5 platforms. Record whether Applause appears for comparison queries (smoke vs. sanity, etc.) — those are the clearest test of whether comparison tables are working.</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check "People Also Ask" boxes for functional testing queries — each new question appearing is a FAQ addition opportunity. Assess whether the definition block update improved "what is functional testing" citation.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Refresh statistics, update "Last updated" date, add any new testing types that emerge (particularly AI-specific testing patterns). Check competitor STLC and functional testing articles for moves.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/functional-testing-types-examples/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification of live AI answers recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>

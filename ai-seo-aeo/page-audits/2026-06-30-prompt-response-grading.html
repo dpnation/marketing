@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Audit — Prompt and Response Grading Blog Post</title>
+  <link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-500: #0272B4; --blue-700: #01446C; --blue-100: #E6F3FA;
+      --aqua-500: #00C0A3; --gray-700: #3D3D3D; --red: #D42D0E;
+      --green: #0F8919; --orange: #ED7200; --bg: #F7FBFE;
+      --font: 'Proxima Nova', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--gray-700); font-size: 16px; line-height: 1.6; }
+    a { color: var(--blue-500); }
+    .report-header { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); color: #fff; padding: 40px 48px 36px; }
+    .report-header .label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px; }
+    .report-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .report-header .sub { font-size: 15px; opacity: 0.85; }
+    .report-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font-size: 13px; }
+    .report-meta span { opacity: 0.8; } .report-meta strong { color: #fff; font-weight: 700; }
+    .section { background: #fff; border: 1px solid var(--blue-100); border-radius: 8px; margin: 24px auto; max-width: 960px; overflow: hidden; }
+    .section-header { background: var(--blue-700); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .section-header .section-num { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+    .section-header h2 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .section-body { padding: 28px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .status-partial { background: #FEF3E2; color: var(--orange); }
+    .status-pass { background: #E6F9E8; color: var(--green); }
+    .status-unknown { background: #F0F0F0; color: #555; }
+    .callout { border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+    .callout-teal { border-left: 4px solid var(--aqua-500); background: #E6FAF7; }
+    .callout-blue { border-left: 4px solid var(--blue-500); background: var(--blue-100); }
+    .callout-red { border-left: 4px solid var(--red); background: #FEE2DC; }
+    .callout-orange { border-left: 4px solid var(--orange); background: #FEF3E2; }
+    .callout-green { border-left: 4px solid var(--green); background: #E6F9E8; }
+    .callout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    th { background: var(--blue-700); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--blue-100); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+    .icon-pass { color: var(--green); font-weight: 700; } .icon-fail { color: var(--red); font-weight: 700; }
+    .icon-partial { color: var(--orange); font-weight: 700; } .icon-unknown { color: #888; }
+    .p1 { display: inline-block; background: var(--red); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p2 { display: inline-block; background: var(--orange); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .p3 { display: inline-block; background: var(--blue-500); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--bg); border: 1px solid var(--blue-100); border-radius: 6px; padding: 18px; }
+    .summary-card h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .summary-card ul { list-style: none; padding: 0; }
+    .summary-card li { font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--blue-100); display: flex; gap: 10px; }
+    .summary-card li:last-child { border-bottom: none; }
+    .action-item { border-left: 4px solid var(--blue-100); background: var(--bg); border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+    .action-item.p1-item { border-left-color: var(--red); }
+    .action-item.p2-item { border-left-color: var(--orange); }
+    .action-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; color: #555; }
+    .meter-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 14px; }
+    .meter-bar-bg { flex: 1; background: var(--blue-100); border-radius: 100px; height: 10px; }
+    .meter-bar { height: 10px; border-radius: 100px; }
+    .meter-bar.low { background: var(--red); } .meter-bar.med { background: var(--orange); } .meter-bar.high { background: var(--green); }
+    .part-divider { background: var(--blue-700); color: #fff; text-align: center; padding: 28px; margin: 32px auto; max-width: 960px; border-radius: 8px; }
+    .part-divider h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .part-divider p { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    .anchor-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .anchor-nav a { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
+    .tag-onpage { background: var(--blue-100); color: var(--blue-700); }
+    .tag-offpage { background: #E6FAF7; color: #006652; }
+    pre { background: #1E1E2E; color: #CDD6F4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+    code { font-family: 'Courier New', monospace; }
+    .competitor-card { border: 1px solid var(--blue-100); border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .competitor-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .competitor-card .tag { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .competitor-card p { font-size: 14px; margin: 8px 0; }
+    .row-label { background: #F0F6FB; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-700); }
+    .report-footer { background: var(--blue-700); color: rgba(255,255,255,0.7); text-align: center; padding: 24px 48px; font-size: 13px; margin-top: 32px; }
+    .report-footer strong { color: #fff; }
+    @media (max-width: 640px) {
+      .report-header { padding: 24px 20px; } .section-body { padding: 20px; } .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="label">AI Visibility Audit</div>
+  <h1>Prompt and Response Grading for AI Blog Post</h1>
+  <div class="sub">applause.com/blog/evaluate-ai-model-quality-with-prompt-and-response-grading/ &nbsp;·&nbsp; All AI Platforms &nbsp;·&nbsp; Audit Date: June 30, 2026</div>
+  <div class="report-meta">
+    <span>Prepared for: <strong>Applause Product Marketing</strong></span>
+    <span>Author: <strong>Chris Munroe, VP of Delivery, Strategic Practices</strong></span>
+    <span>Published: <strong>January 16, 2025</strong></span>
+    <span>Last modified: <strong>Not confirmed in metadata</strong></span>
+    <span>Platforms: <strong>Google AI Overviews · ChatGPT · Perplexity · Claude · Copilot</strong></span>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 1</div><h2>Executive Summary</h2></div>
+    <span class="status-badge status-partial">Partial — VP Practitioner Voice, Rubric Needs Structure</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-green">
+      <div class="callout-label">⭐ Standout — Strongest Author E-E-A-T in the Blog Batch</div>
+      This article is written in first person by <strong>Chris Munroe, VP of Delivery, Strategic Practices at Applause</strong> — a C-suite adjacent practitioner with direct hands-on AI testing experience. He opens by referencing a webinar he presented. This is the highest author E-E-A-T signal in the entire blog batch — a VP sharing operational expertise from direct experience, not a content manager explaining an industry concept. It should be preserved and amplified, not diluted by structural gaps.
+    </div>
+
+    <p style="margin-bottom:16px;">The article delivers genuinely rare practical content: a specific grading rubric with criteria, percentage weights, and scoring descriptions across both 5-point and 3-point scales. The vehicle rental chatbot worked example — with an actual prompt, response, and tester ratings with comments — is exactly what practitioners building AI testing programs need and can't find in competitor content. The structural gaps are: the definition follows a webinar context paragraph rather than leading, the rubric is in bullet list format rather than an extractable HTML table, the 5-step process lacks HowTo schema, and there's no link to /ai-training-testing/ in the body. None of these require new content.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3 style="color: var(--red);">🔴 Key Gaps</h3>
+        <ul>
+          <li><span>✗</span><span>Opening paragraph is webinar context — definition is in the first H2 sub-section, not sentence one</span></li>
+          <li><span>✗</span><span>Grading rubric criteria and weights in bullet list — not in an HTML table for AI extraction</span></li>
+          <li><span>✗</span><span>HowTo schema absent for the 5-step execution process</span></li>
+          <li><span>✗</span><span>No link to /ai-training-testing/ solution page in article body</span></li>
+          <li><span>✗</span><span>No FAQ section</span></li>
+          <li><span>✗</span><span>No "last updated" date — January 2025 publication on a fast-moving AI testing topic</span></li>
+          <li><span>✗</span><span>Webinar link goes to go.applause.com (external redirect) rather than an internal resource page</span></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3 style="color: var(--green);">🟢 What's Working</h3>
+        <ul>
+          <li><span>✓</span><span>Author: Chris Munroe, VP of Delivery, Strategic Practices — strongest author E-E-A-T in the batch; first-person practitioner voice</span></li>
+          <li><span>✓</span><span>H1 "Evaluate AI Model Quality With Prompt and Response Grading" — query-matched</span></li>
+          <li><span>✓</span><span>Specific grading rubric with named criteria and percentage weights (Accuracy 40%, Relevance 30%, Completeness 15%, Clarity 10%, Language 5%)</span></li>
+          <li><span>✓</span><span>Both 5-point and 3-point scale examples with scoring descriptions</span></li>
+          <li><span>✓</span><span>Concrete vehicle rental chatbot worked example with actual prompt + response + tester ratings</span></li>
+          <li><span>✓</span><span>5-step execution process — named, structured, HowTo-schema-ready</span></li>
+          <li><span>✓</span><span>H2 headings are question-format and query-matched throughout</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 20px 0 12px;">Top 3 Immediate Actions</h3>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Convert the grading rubric criteria to an HTML table.</h4>
+      <p>The rubric — Accuracy (40%), Relevance (30%), Completeness (15%), Clarity (10%), Language and grammar (5%) — is currently in a bullet list. For "AI response grading rubric" and "how to evaluate AI model quality" queries, AI systems extract structured comparison tables, not prose bullets. Converting to an HTML table (columns: Criterion | Weight | What It Assesses) makes the rubric independently citable. This is the most distinctive and citable content in the article — it deserves extractable format.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Add HowTo JSON-LD schema for the 5-step execution process.</h4>
+      <p>The "Step-by-Step: Executing Prompt and Response Grading" section has 5 named H3 steps: Define your framework, Develop a scoring rubric, Provide tester guidance, Execute the test, Analyze and iterate. This maps directly to HowTo schema. Schema makes the step sequence machine-readable for "how to do prompt and response grading" process queries. Starter template below.</p>
+    </div>
+
+    <div class="action-item p1-item">
+      <div style="margin-bottom:6px;"><span class="p1">P1</span></div>
+      <h4>Move the definition to sentence one — before the webinar context.</h4>
+      <p>The article opens: "In a recent webinar on best practices for testing AI applications, I mentioned prompt and response grading as a way to improve model quality." That's a context sentence, not a definition. The definition — "Prompt and response grading is a systematic approach used to evaluate the quality and accuracy of generative AI outputs in response to specific user inputs" — is in the first H2. Move it to be the literal first sentence of the article. The webinar context can follow as supporting framing.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUERY COVERAGE -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 2</div><h2>Where This Page Shows Up Today</h2></div>
+    <span class="status-badge status-partial">Competitive — Differentiated Content, Structure Gaps</span>
+  </div>
+  <div class="section-body">
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      "Prompt and response grading" and "how to evaluate AI model quality" are emerging practitioner queries in the AI testing space — exactly where Applause's differentiation lives. Unlike regression testing or functional testing (where Guru99 and BrowserStack dominate), AI testing evaluation methodology is a newer content category where a VP practitioner with a specific rubric and worked example can own the query. The structured content gaps are the only thing preventing this.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">⚠ Methodology Note</div>
+      Citation status inferred from page structure and competitive analysis. Manual verification required before stakeholder distribution. ChatGPT: OAI-SearchBot allowed by wildcard per homepage audit.
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Query</th>
+          <th style="width:9%;">Google AIO</th>
+          <th style="width:9%;">ChatGPT</th>
+          <th style="width:9%;">Perplexity</th>
+          <th style="width:9%;">Claude</th>
+          <th style="width:9%;">Copilot</th>
+          <th style="width:14%;">Applause Cited?</th>
+          <th style="width:15%;">Who's Winning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>prompt and response grading AI</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — specific term, limited direct competition</td>
+          <td>Emerging query — limited established competition</td>
+        </tr>
+        <tr>
+          <td>how to evaluate AI model quality</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — H1 matches, definition in H2 not opening</td>
+          <td>Google ML, Hugging Face, Weights &amp; Biases, LangChain docs</td>
+        </tr>
+        <tr>
+          <td>AI response grading rubric</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-fail">✗ Unlikely — rubric is in bullet list, not extractable table</td>
+          <td>Academic papers, LangChain, OpenAI evals docs</td>
+        </tr>
+        <tr>
+          <td>generative AI testing methods</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — practical methodology content present</td>
+          <td>Towards Data Science, Hugging Face, various AI blogs</td>
+        </tr>
+        <tr>
+          <td>how to test AI chatbots</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-pass">✓ Yes</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — vehicle rental chatbot example present</td>
+          <td>LangChain, various QA blogs, Botpress</td>
+        </tr>
+        <tr>
+          <td>AI model evaluation criteria accuracy relevance</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Possible — specific criteria with weights present</td>
+          <td>Academic ML papers, Hugging Face, Google ML</td>
+        </tr>
+        <tr>
+          <td>how to grade AI responses step by step</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Likely</td>
+          <td class="icon-partial">⚠ Competitive — 5-step process present, no HowTo schema</td>
+          <td>Emerging query — limited established competition</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:12px;">Citation Competitiveness by Query Type</h3>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">"Prompt and response grading" (specific)</span><div class="meter-bar-bg"><div class="meter-bar high" style="width:70%;"></div></div><span style="font-size:13px; color:var(--green);">Strong — limited direct competition for this specific term</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">AI grading rubric / evaluation criteria</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:40%;"></div></div><span style="font-size:13px; color:var(--orange);">Possible — content exists but in bullet list, not table</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:13px;">How to test/evaluate AI models (broad)</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:35%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive — deeper tech sources have more authority</span></div>
+      <div class="meter-row"><span style="width:230px; font-size:23px; font-size:14px;">Step-by-step process queries</span><div class="meter-bar-bg"><div class="meter-bar med" style="width:50%;"></div></div><span style="font-size:13px; color:var(--orange);">Competitive once HowTo schema added</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 DIVIDER -->
+<div class="part-divider">
+  <h2>Part 2 of 2 — Detailed Findings &amp; Action Plan</h2>
+  <p>Organized by On-Page (changes to the blog post) and Off-Page (external presence and configuration)</p>
+  <div class="anchor-nav">
+    <a href="#onpage-content">📄 Page Content</a>
+    <a href="#onpage-schema">🏗️ Schema</a>
+    <a href="#offpage-bots">🤖 Bot Access</a>
+    <a href="#offpage-presence">🌐 External</a>
+    <a href="#offpage-competitors">⚔️ Competitive</a>
+    <a href="#recommendations">✅ All Actions</a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="section" id="onpage-content">
+  <div class="section-header">
+    <div><div class="section-num">Section 3</div><h2>Page Content Extractability</h2></div>
+    <span class="status-badge status-partial">4 Pass · 2 Partial · 4 Fail</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Changes to the blog post</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      For a how-to article on AI testing methodology, extractability is everything. AI systems answering "how do I grade AI responses?" need to extract specific, numbered steps and a structured rubric — not prose descriptions of them. The content is there; the structure just needs to match the expected extraction format.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38%;">Check</th>
+          <th style="width:10%;">Status</th>
+          <th style="width:52%;">What Was Found / What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clear definition in opening</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>The article opens with a webinar context paragraph before reaching the definition in the "What is prompt and response grading?" H2. The definition itself is clean: "a systematic approach used to evaluate the quality and accuracy of generative AI (Gen AI) outputs in response to specific user inputs." Move this to sentence one. The webinar reference — which establishes Chris Munroe's practitioner credibility — can remain as the second paragraph, not the first.</td>
+        </tr>
+        <tr>
+          <td><strong>Grading rubric in extractable format</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The rubric criteria (Accuracy 40%, Relevance 30%, Completeness 15%, Clarity 10%, Language and grammar 5%) are in a bullet list. For AI extraction, this content needs to be in an HTML table. Suggested structure: Criterion | Weight | What It Assesses | Why It Matters. The 5-point and 3-point scoring scale examples should each be in their own structured table as well — the current narrative description is too prose-heavy to extract cleanly.</td>
+        </tr>
+        <tr>
+          <td><strong>5-step execution process — named and sequential</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>The 5 steps (Define your framework, Develop a scoring rubric, Provide tester guidance, Execute the test, Analyze and iterate) are named H3 headings with explanation paragraphs — ideal for HowTo schema. Content is strong; just needs the schema wrapper.</td>
+        </tr>
+        <tr>
+          <td><strong>Worked example (vehicle rental chatbot)</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>The chatbot example is the article's standout practical asset — a real prompt ("What happens if I can't return the vehicle at the scheduled time?"), a real AI response, and a specific tester rating with written commentary explaining the gaps. This is exactly what practitioners need and what AI systems extract as concrete evidence for "how to grade AI responses" queries. No structural changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>Author E-E-A-T signals</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>Chris Munroe, VP of Delivery, Strategic Practices — first-person author with confirmed title and photo. The opening reference to "a recent webinar on best practices for testing AI applications, I mentioned" establishes direct practitioner experience. This is the strongest author E-E-A-T in the blog batch. Preserve the first-person voice and the webinar reference — just move them after the definition rather than before it.</td>
+        </tr>
+        <tr>
+          <td><strong>Statistics with named sources</strong></td>
+          <td class="icon-partial">⚠ Partial</td>
+          <td>"Accuracy and relevance usually carry the most weight, often making up around 60 or more percent of the overall evaluation score" — this is a practitioner observation, not a sourced statistic. The percentage weights in the rubric (40%, 30%, etc.) are practical recommendations from the author's experience, not external research. That's appropriate for this content type. However, adding 1–2 industry statistics on AI model failure rates or hallucination rates would strengthen the "Why use prompt and response grading?" rationale section.</td>
+        </tr>
+        <tr>
+          <td><strong>FAQ section</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>No FAQ section. Suggested questions: "What is prompt and response grading?", "What criteria should you use to grade AI responses?", "How do you choose between a 3-point and 5-point grading scale?", "How often should you run prompt and response grading?", "Can automated tools replace human graders for AI evaluation?" The last question is particularly timely given the 2026 debate around LLM-as-judge vs. human evaluation approaches.</td>
+        </tr>
+        <tr>
+          <td><strong>H1 and H2 headings match queries</strong></td>
+          <td class="icon-pass">✓ Pass</td>
+          <td>H1 "Evaluate AI Model Quality With Prompt and Response Grading" is query-matched. All H2 headings are question-format: "What is prompt and response grading?", "Why use prompt and response grading?", "Preparing for prompt and response grading", etc. No changes needed.</td>
+        </tr>
+        <tr>
+          <td><strong>"Last updated" date visible</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>Published January 16, 2025. No modification date confirmed in metadata. At 18 months old in the AI testing space — one of the fastest-moving content areas — freshness is a real concern. Verify whether this article has been updated since January 2025. If not, a content review should be scheduled: the AI testing evaluation landscape has evolved significantly since early 2025 (LLM-as-judge proliferation, Red teaming norms, agentic evaluation frameworks). If it has been updated, make the date visible immediately.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal links to solution pages</strong></td>
+          <td class="icon-fail">✗ Fail</td>
+          <td>The article's only internal link is the AI Training &amp; Testing blog tag filter. No link to /ai-training-testing/ solution page appears in the body — a missed opportunity given that this article is directly describing the kind of work Applause's AI testing team does. Add a contextual link in the "Why use prompt and response grading?" section or the Applause CTA.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SCHEMA -->
+<div class="section" id="onpage-schema">
+  <div class="section-header">
+    <div><div class="section-num">Section 4</div><h2>Schema Markup</h2></div>
+    <span class="status-badge" style="background:#FEE2DC;color:var(--red);">HowTo + FAQPage — Both Missing</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-onpage">🔵 On-Page — Technical tags added to page code</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      This is a how-to article with a named 5-step process — HowTo schema is the natural fit and likely to be implemented straightforwardly. Once the FAQ section is added, FAQPage schema covers the high-frequency "what is prompt and response grading?" and "how do you choose a grading scale?" queries that practitioners search. Both schemas together would make this article the most structured AI testing methodology resource in Applause's blog.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Schema Type</th>
+          <th>What It Does</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>HowTo</code></td>
+          <td>Tags the 5-step execution process as a named, sequential workflow. Directly triggers extraction for "how to do prompt and response grading" process queries.</td>
+          <td class="icon-fail">✗ Almost certainly absent</td>
+          <td><span class="p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><code>FAQPage</code></td>
+          <td>Tags Q&amp;A pairs for direct extraction. Needed once the FAQ section is added. The question-format H2 headings are already structured as FAQs; adding a dedicated FAQ section and schema formalizes this.</td>
+          <td class="icon-fail">✗ Absent — FAQ section doesn't exist yet</td>
+          <td><span class="p2">P2 — add FAQ content first</span></td>
+        </tr>
+        <tr>
+          <td><code>Article</code> / <code>BlogPosting</code></td>
+          <td>Author, date, topic. Verify Yoast includes Chris Munroe as author with jobTitle "VP of Delivery, Strategic Practices" — this E-E-A-T signal should be in structured data, not just visible text.</td>
+          <td class="icon-unknown">? Likely present via Yoast — verify author jobTitle</td>
+          <td><span class="p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Starter HowTo Schema Template</h3>
+    <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Execute Prompt and Response Grading for AI Models",
+  "description": "A step-by-step process for evaluating generative AI output quality
+  using a structured grading rubric across criteria including accuracy, relevance,
+  completeness, clarity, and language quality.",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Munroe",
+    "jobTitle": "VP of Delivery, Strategic Practices",
+    "worksFor": { "@type": "Organization", "name": "Applause" }
+  },
+  "step": [
+    { "@type": "HowToStep", "position": 1, "name": "Define your framework",
+      "text": "Select core criteria and assign percentage weights to each based on
+      importance to your specific use case. Common criteria include accuracy (40%),
+      relevance (30%), completeness (15%), clarity (10%), and language quality (5%)." },
+    { "@type": "HowToStep", "position": 2, "name": "Develop a scoring rubric",
+      "text": "Choose a scale — binary, 3-point or 5-point — that clearly describes
+      how testers should evaluate each criterion to ensure consistency across the team." },
+    { "@type": "HowToStep", "position": 3, "name": "Provide tester guidance",
+      "text": "Brief your testing team on the goals and provide seed prompts or specific
+      use cases to focus their efforts. Define categories for different issue types within
+      each rating criterion." },
+    { "@type": "HowToStep", "position": 4, "name": "Execute the test",
+      "text": "Testers enter prompts into the AI model and grade the resulting outputs
+      against your rubric, providing written feedback where ratings are below threshold." },
+    { "@type": "HowToStep", "position": 5, "name": "Analyze and iterate",
+      "text": "Review grades to identify patterns and prioritize areas for model
+      improvement. Use insights to fine-tune the model and iterate on the rubric
+      for ongoing development." }
+  ]
+}</code></pre>
+
+  </div>
+</div>
+
+<!-- BOT ACCESS -->
+<div class="section" id="offpage-bots">
+  <div class="section-header">
+    <div><div class="section-num">Section 5</div><h2>AI Bot Access</h2></div>
+    <span class="status-badge status-unknown">Same Config as All Audited Pages</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Sitewide robots.txt configuration</span>
+    <div class="callout callout-blue">
+      <div class="callout-label">Reference: Homepage Audit — June 30, 2026</div>
+      Sitewide robots.txt findings apply unchanged. All citation bots allowed except GPTBot (training). OAI-SearchBot allowed by wildcard. Confirm Cloudflare CDN-level bot blocking is not active — see Homepage report §5. AI testing methodology content is heavily researched via ChatGPT and Perplexity by ML engineers and AI product teams — confirmed bot access is directly valuable for this article's primary audience.
+    </div>
+  </div>
+</div>
+
+<!-- EXTERNAL PRESENCE -->
+<div class="section" id="offpage-presence">
+  <div class="section-header">
+    <div><div class="section-num">Section 6</div><h2>External Presence</h2></div>
+    <span class="status-badge status-partial">AI Testing Ecosystem — Emerging Content Category</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — How Applause appears in the AI testing methodology ecosystem</span>
+
+    <div class="callout callout-teal">
+      <div class="callout-label">Why This Matters</div>
+      Unlike the QA knowledge ecosystem (dominated by Guru99 and ASQ), the AI model evaluation space is newer and less consolidate around established citation sources. Hugging Face, LangChain documentation, and academic ML papers are the current AI citation authorities — but practitioner content from a named VP with a specific rubric and worked example has genuine differentiation potential here. This is one of the few articles in the batch where Applause has a realistic shot at becoming a citation source in a space not already locked up by legacy QA knowledge sites.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Applause Presence</th>
+          <th>AI Testing Context</th>
+          <th>Action Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Towards Data Science / Analytics Vidhya</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Likely absent</td>
+          <td>TDS publishes ML practitioner content cited heavily by AI systems. A guest post from Chris Munroe on AI model evaluation methodology — citing this article — would place Applause in the citation ecosystem for this specific topic area. The VP practitioner angle is exactly what TDS editors value over generic corporate content.</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn (Chris Munroe)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>An expanded LinkedIn article from Chris Munroe — sharing the rubric framework with more detail and linking back to this post — creates Copilot-indexable expert content and distributes the methodology to AI practitioners organically. VP practitioner content on LinkedIn performs well for this audience.</td>
+        </tr>
+        <tr>
+          <td><strong>AI testing community forums (Reddit r/MachineLearning, r/LanguageTechnology)</strong></td>
+          <td class="icon-unknown">? Unknown</td>
+          <td class="icon-unknown">? Unknown</td>
+          <td>Reddit accounts for ~5.5% of Google AI Overview citations. Authentic community participation sharing the prompt and response grading methodology — with the rubric framework as a practical resource — would build citation weight for AI evaluation queries over time.</td>
+        </tr>
+        <tr>
+          <td><strong>G2 / Gartner (AI Testing category)</strong></td>
+          <td class="icon-partial">⚠ Present</td>
+          <td class="icon-unknown">? Tag unknown</td>
+          <td>Ensure the G2 and Gartner profiles are tagged under "AI Testing," "Generative AI Testing," and "LLM Evaluation." Customer reviews specifically mentioning prompt and response grading as an Applause methodology would reinforce this article's authority positioning.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- COMPETITIVE GAPS -->
+<div class="section" id="offpage-competitors">
+  <div class="section-header">
+    <div><div class="section-num">Section 7</div><h2>Competitive Gaps</h2></div>
+    <span class="status-badge status-partial">Emerging Space — Differentiation Opportunity</span>
+  </div>
+  <div class="section-body">
+    <span class="section-tag tag-offpage">🟢 Off-Page — Competitive landscape for AI evaluation methodology</span>
+
+    <div class="competitor-card">
+      <div class="tag">Primary Gap</div>
+      <h3>Hugging Face / LangChain Documentation</h3>
+      <p><strong>Where they win:</strong> "AI model evaluation," "LLM evaluation frameworks," "how to evaluate generative AI." Their content is technical and code-first — evaluation frameworks, benchmark scores, automated metrics (BLEU, ROUGE, BERTScore). They dominate technical AI evaluation queries.</p>
+      <p><strong>Why AI cites them:</strong> High technical authority, schema markup, and the open-source community credibility that comes with being the platforms practitioners use daily. Their content is frequently updated as the evaluation landscape evolves.</p>
+      <p><strong>Applause's counter:</strong> Applause's angle is fundamentally different — human-graded evaluation at scale, not automated metrics. The prompt and response grading rubric is a practitioner framework for teams that need human judgment, not code. This is a gap in Hugging Face and LangChain content. Positioning the article explicitly as "the human-in-the-loop evaluation complement to automated LLM evaluation metrics" would differentiate it from the technical documentation space and capture queries from practitioners who've tried automated evaluation and found its limits.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="tag">Emerging Gap</div>
+      <h3>Scale AI / Surge AI / Labelbox</h3>
+      <p><strong>Where they win:</strong> "AI training data annotation," "human evaluation of AI models," "RLHF data collection." These vendors publish practitioner content on human evaluation methodologies, including rubric-based grading approaches, and are frequently cited for "how to do human evaluation of AI" queries.</p>
+      <p><strong>Applause's counter:</strong> Applause's differentiation is the managed service model — not just a platform for self-serve human evaluation, but a fully managed program with a dedicated team, a defined rubric, and actionable insights. The article currently doesn't articulate this distinction from annotation platforms. Adding a brief paragraph positioning prompt and response grading as "what Applause manages on behalf of enterprises" rather than "what you do yourself" would capture vendor-evaluation queries this article currently misses.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="section" id="recommendations">
+  <div class="section-header">
+    <div><div class="section-num">Section 8</div><h2>Prioritized Action Plan</h2></div>
+    <span class="status-badge status-partial">11 Actions</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-size:14px; margin-bottom:20px;"><strong>P1 = this week, P2 = this sprint, P3 = next quarter.</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:7%;">Priority</th>
+          <th style="width:41%;">Action</th>
+          <th style="width:17%;">Impact</th>
+          <th style="width:13%;">Effort</th>
+          <th style="width:12%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-label"><td colspan="5">🔵 ON-PAGE — Changes to the blog post</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Convert the grading rubric to an HTML table.</strong> Criterion | Weight | What It Assesses. Then create separate HTML tables for the 5-point Accuracy rubric and 3-point Clarity rubric — each with score level, label, and description per row. The rubric is the article's most citable asset; it needs extractable format.</td>
+          <td>High — rubric extraction for grading queries</td>
+          <td>Low — markup + minor copy</td>
+          <td>Web dev (Tammy) / Content</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Add HowTo JSON-LD schema</strong> for the 5-step execution process. Starter template in Section 4 — includes Chris Munroe's author attribution in the schema.</td>
+          <td>High — process query extraction</td>
+          <td>Low — 1 hr dev</td>
+          <td>Web dev (Tammy)</td>
+        </tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Move the definition to sentence one.</strong> "Prompt and response grading is a systematic approach used to evaluate the quality and accuracy of generative AI outputs in response to specific user inputs." Lead with this. The webinar context (which establishes VP practitioner credibility) becomes the second paragraph.</td>
+          <td>High — definition query citation</td>
+          <td>Low — copy reorder</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a link to /ai-training-testing/</strong> in the article body — specifically in the "Why use prompt and response grading?" section where "ensuring quality" and "driving continuous improvement" are named as benefits. These benefits map directly to Applause's AI testing managed service.</td>
+          <td>High — solution page authority + user journey</td>
+          <td>Low — link insertion</td>
+          <td>Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a FAQ section</strong> with 4–5 practitioner questions. See Section 1 for suggestions — particularly "How do you choose between a 3-point and 5-point grading scale?" (directly answered in the article) and "Can automated tools replace human graders?" (relevant 2026 AI evaluation debate).</td>
+          <td>High — People Also Ask coverage</td>
+          <td>Medium — new copy + schema</td>
+          <td>Content (Jennifer) + Web dev</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Verify and display the last-updated date.</strong> Check whether this article has been updated since January 2025. If yes, make the date visible immediately. If no, schedule a content review — AI evaluation methodology has evolved significantly since early 2025 (LLM-as-judge, agentic evaluation, multimodal grading).</td>
+          <td>High — freshness signal in fast-moving space</td>
+          <td>Low — verify + template</td>
+          <td>Content (Jennifer) / Web</td>
+        </tr>
+        <tr>
+          <td><span class="p2">P2</span></td>
+          <td><strong>Add a paragraph explicitly positioning Applause's managed service vs. self-serve annotation platforms.</strong> "Unlike self-serve annotation tools, Applause fully manages the prompt and response grading program — designing the rubric, briefing testers, executing the evaluation, and delivering actionable insights." This captures vendor-evaluation queries from teams comparing their options.</td>
+          <td>Medium — commercial differentiation</td>
+          <td>Low — copy addition</td>
+          <td>PMM / Content (Jennifer)</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Add a section on "LLM-as-judge vs. human grading"</strong> — one of the most debated topics in AI evaluation in 2025–2026. Positioning human prompt and response grading as the gold standard for nuanced evaluation (while acknowledging automated metrics for scale) would differentiate this article from technical documentation that covers automated metrics only.</td>
+          <td>High — emerging query ownership</td>
+          <td>Medium — new section</td>
+          <td>Content (Jennifer) + PMM</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Commission a LinkedIn article from Chris Munroe</strong> expanding on the rubric methodology, linking back to this post. VP practitioner content on LinkedIn distributes the methodology to AI practitioners organically and creates Copilot-indexable expert content.</td>
+          <td>Medium — expert citation signal</td>
+          <td>Low — executive content</td>
+          <td>PMM</td>
+        </tr>
+        <tr class="row-label"><td colspan="5">🟢 OFF-PAGE — External presence and configuration</td></tr>
+        <tr>
+          <td><span class="p1">P1</span></td>
+          <td><strong>Complete the sitewide robots.txt update</strong> from the homepage audit. AI/ML practitioners using ChatGPT and Perplexity for research are the primary audience for this article — confirmed citation bot access is essential.</td>
+          <td>High — citation bot access</td>
+          <td>Low — config (already scoped)</td>
+          <td>Web / IT</td>
+        </tr>
+        <tr>
+          <td><span class="p3">P3</span></td>
+          <td><strong>Pursue Towards Data Science guest post</strong> from Chris Munroe on AI evaluation methodology — the rubric framework as a practitioner guide with attribution back to this Applause post.</td>
+          <td>High — ML community citation signal</td>
+          <td>High — guest post production</td>
+          <td>PMM / PR</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- MONITORING -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-num">Section 9</div><h2>Monitoring Plan</h2></div>
+    <span class="status-badge status-unknown">All Platforms</span>
+  </div>
+  <div class="section-body">
+    <h3 style="font-size:15px; font-weight:700; margin-bottom:12px;">Priority Queries to Track</h3>
+    <ol style="font-size:14px; padding-left:20px; line-height:2.2;">
+      <li>prompt and response grading for AI</li>
+      <li>how to evaluate AI model quality</li>
+      <li>AI response grading rubric</li>
+      <li>generative AI evaluation criteria accuracy relevance</li>
+      <li>how to grade AI chatbot responses</li>
+      <li>human evaluation of AI models</li>
+      <li>how to test generative AI quality step by step</li>
+    </ol>
+
+    <h3 style="font-size:15px; font-weight:700; margin:20px 0 10px;">Post-Fix Checkpoints</h3>
+    <table>
+      <thead>
+        <tr><th>Timeframe</th><th>What to Check</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Within 48 hrs of schema + table</strong></td>
+          <td>Validate HowTo schema via Rich Results Test. Confirm rubric HTML tables render correctly and appear in the accessible DOM. Confirm Article schema includes Chris Munroe's job title.</td>
+        </tr>
+        <tr>
+          <td><strong>30 days post-optimizations</strong></td>
+          <td>Run all 7 priority queries across platforms. Key test: does Applause now appear for "AI response grading rubric" specifically — the query most directly served by converting the bullet list to an HTML table?</td>
+        </tr>
+        <tr>
+          <td><strong>60 days</strong></td>
+          <td>Check whether "LLM-as-judge vs. human grading" queries are emerging in your target audience's research — if yes, that's the timing signal for the P3 section addition. Monitor if the TDS guest post (if commissioned) drives referral traffic or citation uplift.</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>This is the fastest-moving content category in the batch. Quarterly content reviews are essential — AI evaluation methodology evolves rapidly and 2026-era content needs 2026-era framing. Update with current LLM-as-judge debates, new benchmarks, and agentic AI evaluation considerations.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="report-footer">
+  <strong>Generated with Applause AI SEO Skill v2.1.1</strong><br>
+  Audit date: June 30, 2026 &nbsp;·&nbsp; URL: applause.com/blog/evaluate-ai-model-quality-with-prompt-and-response-grading/ &nbsp;·&nbsp; Scope: Blog post · All Platforms<br>
+  <span style="opacity:0.6; font-size:12px; margin-top:6px; display:block;">Citation status is inferred from content structure and competitive signals. Manual verification recommended before stakeholder distribution.</span>
+</div>
+
+</body>
+</html>
