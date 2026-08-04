@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Applause AI Visibility Skills — Product Marketing</title>
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-700: #01446C;
+    --blue-500: #0272B4;
+    --blue-100: #E6F3FA;
+    --blue-50:  #F7FBFE;
+    --aqua-500: #00C0A3;
+    --aqua-600: #009A82;
+    --amber-500: #ED7200;
+    --amber-100: #FEF0E0;
+    --gray-700: #3D3D3D;
+    --gray-600: #6B6B6B;
+    --gray-400: #C2C2C2;
+    --gray-200: #F0F0F0;
+    --gray-100: #FAFAFA;
+    --white:    #FFFFFF;
+    --green:    #0F8919;
+    --green-100: #E5F5E7;
+    --red:      #D42D0E;
+    --orange:   #ED7200;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Proxima Nova', Arial, sans-serif;
+    background: var(--blue-50);
+    color: var(--gray-700);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* SITE NAV */
+  .site-nav { position: sticky; top: 0; z-index: 100; background: var(--blue-700); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 60px; }
+  .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
+  .nav-logo { height: 20px; width: auto; flex-shrink: 0; }
+  .nav-title { font-size: 12px; font-weight: 500; color: #B9DCEE; letter-spacing: 0.02em; border-left: 1px solid rgba(255,255,255,0.3); padding-left: 14px; white-space: nowrap; }
+  .nav-right { display: flex; align-items: center; gap: 28px; margin-left: auto; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-link { font-size: 14px; font-weight: 600; text-decoration: none; color: #B9DCEE; padding-bottom: 4px; border-bottom: 2px solid transparent; transition: color 0.15s ease; }
+  .nav-link:hover { color: #fff; }
+  .nav-link--active { color: #fff; border-bottom-color: var(--aqua-500); }
+  .nav-drive { display: flex; align-items: center; gap: 6px; text-decoration: none; color: #B9DCEE; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.08); white-space: nowrap; flex-shrink: 0; }
+  .nav-drive:hover { color: #fff; background: rgba(255,255,255,0.16); }
+  .nav-drive svg { width: 15px; height: auto; }
+
+  /* TITLE BAND */
+  .title-band { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); padding: 44px 24px 40px; }
+  .title-band-inner { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .crumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #B9DCEE; }
+  .crumb a { color: #B9DCEE; text-decoration: none; }
+  .crumb a:hover { color: #fff; }
+  .crumb .current { color: #fff; font-weight: 600; }
+  .title-band h1 { font-size: 28px; font-weight: 800; color: #fff; margin: 0; }
+  .title-band p { font-size: 15px; color: #DCEFFA; margin: 0; max-width: 640px; line-height: 1.55; }
+  .title-band-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .tb-btn { font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .tb-btn-ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+  .tb-btn-ghost:hover { background: rgba(255,255,255,0.2); }
+  .tb-btn-solid { background: var(--aqua-500); color: #fff; }
+  .tb-btn-solid:hover { background: var(--aqua-600); }
+
+  /* MAIN CONTENT */
+  .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 64px; }
+
+  /* SECTION LABEL / TITLE / LEAD */
+  .section { margin-bottom: 8px; }
+  .gap-40 { margin-top: 40px; }
+  .section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-600); margin-bottom: 16px; }
+  .section-title { font-size: 1.5rem; font-weight: 800; color: var(--blue-700); margin-bottom: 10px; line-height: 1.25; }
+  .section-lead { font-size: 14px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.65; max-width: 760px; }
+
+  /* CARD (shared shell) */
+  .card { background: var(--white); border: 1px solid #D9EDF8; border-radius: 8px; padding: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
+  .badge-blue { background: var(--blue-100); color: var(--blue-700); }
+  .badge-amber { background: var(--amber-100); color: #994A00; }
+  .badge-teal { background: #E0F8F5; color: var(--aqua-600); }
+  .badge-mono { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 11.5px; font-weight: 600; }
+
+  /* SKILL CARDS — main explainer blocks */
+  .skill-block { background: var(--white); border: 1px solid #D9EDF8; border-radius: 8px; overflow: hidden; margin-bottom: 20px; transition: box-shadow 0.2s ease, transform 0.15s ease; }
+  .skill-block:hover { box-shadow: 0 4px 16px rgba(2,114,180,0.12); transform: translateY(-2px); }
+  .skill-block-header { padding: 24px 24px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--gray-200); }
+  .skill-block-header-left { display: flex; gap: 16px; align-items: flex-start; }
+  .skill-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .icon-blue { background: var(--blue-100); }
+  .icon-amber { background: var(--amber-100); }
+  .icon-teal { background: #E0F8F5; }
+  .skill-block-title { font-size: 16px; font-weight: 700; color: var(--blue-700); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .skill-block-title code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 12px; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+  .code-blue { background: var(--blue-100); color: var(--blue-700); }
+  .code-amber { background: var(--amber-100); color: #994A00; }
+  .code-teal { background: #E0F8F5; color: var(--aqua-600); }
+  .skill-block-subtitle { font-size: 14px; color: #555; line-height: 1.55; }
+  .skill-block-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+  .status-pill { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: var(--green-100); color: var(--green); white-space: nowrap; }
+  .skill-block-body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .skill-block-body { grid-template-columns: 1fr; } }
+
+  .skill-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .label-blue { color: var(--blue-500); }
+  .label-amber { color: var(--amber-500); }
+  .label-teal { color: var(--aqua-600); }
+
+  .skill-col ul, .covers-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .skill-col li, .covers-list li { font-size: 13px; color: #555; padding: 3px 0 3px 16px; position: relative; line-height: 1.5; }
+  .skill-col li::before, .covers-list li::before { content: '–'; position: absolute; left: 0; color: var(--aqua-500); font-weight: 700; }
+
+  .output-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 12px; }
+  .output-blue { background: var(--blue-50); color: var(--blue-700); border: 1px solid #D9EDF8; }
+  .output-amber { background: var(--amber-100); color: #994A00; border: 1px solid #F8D09A; }
+  .output-teal { background: #E0F8F5; color: var(--aqua-600); border: 1px solid #B2EFE8; }
+
+  .trigger-area { background: var(--blue-50); border-radius: 6px; padding: 12px 16px; }
+  .triggers-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 6px; }
+  .triggers-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .trigger-pill { font-size: 11px; background: var(--blue-100); color: var(--blue-700); padding: 3px 9px; border-radius: 20px; font-weight: 500; font-style: italic; }
+
+  /* HOW IT CONNECTS — reuses index.html's callout-card treatment */
+  .callout-card { background: var(--blue-100); border: none; border-left: 4px solid var(--aqua-500); border-radius: 8px; padding: 28px 28px 24px; }
+  .callout-card p { font-size: 15px; color: var(--blue-700); line-height: 1.65; margin-bottom: 12px; }
+  .callout-card p:last-of-type { margin-bottom: 0; }
+  .callout-card .tagline { font-size: 14px; font-weight: 700; color: var(--blue-700); margin-top: 14px; margin-bottom: 20px; }
+  .callout-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .callout-col { background: rgba(255,255,255,0.65); border-radius: 6px; padding: 14px 16px; font-size: 13px; color: var(--blue-700); line-height: 1.5; }
+  .callout-col strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .callout-col span { font-style: italic; }
+
+  /* QUERIES */
+  .query-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 640px) { .query-tiers { grid-template-columns: 1fr; } }
+  .query-tier h4 { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .query-tier.t1 h4 { color: var(--blue-500); }
+  .query-tier.t2 h4 { color: var(--aqua-600); }
+  .query-tier.t3 h4 { color: var(--gray-400); }
+  .query-tier.t4 h4 { color: var(--amber-500); }
+  .query-tier.t5 h4 { color: var(--blue-700); }
+  .query-tier.t6 h4 { color: var(--aqua-500); }
+  .query-tier ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .query-tier li { font-size: 12.5px; color: #555; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: 5px; padding: 4px 9px; font-style: italic; }
+
+  /* SITE FOOTER */
+  .site-footer { background: var(--blue-100); padding: 32px 24px 20px; }
+  .footer-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 28px; }
+  .footer-brand-col { display: flex; flex-direction: column; gap: 8px; max-width: 300px; }
+  .footer-logo { height: 16px; width: auto; }
+  .footer-blurb { font-size: 12.5px; color: var(--gray-700); line-height: 1.5; margin: 0; }
+  .footer-cols { display: flex; gap: 40px; flex-wrap: wrap; }
+  .footer-col { display: flex; flex-direction: column; gap: 8px; }
+  .footer-col-title { font-size: 11px; font-weight: 700; color: var(--blue-700); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .footer-col a, .footer-col span { font-size: 12.5px; color: var(--gray-700); text-decoration: none; }
+  .footer-col a:hover { color: var(--blue-500); }
+  .footer-bottom { max-width: 900px; margin: 20px auto 0; border-top: 1px solid #CFE9FB; padding-top: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-bottom span { font-size: 11.5px; color: var(--gray-600); }
+
+  [id] { scroll-margin-top: 72px; }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .title-band h1 { font-size: 22px; }
+    .main { padding: 32px 16px 48px; }
+    .footer-inner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a class="nav-brand" href="https://dpnation.github.io/marketing/">
+    <svg class="nav-logo" viewBox="0 0 800 127.2" aria-label="Applause logo"><style>.nv-w,.nv-a{fill:#fff;}</style><g><g><g>
+        <path class="nv-w" d="M0.2,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,126-0.5,124.6,0.2,123 M52.8,98.4L38.5,66.6H38L23.8,98.4H52.8z"/>
+        <path class="nv-w" d="M107.6,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V47z M135.6,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"/>
+        <path class="nv-w" d="M199.8,47c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V47z M227.8,85.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"/>
+        <path class="nv-w" d="M292.1,47c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V47z"/>
+        <path class="nv-w" d="M363.8,123l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,123c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,126,363.1,124.6,363.8,123 M416.4,98.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"/>
+        <path class="nv-w" d="M467.7,47c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V47c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V47z"/>
+        <path class="nv-w" d="M570.4,114.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,117.1,569.2,116.3,570.4,114.3"/>
+        <path class="nv-w" d="M661.2,47c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V47z"/>
+      </g>
+      <path class="nv-a" d="M772.3,10.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,18.3,762.8,10.5,772.3,10.5 M772.3,0.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,12.5,787.6,0.1,772.3,0.1L772.3,0.1z"/>
+      </g></g>
+    </svg>
+    <span class="nav-title">AI Marketing Concierge</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a class="nav-link" href="https://dpnation.github.io/marketing/">Home</a>
+      <a class="nav-link" href="https://dpnation.github.io/marketing/#tools">Tools</a>
+      <a class="nav-link" href="https://dpnation.github.io/marketing/#resources">Resources</a>
+      <a class="nav-link" href="https://dpnation.github.io/marketing/aeo/#reports">Audit Reports</a>
+    </div>
+    <a class="nav-drive" href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener" title="Marketing Google Drive - skills &amp; md files">
+      <svg viewBox="0 0 87.3 78" aria-hidden="true"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"/><path fill="#00ac47" d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z"/><path fill="#ea4335" d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"/><path fill="#00832d" d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"/><path fill="#2684fc" d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z"/></svg>
+      Drive
+    </a>
+  </div>
+</nav>
+
+<!-- TITLE BAND -->
+<section class="title-band">
+  <div class="title-band-inner">
+    <div class="crumb">
+      <a href="https://dpnation.github.io/marketing/">Home</a>
+      <span>/</span>
+      <a href="index.html">AI Visibility Program</a>
+      <span>/</span>
+      <span class="current">Skill Guide</span>
+    </div>
+    <h1>Skill guide</h1>
+    <p>What each of the three AEO skills scores, how they hand off to one another, and the 60-term keyword list they read from. Internal reference — not published.</p>
+    <div class="title-band-actions">
+      <a href="#skills" class="tb-btn tb-btn-ghost">↓ The Skills</a>
+      <a href="#how-it-connects" class="tb-btn tb-btn-ghost">↓ How It Connects</a>
+      <a href="#queries" class="tb-btn tb-btn-ghost">↓ Target Queries</a>
+      <a href="https://claude.ai" class="tb-btn tb-btn-solid" target="_blank" rel="noopener">Open in Claude ↗</a>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- SKILLS -->
+  <div class="section" id="skills">
+    <div class="section-label">The Skills</div>
+    <h2 class="section-title">What each skill does</h2>
+    <p class="section-lead">Each skill has a single job. Run them in order — visibility audit first to set direction, then the content and technical audits together to build the full brief for each priority page.</p>
+
+    <!-- Skill: applause-aeo-content-audit -->
+    <div class="skill-block" id="skill-content">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-blue">📝</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-blue">/applause-aeo-content-audit</code>
+              Term-alignment content audit
+            </div>
+            <div class="skill-block-subtitle">One URL in → one term-alignment scorecard out. Scores a specific Applause page against the 60-term AEO keyword list across five weighted dimensions — does this page earn the terms it's supposed to own?</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">What it scores</div>
+          <ul>
+            <li>Term Alignment (primary/secondary/supporting terms)</li>
+            <li>Characterization accuracy (evidence-locked read)</li>
+            <li>Extractability (structure an AI engine can lift from)</li>
+            <li>Evidence (numbers, proof points, declarative claims)</li>
+            <li>Attribution &amp; Freshness</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Output</div>
+          <ul>
+            <li>Composite score /100 and band (Strong/Adequate/Weak/Failing)</li>
+            <li>Term-by-term placement table</li>
+            <li>Standouts and misses</li>
+            <li>P1/P2/P3 fix list, ordered by effort</li>
+            <li>Handoff to <code>geo-blog-optimizer</code> for the rewrite</li>
+          </ul>
+          <div class="output-badge output-blue">Produces → Term-alignment HTML scorecard</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Trigger phrases</div>
+          <div class="trigger-area">
+            <div class="triggers-list">
+              <span class="trigger-pill">"audit this page against our keywords"</span>
+              <span class="trigger-pill">"score this page for AI search"</span>
+              <span class="trigger-pill">"which keywords does this page own"</span>
+              <span class="trigger-pill">"run the AEO content audit on applause.com/[page]"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill: applause-aeo-technical-audit -->
+    <div class="skill-block" id="skill-technical">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-teal">🔧</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-teal">/applause-aeo-technical-audit</code>
+              Technical page audit
+            </div>
+            <div class="skill-block-subtitle">One URL in → one four-step HTML action list out, built for the web/dev team. Checks whether AI crawlers can actually reach, parse, and cite the page — no keyword or content-quality scoring.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">What it checks</div>
+          <ul>
+            <li>Schema markup (JSON-LD) — present/missing/invalid</li>
+            <li>AI bot access via robots.txt (GPTBot, ClaudeBot, PerplexityBot, etc.)</li>
+            <li>Crawlability &amp; rendering (JS-gated content, noindex, canonical)</li>
+            <li>Structural extractability (headings, semantic markup, alt text)</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">Output</div>
+          <ul>
+            <li>Pass / Fail / Needs Verification per check</li>
+            <li>Overall status pill: Ready / Needs Fixes / Blocked</li>
+            <li>One flat, prioritized fix list for engineering</li>
+            <li>Handoff to <code>schema-markup</code> for any JSON-LD gap</li>
+          </ul>
+          <div class="output-badge output-teal">Produces → Technical AEO HTML report</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-teal">Trigger phrases</div>
+          <div class="trigger-area">
+            <div class="triggers-list">
+              <span class="trigger-pill">"is this page crawlable by AI bots"</span>
+              <span class="trigger-pill">"check this page's schema and robots.txt"</span>
+              <span class="trigger-pill">"give the web team an action list for AI visibility"</span>
+              <span class="trigger-pill">"run a technical AEO audit on this URL"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill: applause-aeo-visibility-audit -->
+    <div class="skill-block" id="skill-visibility">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-amber">📊</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-amber">/applause-aeo-visibility-audit</code>
+              Brand-level visibility analysis
+            </div>
+            <div class="skill-block-subtitle">Tracker CSV in → strategic HTML report out. Analyzes the completed citation tracker to diagnose where Applause is invisible, who owns those spaces, and what content would close each gap.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">What it analyzes</div>
+          <ul>
+            <li>Citation rates by topic, platform, and intent type</li>
+            <li>Blackout category diagnosis</li>
+            <li>Competitor frequency analysis</li>
+            <li>Intent type coverage gaps</li>
+            <li>Platform-by-platform breakdown</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">Output</div>
+          <ul>
+            <li>Ranked content gap recommendations</li>
+            <li>Blackout category action items</li>
+            <li>Competitor threat assessment</li>
+            <li>Platform-specific fixes</li>
+            <li>June 2026 baseline: 17% citation rate</li>
+          </ul>
+          <div class="output-badge output-amber">Produces → LLM visibility HTML report</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-amber">Input: Clarity &amp; Motion tracker</div>
+          <div class="trigger-area">
+            <div class="triggers-label">Baseline query set</div>
+            <div class="triggers-list">
+              <span class="trigger-pill">63 queries × 3 platforms</span>
+              <span class="trigger-pill">Perplexity, ChatGPT, Gemini</span>
+              <span class="trigger-pill">June 2026 baseline</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <a href="https://docs.google.com/spreadsheets/d/1Q9gxAAqWdqkeMCTWLBY6qSlhkIqcjOtG" target="_blank" style="font-size:13px; color:var(--blue-500); text-decoration:none; font-weight:600;">Open tracker in Google Sheets →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:8px; font-size:13px; color:var(--gray-600);">
+      A shared QA evaluator for all three reports (<code style="font-size:12.5px;">applause-aeo-evaluator</code>) is planned but not yet built — for now, review reports yourself before sharing with a stakeholder.
+    </div>
+
+  </div>
+
+  <!-- HOW IT CONNECTS -->
+  <div class="section gap-40" id="how-it-connects">
+    <div class="section-label">The Program</div>
+    <h2 class="section-title">How the three skills connect</h2>
+    <p class="section-lead">The skills are designed to run in sequence. Each one feeds the next.</p>
+    <div class="callout-card">
+      <p>Run the <strong>visibility audit</strong> first — it tells you which topics and pages Applause is invisible for and why. Use those findings to prioritize which pages need attention.</p>
+      <p>Then run the <strong>content audit</strong> and <strong>technical audit</strong> together on each priority page. The visibility report sets the strategy; the two page-level audits build the full implementation brief — one for the copy, one for the plumbing.</p>
+      <p>A shared QA evaluator for all three reports is planned but not yet built. Until then, review reports yourself before they go to a stakeholder or the web team.</p>
+      <div class="tagline">Strategy sets the direction. The two page-level audits build the brief.</div>
+      <div class="callout-three-col">
+        <div class="callout-col">
+          <strong>Content Audit</strong>
+          <span>Answers: does this page's copy earn its priority terms?</span>
+        </div>
+        <div class="callout-col">
+          <strong>Technical Audit</strong>
+          <span>Answers: can AI crawlers reach and parse this page?</span>
+        </div>
+        <div class="callout-col">
+          <strong>Visibility Audit</strong>
+          <span>Answers: where are we invisible across AI platforms, and why?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUERIES -->
+  <div class="section gap-40" id="queries">
+    <div class="section-label">Priority Targets</div>
+    <h2 class="section-title">The 60-term AEO keyword list</h2>
+    <p class="section-lead">List version 2026-07-28 · 60 terms across 6 layers, sourced from the <a href="https://docs.google.com/spreadsheets/d/1tR7oFmAqk-_DH6k_vlmiq2_kweMhUhwC2iadwX26ZBo/edit?gid=0#gid=0" target="_blank" style="color:var(--blue-500);">AEO Keyword List</a> spreadsheet. <code class="code-blue" style="font-size:12px;">applause-aeo-content-audit</code> reads this list directly (as <code style="font-size:0.85em;">keyword-map.md</code>) to propose and score terms — full framing notes, context rules, and page-type presets live there.</p>
+    <div class="card">
+      <h3 style="font-size:15px; font-weight:700; color:var(--blue-700); margin-bottom:20px;">The list, by layer</h3>
+      <div class="query-tiers">
+        <div class="query-tier t1">
+          <h4>L1 — What We Are</h4>
+          <ul>
+            <li>managed software testing services</li>
+            <li>real-world testing</li>
+            <li>digital quality assurance</li>
+            <li>QA testing services</li>
+            <li>test automation services</li>
+            <li>app testing services</li>
+            <li>outsourced QA testing</li>
+            <li>software testing company</li>
+            <li>testing in production-like conditions</li>
+            <li>testing under real-world conditions</li>
+            <li>functional testing services</li>
+          </ul>
+        </div>
+        <div class="query-tier t2">
+          <h4>L2-T — Method: Technology</h4>
+          <ul>
+            <li>agentic AI testing</li>
+            <li>AI-powered software testing</li>
+            <li>responsible AI testing</li>
+            <li>AI evaluation services</li>
+            <li>LLM evaluation services</li>
+            <li>LLM-as-judge testing</li>
+            <li>AI-enabled testing</li>
+            <li>AI-enabled QA</li>
+            <li>AI-assisted testing</li>
+            <li>AI-assisted QA</li>
+            <li>real device testing</li>
+            <li>cross-device testing</li>
+            <li>testing on actual devices</li>
+          </ul>
+        </div>
+        <div class="query-tier t3">
+          <h4>L3 — What We Apply It To</h4>
+          <ul>
+            <li>website testing</li>
+            <li>app testing</li>
+            <li>accessibility testing</li>
+            <li>accessibility assessment</li>
+            <li>inclusive design testing</li>
+            <li>usability testing</li>
+            <li>UX research services</li>
+            <li>customer experience testing</li>
+            <li>omnichannel testing</li>
+            <li>payment testing</li>
+            <li>transaction testing</li>
+            <li>AI agent testing</li>
+            <li>AI agent evaluation</li>
+            <li>customer journey testing</li>
+            <li>localization testing</li>
+            <li>exploratory testing</li>
+            <li>LLM training data collection</li>
+            <li>AI safety testing</li>
+            <li>AI reliability testing</li>
+            <li>IVR testing</li>
+            <li>chat testing</li>
+          </ul>
+        </div>
+        <div class="query-tier t4">
+          <h4>L2-H — Method: Human/Process</h4>
+          <ul>
+            <li>human-in-the-loop testing</li>
+            <li>human-in-the-loop QA</li>
+            <li>crowdsourced QA *</li>
+            <li>product testers *</li>
+            <li>real user testing *</li>
+            <li>global tester community *</li>
+          </ul>
+        </div>
+        <div class="query-tier t5">
+          <h4>L4 — Who It's For</h4>
+          <ul>
+            <li>enterprise software testing</li>
+            <li>ecommerce testing</li>
+            <li>retail app testing</li>
+            <li>ecommerce QA</li>
+            <li>global brand testing services</li>
+          </ul>
+        </div>
+        <div class="query-tier t6">
+          <h4>L5 — Outcomes / Value Prop</h4>
+          <ul>
+            <li>testing coverage</li>
+            <li>software quality confidence</li>
+            <li>reliable software testing</li>
+            <li>QA domain expertise</li>
+          </ul>
+        </div>
+      </div>
+      <p style="font-size:12.5px; color:var(--gray-600); margin-top:20px; line-height:1.55;">* Guardrail-conflict terms — the content audit caps these at <em>heading</em> placement rather than requiring or rewarding a lead position (client ruling, July 2026: the keyword list takes precedence over the crowdtesting-lead guardrail). Same treatment applies to "crowdsourced testing" and "crowdtesting" if either is added to the list.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <svg class="footer-logo" viewBox="0 0 800 126" aria-label="Applause logo"><style>.fo-w{fill:#01446C;}.fo-a{fill:#00C0A3;}</style><g><g><g>
+        <path class="fo-w" d="M0.2,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3H39c0.6,0,1.6,0.6,2,1.3L76.4,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9H19.3c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7H2.2C0.5,127-0.5,125.6,0.2,124 M52.8,99.4L38.5,67.6H38L23.8,99.4H52.8z"/>
+        <path class="fo-w" d="M107.6,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1,2.2-2.2,2.2h-7.5c-1.3,0-2.2-1-2.2-2.2V48z M135.6,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H135.6z"/>
+        <path class="fo-w" d="M199.8,48c0-1.2,0.9-2.2,2.2-2.2h26.5c14.3,0,26,11.6,26,25.6c0,14.4-11.7,26.1-25.9,26.1h-16.8v27.3c0,1.2-1.1,2.2-2.2,2.2H202c-1.3,0-2.2-1-2.2-2.2V48z M227.8,86.2c8,0,14.7-6.5,14.7-14.9c0-7.9-6.7-13.9-14.7-13.9h-16v28.8H227.8z"/>
+        <path class="fo-w" d="M292.1,48c0-1.2,0.9-2.2,2.2-2.2h7.7c1.2,0,2.2,1,2.2,2.2v68.3h31.5c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-41.3c-1.3,0-2.2-1-2.2-2.2V48z"/>
+        <path class="fo-w" d="M363.8,124l35.6-78.1c0.4-0.7,1.4-1.3,2-1.3h1.2c0.6,0,1.6,0.6,2,1.3L440,124c0.7,1.5-0.2,3-2,3h-7.3c-1.4,0-2.2-0.7-2.7-1.7l-7.2-15.9h-38c-2.3,5.3-4.8,10.6-7.1,15.9c-0.4,0.8-1.3,1.7-2.7,1.7h-7.3C364.1,127,363.1,125.6,363.8,124 M416.4,99.4l-14.3-31.8h-0.6l-14.2,31.8H416.4z"/>
+        <path class="fo-w" d="M467.7,48c0-1.2,1-2.2,2.2-2.2h7.8c1.3,0,2.2,1,2.2,2.2v48c0,11.6,7.4,20.7,19.3,20.7c12,0,19.5-8.9,19.5-20.4V48c0-1.2,0.9-2.2,2.2-2.2h7.8c1.2,0,2.2,1,2.2,2.2v48.8c0,17.6-13.4,31.5-31.7,31.5c-18.2,0-31.5-13.8-31.5-31.5V48z"/>
+        <path class="fo-w" d="M570.4,115.3c1-1.5,2-3.2,3-4.8s2.7-2,3.9-0.9c0.7,0.6,9.6,8,18.6,8c8,0,13.1-4.9,13.1-10.8c0-7-6-11.4-17.5-16.1c-11.8-5-21.1-11.2-21.1-24.6c0-9,7-21.5,25.4-21.5c11.6,0,20.3,6,21.5,6.9c0.9,0.6,1.9,2.2,0.7,3.9c-0.9,1.4-2,3-2.9,4.4c-0.9,1.5-2.4,2.2-4.1,1.1c-0.8-0.4-8.9-5.8-15.7-5.8c-9.8,0-13.1,6.2-13.1,10.5c0,6.6,5.1,10.7,14.7,14.6c13.5,5.4,25,11.8,25,26c0,12.1-10.8,21.9-25.9,21.9c-14.2,0-23.1-7.4-25-9.2C570,118.1,569.2,117.3,570.4,115.3"/>
+        <path class="fo-w" d="M661.2,48c0-1.2,0.9-2.2,2.2-2.2h46.4c1.3,0,2.2,1,2.2,2.2v6.5c0,1.2-0.9,2.2-2.2,2.2h-36.7v23.7h31c1.2,0,2.2,1,2.2,2.2v6.5c0,1.3-1,2.2-2.2,2.2h-31v24.9h36.7c1.3,0,2.2,1,2.2,2.2v6.4c0,1.2-0.9,2.2-2.2,2.2h-46.4c-1.3,0-2.2-1-2.2-2.2V48z"/>
+      </g>
+      <path class="fo-a" d="M772.3,11.5c9.5,0,17.2,7.7,17.2,17.2c0,9.5-7.7,17.2-17.2,17.2c-9.5,0-17.2-7.7-17.2-17.2C755.1,19.3,762.8,11.5,772.3,11.5 M772.3,1.1c-15.3,0-27.7,12.4-27.7,27.7c0,15.3,12.4,27.7,27.7,27.7c15.3,0,27.7-12.4,27.7-27.7C800,13.5,787.6,1.1,772.3,1.1L772.3,1.1z"/>
+      </g></g>
+    </svg>
+      <p class="footer-blurb">AI tools, skills and resources built for the marketing team. Internal use only.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-title">Explore</span>
+        <a href="https://dpnation.github.io/marketing/">Home</a>
+        <a href="https://dpnation.github.io/marketing/#tools">Tools</a>
+        <a href="https://dpnation.github.io/marketing/#resources">Resources</a>
+        <a href="https://dpnation.github.io/marketing/aeo/#reports">Audit Reports</a>
+        <a href="index.html">Program Overview</a>
+        <a href="https://drive.google.com/drive/u/0/folders/1RbAm-QVTYEzrItQrobl-QEXjYv9wXSxB" target="_blank" rel="noopener">Drive</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-title">Chat</span>
+        <span>#ai-tools-watercooler on Slack</span>
+        <a href="mailto:dprey@applause.com">dprey@applause.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Built by Dana Prey</span>
+    <span>&copy; 2026 Applause</span>
+  </div>
+</footer>
+
+</body>
+</html>
