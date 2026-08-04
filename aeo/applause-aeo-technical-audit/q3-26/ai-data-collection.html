@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Technical AEO Audit — applause.com</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background:#F7FBFE; color:#3D3D3D; margin:0; padding:0; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+  .header { background:#01446C; color:#fff; padding:36px 32px; border-radius:0 0 8px 8px; }
+  .header h1 { margin:0 0 8px; font-size:28px; font-weight:800; }
+  .header .meta { font-size:14px; opacity:0.85; }
+  .pill { display:inline-block; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:14px; }
+  .pill-ready { background:#0F8919; color:#fff; }
+  .pill-fixes { background:#ED7200; color:#fff; }
+  .pill-blocked { background:#D42D0E; color:#fff; }
+  .card { background:#fff; border:1px solid #E6F3FA; border-radius:8px; padding:24px; margin-top:20px; }
+  .card h2 { color:#01446C; font-size:20px; font-weight:800; margin-top:0; }
+  .card h2 .stepnum { color:#0272B4; }
+  table { width:100%; border-collapse:collapse; margin-top:12px; font-size:14px; }
+  th { text-align:left; background:#F7FBFE; color:#0272B4; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; padding:8px 10px; }
+  td { padding:10px; border-top:1px solid #E6F3FA; vertical-align:top; }
+  tr:nth-child(even) td { background:#F7FBFE; }
+  .status { font-weight:700; font-size:12px; text-transform:uppercase; }
+  .pass { color:#0F8919; }
+  .fail { color:#D42D0E; }
+  .verify { color:#ED7200; }
+  .fixlist { background:#fff; border:2px solid #0272B4; border-radius:8px; padding:24px; margin-top:24px; }
+  .fixlist h2 { color:#0272B4; margin-top:0; }
+  .fixlist ol { padding-left:20px; margin:0; }
+  .fixlist li { margin-bottom:12px; font-size:15px; }
+  .fixlist li b { color:#01446C; }
+  footer { margin-top:28px; font-size:12px; color:#888; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Technical AEO Audit</h1>
+    <div class="meta">applause.com/ai-data-collection/ &middot; Audited August 4, 2026 &middot; Technical checks only — no content or keyword review</div>
+    <span class="pill pill-fixes">Needs Fixes (6 fails)</span>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
+    <table><tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
+    <tr><td>Service</td><td>Solution/service page (AI Data Collection)</td><td class="status fail">Missing</td></tr>
+    <tr><td>BreadcrumbList</td><td>Page sits under Our Services hierarchy in nav</td><td class="status fail">Missing</td></tr>
+    <tr><td>HowTo</td><td>"A Step-by-Step Approach to AI Data Collection" is a 4-stage numbered process</td><td class="status fail">Missing</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed absent via live DOM inspection (script[type=application/ld+json] checked directly) — not a fetch-tool limitation. Only WebSite + WebPage JSON-LD blocks are present. This is a solution/service page with a numbered process section, so the missing Service/HowTo schema is a real, actionable gap.</p>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 2 —</span> AI Bot Access (robots.txt)</h2>
+    <table><tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+    <tr><td>GPTBot</td><td>OpenAI / ChatGPT</td><td class="status pass">Allowed</td></tr>
+    <tr><td>ChatGPT-User</td><td>OpenAI / ChatGPT browsing</td><td class="status pass">Allowed</td></tr>
+    <tr><td>PerplexityBot</td><td>Perplexity</td><td class="status pass">Allowed</td></tr>
+    <tr><td>ClaudeBot</td><td>Anthropic / Claude</td><td class="status pass">Allowed</td></tr>
+    <tr><td>anthropic-ai</td><td>Anthropic</td><td class="status pass">Allowed</td></tr>
+    <tr><td>Google-Extended</td><td>Google AI (Gemini/AI Overviews)</td><td class="status pass">Allowed</td></tr>
+    <tr><td>Bingbot</td><td>Microsoft Bing/Copilot</td><td class="status pass">Allowed</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">robots.txt only disallows /wp-admin/ — no AI crawler is named or blocked. This applies site-wide, not just this page.</p>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 3 —</span> Crawlability &amp; Rendering</h2>
+    <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
+    <tr><td>Main content in raw/unrendered fetch</td><td class="status pass">Pass</td><td>Full copy, data-type breakdowns, stats and case studies returned on fetch without requiring JS execution.</td></tr>
+    <tr><td>Not behind login/paywall/gate</td><td class="status pass">Pass</td><td>Page is a public marketing page, no gating.</td></tr>
+    <tr><td>No content visible live but missing from fetch</td><td class="status verify">Needs Verification</td><td>Site runs WordPress/Divi, which commonly lazy-loads accordion/tab content; confirm with a live rendered-vs-fetched comparison.</td></tr>
+    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>meta robots is max-snippet:-1,max-image-preview:standard,max-video-preview:0 — no noindex directive.</td></tr>
+    <tr><td>Canonical tag present and correct</td><td class="status pass">Pass</td><td>Canonical points to https://www.applause.com/ai-data-collection/, matching the live URL.</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
+    <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
+    <tr><td>Single H1, logical H2/H3 nesting</td><td class="status fail">Fail</td><td>Confirmed via live DOM: body content nests cleanly H1→H2→H3; only the trailing related-content footer block jumps H2→H4. Minor — appears to be a shared "related resources" footer widget common to this page template, same structural quirk site-wide, worth a single ticket rather than per-page fixes, but still technically fails the check on this page.</td></tr>
+    <tr><td>FAQ/comparison marked up semantically</td><td class="status pass">N/A / Pass</td><td>No FAQ or comparison content on this page requiring semantic markup; confirmed 0 tables/dl elements via live DOM.</td></tr>
+    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 37 of 44 images (84%) are missing alt text, including the "diverse, human datasets" grid images and several case-study images.</td></tr>
+    <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Links to "Learn More About Our Community" and Our Services hierarchy present.</td></tr>
+    <tr><td>Semantic landmarks (main, nav, article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
+    </table>
+  </div>
+  <div class="fixlist">
+    <h2>Fix It — Action List</h2>
+    <ol>
+      <li><b>Confirm rendered-vs-fetched parity.</b> Load the live page and compare against a raw fetch to rule out lazy-loaded content (Divi accordions/tabs) missing from AI crawlers.</li>
+      <li><b>Add Service schema.</b> Confirmed absent — page carries only WebSite + WebPage JSON-LD. Add a Service block describing AI Data Collection.</li>
+      <li><b>Add BreadcrumbList schema.</b> Confirmed absent. Add breadcrumb markup reflecting the Our Services hierarchy.</li>
+      <li><b>Add HowTo schema.</b> Confirmed absent. The four-step "A Step-by-Step Approach to AI Data Collection" section is a strong HowTo candidate — add the markup.</li>
+      <li><b>Add a &lt;main&gt; landmark.</b> Confirmed &lt;nav&gt; and &lt;article&gt; exist but no &lt;main&gt; element is present anywhere on the page — wrap the primary content region.</li>
+      <li><b>Add alt text to images.</b> Confirmed 37 of 44 images (84%) are missing alt text, including the "diverse, human datasets" grid images and several case-study images — add descriptive alt text to each meaningful image.</li>
+      <li><b>File one shared ticket for the footer heading jump.</b> Confirmed H1→H2→H3 nesting is clean throughout the body; only the trailing 4-item "related resources" footer widget jumps H2→H4. This is a template-level issue common across pages — track as a single site-wide ticket, not a per-page fix.</li>
+    </ol>
+  </div>
+  <footer>
+    Applause &middot; Technical AEO Audit v1.1.0 &middot; Audited August 4, 2026<br>
+    This audit covers technical AEO readiness only. For keyword coverage and messaging, run applause-aeo-content-audit.
+  </footer>
+</div>
+</body>
+</html>

@@ -38,18 +38,18 @@
   <div class="header">
     <h1>Technical AEO Audit</h1>
     <div class="meta">applause.com/ (homepage) &middot; Audited August 4, 2026 &middot; Technical checks only — no content or keyword review</div>
-    <span class="pill pill-ready">Ready (4 items to verify)</span>
+    <span class="pill pill-fixes">Needs Fixes (1 item to verify)</span>
   </div>
 
   <div class="card">
     <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
     <table>
       <tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
-      <tr><td>Organization</td><td>Homepage / About</td><td class="status verify">Needs Verification</td></tr>
-      <tr><td>FAQPage</td><td>FAQ section on this page</td><td class="status verify">Needs Verification</td></tr>
-      <tr><td>BreadcrumbList</td><td>Site structure</td><td class="status verify">Needs Verification</td></tr>
+      <tr><td>Organization</td><td>Homepage / About</td><td class="status pass">Present</td></tr>
+      <tr><td>FAQPage</td><td>FAQ section on this page</td><td class="status fail">Missing</td></tr>
+      <tr><td>BreadcrumbList</td><td>Site structure</td><td class="status fail">Missing</td></tr>
     </table>
-    <p style="font-size:13px; color:#888; margin-top:10px;">JSON-LD can't be confirmed present or absent without inspecting raw page source. Run the Google Rich Results Test (search.google.com/test/rich-results) or view-source on this URL to confirm.</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed via live DOM inspection (script[type=application/ld+json] checked directly) — not a fetch-tool limitation. The homepage carries WebSite, WebPage, and Organization JSON-LD. No FAQPage or BreadcrumbList schema exists, despite the on-page FAQ section being a strong FAQPage candidate.</p>
   </div>
 
   <div class="card">
@@ -83,20 +83,21 @@
     <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
     <table>
       <tr><th>Check</th><th>Status</th><th>Note</th></tr>
-      <tr><td>Single H1, logical H2/H3 nesting</td><td class="status pass">Pass</td><td>One H1 ("Software Testing Reimagined for the Age of AI"), clean H2 section breaks.</td></tr>
+      <tr><td>Single H1, logical H2/H3 nesting</td><td class="status pass">Pass</td><td>Confirmed via live DOM: heading sequence is H1,H2,H2,H2,H3,H3,H3,H3,H4,H4,H4,H4 — no skipped heading levels.</td></tr>
       <tr><td>FAQ marked up semantically</td><td class="status pass">Pass</td><td>FAQ questions render as real headings, not styled divs.</td></tr>
-      <tr><td>Alt text on meaningful images</td><td class="status pass">Pass</td><td>Descriptive alt text present on the images checked.</td></tr>
+      <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 27 of 47 images (57%) have no alt attribute — not a fetch limitation.</td></tr>
       <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Strong internal linking to service and solution pages throughout.</td></tr>
-      <tr><td>Semantic landmarks (main/nav/article)</td><td class="status verify">Needs Verification</td><td>Can't confirm landmark elements vs. div structure without raw source — common Divi issue.</td></tr>
+      <tr><td>Semantic landmarks (main/nav/article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
     </table>
   </div>
 
   <div class="fixlist">
     <h2>Fix It — Action List</h2>
     <ol>
-      <li><b>Confirm Organization, FAQPage, and BreadcrumbList schema via view-source or the Rich Results Test.</b> If any are missing, hand off to the schema-markup skill to generate them — the FAQ section on this page is a strong FAQPage candidate as-is.</li>
+      <li><b>Add FAQPage and BreadcrumbList schema.</b> Confirmed missing via live DOM inspection (Organization is present and needs no change). Hand off to the schema-markup skill — the FAQ section on this page is a strong FAQPage candidate as-is.</li>
+      <li><b>Fix alt text across the homepage.</b> Confirmed via live DOM: 27 of 47 images (57%) have no alt attribute.</li>
+      <li><b>Add a semantic &lt;main&gt; element.</b> Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; are present, but no &lt;main&gt; element exists anywhere on the page.</li>
       <li><b>Check whether lazy-loaded images resolve for non-scrolling crawlers.</b> Several images on the homepage load with empty source paths until triggered — confirm this doesn't hide content from AI crawlers that don't simulate scroll/interaction.</li>
-      <li><b>Verify semantic landmark elements (&lt;main&gt;, &lt;nav&gt;, &lt;article&gt;) are present in the rendered DOM,</b> not just visual divs — quick dev tools check.</li>
     </ol>
   </div>
 

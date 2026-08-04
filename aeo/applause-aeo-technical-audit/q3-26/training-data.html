@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Technical AEO Audit — applause.com</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background:#F7FBFE; color:#3D3D3D; margin:0; padding:0; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+  .header { background:#01446C; color:#fff; padding:36px 32px; border-radius:0 0 8px 8px; }
+  .header h1 { margin:0 0 8px; font-size:28px; font-weight:800; }
+  .header .meta { font-size:14px; opacity:0.85; }
+  .pill { display:inline-block; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:14px; }
+  .pill-ready { background:#0F8919; color:#fff; }
+  .pill-fixes { background:#ED7200; color:#fff; }
+  .pill-blocked { background:#D42D0E; color:#fff; }
+  .card { background:#fff; border:1px solid #E6F3FA; border-radius:8px; padding:24px; margin-top:20px; }
+  .card h2 { color:#01446C; font-size:20px; font-weight:800; margin-top:0; }
+  .card h2 .stepnum { color:#0272B4; }
+  table { width:100%; border-collapse:collapse; margin-top:12px; font-size:14px; }
+  th { text-align:left; background:#F7FBFE; color:#0272B4; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; padding:8px 10px; }
+  td { padding:10px; border-top:1px solid #E6F3FA; vertical-align:top; }
+  tr:nth-child(even) td { background:#F7FBFE; }
+  .status { font-weight:700; font-size:12px; text-transform:uppercase; }
+  .pass { color:#0F8919; }
+  .fail { color:#D42D0E; }
+  .verify { color:#ED7200; }
+  .fixlist { background:#fff; border:2px solid #0272B4; border-radius:8px; padding:24px; margin-top:24px; }
+  .fixlist h2 { color:#0272B4; margin-top:0; }
+  .fixlist ol { padding-left:20px; margin:0; }
+  .fixlist li { margin-bottom:12px; font-size:15px; }
+  .fixlist li b { color:#01446C; }
+  footer { margin-top:28px; font-size:12px; color:#888; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Technical AEO Audit</h1>
+    <div class="meta">applause.com/blog/training-data-validation-data-vs-test-data/ &middot; Audited August 4, 2026 &middot; Technical checks only — no content or keyword review</div>
+    <span class="pill pill-fixes">Needs Fixes (5 failed checks)</span>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
+    <table><tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
+    <tr><td>Article / BlogPosting</td><td>Blog post</td><td class="status fail">Missing</td></tr>
+    <tr><td>BreadcrumbList</td><td>Visible breadcrumb trail (Blog / post title)</td><td class="status fail">Missing</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed absent via live DOM inspection (script[type=application/ld+json] checked directly) — not a fetch-tool limitation. The page carries only WebSite + WebPage JSON-LD; no Article/BlogPosting or BreadcrumbList schema exists, despite this being a blog post.</p>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 2 —</span> AI Bot Access (robots.txt)</h2>
+    <table><tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+    <tr><td>GPTBot</td><td>OpenAI / ChatGPT</td><td class="status pass">Allowed</td></tr>
+    <tr><td>ChatGPT-User</td><td>OpenAI / ChatGPT (live browsing)</td><td class="status pass">Allowed</td></tr>
+    <tr><td>PerplexityBot</td><td>Perplexity</td><td class="status pass">Allowed</td></tr>
+    <tr><td>ClaudeBot</td><td>Anthropic / Claude</td><td class="status pass">Allowed</td></tr>
+    <tr><td>anthropic-ai</td><td>Anthropic</td><td class="status pass">Allowed</td></tr>
+    <tr><td>Google-Extended</td><td>Google AI Overviews / Gemini</td><td class="status pass">Allowed</td></tr>
+    <tr><td>Bingbot</td><td>Microsoft Copilot / Bing</td><td class="status pass">Allowed</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">robots.txt only disallows /wp-admin/ — no AI crawler is named or blocked. This applies site-wide, not just this page.</p>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 3 —</span> Crawlability &amp; Rendering</h2>
+    <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
+    <tr><td>Main content in raw fetch</td><td class="status pass">Pass</td><td>Full article body, including the training/validation/test data comparison table, present in the unrendered fetch.</td></tr>
+    <tr><td>Not behind login/paywall/gate</td><td class="status pass">Pass</td><td>Entire article is publicly accessible with no gate.</td></tr>
+    <tr><td>No content missing from fetch (accordion/tab/lazy-load)</td><td class="status pass">Pass</td><td>All sections, including two "Read the Transcript" embedded-video callouts, returned in the raw fetch (the transcript text itself was not visible, but this appears to be a link/toggle rather than hidden body content).</td></tr>
+    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>Meta robots reads "max-snippet:-1,max-image-preview:standard,max-video-preview:0" — no noindex directive.</td></tr>
+    <tr><td>Canonical tag present and correct</td><td class="status pass">Pass</td><td>Canonical points to https://www.applause.com/blog/training-data-validation-data-vs-test-data/, matching the live URL.</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
+    <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
+    <tr><td>Single H1, logical H2/H3 nesting</td><td class="status fail">Fail</td><td>Confirmed via live DOM: H1 followed directly by H4/H5, skipping H2/H3 entirely for the body content. Full tag sequence: H1, H4, H4, H5, H4×6, H5, H5, H4×2, H2×6, H4×4.</td></tr>
+    <tr><td>FAQ/comparison content as real semantic markup</td><td class="status pass">Pass</td><td>Confirmed via live DOM: page includes a real &lt;table&gt; element for structured content (the Training/Validation/Test Data comparison).</td></tr>
+    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 19 of 22 images (86%) are missing alt text — not a fetch limitation.</td></tr>
+    <tr><td>Internal links to related service/solution pages</td><td class="status pass">Pass</td><td>Links to AI Training & Testing and Generative AI Testing service pages, plus related AI data blog posts, present throughout.</td></tr>
+    <tr><td>Semantic landmarks (main, nav, article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
+    </table>
+  </div>
+  <div class="fixlist">
+    <h2>Fix It — Action List</h2>
+    <ol>
+      <li><b>Add Article/BlogPosting and BreadcrumbList JSON-LD</b> — confirmed missing via live DOM inspection; only WebSite + WebPage schema currently exist.</li>
+      <li><b>Add a &lt;main&gt; landmark element</b> — confirmed absent site-wide; &lt;nav&gt; and &lt;article&gt; exist but &lt;main&gt; does not.</li>
+      <li><b>Fix heading order</b> — confirmed the page jumps from H1 straight to H4/H5, skipping H2/H3 entirely for the body content.</li>
+      <li><b>Add alt text to images</b> — confirmed 19 of 22 images (86%) are missing alt text.</li>
+    </ol>
+  </div>
+  <footer>
+    Applause &middot; Technical AEO Audit v1.1.0 &middot; Audited August 4, 2026<br>
+    This audit covers technical AEO readiness only. For keyword coverage and messaging, run applause-aeo-content-audit.
+  </footer>
+</div>
+</body>
+</html>
