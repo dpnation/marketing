@@ -398,8 +398,56 @@
       </div>
     </div>
 
-    <div style="text-align:center; margin-top:8px; font-size:13px; color:var(--gray-600);">
-      A shared QA evaluator for all three reports (<code style="font-size:12.5px;">applause-aeo-evaluator</code>) is planned but not yet built — for now, review reports yourself before sharing with a stakeholder.
+    <!-- Skill: applause-aeo-evaluator -->
+    <div class="skill-block" id="skill-evaluator">
+      <div class="skill-block-header">
+        <div class="skill-block-header-left">
+          <div class="skill-icon icon-blue">✅</div>
+          <div>
+            <div class="skill-block-title">
+              <code class="code-blue">/applause-aeo-evaluator</code>
+              QA gate for all three tracks
+            </div>
+            <div class="skill-block-subtitle">Report in (any of the three tracks above) → structured scorecard out. Identifies which track a report came from, applies track-specific criteria, and returns a Distribute / Revise / Do Not Distribute verdict before anything goes to a stakeholder. Renamed and rebuilt from ai-seo-aeo-evaluator, which only covered the retired ai-seo-aeo skill.</div>
+          </div>
+        </div>
+        <div class="skill-block-meta">
+          <span class="status-pill">● Built</span>
+        </div>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Six dimensions, same across tracks</div>
+          <ul>
+            <li>Completeness</li>
+            <li>Reliability</li>
+            <li>Framing</li>
+            <li>Data Quality</li>
+            <li>Actionability</li>
+            <li>Currency (live web search)</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Output</div>
+          <ul>
+            <li>Score out of 24, one verdict</li>
+            <li>Findings cited to exact report sections</li>
+            <li>Currency Watch — flags for the underlying skill, not just the report</li>
+          </ul>
+          <div class="output-badge output-blue">Produces → scorecard, not a rewritten report</div>
+        </div>
+        <div class="skill-col">
+          <div class="skill-col-label label-blue">Works across</div>
+          <div class="trigger-area">
+            <div class="triggers-label">All three tracks</div>
+            <div class="triggers-list">
+              <span class="trigger-pill">applause-aeo-content-audit</span>
+              <span class="trigger-pill">applause-aeo-technical-audit</span>
+              <span class="trigger-pill">applause-aeo-visibility-audit</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
