@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Technical AEO Audit — applause.com</title>
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background:#F7FBFE; color:#3D3D3D; margin:0; padding:0; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+  .header { background:#01446C; color:#fff; padding:36px 32px; border-radius:0 0 8px 8px; }
+  .header h1 { margin:0 0 8px; font-size:28px; font-weight:800; }
+  .header .meta { font-size:14px; opacity:0.85; }
+  .pill { display:inline-block; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:14px; }
+  .pill-ready { background:#0F8919; color:#fff; }
+  .pill-fixes { background:#ED7200; color:#fff; }
+  .pill-blocked { background:#D42D0E; color:#fff; }
+  .card { background:#fff; border:1px solid #E6F3FA; border-radius:8px; padding:24px; margin-top:20px; }
+  .card h2 { color:#01446C; font-size:20px; font-weight:800; margin-top:0; }
+  .card h2 .stepnum { color:#0272B4; }
+  table { width:100%; border-collapse:collapse; margin-top:12px; font-size:14px; }
+  th { text-align:left; background:#F7FBFE; color:#0272B4; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; padding:8px 10px; }
+  td { padding:10px; border-top:1px solid #E6F3FA; vertical-align:top; }
+  tr:nth-child(even) td { background:#F7FBFE; }
+  .status { font-weight:700; font-size:12px; text-transform:uppercase; }
+  .pass { color:#0F8919; }
+  .fail { color:#D42D0E; }
+  .verify { color:#ED7200; }
+  .fixlist { background:#fff; border:2px solid #0272B4; border-radius:8px; padding:24px; margin-top:24px; }
+  .fixlist h2 { color:#0272B4; margin-top:0; }
+  .fixlist ol { padding-left:20px; margin:0; }
+  .fixlist li { margin-bottom:12px; font-size:15px; }
+  .fixlist li b { color:#01446C; }
+  footer { margin-top:28px; font-size:12px; color:#888; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>Technical AEO Audit</h1>
+    <div class="meta">applause.com/ (homepage) &middot; Audited August 4, 2026 &middot; Technical checks only — no content or keyword review</div>
+    <span class="pill pill-ready">Ready (4 items to verify)</span>
+  </div>
+
+  <div class="card">
+    <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
+    <table>
+      <tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
+      <tr><td>Organization</td><td>Homepage / About</td><td class="status verify">Needs Verification</td></tr>
+      <tr><td>FAQPage</td><td>FAQ section on this page</td><td class="status verify">Needs Verification</td></tr>
+      <tr><td>BreadcrumbList</td><td>Site structure</td><td class="status verify">Needs Verification</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">JSON-LD can't be confirmed present or absent without inspecting raw page source. Run the Google Rich Results Test (search.google.com/test/rich-results) or view-source on this URL to confirm.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="stepnum">Step 2 —</span> AI Bot Access (robots.txt)</h2>
+    <table>
+      <tr><th>Bot</th><th>Platform</th><th>Status</th></tr>
+      <tr><td>GPTBot</td><td>ChatGPT (OpenAI)</td><td class="status pass">Allowed</td></tr>
+      <tr><td>ChatGPT-User</td><td>ChatGPT browsing</td><td class="status pass">Allowed</td></tr>
+      <tr><td>PerplexityBot</td><td>Perplexity</td><td class="status pass">Allowed</td></tr>
+      <tr><td>ClaudeBot</td><td>Anthropic Claude</td><td class="status pass">Allowed</td></tr>
+      <tr><td>anthropic-ai</td><td>Anthropic Claude (alt)</td><td class="status pass">Allowed</td></tr>
+      <tr><td>Google-Extended</td><td>Gemini + AI Overviews</td><td class="status pass">Allowed</td></tr>
+      <tr><td>Bingbot</td><td>Microsoft Copilot</td><td class="status pass">Allowed</td></tr>
+    </table>
+    <p style="font-size:13px; color:#888; margin-top:10px;">robots.txt only disallows <code>/wp-admin/</code> — no AI crawler is named or blocked. This applies site-wide, not just this page.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="stepnum">Step 3 —</span> Crawlability &amp; Rendering</h2>
+    <table>
+      <tr><th>Check</th><th>Status</th><th>Note</th></tr>
+      <tr><td>Main content in raw fetch</td><td class="status pass">Pass</td><td>Headings, body copy, and FAQ text all present in the unrendered fetch.</td></tr>
+      <tr><td>Not gated / no paywall</td><td class="status pass">Pass</td><td>Fully public page.</td></tr>
+      <tr><td>No content missing from fetch</td><td class="status verify">Needs Verification</td><td>Several images returned empty source paths, consistent with lazy-loading. Confirm in browser dev tools that lazy-loaded images resolve without user scroll/interaction for crawlers that don't scroll.</td></tr>
+      <tr><td>No noindex</td><td class="status pass">Pass</td><td><code>meta-robots</code> sets snippet/preview limits only — no noindex directive.</td></tr>
+      <tr><td>Canonical tag correct</td><td class="status pass">Pass</td><td>Self-referencing canonical to https://www.applause.com/.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
+    <table>
+      <tr><th>Check</th><th>Status</th><th>Note</th></tr>
+      <tr><td>Single H1, logical H2/H3 nesting</td><td class="status pass">Pass</td><td>One H1 ("Software Testing Reimagined for the Age of AI"), clean H2 section breaks.</td></tr>
+      <tr><td>FAQ marked up semantically</td><td class="status pass">Pass</td><td>FAQ questions render as real headings, not styled divs.</td></tr>
+      <tr><td>Alt text on meaningful images</td><td class="status pass">Pass</td><td>Descriptive alt text present on the images checked.</td></tr>
+      <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Strong internal linking to service and solution pages throughout.</td></tr>
+      <tr><td>Semantic landmarks (main/nav/article)</td><td class="status verify">Needs Verification</td><td>Can't confirm landmark elements vs. div structure without raw source — common Divi issue.</td></tr>
+    </table>
+  </div>
+
+  <div class="fixlist">
+    <h2>Fix It — Action List</h2>
+    <ol>
+      <li><b>Confirm Organization, FAQPage, and BreadcrumbList schema via view-source or the Rich Results Test.</b> If any are missing, hand off to the schema-markup skill to generate them — the FAQ section on this page is a strong FAQPage candidate as-is.</li>
+      <li><b>Check whether lazy-loaded images resolve for non-scrolling crawlers.</b> Several images on the homepage load with empty source paths until triggered — confirm this doesn't hide content from AI crawlers that don't simulate scroll/interaction.</li>
+      <li><b>Verify semantic landmark elements (&lt;main&gt;, &lt;nav&gt;, &lt;article&gt;) are present in the rendered DOM,</b> not just visual divs — quick dev tools check.</li>
+    </ol>
+  </div>
+
+  <footer>
+    Applause · Technical AEO Audit v1.0.0 · Audited August 4, 2026<br>
+    This audit covers technical AEO readiness only. For keyword coverage and messaging, run applause-aeo-page-audit.
+  </footer>
+
+</div>
+</body>
+</html>
