@@ -259,7 +259,15 @@
     { id: 'voice', title: 'Voice consistency as gravity',
       chain: 'Every shipping tool \u2192 the core',
       effect: 'Each tool pulls from the same messaging core, so more tools means more consistency, not more fragmentation.',
-      arcs: [['cr', 'core'], ['cc', 'core'], ['bb', 'core'], ['csb', 'core']] }
+      arcs: [['cr', 'core'], ['cc', 'core'], ['bb', 'core'], ['csb', 'core']] },
+    { id: 'buyer', title: 'Buyer scrutiny as the gate',
+      chain: 'Content Repurposer, Creative Concepting, GEO Blog Optimizer, Deck Builder \u2192 Persona Council \u2192 core',
+      effect: 'Craig, Sam, and Alex stress-test whatever is about to ship externally \u2014 a blog post, a social post, a deck. What they push back on sharpens the shared core\u2019s read on what buyers actually respond to.',
+      arcs: [['cr', 'pers'], ['cc', 'pers'], ['geo', 'pers'], ['deck', 'pers'], ['pers', 'core']] },
+    { id: 'sensing', title: 'Command Center feeds the specialists',
+      chain: 'PMM Command Center \u2192 Competitive Intel Scanner, PMM Skills Pack, Persona Council',
+      effect: 'Always-on agents replace one-off research with continuous signal on the market, customers, and analysts \u2014 so the competitive scanner, skills pack, and buyer personas all start from a current picture instead of a stale one.',
+      arcs: [['pcc', 'ci'], ['pcc', 'pmm'], ['pcc', 'pers']] }
   ];
 
   const FLYWHEEL = [
