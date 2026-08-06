@@ -119,7 +119,7 @@
   .fw-head h2 { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; color: #FFFFFF; }
   .fw-head p { margin: 0; font-size: 14px; line-height: 1.55; color: #CFEAFB; }
 
-  .fw-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .fw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   @media (max-width: 900px) { .fw-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .fw-grid { grid-template-columns: 1fr; } }
   .fw-card { background: #FFFFFF; border: 1px solid #CFEAFB; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
@@ -236,10 +236,13 @@
     { id: 'news', name: 'Daily Marketing News Digest' },
     { id: 'ci',   name: 'Competitive Intel Scanner' },
     { id: 'asv',  name: 'AI Search Visibility' },
+    { id: 'ca',   name: 'AEO Content Audit' },
+    { id: 'ta',   name: 'AEO Technical Audit' },
     { id: 'pers', name: 'Persona Council' },
     { id: 'pmm',  name: 'PMM Skills Pack' },
     { id: 'bb',   name: 'Battlecard Builder' },
     { id: 'geo',  name: 'GEO Blog Optimizer' },
+    { id: 'schema', name: 'Schema Markup' },
     { id: 'csb',  name: 'Campaign Skill Brief' },
     { id: 'cr',   name: 'Content Repurposer' },
     { id: 'cc',   name: 'Creative Concepting' },
@@ -255,10 +258,14 @@
       chain: 'Competitive Intel Scanner \u2192 Battlecard Builder',
       effect: 'Fresh signal in one orbit becomes a sharper sales asset in another, and refreshes each cycle rather than starting cold.',
       arcs: [['ci', 'bb']] },
-    { id: 'vis', title: 'Visibility gaps become content',
-      chain: 'AI Search Visibility \u2192 GEO Blog Optimizer \u2192 Content Repurposer \u2192 next audit',
-      effect: 'The audit finds where Applause is invisible, the content tools close the gap, and the next audit measures the lift.',
-      arcs: [['asv', 'geo'], ['geo', 'cr'], ['cr', 'asv']] },
+    { id: 'diagnose', title: 'Visibility gaps get diagnosed twice',
+      chain: 'AI Search Visibility \u2192 AEO Content Audit, AEO Technical Audit',
+      effect: 'The citation audit finds where Applause is invisible in AI answers. The content and technical audits each diagnose a different reason why \u2014 term alignment or crawlability \u2014 before anything gets rewritten.',
+      arcs: [['asv', 'ca'], ['asv', 'ta']] },
+    { id: 'distribute', title: 'Diagnosis becomes distribution',
+      chain: 'AEO Content Audit \u2192 GEO Blog Optimizer \u2192 Content Repurposer; AEO Technical Audit \u2192 Schema Markup \u2014 both loop back to AI Search Visibility',
+      effect: 'Each audit hands its scorecard to the tool built to act on it. Content fixes get distributed everywhere the market looks; technical fixes land straight in the page. Either way, the next audit measures the lift.',
+      arcs: [['ca', 'geo'], ['ta', 'schema'], ['geo', 'cr'], ['schema', 'asv'], ['cr', 'asv']] },
     { id: 'many', title: 'One brief becomes a full campaign',
       chain: 'Campaign Skill Brief \u2192 Content Repurposer, Creative Concepting',
       effect: 'One strategic input multiplies into many activated assets.',
@@ -287,9 +294,11 @@
 
   const FLYWHEEL = [
     { n: '1', title: 'AI Search Visibility', body: 'The audit finds the questions where Applause should appear in AI answers and does not.' },
-    { n: '2', title: 'GEO Blog Optimizer', body: 'The pages behind those gaps get rewritten to be citable, not just readable.' },
-    { n: '3', title: 'Content Repurposer', body: 'The corrected position ships everywhere the market actually looks.' },
-    { n: '4', title: 'The next audit', body: 'It measures the lift and narrows the gap list, so cycle two starts ahead of cycle one.' }
+    { n: '2', title: 'AEO Content Audit', body: 'Scores the page against target terms and diagnoses the messaging gap \u2014 what to say differently.' },
+    { n: '3', title: 'AEO Technical Audit', body: 'Checks the same page for the crawlability and schema gaps keeping AI engines from citing it at all.' },
+    { n: '4', title: 'GEO Optimizer + Schema Markup', body: 'The rewrite and the structured data behind it ship together, not as two separate fixes.' },
+    { n: '5', title: 'Content Repurposer', body: 'The corrected position ships everywhere the market actually looks.' },
+    { n: '6', title: 'The next audit', body: 'It measures the lift and narrows the gap list, so cycle two starts ahead of cycle one.' }
   ];
 
   const state = { selNode: null, selLoop: null };
