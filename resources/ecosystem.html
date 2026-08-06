@@ -88,9 +88,15 @@
   }
   .loop-card:hover { border-color: #7FC4E8; }
   .loop-card.active { border-color: #7FC4E8; background: rgba(127,196,232,0.14); }
+  .loop-card.speculative { border-style: dashed; border-color: rgba(207,234,251,0.5); background: rgba(255,255,255,0.03); }
+  .loop-card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .loop-card-title { font-size: 13.5px; font-weight: 700; line-height: 1.3; color: #FFFFFF; }
   .loop-card-chain { font-size: 12.5px; line-height: 1.5; color: #9FD3EE; }
   .loop-card-effect { font-size: 12.5px; line-height: 1.5; color: #CFEAFB; }
+  .coming-soon-badge {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #7FC4E8; border: 1px solid rgba(127,196,232,0.5); padding: 2px 7px; border-radius: 4px; flex: 0 0 auto;
+  }
   .empty-loops { font-size: 13px; line-height: 1.55; color: #CFEAFB; padding: 12px 0 2px; }
 
   .show-all-link {
@@ -239,6 +245,7 @@
     { id: 'bug',  name: 'Bug Bash' },
     { id: 'gtm',  name: 'GTM Engine', inc: true },
     { id: 'pcc',  name: 'PMM Command Center', inc: true },
+    { id: 'irh',  name: 'Industry Research Hub', inc: true },
     { id: 'deck', name: 'Deck Builder', inc: true },
     { id: 'sims', name: 'Leadership Sims', inc: true }
   ];
@@ -267,7 +274,15 @@
     { id: 'sensing', title: 'Command Center feeds the specialists',
       chain: 'PMM Command Center \u2192 Competitive Intel Scanner, PMM Skills Pack, Persona Council',
       effect: 'Always-on agents replace one-off research with continuous signal on the market, customers, and analysts \u2014 so the competitive scanner, skills pack, and buyer personas all start from a current picture instead of a stale one.',
-      arcs: [['pcc', 'ci'], ['pcc', 'pmm'], ['pcc', 'pers']] }
+      arcs: [['pcc', 'ci'], ['pcc', 'pmm'], ['pcc', 'pers']] },
+    { id: 'research', title: 'Analyst signal finds a home', speculative: true,
+      chain: 'PMM Command Center \u2192 Industry Research Hub',
+      effect: 'Analyst conversations, meeting transcripts, and interaction notes stop living in scattered notebooks and start feeding one shared research layer the rest of the system can draw on. Shape not finalized \u2014 downstream connections to come.',
+      arcs: [['pcc', 'irh']] },
+    { id: 'leadership', title: 'Feedback becomes a voice', speculative: true,
+      chain: 'Persona Council \u2192 Leadership Sims',
+      effect: 'Same critique muscle as Persona Council, plus the ability to draft in that leader\u2019s own voice \u2014 feedback and first-draft content from one simulated seat instead of two separate tools.',
+      arcs: [['pers', 'sims']] }
   ];
 
   const FLYWHEEL = [
@@ -439,9 +454,10 @@
       cardsToShow.forEach(l => {
         const card = document.createElement('button');
         card.type = 'button';
-        card.className = 'loop-card' + (state.selLoop === l.id ? ' active' : '');
+        card.className = 'loop-card' + (state.selLoop === l.id ? ' active' : '') + (l.speculative ? ' speculative' : '');
         card.innerHTML =
-          '<div class="loop-card-title">' + esc(l.title) + '</div>' +
+          '<div class="loop-card-title-row"><div class="loop-card-title">' + esc(l.title) + '</div>' +
+          (l.speculative ? '<div class="coming-soon-badge">Coming soon</div>' : '') + '</div>' +
           '<div class="loop-card-chain">' + esc(l.chain) + '</div>' +
           '<div class="loop-card-effect">' + esc(l.effect) + '</div>';
         card.addEventListener('click', () => selectLoop(l.id));
