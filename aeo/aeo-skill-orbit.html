@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AEO Program — Skill Orbit</title>
-	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/dpnation/marketing/main/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -115,6 +114,7 @@
   }
   .node-downstream.teal{ border-color: var(--aqua-500); }
   .node-downstream.amber{ border-color: var(--amber); }
+  .node-downstream.blue{ border-color: var(--blue-500); }
   .node-downstream .ds-tag{
     display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase;
     color:#666; background:#F0F0F0; padding:2px 9px; border-radius:20px; margin-bottom:7px;
@@ -236,7 +236,7 @@
       <span class="current">Skill Orbit</span>
     </div>
     <h1>AEO Program — How the Skills Orbit Together</h1>
-    <p>One program, six skills. Three audit tracks run every quarter and feed a shared quality gate; a fourth audit runs ad hoc. Two more sit downstream, turning audit findings into the actual fix or published page. This map shows how they relate — not a workflow to follow step by step.</p>
+    <p>One program, seven skills. Three audit tracks run every quarter and feed a shared quality gate; a fourth audit runs ad hoc. Three more sit downstream, turning audit findings into a rewrite, a fix, or a published page. This map shows how they relate — not a workflow to follow step by step.</p>
   </div>
 </section>
 
@@ -269,13 +269,15 @@
       <polygon points="215,720 227,714 227,726" fill="#00C0A3"/>
       <line x1="870" y1="640" x2="985" y2="720" stroke="#ED7200" stroke-width="1.5" stroke-dasharray="3,5"/>
       <polygon points="985,720 973,714 973,726" fill="#ED7200"/>
+      <line x1="725" y1="150" x2="838" y2="150" stroke="#0272B4" stroke-width="1.5" stroke-dasharray="3,5"/>
+      <polygon points="838,150 826,144 826,156" fill="#0272B4"/>
     </svg>
 
     <!-- HUB -->
     <div class="node node-hub" style="left:600px; top:410px;">
       <div class="hub-eyebrow">AEO Program</div>
       <div class="hub-title">AI Search Visibility</div>
-      <div class="hub-sub">6 skills · 1 program</div>
+      <div class="hub-sub">7 skills · 1 program</div>
     </div>
 
     <!-- CORE NODE A: Content Audit -->
@@ -321,6 +323,14 @@
       <p>QAs a finished report from any track before it reaches stakeholders — not a track itself, runs on demand.</p>
     </div>
 
+    <!-- DOWNSTREAM: GEO Blog Optimizer (fed by Content Audit) -->
+    <div class="node node-downstream blue" style="left:950px; top:150px;">
+      <span class="ds-tag">Downstream · produces the rewrite</span>
+      <span class="skill-name">geo-blog-optimizer</span>
+      <h3>Blog Rewrite</h3>
+      <p>Rewrites an existing blog post to fix the extractability, term, and evidence gaps a content audit's scorecard identifies.</p>
+    </div>
+
     <!-- DOWNSTREAM: Schema Markup (fed by Technical Audit) -->
     <div class="node node-downstream teal" style="left:150px; top:750px;">
       <span class="ds-tag">Downstream · produces the fix</span>
@@ -334,7 +344,7 @@
       <span class="ds-tag">Downstream · produces content</span>
       <span class="skill-name">applause-aeo-comparison-pages</span>
       <h3>Comparison Pages</h3>
-      <p>Builds "vs." / "alternatives" pages to close the evaluative-intent gaps a visibility audit surfaces.</p>
+      <p>Builds public "vs." / "alternatives" pages to close the evaluative-intent gaps a visibility audit surfaces.</p>
     </div>
   </div>
 
@@ -350,7 +360,7 @@
     <p>The inner ring is the operating rhythm: three tracks run every quarter, each answering a different question about the same set of pages — <code>content-audit</code> checks the copy, <code>technical-audit</code> checks the plumbing, <code>visibility-audit</code> checks brand-level standing across AI platforms.</p>
     <p>The outer ring is lower priority — <code>offsite-signals</code> runs whenever a source log is available, not on a fixed schedule, and looks at the category rather than a specific page.</p>
     <p><code>applause-aeo-evaluator</code> doesn't sit on either ring. It's a QA pass that reviews a finished report from any track before it goes to leadership — run it on demand, not automatically.</p>
-    <p>Two more skills sit downstream of the ring, not on it: <code>schema-markup</code> turns a technical audit's schema gap into the actual fix, and <code>applause-aeo-comparison-pages</code> turns a visibility audit's citation gap into a published "vs." or "alternatives" page. Both consume a track's findings — they don't audit anything themselves.</p>
+    <p>Three more skills sit downstream of the ring, not on it: <code>geo-blog-optimizer</code> turns a content audit's fix list into a rewritten post, <code>schema-markup</code> turns a technical audit's schema gap into the actual fix, and <code>applause-aeo-comparison-pages</code> turns a visibility audit's citation gap into a published "vs." or "alternatives" page. All three consume a track's findings — none of them audit anything themselves.</p>
   </div>
 
 </main>
