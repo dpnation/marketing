@@ -123,28 +123,20 @@
   .legend-row span { font-size: 12px; color: #CFEAFB; }
 
   section.flywheel {
-    display: flex; flex-direction: column; gap: 26px; background: rgba(255,255,255,0.05);
+    display: flex; flex-direction: column; gap: 22px; background: rgba(255,255,255,0.05);
     border: 1px solid rgba(207,234,251,0.28); border-radius: 8px; padding: 36px 40px 40px;
+    align-items: flex-start;
   }
-  .fw-head { display: flex; flex-direction: column; gap: 8px; max-width: 860px; }
+  .fw-head { display: flex; flex-direction: column; gap: 8px; max-width: 700px; }
   .fw-head h2 { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; color: #FFFFFF; }
   .fw-head p { margin: 0; font-size: 14px; line-height: 1.55; color: #CFEAFB; }
 
-  .fw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 900px) { .fw-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .fw-grid { grid-template-columns: 1fr; } }
-  .fw-card { background: #FFFFFF; border: 1px solid #CFEAFB; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-  .fw-num { width: 26px; height: 26px; border-radius: 8px; background: #0272B4; color: #FFFFFF; font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
-  .fw-top { display: flex; align-items: center; gap: 10px; }
-  .fw-title { font-size: 15px; font-weight: 700; line-height: 1.2; color: #01446C; }
-  .fw-body { font-size: 13.5px; line-height: 1.5; color: #3D3D3D; }
-
-  .fw-arrow-row { display: flex; align-items: center; gap: 14px; }
-  .fw-tri { width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; flex: 0 0 auto; }
-  .fw-tri.right { border-right: 9px solid #7FC4E8; }
-  .fw-tri.left { border-left: 9px solid #7FC4E8; }
-  .fw-line { flex: 1 1 auto; height: 0; border-top: 1px dashed rgba(127,196,232,0.8); }
-  .fw-arrow-label { font-size: 12.5px; font-weight: 700; color: #FFFFFF; white-space: nowrap; }
+  .fw-cta {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 8px;
+    background: #0272B4; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700;
+    transition: background 160ms;
+  }
+  .fw-cta:hover { background: #025B90; }
 
   /* SITE NAV (matches marketing hub index page) */
   nav.site-nav {
@@ -293,20 +285,13 @@
 
     <section class="flywheel">
       <div class="fw-head">
-        <div class="eyebrow">One loop, unrolled</div>
-        <h2>The visibility flywheel</h2>
-        <p>Each turn of this loop starts from a sharper baseline than the last. That is the difference between a line and a flywheel.</p>
+        <div class="eyebrow">Want the full AEO picture?</div>
+        <h2>The AEO program has its own map</h2>
+        <p>AI Search Visibility is one piece of a bigger, cadenced system &mdash; three quarterly audit tracks, a quality gate, and two downstream fix skills. The full breakdown lives on its own page, not duplicated here.</p>
       </div>
-
-      <div class="fw-grid" id="fwGrid"></div>
-
-      <div class="fw-arrow-row">
-        <div class="fw-tri right"></div>
-        <div class="fw-line"></div>
-        <div class="fw-arrow-label">the audit gets smarter each cycle</div>
-        <div class="fw-line"></div>
-        <div class="fw-tri left"></div>
-      </div>
+      <a class="fw-cta" href="https://dpnation.github.io/marketing/aeo/aeo-skill-orbit.html" target="_blank" rel="noopener">
+        Open the AEO Skill Orbit &rarr;
+      </a>
     </section>
 
   </div>
@@ -348,13 +333,10 @@
     { id: 'news', name: 'Daily Marketing News Digest' },
     { id: 'ci',   name: 'Competitive Intel Scanner' },
     { id: 'asv',  name: 'AI Search Visibility' },
-    { id: 'ca',   name: 'AEO Content Audit' },
-    { id: 'ta',   name: 'AEO Technical Audit' },
     { id: 'pers', name: 'Persona Council' },
     { id: 'pmm',  name: 'PMM Skills Pack' },
     { id: 'bb',   name: 'Battlecard Builder' },
     { id: 'geo',  name: 'GEO Blog Optimizer' },
-    { id: 'schema', name: 'Schema Markup' },
     { id: 'csb',  name: 'Campaign Skill Brief' },
     { id: 'cr',   name: 'Content Repurposer' },
     { id: 'cc',   name: 'Creative Concepting' },
@@ -370,14 +352,10 @@
       chain: 'Competitive Intel Scanner \u2192 Battlecard Builder',
       effect: 'Fresh signal in one orbit becomes a sharper sales asset in another, and refreshes each cycle rather than starting cold.',
       arcs: [['ci', 'bb']] },
-    { id: 'diagnose', title: 'Visibility gaps get diagnosed twice',
-      chain: 'AI Search Visibility \u2192 AEO Content Audit, AEO Technical Audit',
-      effect: 'The citation audit finds where Applause is invisible in AI answers. The content and technical audits each diagnose a different reason why \u2014 term alignment or crawlability \u2014 before anything gets rewritten.',
-      arcs: [['asv', 'ca'], ['asv', 'ta']] },
-    { id: 'distribute', title: 'Diagnosis becomes distribution',
-      chain: 'AEO Content Audit \u2192 GEO Blog Optimizer \u2192 Content Repurposer; AEO Technical Audit \u2192 Schema Markup \u2014 both loop back to AI Search Visibility',
-      effect: 'Each audit hands its scorecard to the tool built to act on it. Content fixes get distributed everywhere the market looks; technical fixes land straight in the page. Either way, the next audit measures the lift.',
-      arcs: [['ca', 'geo'], ['ta', 'schema'], ['geo', 'cr'], ['schema', 'asv'], ['cr', 'asv']] },
+    { id: 'vis', title: 'Visibility gaps become content',
+      chain: 'AI Search Visibility \u2192 GEO Blog Optimizer \u2192 Content Repurposer \u2192 back to AI Search Visibility',
+      effect: 'This is the high-level version \u2014 the full diagnostic-to-fix pipeline (content audit, technical audit, schema markup, and more) has its own map. Here: gaps get found, fixed, and distributed, and the next audit measures the lift.',
+      arcs: [['asv', 'geo'], ['geo', 'cr'], ['cr', 'asv']] },
     { id: 'many', title: 'One brief becomes a full campaign',
       chain: 'Campaign Skill Brief \u2192 Content Repurposer, Creative Concepting',
       effect: 'One strategic input multiplies into many activated assets.',
@@ -402,15 +380,6 @@
       chain: 'Persona Council \u2192 Leadership Sims',
       effect: 'Same critique muscle as Persona Council, plus the ability to draft in that leader\u2019s own voice \u2014 feedback and first-draft content from one simulated seat instead of two separate tools.',
       arcs: [['pers', 'sims']] }
-  ];
-
-  const FLYWHEEL = [
-    { n: '1', title: 'AI Search Visibility', body: 'The audit finds the questions where Applause should appear in AI answers and does not.' },
-    { n: '2', title: 'AEO Content Audit', body: 'Scores the page against target terms and diagnoses the messaging gap \u2014 what to say differently.' },
-    { n: '3', title: 'AEO Technical Audit', body: 'Checks the same page for the crawlability and schema gaps keeping AI engines from citing it at all.' },
-    { n: '4', title: 'GEO Optimizer + Schema Markup', body: 'The rewrite and the structured data behind it ship together, not as two separate fixes.' },
-    { n: '5', title: 'Content Repurposer', body: 'The corrected position ships everywhere the market actually looks.' },
-    { n: '6', title: 'The next audit', body: 'It measures the lift and narrows the gap list, so cycle two starts ahead of cycle one.' }
   ];
 
   const state = { selNode: null, selLoop: null };
@@ -596,17 +565,6 @@
   resetBtn.addEventListener('click', clearSelection);
   incubatingToggle.addEventListener('change', () => { state.selNode = null; state.selLoop = null; render(); });
   window.addEventListener('resize', fitStage);
-
-  // ---- flywheel (static) ----
-  const fwGrid = document.getElementById('fwGrid');
-  FLYWHEEL.forEach(s => {
-    const card = document.createElement('div');
-    card.className = 'fw-card';
-    card.innerHTML =
-      '<div class="fw-top"><div class="fw-num">' + esc(s.n) + '</div><div class="fw-title">' + esc(s.title) + '</div></div>' +
-      '<div class="fw-body">' + esc(s.body) + '</div>';
-    fwGrid.appendChild(card);
-  });
 
   render();
 })();
