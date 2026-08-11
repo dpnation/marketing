@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GEO Blog Rewrite — STLC</title>
+<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; font-size: 15px; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 14px; background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 18px; font-weight: 700; }
+  h4 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #0272B4; color: #fff; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pill-term { background: #0272B4; color: #fff; }
+  .pill-char { background: #00A6A0; color: #fff; }
+  .pill-extract { background: #0F8919; color: #fff; }
+  .pill-evidence { background: #ED7200; color: #fff; }
+  .pill-attr { background: #6B4FBB; color: #fff; }
+  .callout { border-left: 4px solid #00C0A3; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .callout strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .postbody { border: 1px dashed #CFE9FB; border-radius: 8px; padding: 28px; background: #FCFEFF; }
+  .postbody h3, .postbody h4 { margin-top: 28px; }
+  .postbody p { line-height: 1.6; }
+  .postbody ul { line-height: 1.6; }
+  .snippet-block { background: #F0FAF6; border-left: 4px solid #0F8919; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; }
+  .faq-q { font-weight: 700; color: #01446C; margin-bottom: 2px; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>GEO Blog Rewrite</h1>
+  <p>Applause — Software Testing Life Cycle (STLC) Blog Post</p>
+  <p>applause.com/blog/software-testing-life-cycle-stlc-phases/</p>
+  <p>Rewrite Date: August 11, 2026 · Based on applause-aeo-content-audit scorecard, Aug 11, 2026 (46.3/100 — Weak)</p>
+  <div class="badge">geo-blog-optimizer</div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<div class="callout"><strong>Confirmed terms carried over from the audit:</strong> Primary — QA testing services. Secondary — managed software testing services, software testing company, testing coverage. Supporting — real-world testing, test automation services, functional testing services, reliable software testing.</div>
+<div class="alert"><strong>Standing keyword-list gap (unchanged by this rewrite):</strong> "software testing life cycle" / "STLC" itself still isn't on the keyword map. This rewrite optimizes for the approved proxy terms above; it can't optimize for the page's actual H1 term until that's added to <code>keyword-map.md</code>.</div>
+</div>
+
+<div class="card">
+<h2>What Changed, By Dimension</h2>
+<table>
+<tr><th>Change</th><th>Dimension</th></tr>
+<tr><td>Opening paragraph now states plainly, in the first 60 words, that Applause runs the STLC as a managed software testing service combining QA testing services and real-world testing — previously the service relationship wasn't stated until the closing section</td><td><span class="pill pill-term">Term Alignment</span></td></tr>
+<tr><td>Worked "software testing company," "testing coverage," "test automation services," "functional testing services," and "reliable software testing" into sentences that already gestured at the concepts (phase descriptions, closing section) instead of leaving them as near-misses</td><td><span class="pill pill-term">Term Alignment</span></td></tr>
+<tr><td>Closing section rewritten to lead with category and audience clearly — "Applause is a QA testing services company that enterprise teams use to run their STLC" — rather than the vaguer "strategic testing partner" framing</td><td><span class="pill pill-char">Characterization</span></td></tr>
+<tr><td>First paragraph is now a self-contained ~45-word definition suitable as a featured-snippet answer; the second paragraph extends it to a ~150-word self-contained block covering the full "what is STLC and why it exists" answer</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Added a 6-row phase/goal/deliverable table so the six STLC phases are scannable as a comparison structure, not just six long prose sections</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Added a 5-question FAQ block, phrased in the buyer's own words, drawn only from claims already present in the source post — no invented questions or facts</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Rephrased two mid-post subheadings as direct questions ("Why does Agile change the STLC phases?") to match how a buyer would actually search</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Softened two hedged closing sentences ("can pose important strategic QA questions" / "can be there with you") into more declarative statements about what Applause does, without adding any claim not already supported by the source</td><td><span class="pill pill-evidence">Evidence</span></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Remaining Gaps — Not Fixed By This Rewrite</h2>
+<ul>
+<li><strong>Evidence is still thin.</strong> The source post has no numbers, no dated stats, and no named customers to draw on. This rewrite will not fabricate a client count, coverage percentage, or case reference to fill that gap — that requires input from Dana or the page owner on what's actually available to cite. Until then, Evidence will remain a weak dimension on re-score.</li>
+<li><strong>Visible freshness date is unresolved.</strong> The page shows "Published On: November 15, 2024" while site metadata records a December 1, 2025 update that isn't surfaced in visible copy. This is a template/display fix, not a copy fix — flagged for Digital, not something this rewrite can change in body text alone.</li>
+<li><strong>Author attribution is unchanged.</strong> David Carty is named with a role; no update needed, but confirm he's still the right byline before publishing this version.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Rewritten Post</h2>
+<div class="info">Section-level edits are shown in full; unchanged phase-description prose is condensed here to keep this deliverable readable, but the intent is a full-post replacement — drop this into the CMS in place of the current body copy, keeping existing internal links unless noted otherwise.</div>
+
+<div class="postbody">
+
+<p><strong>Meta description:</strong> The software testing life cycle (STLC) is the structured process of planning, designing and executing tests across a release. Learn the six STLC phases and how Applause runs QA testing services at enterprise scale.</p>
+
+<h3>What Is the Software Testing Life Cycle? STLC Phases Explained</h3>
+
+<div class="snippet-block"><strong>Snippet-ready (46 words):</strong> The software testing life cycle (STLC) is the structured sequence of phases — from requirement analysis through test cycle closure — that a QA team follows to validate a product before and during release. Applause runs this life cycle for enterprise teams as a managed software testing service.</div>
+
+<p>Just as the software development life cycle (SDLC) guides how digital products get built, the STLC guides how they get validated. Different team members participate at different STLC phases, from requirement analysis through test cycle closure, so that quality goals are met in a strategic, documented manner rather than left to a single pre-release check. Applause combines QA testing services with real-world testing — running validation against the actual devices, markets and conditions customers use — as part of a managed software testing service for enterprise release teams. The rest of this post breaks down each STLC phase, the common challenges teams hit at each one, and how Agile changes the sequence.</p>
+
+<p>In the past, software testing occurred shortly before release, as a way to catch defects before they reached customers. As digital systems became more complex and release cadence increased, that approach got expensive: delaying testing to the end of the development cycle produces costlier bug fixes and slower releases. Many organizations now build STLC phases into and before development — using test automation, test-driven development, crowdtesting, shift-left testing and shift-right testing — so that testing produces insight throughout the cycle rather than a single late-stage gate.</p>
+
+<h4>6 Key STLC Phases</h4>
+<table>
+<tr><th>Phase</th><th>Goal</th><th>Key deliverable</th></tr>
+<tr><td>1. Requirement analysis</td><td>Turn business and system requirements into a testable scope</td><td>Testability assessment, open questions logged with engineering/business stakeholders</td></tr>
+<tr><td>2. Test planning</td><td>Convert requirement insights into a documented QA strategy</td><td>Test plan — scope, risk analysis, resource allocation, success criteria</td></tr>
+<tr><td>3. Test case design and development</td><td>Build structured, repeatable test cases against the requirements</td><td>Test case suite plus a requirements traceability matrix</td></tr>
+<tr><td>4. Test environment setup</td><td>Stand up the hardware, software, data and network conditions tests require</td><td>Configured test environment, passed smoke tests</td></tr>
+<tr><td>5. Test execution</td><td>Run test cases, log defects, retest fixes</td><td>Execution results, defect reports, regression-test confirmation</td></tr>
+<tr><td>6. Test cycle closure</td><td>Summarize findings and sign off on release readiness</td><td>Test closure report, archived scripts/tools/environments</td></tr>
+</table>
+
+<p>Each phase carries its own goals, deliverables and common failure points — incomplete requirements in phase one, scope creep in test planning, environment-parity gaps in setup, flaky automated tests during execution, and incomplete metrics capture at closure. <em>(Full phase-by-phase detail — challenges, techniques, examples — carries over unchanged from the current post; not reproduced here to keep this deliverable scannable.)</em></p>
+
+<h4>Why Does Agile Change the STLC Phases?</h4>
+<p>The six STLC phases above follow a sequential approach similar to Waterfall development. Agile teams instead run these phases in overlapping, iterative cycles: continuous collaboration, in-sprint testing and test-driven development replace a single linear pass, and shift-left and shift-right testing extend validation earlier and later in the cycle than a traditional STLC covers. The sequence doesn't disappear under Agile — it compresses and repeats every sprint.</p>
+
+<h4>Frequently Asked Questions</h4>
+<div class="faq-q">What is the software testing life cycle?</div>
+<p>The STLC is a documented sequence of tasks — requirement analysis, test planning, test case design, test environment setup, test execution and test cycle closure — that a QA team follows to validate a software release.</p>
+<div class="faq-q">What are the 6 phases of the STLC?</div>
+<p>Requirement analysis, test planning, test case design and development, test environment setup, test execution, and test cycle closure.</p>
+<div class="faq-q">How is the STLC different from the SDLC?</div>
+<p>The SDLC (software development life cycle) governs how a product gets built; the STLC governs how it gets validated. The two run in parallel, with STLC phases increasingly starting before development finishes rather than only after.</p>
+<div class="faq-q">Does Agile eliminate the STLC phases?</div>
+<p>No — Agile compresses them into overlapping, repeating cycles within each sprint rather than one linear pass at the end of a project.</p>
+<div class="faq-q">Does Applause provide QA testing services for the STLC?</div>
+<p>Yes. Applause provides QA testing services and real-world testing across the STLC, working within a team's existing testing priorities, scope and timelines, or helping define them.</p>
+
+<h4>Make Your Software Testing Life Cycle More Efficient</h4>
+<p>Applause is a software testing company that enterprise QA and engineering teams use to run these STLC phases at scale. Applause provides QA testing services, real-world testing conditions, and test automation services throughout the cycle — from requirement analysis through test cycle closure — so teams can focus on what to test rather than how to staff and run it. Applause works within the scope, timelines and functional testing services priorities a team already defines, or helps establish them from the outset, extending testing coverage and reliable software testing results across the devices, markets and release conditions a release actually needs.</p>
+
+<p><a href="https://www.applause.com/contact-us/">Talk with Applause</a> about making your software testing life cycle more efficient, now and in the future.</p>
+
+</div>
+</div>
+
+<div class="card">
+<h2>Next Steps</h2>
+<ul>
+<li>Re-run <code>applause-aeo-content-audit</code> against this rewrite to confirm the score movement, especially Term Alignment and Extractability.</li>
+<li>Once finalized, send to <code>schema-markup</code> for <code>BlogPosting</code> + <code>FAQPage</code> JSON-LD — the FAQ above is genuine on-page content, so it qualifies.</li>
+<li>Optionally send to <code>content-repurposer</code> to atomize into LinkedIn/email/exec-summary once the body copy is locked.</li>
+<li>Get Digital to fix the visible last-updated date before/at publish — flagged above as out of scope for a copy-only rewrite.</li>
+</ul>
+</div>
+
+</div>
+
+<footer>
+Applause GEO Blog Rewrite · geo-blog-optimizer skill v1.1.0 · Source scorecard: applause-aeo-content-audit, August 11, 2026
+</footer>
+
+</body>
+</html>
