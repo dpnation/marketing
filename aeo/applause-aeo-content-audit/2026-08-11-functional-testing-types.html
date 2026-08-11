@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEO Page Audit — Functional Testing Types (Term Alignment)</title>
+	<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; font-size: 15px; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 14px; }
+  .badge-weak { background: #ED7200; color: #fff; }
+  .badge-partial { background: #ED7200; color: #fff; }
+  .badge-adequate { background: #0272B4; color: #fff; }
+  .badge-strong { background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #0272B4; color: #fff; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pill-pass { background: #0F8919; color: #fff; }
+  .pill-fail { background: #D42D0E; color: #fff; }
+  .pill-unknown { background: #ED7200; color: #fff; }
+  .pill-p1 { background: #D42D0E; color: #fff; }
+  .pill-p2 { background: #ED7200; color: #fff; }
+  .pill-p3 { background: #0272B4; color: #fff; }
+  .pill-copy { background: #0F8919; color: #fff; }
+  .pill-digital { background: #0272B4; color: #fff; }
+  .pill-creative { background: #00A6A0; color: #fff; }
+  .pill-cross { background: #D42D0E; color: #fff; }
+  .callout { border-left: 4px solid #00C0A3; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .callout strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .scoregrid { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; font-size: 15px; margin: 10px 0; }
+  .scoregrid .label { color: #3D3D3D; }
+  .scoregrid .val { font-weight: 700; color: #01446C; text-align: right; }
+  .composite { font-size: 44px; font-weight: 800; color: #01446C; margin: 0; }
+  .composite-band { font-size: 14px; font-weight: 700; text-transform: uppercase; color: #ED7200; }
+  .ownerlegend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; margin: 10px 0 4px; color: #3D3D3D; }
+  .ownerlegend span.pill { margin-right: 4px; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>AEO Page Audit — Term Alignment</h1>
+  <p>Applause — 15 Functional Testing Types with Examples (Blog Post)</p>
+  <p>applause.com/blog/functional-testing-types-examples/</p>
+  <p>Audit Date: August 11, 2026 · Preset: Functional / core QA services · Keyword list: 2026-07-28</p>
+  <div class="badge badge-weak">45.4/100 — Weak</div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<div class="callout"><strong>Fix List is the complete checklist.</strong> Everything else in this report — composite, term performance, characterization read — is the reasoning for why those fixes move the score. It is not additional work on top of the Fix List.</div>
+<h2>Composite Score</h2>
+<p class="composite">45.4<span style="font-size:20px;color:#888;"> / 100</span></p>
+<p class="composite-band">Weak — unlikely to be cited for its priority terms; needs a rewrite pass</p>
+
+<div class="scoregrid">
+  <div class="label">Term Alignment</div><div class="val">2.4 / 20</div>
+  <div class="label">Characterization</div><div class="val">13.0 / 20</div>
+  <div class="label">Extractability</div><div class="val">10.0 / 20</div>
+  <div class="label">Evidence</div><div class="val">4.0 / 20</div>
+  <div class="label">Attribution &amp; Freshness</div><div class="val">16.0 / 20</div>
+  <div class="label">Entity &amp; Fact Structure</div><div class="val">10.0 / 10 <span style="font-weight:400;color:#888;">(not in composite — v1)</span></div>
+</div>
+<div class="alert"><strong>Archetype mismatch:</strong> the primary term "functional testing services" carries a Discover archetype — the page has to name Applause as a provider of the term plainly. This page reads as an educational glossary of 16 functional-testing types (Understand-shaped), and never uses the phrase "functional testing services" anywhere, even in the closing CTA. That mismatch, not a placement near-miss, is the main driver of the Term Alignment score.</div>
+</div>
+
+<div class="card">
+<h2>Term Performance</h2>
+<table>
+<tr><th>Term</th><th>Role</th><th>Placement</th><th>Score</th></tr>
+<tr><td>functional testing services</td><td>Primary</td><td>Absent</td><td>0.0 / 8.0</td></tr>
+<tr><td>QA testing services</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.7</td></tr>
+<tr><td>test automation services</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.7</td></tr>
+<tr><td>outsourced QA testing</td><td>Secondary</td><td>Absent</td><td>0.0 / 2.7</td></tr>
+<tr><td>managed software testing services</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+<tr><td>testing coverage</td><td>Supporting</td><td>Body</td><td>0.8 / 0.8</td></tr>
+<tr><td>accessibility testing</td><td>Supporting</td><td>Body</td><td>0.8 / 0.8</td></tr>
+<tr><td>payment testing</td><td>Supporting</td><td>Body</td><td>0.8 / 0.8</td></tr>
+<tr><td>real device testing</td><td>Supporting</td><td>Absent</td><td>0.0 / 0.8</td></tr>
+</table>
+<p><strong>Standouts:</strong> accessibility testing, payment testing, and testing coverage (as the close variant "test coverage") all appear in body copy — but none leads a heading, so none earns more than partial supporting credit.</p>
+<p><strong>Misses:</strong> the primary term never appears in any form, in any variant. The page uses "functional testing" throughout but consistently drops "services," and none of the three secondary terms (QA testing services, test automation services, outsourced QA testing) appear at all, including in the closing section where Applause's own offering is described.</p>
+</div>
+
+<div class="card">
+<h2>Characterization Read <span style="font-weight:400; font-size:14px; color:#888;">(evidence-locked — context, not an action item)</span></h2>
+<div class="callout">This section explains why Characterization scored 13/20. It doesn't belong on a page-edit checklist — see Fix List for what to actually do.</div>
+<table>
+<tr><th>Sub-check</th><th>Score</th><th>Anchor</th></tr>
+<tr><td>Category clarity</td><td>5/5</td><td>Closing section: "Applause is the industry leader in crowdtesting and digital quality," reinforced by repeated pattern statements through the programs section — "Applause provides accessibility audits and guidance...", "Applause conducts payment testing with real users around the world..." Reads clearly as a managed testing provider.</td></tr>
+<tr><td>Audience clarity</td><td>4/5</td><td>Worked examples are consistently enterprise/B2C — "a financial services application," "a banking mobile app," "an insurance company," "an automobile manufacturer," "a streaming service." Enterprise scale comes through strongly; buyer role is only implicit via "QA professional" and "organizations," never a named title.</td></tr>
+<tr><td>Differentiation</td><td>3/5</td><td>"Applause provides a global team of white-hat hackers to penetration test your digital products" and "our community of vetted testers, combined with our platform and managed services" carry some Applause-specific texture, but most of the programs section restates category-generic capabilities any testing vendor could claim.</td></tr>
+<tr><td>Term association</td><td>1/5</td><td>No sentence states Applause provides "functional testing services." The closest is the closing CTA — "Deploy the functional testing types and strategy you need... Applause has the expertise and resources to help you succeed" — which only implies the relationship rather than stating it.</td></tr>
+</table>
+<div class="info">Confidence: this approximates a naive model read and does not reproduce one. Live-prompt validation against <code>audit-prompts.md</code> was not run — out of scope for this skill.</div>
+</div>
+
+<div class="card">
+<h2>Flags</h2>
+<ul>
+<li><strong>Primary-term absence:</strong> "functional testing services" is the page's exact subject area yet never appears as a phrase — the piece is written as an Understand-shaped glossary (define each type, give an example), not the Discover-shaped provider statement the term needs. Reconsider whether the fix is adding the phrase, or accepting this page will always score better on Understand-archetype terms than Discover ones.</li>
+<li>"Crowdtesting" leads the closing sentence — "Applause is the industry leader in crowdtesting and digital quality" — ahead of "real-world testing" or "managed testing services." Not on the current guardrail-conflict list, but the keyword map notes crowdtesting should be treated the same way if it were added. Positioning flag for Suzanne, no score penalty.</li>
+<li>Freshness gap: page metadata shows <code>article:modified_time</code> of 2026-07-22 (three weeks old), but the only visible date on the page is "Published On: December 2, 2024." Recency was scored off the visible date per the rubric, so the page reads as far staler than it actually is (0/4 on the recency check).</li>
+<li>Hero image alt text is the generic blog title rather than content-descriptive copy; other in-body assets (whitepaper/ebook/quiz icons) were not visible in the fetched markup to verify — marked Unknown rather than Fail.</li>
+<li>Page fetched live and complete; no truncation or lazy-load gaps observed beyond the hero image, which is a known Divi rendering pattern rather than missing content.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Fix List</h2>
+<div class="ownerlegend">
+  <span><span class="pill pill-copy">Copy</span> page owner executes directly, no build or design needed</span>
+  <span><span class="pill pill-digital">Digital</span> requires template/dev change</span>
+  <span><span class="pill pill-creative">Creative</span> requires a design/placement decision</span>
+  <span><span class="pill pill-cross">Cross-functional</span> needs Digital and/or Creative before Copy can start</span>
+</div>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Dimension</th><th>Effort</th><th>Owner</th></tr>
+<tr><td>State plainly, in the intro or a dedicated closing section, that Applause provides "functional testing services" — work the approved phrase in rather than relying on "functional testing types and strategy"</td><td><span class="pill pill-p1">P1</span></td><td>Term Alignment / Characterization</td><td>Low</td><td><span class="pill pill-copy">Copy</span></td></tr>
+<tr><td>Add a visible "Last updated" date near the byline reflecting the true July 2026 revision, rather than showing only the December 2024 publish date</td><td><span class="pill pill-p1">P1</span></td><td>Attribution &amp; Freshness</td><td>Low</td><td><span class="pill pill-digital">Digital</span></td></tr>
+<tr><td>Open with a one-sentence plain-language definition of functional testing in the first paragraph instead of leading with "the big picture often overshadows the individual details"</td><td><span class="pill pill-p1">P1</span></td><td>Extractability</td><td>Low</td><td><span class="pill pill-copy">Copy</span></td></tr>
+<tr><td>Add a short FAQ block ("What is functional testing?", "What are the main types of functional testing?") to gain snippet/FAQ extractability</td><td><span class="pill pill-p2">P2</span></td><td>Extractability</td><td>Med</td><td><span class="pill pill-cross">Cross-functional</span></td></tr>
+<tr><td>Swap one generic worked example for a named customer/case reference, or add a concrete scale number (devices, currencies, languages covered) to the programs section</td><td><span class="pill pill-p2">P2</span></td><td>Evidence</td><td>Med</td><td><span class="pill pill-copy">Copy</span></td></tr>
+<tr><td>Work "QA testing services," "test automation services," and "outsourced QA testing" into the existing programs/closing section, which already gestures at all three without using the phrases</td><td><span class="pill pill-p2">P2</span></td><td>Term Alignment</td><td>Low</td><td><span class="pill pill-copy">Copy</span></td></tr>
+<tr><td>Reframe the closing sentence to lead with "real-world testing" or "managed testing services" ahead of "crowdtesting"</td><td><span class="pill pill-p3">P3</span></td><td>Positioning (flag for Suzanne)</td><td>Low</td><td><span class="pill pill-copy">Copy</span></td></tr>
+<tr><td>Rephrase 2–3 subheadings as buyer questions (e.g., "What is regression testing?") to improve snippet extractability further</td><td><span class="pill pill-p3">P3</span></td><td>Extractability</td><td>Med</td><td><span class="pill pill-creative">Creative</span></td></tr>
+</table>
+<p><strong>Handoff:</strong> <code>geo-blog-optimizer</code> for the rewrite (opening reframe, term association, FAQ block); <code>schema-markup</code> for FAQPage JSON-LD once the FAQ exists.</p>
+</div>
+
+</div>
+
+<footer>
+Applause AEO Page Audit · applause-aeo-content-audit skill v1.2.0 · Terms confirmed with Dana Prey, August 11, 2026
+</footer>
+
+</body>
+</html>
