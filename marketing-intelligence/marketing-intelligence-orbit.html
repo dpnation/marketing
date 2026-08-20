@@ -65,7 +65,11 @@
   .node-hub .hub-title{ font-size:16px; font-weight:800; color:#fff; line-height:1.25; }
   .node-hub .hub-sub{ font-size:11px; color:#DCEFFA; margin-top:6px; line-height:1.4; }
 
-  .node-track{ width: 260px; border-top: 4px solid var(--blue-500); }
+  .node-track{
+    width: 260px; border-top: 4px solid var(--blue-500);
+    background: linear-gradient(135deg, var(--blue-700) 0%, #012F4D 100%);
+    box-shadow: 0 5px 20px rgba(1,68,108,0.35);
+  }
   .node-track.teal{ border-top-color: var(--aqua-500); }
   .node-track.amber{ border-top-color: var(--amber); }
   .node-track.gray{ border-top-color: var(--gray-400); opacity:0.94; }
@@ -75,23 +79,24 @@
     font-size: 10px; font-weight:700; letter-spacing:0.4px;
     padding: 3px 9px; border-radius: 20px; margin-bottom: 8px;
   }
-  .track-badge.blue{ background: var(--blue-100); color: var(--blue-700); }
-  .track-badge.teal{ background: #E0F8F5; color: var(--aqua-600); }
-  .track-badge.amber{ background: var(--amber-bg); color: #994A00; }
-  .track-badge.gray{ background: #F0F0F0; color: #555; }
+  .track-badge.blue{ background: rgba(255,255,255,0.14); color: #BFE3F7; }
+  .track-badge.teal{ background: rgba(0,192,163,0.2); color: #7EEBDB; }
+  .track-badge.amber{ background: rgba(237,114,0,0.22); color: #FFC48A; }
+  .track-badge.gray{ background: rgba(255,255,255,0.14); color: #DCEFFA; }
 
-  .node-track h3{ font-size:15px; font-weight:700; color: var(--blue-700); margin-bottom:4px; }
+  .node-track h3{ font-size:15px; font-weight:700; color: #fff; margin-bottom:4px; }
   .node-track .skill-name{
     font-family: 'SFMono-Regular', Consolas, monospace;
-    font-size: 11px; font-weight:600; color:#555; margin-bottom:6px; display:block;
+    font-size: 11px; font-weight:600; color:#9FCBE6; margin-bottom:6px; display:block;
   }
-  .node-track p{ font-size: 12.5px; color:#555; line-height:1.5; }
+  .node-track p{ font-size: 12.5px; color:#DCEFFA; line-height:1.5; }
+  .node-track p code{ color:#fff; background:rgba(255,255,255,0.14); }
   .cadence{
     display:inline-block; margin-top:9px; font-size:10.5px; font-weight:700;
     padding: 2px 9px; border-radius: 20px;
   }
-  .cadence.weekly{ background:#E5F5E7; color:#0F8919; }
-  .cadence.adhoc{ background:#F0F0F0; color:#666; }
+  .cadence.weekly{ background:rgba(15,137,25,0.25); color:#8CE6A0; }
+  .cadence.adhoc{ background:rgba(255,255,255,0.14); color:#DCEFFA; }
 
   .node-gate{
     width: 210px;
@@ -378,7 +383,7 @@
       <span class="ds-tag">Downstream · routed to sales enablement</span>
       <span class="skill-name">Sales Enablement</span>
       <h3>Enablement Flag</h3>
-      <p>Signals scored as requiring Sales action get flagged for Lilian Mitchell's team — sales signals drive what gets prioritized next.</p>
+      <p>Signals scored as requiring Sales action get flagged for Sales Enablement — sales signals drive what gets prioritized next.</p>
     </div>
   </div>
 
@@ -396,7 +401,7 @@
     <p>Discovery output stays lower-confidence, not lower-priority — signals land marked <code>pending_review</code> and aren't treated as confirmed intel until Dana approves a candidate into the watchlist. That approval step is manual on purpose.</p>
     <p><code>analyst_sensor.py</code> is the one source that isn't weekly — it only runs when Dana drops a Gartner or Forrester export in and triggers it. Most weeks it contributes nothing, which is expected, not a gap in coverage.</p>
     <p>Every signal, regardless of source, passes through the same scoring gate before it can reach the brief — five 0–5 dimensions summed to 0–25 and mapped to a tier. A signal only earns a place in the brief if it changes positioning, competitive dynamics, customer behavior, or requires action — "no action" is an acceptable answer, and often the correct one.</p>
-    <p>Three actions sit downstream of the brief, not on it: a battlecard refresh recommendation (built by <code>battlecard-builder</code>, never edited by this agent), a watchlist promotion (manual, Dana's call, never automatic), and a sales enablement flag (routed to Lilian Mitchell's team). The brief recommends action — it never executes it. A fourth layer, internal marketing context (V2), is on the roadmap but not yet built.</p>
+    <p>Three actions sit downstream of the brief, not on it: a battlecard refresh recommendation (built by <code>battlecard-builder</code>, never edited by this agent), a watchlist promotion (manual, Dana's call, never automatic), and a sales enablement flag (routed to Sales Enablement). The brief recommends action — it never executes it. A fourth layer, internal marketing context (V2), is on the roadmap but not yet built.</p>
   </div>
 
   <section class="detail-section">
@@ -507,7 +512,7 @@
         <span class="skill-name">Sales Enablement</span>
         <h3>Enablement Flag</h3>
         <p class="d-label">What it is</p>
-        <p>Signals scored high on "requires Sales enablement" get called out for Lilian Mitchell's team.</p>
+        <p>Signals scored high on "requires Sales enablement" get called out for Sales Enablement.</p>
         <p class="d-label">Why it's scoped this way</p>
         <p>Sales enablement signals drive what Dana prioritizes next — surfacing them clearly in the brief is the point of scoring for actionability at all.</p>
         <p class="d-label">What it doesn't do</p>
