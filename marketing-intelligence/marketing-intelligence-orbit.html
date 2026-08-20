@@ -278,13 +278,17 @@
       <circle cx="600" cy="410" r="260" fill="none" stroke="#CFE9FB" stroke-width="1.5"/>
       <circle cx="600" cy="410" r="380" fill="none" stroke="#D9D9D9" stroke-width="1.5" stroke-dasharray="6,7"/>
 
-      <!-- connectors: hub to core sources -->
+      <!-- connectors: hub to core weekly sources (solid = runs every week, no exceptions) -->
       <line x1="600" y1="410" x2="600" y2="150" stroke="#0272B4" stroke-width="2"/>
       <line x1="600" y1="410" x2="375" y2="540" stroke="#00C0A3" stroke-width="2"/>
-      <line x1="600" y1="410" x2="825" y2="540" stroke="#ED7200" stroke-width="2"/>
+      <line x1="600" y1="410" x2="825" y2="540" stroke="#0272B4" stroke-width="2"/>
 
-      <!-- connector: hub to supplemental (dashed) -->
-      <line x1="600" y1="410" x2="600" y2="790" stroke="#9A9A9A" stroke-width="1.5" stroke-dasharray="5,6"/>
+      <!-- connector: Competitive Scan and Competitor Discovery share one signal file -->
+      <line x1="640" y1="185" x2="795" y2="500" stroke="#0272B4" stroke-width="1.5" stroke-dasharray="2,4"/>
+      <text x="745" y="330" font-size="11" font-weight="700" fill="#0272B4" font-family="Proxima Nova, Arial, sans-serif">same file</text>
+
+      <!-- connector: hub to ad hoc / event-driven source (dashed, amber) -->
+      <line x1="600" y1="410" x2="600" y2="790" stroke="#ED7200" stroke-width="1.5" stroke-dasharray="5,6"/>
 
       <!-- connector: hub to scoring gate (dotted) -->
       <line x1="600" y1="410" x2="350" y2="240" stroke="#0272B4" stroke-width="1.5" stroke-dasharray="2,5"/>
@@ -292,7 +296,7 @@
       <!-- small direction arrows on core connectors, midpoint -->
       <polygon points="600,285 594,297 606,297" fill="#0272B4"/>
       <polygon points="480,478 486,468 492,480" fill="#00C0A3"/>
-      <polygon points="720,478 714,468 708,480" fill="#ED7200"/>
+      <polygon points="720,478 714,468 708,480" fill="#0272B4"/>
 
       <!-- downstream connectors: from hub outward to downstream actions -->
       <line x1="330" y1="640" x2="215" y2="720" stroke="#00C0A3" stroke-width="1.5" stroke-dasharray="3,5"/>
@@ -310,9 +314,9 @@
       <div class="hub-sub">Wed ~8:00am · reports/</div>
     </div>
 
-    <!-- CORE NODE A: Competitive Signals -->
+    <!-- CORE NODE A: Competitive Scan (confirmed) -->
     <div class="node node-track" style="left:600px; top:150px;">
-      <span class="track-badge blue">COMPETITOR SIGNALS</span>
+      <span class="track-badge blue">COMPETITOR SIGNALS · CONFIRMED</span>
       <span class="skill-name">weekly-competitive-scan</span>
       <h3>Competitive Scan</h3>
       <p>Confirmed competitor moves — pricing, positioning, product changes. Writes to Competitive analysis/data/latest-signals.json.</p>
@@ -328,22 +332,22 @@
       <span class="cadence weekly">● Weekly, Mon ~8:20am</span>
     </div>
 
-    <!-- CORE NODE C: Analyst Signals -->
-    <div class="node node-track amber" style="left:825px; top:540px;">
-      <span class="track-badge amber">ANALYST SIGNALS</span>
+    <!-- CORE NODE C: Competitor Discovery (pending review, same file as Competitive Scan) -->
+    <div class="node node-track" style="left:825px; top:540px;">
+      <span class="track-badge blue">COMPETITOR SIGNALS · PENDING REVIEW</span>
+      <span class="skill-name">weekly-competitor-discovery-scan</span>
+      <h3>Competitor Discovery</h3>
+      <p>Surfaces new or emerging competitors every week — same file as Competitive Scan, marked <code style="font-family:inherit;">pending_review: true</code> until Dana approves a candidate into the watchlist.</p>
+      <span class="cadence weekly">● Weekly, Tue ~8:06am</span>
+    </div>
+
+    <!-- AD HOC / EVENT-DRIVEN: Analyst Intelligence -->
+    <div class="node node-track amber" style="left:600px; top:790px;">
+      <span class="track-badge amber">AD HOC · ANALYST SIGNALS</span>
       <span class="skill-name">analyst_sensor.py</span>
       <h3>Analyst Intelligence</h3>
       <p>Gartner / Forrester report signals — e.g. Applause confirmed as a Gartner Representative Vendor. Writes to inputs/analyst/latest-signals.json.</p>
-      <span class="cadence adhoc">○ Event-driven — Dana drops a report, most weeks contribute nothing</span>
-    </div>
-
-    <!-- SUPPLEMENTAL: Competitor Discovery -->
-    <div class="node node-track gray" style="left:600px; top:790px;">
-      <span class="track-badge gray">SUPPLEMENTAL · PENDING REVIEW</span>
-      <span class="skill-name">weekly-competitor-discovery-scan</span>
-      <h3>Competitor Discovery</h3>
-      <p>Surfaces new or emerging competitors. Signals land marked <code style="font-family:inherit;">pending_review: true</code> — not confirmed intel until Dana approves them into the watchlist.</p>
-      <span class="cadence weekly">● Weekly, Tue ~8:06am</span>
+      <span class="cadence adhoc">○ Event-driven — runs only when Dana drops in a report, not on the weekly schedule</span>
     </div>
 
     <!-- SCORING GATE (cross-cutting, not a source) -->
@@ -379,16 +383,18 @@
   </div>
 
   <div class="orbit-legend">
-    <div class="legend-item"><span class="legend-swatch" style="background:#0272B4;"></span>Solid line — core, weekly source</div>
-    <div class="legend-item"><span class="legend-swatch" style="background:#9A9A9A;"></span>Dashed line — supplemental, pending review</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#0272B4;"></span>Solid blue line — core weekly source, competitive family</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#00C0A3;"></span>Solid teal line — core weekly source, market</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#ED7200;"></span>Dashed amber line — ad hoc / event-driven, not on the weekly schedule</div>
     <div class="legend-item"><span class="legend-swatch" style="background:#E6F3FA; border:1.5px dashed #0272B4;"></span>Dotted line — cross-cutting scoring gate, not a source</div>
     <div class="legend-item"><span class="legend-swatch" style="background:#fff; border:1.5px dashed #9A9A9A;"></span>Short dash-arrow — downstream action, recommended not executed</div>
   </div>
 
   <div class="callout">
     <div class="section-label">How to read this</div>
-    <p>The inner ring is the weekly rhythm: three sources feed the Wednesday brief, each answering a different question about the same week — <code>weekly-competitive-scan</code> tracks confirmed competitor moves, <code>weekly-market-intelligence-scan</code> tracks the broader industry, and <code>analyst_sensor.py</code> tracks Gartner/Forrester coverage whenever Dana drops a report in.</p>
-    <p>The outer ring is lower confidence, not lower cadence — <code>weekly-competitor-discovery-scan</code> runs every Tuesday but its output stays <code>pending_review</code> until Dana approves it. It is treated as a candidate, not a confirmed signal, until then.</p>
+    <p>The inner ring is the weekly rhythm, and it's three tasks, not three sources: <code>weekly-competitive-scan</code> (Mon) and <code>weekly-competitor-discovery-scan</code> (Tue) both write to the same file — Competitive analysis/data/latest-signals.json — one confirming known-competitor moves, the other surfacing new candidates at lower confidence. <code>weekly-market-intelligence-scan</code> is the third weekly source, covering industry shifts beyond named competitors. All three run every week without exception.</p>
+    <p>Discovery output stays lower-confidence, not lower-priority — signals land marked <code>pending_review</code> and aren't treated as confirmed intel until Dana approves a candidate into the watchlist. That approval step is manual on purpose.</p>
+    <p><code>analyst_sensor.py</code> is the one source that isn't weekly — it only runs when Dana drops a Gartner or Forrester export in and triggers it. Most weeks it contributes nothing, which is expected, not a gap in coverage.</p>
     <p>Every signal, regardless of source, passes through the same scoring gate before it can reach the brief — five 0–5 dimensions summed to 0–25 and mapped to a tier. A signal only earns a place in the brief if it changes positioning, competitive dynamics, customer behavior, or requires action — "no action" is an acceptable answer, and often the correct one.</p>
     <p>Three actions sit downstream of the brief, not on it: a battlecard refresh recommendation (built by <code>battlecard-builder</code>, never edited by this agent), a watchlist promotion (manual, Dana's call, never automatic), and a sales enablement flag (routed to Lilian Mitchell's team). The brief recommends action — it never executes it. A fourth layer, internal marketing context (V2), is on the roadmap but not yet built.</p>
   </div>
@@ -425,6 +431,16 @@
         <p class="d-label">What it doesn't do</p>
         <p>Doesn't score or prioritize what it finds — that judgment call belongs to the brief downstream.</p>
       </div>
+      <div class="detail-card">
+        <span class="skill-name">weekly-competitor-discovery-scan</span>
+        <h3>Competitor Discovery</h3>
+        <p class="d-label">What it is</p>
+        <p>Runs Tuesday ~8:06am, right alongside the Monday competitive scan — same file, same weekly cadence, but scanning for new or emerging competitors instead of confirming known ones.</p>
+        <p class="d-label">Why it's scoped this way</p>
+        <p>Paired tightly with the competitive scan rather than treated as a separate, lower-priority track — it's weekly and non-negotiable, just lower-confidence by nature. Candidates land marked <code style="font-family:inherit;">pending_review: true</code>.</p>
+        <p class="d-label">What it doesn't do</p>
+        <p>Never auto-promotes a candidate into <code style="font-family:inherit;">watchlist.json</code> — that step is explicitly manual, Dana's call.</p>
+      </div>
       <div class="detail-card teal">
         <span class="skill-name">weekly-market-intelligence-scan</span>
         <h3>Market Intelligence Scan</h3>
@@ -435,37 +451,31 @@
         <p class="d-label">What it doesn't do</p>
         <p>Hasn't run yet as of this build — first run is 8/24. Treat early output as unproven until a few cycles land.</p>
       </div>
+    </div>
+
+    <div class="detail-group-label">Ad Hoc / Event-Driven</div>
+    <div class="detail-grid">
       <div class="detail-card amber">
         <span class="skill-name">analyst_sensor.py</span>
         <h3>Analyst Intelligence</h3>
         <p class="d-label">What it is</p>
-        <p>Event-driven: Dana drops a Gartner/Forrester export into <code style="font-family:inherit;">inputs/analyst/inbox/</code> and runs the script. Already produced one live signal — Applause confirmed as a Gartner Representative Vendor.</p>
+        <p>The one source that's not on the weekly schedule. Dana drops a Gartner/Forrester export into <code style="font-family:inherit;">inputs/analyst/inbox/</code> and runs the script by hand. Already produced one live signal — Applause confirmed as a Gartner Representative Vendor.</p>
         <p class="d-label">Why it's scoped this way</p>
-        <p>Analyst report cycles are irregular by nature, not weekly — forcing it onto the Mon/Tue/Wed cadence would mean scanning for reports that usually aren't there.</p>
+        <p>Analyst report cycles are irregular and human-triggered by nature — forcing it onto the Mon/Tue/Wed cadence would mean scanning for reports that usually aren't there.</p>
         <p class="d-label">What it doesn't do</p>
-        <p>Contributes nothing most weeks — that's expected behavior, not a coverage gap.</p>
+        <p>Doesn't run automatically and contributes nothing most weeks — that's expected behavior, not a coverage gap.</p>
       </div>
     </div>
 
-    <div class="detail-group-label">Supplemental &amp; Cross-Cutting</div>
+    <div class="detail-group-label">Cross-Cutting</div>
     <div class="detail-grid">
-      <div class="detail-card gray">
-        <span class="skill-name">weekly-competitor-discovery-scan</span>
-        <h3>Competitor Discovery</h3>
-        <p class="d-label">What it is</p>
-        <p>Tuesday ~8:06am scan for new or emerging competitors not yet on the watchlist.</p>
-        <p class="d-label">Why it's scoped this way</p>
-        <p>Kept separate from the confirmed competitive scan because discovery candidates are lower-confidence by definition — they land marked <code style="font-family:inherit;">pending_review: true</code>.</p>
-        <p class="d-label">What it doesn't do</p>
-        <p>Never auto-promotes a candidate into <code style="font-family:inherit;">watchlist.json</code> — that step is explicitly manual.</p>
-      </div>
       <div class="detail-card">
         <span class="skill-name">schema/signal-schema.md</span>
         <h3>Scoring Gate</h3>
         <p class="d-label">What it is</p>
         <p>The shared rubric — 5 dimensions (strategic relevance, competitive impact, customer relevance, urgency, marketing actionability), 0–5 each, summed to 0–25, mapped to a tier.</p>
         <p class="d-label">Why it's scoped this way</p>
-        <p>One common rubric is what makes three very different signal types — competitor moves, market trends, analyst reports — comparable enough to rank against each other in a single brief.</p>
+        <p>One common rubric is what makes very different signal types — competitor moves, market trends, analyst reports — comparable enough to rank against each other in a single brief.</p>
         <p class="d-label">What it doesn't do</p>
         <p>Isn't final — thresholds are a first draft, expected to be retuned once a few real weeks of output exist.</p>
       </div>
