@@ -107,7 +107,7 @@
       <span class="current">LLM Visibility Analysis</span>
     </div>
     <h1>AEO Page Audit — LLM Visibility Analysis</h1>
-    <p>Brand-level citation tracking, one report per quarter, built with the <code>applause-aeo-visibility-audit</code> skill from the Clarity &amp; Motion query tracker.</p>
+    <p>Brand-level citation tracking, one report per quarter, built with the <code>applause-aeo-visibility-audit</code> skill from queries run against Perplexity, ChatGPT, and Gemini.</p>
   </div>
 </section>
 
@@ -117,6 +117,20 @@
   <strong>One file per quarter, not per page:</strong> this track measures brand-level citation rates across
   AI platforms, so there's a single <code>q[1-4]-[YY].html</code> report per quarter rather than a folder of
   pages. This log lists each quarter's report, newest first.
+</div>
+
+<div class="callout">
+  <strong>Methodology, Q3 2026 on:</strong> queries now come from the
+  <a class="rowlink" href="https://docs.google.com/spreadsheets/d/1tR7oFmAqk-_DH6k_vlmiq2_kweMhUhwC2iadwX26ZBo/edit?gid=0#gid=0" target="_blank" rel="noopener">AEO Keyword List</a>
+  Google Sheet (mirrored in <code>audit-prompts.md</code>, Layers 1&ndash;3, 51 prompts), replacing the generic
+  baseline set. Runs are self-serve &mdash; Dana runs each prompt directly via Claude in Chrome rather than
+  handing the tracker off to Clarity &amp; Motion.
+</div>
+
+<div class="info">
+  <strong>Q2 2026 baseline, for context:</strong> the first report was run externally by Clarity &amp; Motion
+  (Megan) against a generic set of terms and phrases, not the AEO Keyword List &mdash; useful as a directional
+  starting point, but not directly comparable term-for-term to Q3 2026 and later.
 </div>
 
 <div class="card">
