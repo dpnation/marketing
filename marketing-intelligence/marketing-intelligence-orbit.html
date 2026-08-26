@@ -333,8 +333,8 @@
     <!-- CORE NODE B: Market Signals -->
     <div class="node node-track teal" style="left:375px; top:540px;">
       <span class="track-badge teal">MARKET &amp; INDUSTRY SIGNALS</span>
-      <span class="skill-name">weekly-market-intelligence-scan</span>
-      <h3>Market Intelligence Scan</h3>
+      <span class="skill-name">weekly-market-scan</span>
+      <h3>Market Scan</h3>
       <p>Broader industry and category shifts beyond named competitors. Writes to inputs/market/latest-signals.json.</p>
       <span class="cadence weekly">● Weekly, Mon ~8:20am</span>
     </div>
@@ -399,7 +399,7 @@
 
   <div class="callout">
     <div class="section-label">How to read this</div>
-    <p>The inner ring is the weekly rhythm, and it's three tasks, not three sources: <code>weekly-competitive-scan</code> (Mon) and <code>weekly-competitor-discovery-scan</code> (Tue) both write to the same file — Competitive analysis/data/latest-signals.json — one confirming known-competitor moves, the other surfacing new candidates at lower confidence. <code>weekly-market-intelligence-scan</code> is the third weekly source, covering industry shifts beyond named competitors. All three run every week without exception.</p>
+    <p>The inner ring is the weekly rhythm, and it's three tasks, not three sources: <code>weekly-competitive-scan</code> (Mon) and <code>weekly-competitor-discovery-scan</code> (Tue) both write to the same file — Competitive analysis/data/latest-signals.json — one confirming known-competitor moves, the other surfacing new candidates at lower confidence. <code>weekly-market-scan</code> is the third weekly source, covering industry shifts beyond named competitors. All three run every week without exception.</p>
     <p>Discovery output stays lower-confidence, not lower-priority — signals land marked <code>pending_review</code> and aren't treated as confirmed intel until Dana approves a candidate into the watchlist. That approval step is manual on purpose.</p>
     <p><code>analyst_sensor.py</code> is the one source that isn't weekly — it only runs when Dana drops a Gartner or Forrester export in and triggers it. Most weeks it contributes nothing, which is expected, not a gap in coverage.</p>
     <p>Every signal, regardless of source, passes through the same scoring gate before it can reach the brief — five 0–5 dimensions summed to 0–25 and mapped to a tier. A signal only earns a place in the brief if it changes positioning, competitive dynamics, customer behavior, or requires action — "no action" is an acceptable answer, and often the correct one.</p>
@@ -449,8 +449,8 @@
         <p>Never auto-promotes a candidate into <code style="font-family:inherit;">watchlist.json</code> — that step is explicitly manual, Dana's call.</p>
       </div>
       <div class="detail-card teal">
-        <span class="skill-name">weekly-market-intelligence-scan</span>
-        <h3>Market Intelligence Scan</h3>
+        <span class="skill-name">weekly-market-scan</span>
+        <h3>Market Scan</h3>
         <p class="d-label">What it is</p>
         <p>A broader industry and category-level scan, Monday ~8:20am, separate from named-competitor tracking.</p>
         <p class="d-label">Why it's scoped this way</p>
