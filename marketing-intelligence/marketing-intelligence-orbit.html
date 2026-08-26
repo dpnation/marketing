@@ -353,7 +353,7 @@
       <span class="track-badge amber">AD HOC · ANALYST SIGNALS</span>
       <span class="skill-name">analyst_sensor.py</span>
       <h3>Analyst Intelligence</h3>
-      <p>Gartner / Forrester report signals — e.g. Applause confirmed as a Gartner Representative Vendor. Writes to inputs/analyst/latest-signals.json.</p>
+      <p>Signals extracted from Gartner / Forrester reports Dana feeds in directly. Writes to inputs/analyst/latest-signals.json.</p>
       <span class="cadence adhoc">○ Event-driven — runs only when Dana drops in a report, not on the weekly schedule</span>
     </div>
 
@@ -466,7 +466,7 @@
         <span class="skill-name">analyst_sensor.py</span>
         <h3>Analyst Intelligence</h3>
         <p class="d-label">What it is</p>
-        <p>The one source that's not on the weekly schedule. Dana drops a Gartner/Forrester export into <code style="font-family:inherit;">inputs/analyst/inbox/</code> and runs the script by hand. Already produced one live signal — Applause confirmed as a Gartner Representative Vendor.</p>
+        <p>The one source that's not on the weekly schedule. Dana drops a Gartner/Forrester export into <code style="font-family:inherit;">inputs/analyst/inbox/</code> and runs the script by hand.</p>
         <p class="d-label">Why it's scoped this way</p>
         <p>Analyst report cycles are irregular and human-triggered by nature — forcing it onto the Mon/Tue/Wed cadence would mean scanning for reports that usually aren't there.</p>
         <p class="d-label">What it doesn't do</p>
