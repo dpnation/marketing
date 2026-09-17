@@ -131,16 +131,28 @@
 <table>
 <tr><th>Page</th><th>URL</th><th>Result</th><th>Audit Date</th></tr>
 <tr>
+  <td><a class="rowlink" href="q3-26/localization-testing.html">Localization Testing</a> <span style="font-size:11px;color:#888;">(added Sep 17, 2026 — not on core list; first technical audit for this page)</span></td>
+  <td>applause.com/localization-testing/</td>
+  <td><span class="pill pill-fixes">Needs Fixes — 4 fails</span></td>
+  <td>Sep 17, 2026</td>
+</tr>
+<tr>
+  <td><a class="rowlink" href="q3-26/mobile-app-testing.html">Mobile App Testing</a> <span style="font-size:11px;color:#888;">(added Sep 17, 2026 — not on core list)</span></td>
+  <td>applause.com/blog/mobile-app-testing-best-practices-and-strategy/</td>
+  <td><span class="pill pill-fixes">Needs Fixes — 7 fails</span></td>
+  <td>Sep 17, 2026</td>
+</tr>
+<tr>
   <td><a class="rowlink" href="q3-26/homepage.html">Homepage</a></td>
   <td>applause.com</td>
   <td><span class="pill pill-fixes">Needs Fixes — 4 fails</span></td>
   <td>Aug 4, 2026</td>
 </tr>
 <tr>
-  <td><a class="rowlink" href="q3-26/about-applause.html">About Applause</a></td>
+  <td><a class="rowlink" href="q3-26/about-applause.html">About Applause</a> <span style="font-size:11px;color:#888;">(re-audited)</span></td>
   <td>applause.com/about-applause/</td>
-  <td><span class="pill pill-fixes">Needs Fixes — 5 fails</span></td>
-  <td>Aug 4, 2026</td>
+  <td><span class="pill pill-fixes">Needs Fixes — 4 fails</span></td>
+  <td>Sep 17, 2026</td>
 </tr>
 <tr>
   <td><a class="rowlink" href="q3-26/applause-difference.html">Applause Difference</a></td>
@@ -149,10 +161,10 @@
   <td>Aug 4, 2026</td>
 </tr>
 <tr>
-  <td><a class="rowlink" href="q3-26/beta-testing.html">Beta Testing</a></td>
+  <td><a class="rowlink" href="q3-26/beta-testing.html">Beta Testing</a> <span style="font-size:11px;color:#888;">(re-audited)</span></td>
   <td>applause.com/blog/beta-testing-examples/</td>
   <td><span class="pill pill-fixes">Needs Fixes — 7 fails</span></td>
-  <td>Aug 4, 2026</td>
+  <td>Sep 17, 2026</td>
 </tr>
 <tr>
   <td><a class="rowlink" href="q3-26/contact.html">Contact</a></td>
@@ -161,10 +173,10 @@
   <td>Aug 4, 2026</td>
 </tr>
 <tr>
-  <td><a class="rowlink" href="q3-26/digital-health-trends.html">Digital Health Trends</a></td>
+  <td><a class="rowlink" href="q3-26/digital-health-trends.html">Digital Health Trends</a> <span style="font-size:11px;color:#888;">(re-audited)</span></td>
   <td>applause.com/blog/4-digital-health-trends-that-will-define-healthcare-in-2026/</td>
-  <td><span class="pill pill-fixes">Needs Fixes — 6 fails</span></td>
-  <td>Aug 4, 2026</td>
+  <td><span class="pill pill-fixes">Needs Fixes — 7 fails</span></td>
+  <td>Sep 17, 2026</td>
 </tr>
 <tr>
   <td><a class="rowlink" href="q3-26/digital-quality-solutions.html">Digital Quality Solutions</a></td>
@@ -227,10 +239,10 @@
   <td>Aug 4, 2026</td>
 </tr>
 <tr>
-  <td><a class="rowlink" href="q3-26/test-case.html">Test Case</a></td>
+  <td><a class="rowlink" href="q3-26/test-case.html">Test Case</a> <span style="font-size:11px;color:#888;">(re-audited)</span></td>
   <td>applause.com/blog/what-is-a-test-case-examples-types-format/</td>
-  <td><span class="pill pill-fixes">Needs Fixes — 5 fails</span></td>
-  <td>Aug 4, 2026</td>
+  <td><span class="pill pill-fixes">Needs Fixes — 6 fails</span></td>
+  <td>Sep 17, 2026</td>
 </tr>
 <tr>
   <td><a class="rowlink" href="q3-26/training-data.html">Training Data</a></td>
@@ -295,6 +307,57 @@
   and the majority of images sitewide (roughly 60–90% per page) confirmed missing alt text. When a new quarter
   starts, add a <code>q[1-4]-[YY]/</code> subfolder and a new heading above this one — mid-quarter re-audits
   overwrite the page's file in place within the same subfolder.
+</div>
+
+<div class="callout">
+  <strong>Sep 17, 2026 re-audit — Beta Testing, Test Case, and Digital Health Trends:</strong> all three now show
+  the same schema regression, not just an absence. Since the Aug 4 baseline, every one of the three picked up an
+  auto-generated <code>WebPage</code> schema carrying <code>datePublished</code>/<code>dateModified</code> and a
+  <code>BreadcrumbList</code> — but each is broken, and the author field is the clearest tell it's one shared bug:
+  Beta Testing and Test Case both resolve to <code>tshipps@applause.com</code>, while Digital Health Trends
+  resolves to <code>dcarty@applause.com</code> — David Carty's email, on a post visibly bylined to Tayla Holman.
+  The breadcrumb's middle entry is mislabeled on all three (post title, post title, and "Uncategorized"
+  respectively, instead of "Blog"), each linking to a nonsense <code>/blog/category/...</code> URL. Three pages,
+  three slightly different symptoms, one shared root cause — reads as a WordPress/plugin templating bug across
+  the whole blog, not three independent content errors. Corrected JSON-LD (BlogPosting + fixed BreadcrumbList +
+  Organization + correct author) is ready to paste in all three reports. <code>robots.txt</code> was re-checked
+  directly for this batch rather than carried forward from Aug 4 — disallow rules have changed (now
+  <code>/wp-json/</code>, <code>/?rest_route=</code>, one legacy PDF, and <code>/infosec-guide</code>) but no AI
+  bot is blocked either way.
+</div>
+
+<div class="callout">
+  <strong>Sep 17, 2026 — Localization Testing, first technical audit:</strong> like About Applause, this service
+  page does not show the blog-post schema bug — its embedded <code>BreadcrumbList</code> is correctly labeled
+  ("Home &gt; Local, In-Market Testing with Applause"), reinforcing that the bug is specific to post-type pages.
+  The real gap is missing <code>Service</code> schema (this page sells one specific Applause offering and should
+  say so structurally) — corrected JSON-LD included. Also corrected an over-read from the same-day content audit:
+  three images it described as having "broken <code>src</code> attributes" are actually using the same
+  JS-dependent "perfmatters-lazy" loading pattern confirmed on other pages, not a page-specific defect.
+</div>
+
+<div class="callout">
+  <strong>Sep 17, 2026 — Mobile App Testing confirms the schema bug is site-wide, not a small cluster:</strong>
+  this newly-added page is the <strong>fourth blog post in a row</strong> with the identical broken pattern —
+  <code>WebPage</code> schema instead of <code>Article</code>/<code>BlogPosting</code>, breadcrumb position 2
+  mislabeled "Uncategorized," and <code>author.name</code> resolving to <code>dcarty@applause.com</code> instead
+  of the real byline (Amy Reichert, in this case). Four for four now across every blog post audited this week —
+  treat this as one templating fix, not four separate content corrections. Also notable: this page's alt-text
+  gap is the smallest found this project — only 1 of 22 images (the footer logo) is a genuine miss, once
+  decorative <code>aria-hidden</code> icons are excluded.
+</div>
+
+<div class="callout">
+  <strong>About Applause re-audit — a useful contrast, not more of the same bug:</strong> this page does <em>not</em>
+  show the broken-schema pattern found on the three blog posts above. Its embedded <code>BreadcrumbList</code>
+  ("Home &gt; About Applause") is correct, and there's no author-misattribution issue since <code>WebPage</code>
+  carries no author field. That narrows the blog-schema bug to post-type pages specifically, useful context for
+  whoever fixes it. The one real gap here is a missing page-level <code>Organization</code> entity — resolved
+  below. Also refined the Aug 4 alt-text finding: of 19 images without an alt attribute, 17 are correctly
+  decorative icons (<code>aria-hidden="true"</code>) and only 2 — the CEO headshot and the footer logo — are
+  genuine gaps. Confirmed via live DOM that images use a "perfmatters-lazy" JS-dependent loading pattern
+  (real URL in <code>data-src</code>, placeholder SVG in <code>src</code>) — worth a check with the web team on
+  whether AI crawlers ever see the real images.
 </div>
 
 </div>
