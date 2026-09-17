@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GEO Blog Rewrite — Test Case</title>
+<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; font-size: 15px; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 14px; background: #0272B4; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 18px; font-weight: 700; }
+  h4 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  h5 { color: #01446C; font-size: 14.5px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #0272B4; color: #fff; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pill-term { background: #0272B4; color: #fff; }
+  .pill-char { background: #00A6A0; color: #fff; }
+  .pill-extract { background: #0F8919; color: #fff; }
+  .pill-evidence { background: #ED7200; color: #fff; }
+  .pill-attr { background: #6B4FBB; color: #fff; }
+  .callout { border-left: 4px solid #00C0A3; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .callout strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .postbody { border: 1px dashed #CFE9FB; border-radius: 8px; padding: 28px; background: #FCFEFF; }
+  .postbody h3, .postbody h4, .postbody h5 { margin-top: 28px; }
+  .postbody p { line-height: 1.6; }
+  .postbody ul { line-height: 1.6; }
+  .snippet-block { background: #F0FAF6; border-left: 4px solid #0F8919; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; }
+  .faq-q { font-weight: 700; color: #01446C; margin-bottom: 2px; }
+  .edited { background: #FFFBEA; border-left: 3px solid #ED7200; padding: 2px 8px; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>GEO Blog Rewrite</h1>
+  <p>Applause — What Is a Test Case? Examples, Types, Format and Tips</p>
+  <p>applause.com/blog/what-is-a-test-case-examples-types-format/</p>
+  <p>Rewrite Date: September 17, 2026 · Based on applause-aeo-content-audit scorecard, Sep 17, 2026 (66.3/100 — Adequate)</p>
+  <div class="badge">geo-blog-optimizer</div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<div class="callout"><strong>Confirmed terms carried over from the audit:</strong> Primary — exploratory testing (Body, bold lead-in only — capped until it gets a real heading). Secondary — usability testing (same cap), global tester community (loose variant, also carrying a banned term), test automation services (absent). Supporting — product testers (already full credit), crowdsourced QA (already full credit via "crowdtesting"), QA testing services (absent).</div>
+<div class="info">This page scored Adequate (66.3), the second-best of the four blog posts audited this project — it already has a real spec table and links to an actual service page. This is a lighter-touch rewrite than Beta Testing Examples: elevate two capped terms to real headings, tie Applause's closing section to the specific test types it never named, add the two absent terms, and convert the term comparisons into an FAQ block.</div>
+<div class="alert"><strong>Caught during this rewrite, not flagged in the source scorecard:</strong> the closing Applause section reads "a <strong>vetted</strong> global community of more than one million digital experts" — "vetted" is on Applause's banned-terms list. Fixed below alongside the canonical-stat correction, since both live in the same sentence.</div>
+</div>
+
+<div class="card">
+<h2>What Changed, By Dimension</h2>
+<table>
+<tr><th>Change</th><th>Dimension</th></tr>
+<tr><td>Converted the "Exploratory test cases." and "Usability test cases." bold lead-ins into real H5 headings — the only two sub-sections touched, since those are the page's primary and secondary confirmed terms and the audit specifically flagged them as capped at Body placement by the bold-text pattern</td><td><span class="pill pill-term">Term Alignment</span></td></tr>
+<tr><td>Rewrote the closing Applause section to explicitly name exploratory testing and usability testing as services Applause performs — closes the audit's Term Association gap (2/5), where nothing tied Applause to any of the eight test-case types it had just covered</td><td><span class="pill pill-char">Characterization</span></td></tr>
+<tr><td>Worked "test automation services" and "QA testing services" into the same closing section — both were previously absent (only bare "test automation" appeared once, in the test-script comparison)</td><td><span class="pill pill-term">Term Alignment</span></td></tr>
+<tr><td>Replaced "a vetted global community of more than one million digital experts" with "Applause's global tester community of 1.5M+ independent experts and end users" — fixes the loose term variant, the banned word, and the stale stat in one edit</td><td><span class="pill pill-term">Term Alignment</span> <span class="pill pill-evidence">Evidence</span></td></tr>
+<tr><td>Reframed five section headings as buyer questions (e.g. "Types of test cases" → "What are the different types of test cases?") so headings match how someone would actually ask</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Added a 6-question FAQ block built from the existing "test case vs. X" comparisons and the format/definition content — no invented questions</td><td><span class="pill pill-extract">Extractability</span></td></tr>
+<tr><td>Flagged (not fabricated) the missing named customer reference and the unsourced "fraction of the time" claim — see Remaining Gaps</td><td><span class="pill pill-attr">Attribution</span></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Remaining Gaps — Not Fixed By This Rewrite</h2>
+<ul>
+<li><strong>"Test case" and "test case management" still aren't on the keyword map.</strong> Same underlying gap flagged in the scorecard — this rewrite works the proxy terms in more fully, but doesn't solve the fact that the page's actual subject and the specific service it links to (<code>/test-case-management/</code>) have no map entry. Worth raising with Dana alongside the same gap on Beta Testing Examples.</li>
+<li><strong>No named customer or case reference.</strong> The only proof point remains the community-scale stat, now corrected to 1.5M+. This rewrite won't invent a client name — that needs input from Dana or the page owner on what's actually available to cite.</li>
+<li><strong>"Complete large test suites in a fraction of the time it takes internal teams" is still unquantified.</strong> Carried over as-is; if a real benchmark or range exists, it's worth adding on a future pass, but this rewrite won't guess at a number.</li>
+<li><strong>Visible date is unresolved.</strong> The page shows "Published On: February 1, 2022" while site metadata records an April 24, 2026 update that never surfaces in visible copy — a template/CMS fix, not a copy fix.</li>
+<li><strong>The other six test-case-type sub-sections (Functionality, UI, Integration, Performance, Security, Database, User Acceptance) are still bold lead-ins, not real headings.</strong> Only Exploratory and Usability were elevated here, since those are the confirmed terms. Converting the rest would be a reasonable follow-up Extractability pass but wasn't part of this scorecard's fix list.</li>
+<li><strong>Two-track AI guardrail check:</strong> this post makes no AI capability or Track 1/Track 2 claims, so no changes were needed against that standing rule.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Rewritten Post</h2>
+<div class="info">Section-level edits are shown in full; sections carried over unchanged (test case examples for Functionality, UI, Integration, Performance, Security, Database, User Acceptance; "Writing test cases efficiently") are condensed here to keep this deliverable readable. Drop the changed sections below into the CMS in place of the corresponding current copy, keeping existing internal links unless noted otherwise. Newly added or materially edited text is highlighted.</div>
+
+<div class="postbody">
+
+<p><strong>Meta description (unchanged):</strong> What is a test case? Learn about test case examples, types, formats and how to write test cases efficiently in this helpful guide.</p>
+
+<h3>What Is a Test Case? Examples, Types, Format and Tips</h3>
+
+<p><em>(Opening three paragraphs carry over unchanged — they already frame the topic clearly.)</em></p>
+
+<h4>What is a test case?</h4>
+
+<p><em>(Definition paragraphs carry over unchanged — they already answer the heading's question directly and clearly.)</em></p>
+
+<h4><span class="edited">How does a test case differ from a test scenario, test script, test plan or use case?</span></h4>
+
+<p><em>(Renamed from "Test case vs. similar terms" — the four comparisons underneath, test scenario/test script/test plan/use case, carry over unchanged. See the new FAQ block below for the same content in question-and-answer form.)</em></p>
+
+<h4><span class="edited">What are the different types of test cases?</span></h4>
+
+<p><em>(Renamed from "Types of test cases." Opening framing on formal vs. informal test cases carries over unchanged, as do the Functionality, UI, Integration, Performance, Security, Database and User Acceptance sub-sections — all carry over exactly as published.)</em></p>
+
+<h5 class="edited">Exploratory test cases</h5>
+
+<p>These informal test cases occur when the tester evaluates the system on an ad-hoc basis to attempt to discover defects missed by structured testing. While exploratory tests aren't defined by a prescribed set of actions, the approach still requires some structure, particularly around time-boxing and results documentation, to ensure effective feedback.</p>
+
+<p>Exploratory tests can help validate requirements by checking the system in ways not covered in scripted tests. Exploratory testing enables the QA organization to be adaptable and learn from gaps in test coverage.</p>
+
+<p>Exploratory test case example: Check how using the browser's Back button affects application functionality and whether it requires another login.</p>
+
+<h5 class="edited">Usability test cases</h5>
+
+<p>Rather than test the application functionality or performance, usability tests examine what prospective end users — not testers — think of a product. UX researchers prepare tests for participants outside the organization to gauge how easy or difficult the product is to use.</p>
+
+<p>Organizations can conduct usability testing in a variety of ways, including moderated or unmoderated and remote or in-person. The goal is to take advantage of an end user's perspective to identify points in the application that would cause them to stop using it. Usability tests can be formal or informal, depending on the goal and method of UX research.</p>
+
+<p>Usability test case example: Task the participant with a money transfer between their checking and savings accounts, then gauge whether they can successfully complete the task and whether they experience any difficulty with the process.</p>
+
+<p><em>(Closing note on other platforms/low-code tools carries over unchanged.)</em></p>
+
+<h4><span class="edited">What are the possible outcomes of a test case?</span></h4>
+
+<p><em>(Renamed from "Test case results" — content on pass, fail, not executed and blocked carries over unchanged.)</em></p>
+
+<h4><span class="edited">What should a test case include?</span></h4>
+
+<div class="snippet-block"><strong>Test case format (unchanged, already a genuine spec table):</strong> Test case ID/name, module name, tester name, priority, test data, assumptions/preconditions, test scenario, testing environment, testing steps, expected results, actual results, and pass/fail determination — see the full table on the live page.</div>
+
+<p><em>(Closing paragraph on why a standard format matters carries over unchanged.)</em></p>
+
+<h4><span class="edited">How do you write test cases efficiently?</span></h4>
+
+<p><em>(Renamed from "Writing test cases efficiently" — full section carries over unchanged.)</em></p>
+
+<h4>Frequently Asked Questions</h4>
+<div class="faq-q">What is a test case?</div>
+<p>A test case is a singular set of actions or instructions for a tester to perform that validates a specific aspect of a product or application's functionality, run after a feature or release is complete to confirm it meets its software requirements.</p>
+<div class="faq-q">How is a test case different from a test scenario?</div>
+<p>A test scenario describes a high-level situation or functionality that needs testing, such as "verify login functionality." Test cases are the low-level, detailed actions that QA teams derive from a test scenario.</p>
+<div class="faq-q">How is a test case different from a test script?</div>
+<p>The terms are essentially interchangeable, but a test script is typically written for test automation, meant to be machine-readable, while a test case is written to be interpreted by a person performing manual testing.</p>
+<div class="faq-q">How is a test case different from a test plan?</div>
+<p>A test case covers one specific testing situation or piece of functionality. A test plan is a much broader document covering the entire testing effort — scope, objectives, timeline, roles and defect mitigation.</p>
+<div class="faq-q">How is a test case different from a use case?</div>
+<p>A use case describes how a system should perform a task under certain conditions, drawn from software or business requirements. A test case describes how that behavior should be tested, and is derived from the use case.</p>
+<div class="faq-q">What should a test case include?</div>
+<p>Most test case documentation includes a test case ID/name, module name, tester name, priority, test data, preconditions, the related test scenario, testing environment, ordered testing steps, expected results, actual results and a pass/fail determination.</p>
+
+<h4><span class="edited">How can Applause help with test case creation and management?</span></h4>
+
+<p><em>(Renamed from "Applause test case creation and management.")</em></p>
+
+<p>As the world leader in testing and digital quality, Applause is ready to optimize and maintain your testing efforts.</p>
+
+<p>Our holistic platform enables you to approach testing with speed, scale and flexibility, and that includes an enterprise-grade test case management solution as part of Applause's broader <span class="edited">QA testing services</span>. Our dedicated experts can design your test cases to match your testing needs and help maintain them over time as products evolve.</p>
+
+<p><span class="edited">With Applause's global tester community of 1.5M+ independent experts and end users across various industries, Applause's product testers can complete large test suites in a fraction of the time it takes internal teams, avoiding costly bottlenecks. Our experts write test cases with traceability and visibility in mind, so you can quickly grasp defects and common points of failure. Whether it's deep exploratory testing to catch what scripted cases miss, hands-on usability testing with real end users, or full test automation services for machine-run test scripts, Applause's testers can execute it as part of your test case management program.</span></p>
+
+<p>With Applause augmenting your internal testing efforts, your organization can focus on high-priority quality initiatives and ensure your customers have top-notch digital experiences.</p>
+
+<p>Contact us to see why leading global brands trust Applause to create and maintain their test suites.</p>
+
+</div>
+</div>
+
+<div class="card">
+<h2>Next Steps</h2>
+<ul>
+<li>Re-run <code>applause-aeo-content-audit</code> against this rewrite to confirm the score movement, especially Term Alignment and Characterization.</li>
+<li>Once finalized, send to <code>schema-markup</code> for corrected <code>BlogPosting</code> + <code>FAQPage</code> JSON-LD — the new FAQ block is genuine on-page content, so it qualifies, and this also resolves part of the site-wide schema bug flagged in this page's <code>applause-aeo-technical-audit</code>.</li>
+<li>Optionally send to <code>content-repurposer</code> to atomize into LinkedIn/email/exec-summary once the body copy is locked.</li>
+<li>Get Digital to fix the visible last-updated date — flagged as out of scope for a copy-only rewrite.</li>
+<li>Get Dana or the page owner to weigh in on a named customer reference and whether "test case" / "test case management" belong in the keyword map.</li>
+</ul>
+</div>
+
+</div>
+
+<footer>
+Applause GEO Blog Rewrite · geo-blog-optimizer skill v1.2.2 · Source scorecard: applause-aeo-content-audit, September 17, 2026
+</footer>
+
+</body>
+</html>
