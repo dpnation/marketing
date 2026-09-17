@@ -36,17 +36,18 @@
 <div class="wrap">
   <div class="header">
     <h1>Technical AEO Audit</h1>
-    <div class="meta">applause.com/about-applause/ &middot; Audited August 4, 2026 &middot; Technical checks only — no content or keyword review</div>
-    <span class="pill pill-fixes">Needs Fixes (1 item to verify)</span>
+    <div class="meta">applause.com/about-applause/ &middot; Audited September 17, 2026 (re-audit; prior run Aug 4, 2026) &middot; Technical checks only — no content or keyword review</div>
+    <span class="pill pill-fixes">Needs Fixes (4 failed checks)</span>
   </div>
+
   <div class="card">
     <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
     <table><tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
     <tr><td>Organization</td><td>Company/About page identity, logo, sameAs social links, awards</td><td class="status fail">Missing</td></tr>
-    <tr><td>BreadcrumbList</td><td>Home &gt; About Applause hierarchy</td><td class="status fail">Missing</td></tr>
-    <tr><td>WebPage / AboutPage</td><td>General page-type markup</td><td class="status pass">Present</td></tr>
+    <tr><td>BreadcrumbList</td><td>Home &gt; About Applause hierarchy</td><td class="status pass">Present</td></tr>
+    <tr><td>WebPage / AboutPage</td><td>General page-type markup</td><td class="status pass">Present (WebPage — could upgrade to the more specific AboutPage type)</td></tr>
     </table>
-    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed absent via live DOM inspection (script[type=application/ld+json] checked directly) — not a fetch-tool limitation. This page carries only generic WebSite + WebPage JSON-LD. Organization and BreadcrumbList are <strong>resolved — see Recommended Schema below</strong>.</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed via live DOM inspection (parsed <code>script[type=application/ld+json]</code> directly). Unlike the three blog posts audited this same day (Beta Testing Examples, Test Case, Digital Health Trends), this page's embedded <code>BreadcrumbList</code> is actually correct now — "Home &gt; About Applause," matching the visible page name, not the mislabeled "Uncategorized"/post-title pattern found on those posts. (No author field exists here either, since this is <code>WebPage</code>, not <code>Article</code> — so the author-misattribution bug found on all three blog posts doesn't apply to this page type.) The one real gap: no standalone <code>Organization</code> entity is tied to this specific page — the only <code>Organization</code> object on the page is nested inside the site-wide <code>WebSite</code> schema, not scoped to About Applause, which is the one page on the site where <code>Organization</code> schema matters most.</p>
   </div>
 
   <div class="card">
@@ -55,42 +56,23 @@
     <pre style="background:#01446C; color:#DCEFFA; padding:16px; border-radius:6px; overflow-x:auto; font-size:12.5px; line-height:1.5;"><code>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://www.applause.com/#organization",
-      "name": "Applause",
-      "url": "https://www.applause.com",
-      "logo": "https://www.applause.com/wp-content/uploads/applause-logo-2.svg",
-      "description": "Applause is the global leader in managed software testing services and digital quality, combining AI, automation and the world's largest independent testing community to help enterprises scale testing, improve quality and keep pace with modern software delivery.",
-      "sameAs": [
-        "https://www.linkedin.com/company/applause",
-        "https://twitter.com/Applause",
-        "https://facebook.com/applause",
-        "https://www.instagram.com/applause_inc",
-        "https://www.youtube.com/channel/UCgOuw8ZRoV4LDEJVIgmr59Q"
-      ]
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.applause.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "About Applause",
-          "item": "https://www.applause.com/about-applause/"
-        }
-      ]
-    }
+  "@type": "Organization",
+  "@id": "https://www.applause.com/#organization",
+  "name": "Applause",
+  "url": "https://www.applause.com",
+  "logo": "https://www.applause.com/wp-content/uploads/applause-logo-2.svg",
+  "description": "Applause is the global leader in managed software testing services and digital quality, combining AI, automation and the world's largest independent testing community to help enterprises scale testing, improve quality and keep pace with modern software delivery.",
+  "foundingLocation": "Boston, MA",
+  "sameAs": [
+    "https://www.linkedin.com/company/applause",
+    "https://twitter.com/Applause",
+    "https://facebook.com/applause",
+    "https://www.instagram.com/applause_inc",
+    "https://www.youtube.com/channel/UCgOuw8ZRoV4LDEJVIgmr59Q"
   ]
 }
 &lt;/script&gt;</code></pre>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Resolves this audit's Check 1 finding: a standalone Organization entity tied specifically to the About Applause page. The existing BreadcrumbList is already correct and doesn't need replacing.</p>
   </div>
 
   <div class="card">
@@ -104,40 +86,45 @@
     <tr><td>Google-Extended</td><td>Google Gemini / AI Overviews</td><td class="status pass">Allowed</td></tr>
     <tr><td>Bingbot</td><td>Microsoft Copilot / Bing</td><td class="status pass">Allowed</td></tr>
     </table>
-    <p style="font-size:13px; color:#888; margin-top:10px;">robots.txt only disallows /wp-admin/ — no AI crawler is named or blocked. This applies site-wide, not just this page.</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Site-wide — carried forward from the same-day recheck run against the other three pages audited today (not re-fetched separately). <code>robots.txt</code> disallows only <code>/wp-json/</code>, <code>/?rest_route=</code>, one legacy PDF, and <code>/infosec-guide</code>; no AI crawler is named or blocked.</p>
   </div>
+
   <div class="card">
     <h2><span class="stepnum">Step 3 —</span> Crawlability &amp; Rendering</h2>
     <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
     <tr><td>Main content in raw fetch</td><td class="status pass">Pass</td><td>Full page copy, headings and testimonial content present in fetched HTML.</td></tr>
     <tr><td>No login/paywall gate</td><td class="status pass">Pass</td><td>Publicly accessible, no gating detected.</td></tr>
-    <tr><td>No lazy-loaded content gaps</td><td class="status verify">Needs Verification</td><td>Office/location photos and team images use blank/placeholder SVG sources in fetch (typical WordPress/Divi lazy-load) — alt text is present, but confirm images still resolve for non-JS crawlers.</td></tr>
-    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>meta robots is max-snippet:-1,max-image-preview:standard,max-video-preview:0 — no noindex directive.</td></tr>
-    <tr><td>Canonical tag correct</td><td class="status pass">Pass</td><td>Canonical points to https://www.applause.com/about-applause/, matching the live URL.</td></tr>
+    <tr><td>No content missing from fetch (accordion/tab/lazy-load)</td><td class="status verify">Needs Verification</td><td>Confirmed via live DOM: images use the "perfmatters-lazy" plugin pattern — the &lt;img&gt; tag, its dimensions and its alt text are all present in raw HTML, but the real image URL sits in a <code>data-src</code> attribute while <code>src</code> holds a blank placeholder SVG until JS swaps it in. Text content is unaffected; this only concerns whether AI crawlers that don't execute JS/scroll ever see the actual images (office photos, award logos, the CEO headshot, customer logos).</td></tr>
+    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>Confirmed via live DOM: meta robots reads "max-snippet:-1,max-image-preview:standard,max-video-preview:0" — no noindex directive.</td></tr>
+    <tr><td>Canonical tag correct</td><td class="status pass">Pass</td><td>Confirmed via live DOM: canonical points to https://www.applause.com/about-applause/, matching the live URL.</td></tr>
     </table>
   </div>
+
   <div class="card">
     <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
     <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
-    <tr><td>Single H1, logical H2/H3 nesting</td><td class="status fail">Fail</td><td>Confirmed via live DOM: heading sequence jumps from H2 directly to H4 in two sections, skipping H3.</td></tr>
-    <tr><td>FAQ/comparison marked up semantically</td><td class="status pass">Pass</td><td>No FAQ or comparison content on this page requiring semantic markup (confirmed 0 &lt;table&gt;/&lt;dl&gt; elements via live DOM).</td></tr>
-    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 19 of 36 images (53%) have no alt attribute — not a fetch limitation.</td></tr>
-    <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Links to Working With Us, Digital Quality Solutions, Life at Applause and customer case studies.</td></tr>
-    <tr><td>Semantic landmarks (main/nav/article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
+    <tr><td>Exactly one H1</td><td class="status pass">Pass</td><td>Confirmed via live DOM: exactly one &lt;h1&gt; tag ("Release Faster, With Confidence").</td></tr>
+    <tr><td>Sequential heading hierarchy</td><td class="status fail">Fail</td><td>Confirmed via live DOM: two sections jump from H2 directly to H4, skipping H3 (the office-locations grid and the case-studies grid each start with an H2 section header, then go straight to H4 for each card).</td></tr>
+    <tr><td>FAQ/comparison marked up semantically</td><td class="status pass">Pass</td><td>Confirmed via live DOM: 0 &lt;table&gt;/&lt;dl&gt; elements, and no FAQ or comparison content exists on this page requiring semantic markup.</td></tr>
+    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td><strong>Refined from the Aug 4 report.</strong> Confirmed via live DOM: 19 of 36 images have no alt attribute, but 17 of those are correctly decorative icons marked <code>aria-hidden="true"</code> — appropriate, not a defect. Only <strong>2 genuinely meaningful images</strong> are missing alt text: the CEO headshot (<code>aatish-headshot-web-v1.jpg</code>) and the footer logo (<code>applause-logo-white-1.svg</code>). Still a Fail, but a much smaller gap than "53% of images" suggests.</td></tr>
+    <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Confirmed live: links to Working With Us, Digital Quality Solutions, Life at Applause, Leadership, Vista Equity Partners, and customer case studies.</td></tr>
+    <tr><td>Semantic landmarks (main, nav, article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
     </table>
   </div>
+
   <div class="fixlist">
     <h2>Fix It — Action List</h2>
     <ol>
-      <li><b>Add the JSON-LD in the Recommended Schema section above</b> to the page's &lt;head&gt; — covers Organization (logo, sameAs social profiles) and BreadcrumbList (Home &gt; About Applause). Confirmed missing via live DOM; no placeholders used.</li>
-      <li><b>Fix the heading hierarchy.</b> Confirmed via live DOM: two sections jump from H2 directly to H4, skipping H3.</li>
-      <li><b>Fix alt text.</b> Confirmed via live DOM: 19 of 36 images (53%) have no alt attribute.</li>
+      <li><b>Add the JSON-LD in Recommended Schema above</b> to the page's &lt;head&gt; — a standalone Organization entity tied specifically to this page. The existing BreadcrumbList is already correct and needs no change.</li>
+      <li><b>Fix heading hierarchy.</b> Confirmed via live DOM: the office-locations and case-studies sections each jump from H2 straight to H4, skipping H3.</li>
+      <li><b>Add alt text to two specific images:</b> the CEO headshot (<code>aatish-headshot-web-v1.jpg</code>) and the footer logo (<code>applause-logo-white-1.svg</code>). The other 17 "missing alt" images are correctly decorative and don't need changes.</li>
       <li><b>Add a semantic &lt;main&gt; element.</b> Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; are present, but no &lt;main&gt; element exists anywhere on the page.</li>
-      <li><b>Verify office/location images render</b> with a real server-rendered &lt;img src&gt; for non-JS crawlers, not just a placeholder SVG.</li>
+      <li><b>Verify with the web team whether AI crawlers execute JS/trigger scroll-based lazy-load</b> for the "perfmatters-lazy" image pattern confirmed here — if not, meaningful images (office photos, award logos, customer logos) never resolve past their placeholder SVG for those crawlers, even though the surrounding text content is unaffected.</li>
     </ol>
   </div>
+
   <footer>
-    Applause &middot; Technical AEO Audit v1.1.0 &middot; Audited August 4, 2026<br>
+    Applause &middot; Technical AEO Audit v1.2.0 &middot; Audited September 17, 2026<br>
     This audit covers technical AEO readiness only. For keyword coverage and messaging, run applause-aeo-content-audit.
   </footer>
 </div>

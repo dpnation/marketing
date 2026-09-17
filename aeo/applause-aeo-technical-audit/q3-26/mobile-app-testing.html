@@ -36,19 +36,19 @@
 <div class="wrap">
   <div class="header">
     <h1>Technical AEO Audit</h1>
-    <div class="meta">applause.com/blog/beta-testing-examples/ &middot; Audited September 17, 2026 (re-audit; prior run Aug 4, 2026) &middot; Technical checks only — no content or keyword review</div>
+    <div class="meta">applause.com/blog/mobile-app-testing-best-practices-and-strategy/ &middot; Audited September 17, 2026 &middot; Technical checks only — no content or keyword review</div>
     <span class="pill pill-fixes">Needs Fixes (7 failed checks)</span>
   </div>
 
   <div class="card">
     <h2><span class="stepnum">Step 1 —</span> Schema Markup (JSON-LD)</h2>
     <table><tr><th>Schema Type</th><th>Applies To</th><th>Status</th></tr>
-    <tr><td>Article / BlogPosting</td><td>Blog post with headline, author, published/modified dates</td><td class="status fail">Missing</td></tr>
+    <tr><td>Article / BlogPosting</td><td>Blog post with headline, author (Amy Reichert), published/modified dates</td><td class="status fail">Missing</td></tr>
     <tr><td>BreadcrumbList</td><td>Blog &gt; Post title hierarchy (visible on page)</td><td class="status fail">Present but Invalid</td></tr>
     <tr><td>Organization</td><td>Publisher entity tied to this article</td><td class="status fail">Missing</td></tr>
-    <tr><td>Freshness properties (datePublished/dateModified)</td><td>Machine-readable freshness signal (new v1.2.0 check)</td><td class="status fail">Present, wrong schema type</td></tr>
+    <tr><td>Freshness properties (datePublished/dateModified)</td><td>Machine-readable freshness signal (v1.2.0 check)</td><td class="status fail">Present, wrong schema type</td></tr>
     </table>
-    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed via live DOM inspection (parsed <code>script[type=application/ld+json]</code> directly, not a fetch-tool limitation). The page carries one <code>WebPage</code> schema — no <code>Article</code>/<code>BlogPosting</code> exists. That <code>WebPage</code> object does carry real <code>datePublished</code> (2023-02-14) and <code>dateModified</code> (2026-07-01) — not placeholders — but AI engines look for those properties on <code>Article</code>/<code>BlogPosting</code>, not generic <code>WebPage</code>, so the freshness signal isn't landing where it's expected. Two more problems in the same object: the embedded <code>author.name</code> resolves to <code>"tshipps@applause.com"</code> — a username, not the visible byline "David Carty" — and the embedded <code>BreadcrumbList</code> is broken: its position-2 entry is labeled with the post's own title instead of "Blog," and links to <code>/blog/category/uncategorized/</code> instead of <code>/blog/</code>. <strong>This is a regression, not a static gap</strong> — the Aug 4, 2026 audit of this page found only WebSite + WebPage schema with no dates/author/breadcrumb attempted at all; someone has since added an author/breadcrumb attempt, but it's broken. The identical pattern (same broken breadcrumb shape, same email-as-author-name bug) also appears on the Test Case page audited today — this reads as a site-wide templating issue, not a one-off. All resolved below in Recommended Schema.</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Confirmed via live DOM inspection (parsed <code>script[type=application/ld+json]</code> directly). <strong>This is the fourth blog post in a row this project</strong> (after Beta Testing Examples, Test Case, and Digital Health Trends, all audited Sep 17, 2026) with the exact same broken pattern: a <code>WebPage</code> schema instead of <code>Article</code>/<code>BlogPosting</code>, an embedded <code>BreadcrumbList</code> whose position-2 entry reads <code>"Uncategorized"</code> (should be "Blog," linking to <code>/blog/category/uncategorized/</code> instead of <code>/blog/</code>), and an <code>author.name</code> that resolves to <code>"dcarty@applause.com"</code> — David Carty's email, not this post's actual visible byline, Amy Reichert. The real <code>datePublished</code> (2024-07-16) and <code>dateModified</code> (2026-09-02 — just 15 days before this audit) are present and accurate, just on the wrong schema type. Four for four now — this is conclusively a site-wide WordPress/plugin templating bug affecting every blog post, not isolated content errors. All resolved below in Recommended Schema.</p>
   </div>
 
   <div class="card">
@@ -75,31 +75,31 @@
     },
     {
       "@type": "BlogPosting",
-      "headline": "Understanding Beta Testing: Examples, Benefits, Challenges",
-      "datePublished": "2023-02-14T05:00:00+00:00",
-      "dateModified": "2026-07-01T16:59:07+00:00",
+      "headline": "Mobile App Testing: Best Practices and Strategy",
+      "datePublished": "2024-07-16T10:25:19+00:00",
+      "dateModified": "2026-09-02T18:12:06+00:00",
       "author": {
         "@type": "Person",
-        "name": "David Carty",
-        "jobTitle": "Senior Content Manager",
-        "url": "https://www.applause.com/blog/author/david-carty/"
+        "name": "Amy Reichert",
+        "jobTitle": "Freelance QA SME/Test Engineer",
+        "url": "https://www.applause.com/blog/author/amy-reichert/"
       },
-      "image": "https://www.applause.com/wp-content/uploads/smartphone_users-scaled.png",
+      "image": "https://www.applause.com/wp-content/uploads/mobile-bug-fixes-on-app.jpg",
       "publisher": { "@id": "https://www.applause.com/#organization" },
-      "mainEntityOfPage": "https://www.applause.com/blog/beta-testing-examples/"
+      "mainEntityOfPage": "https://www.applause.com/blog/mobile-app-testing-best-practices-and-strategy/"
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.applause.com/" },
         { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.applause.com/blog/" },
-        { "@type": "ListItem", "position": 3, "name": "Understanding Beta Testing: Examples, Benefits, Challenges", "item": "https://www.applause.com/blog/beta-testing-examples/" }
+        { "@type": "ListItem", "position": 3, "name": "Mobile App Testing: Best Practices and Strategy", "item": "https://www.applause.com/blog/mobile-app-testing-best-practices-and-strategy/" }
       ]
     }
   ]
 }
 &lt;/script&gt;</code></pre>
-    <p style="font-size:13px; color:#888; margin-top:10px;">Resolves this audit's Check 1 findings: Article/BlogPosting (missing), BreadcrumbList (was present but invalid — corrected labels/URLs), Organization (missing), and moves the real freshness dates onto the correct schema type. Author sourced from the visible byline, not the broken <code>tshipps@applause.com</code> value found live.</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Resolves this audit's Check 1 findings: Article/BlogPosting (missing), BreadcrumbList (was present but invalid — corrected label/URL), Organization (missing), and moves the real freshness dates onto the correct schema type. Author corrected to the actual visible byline (Amy Reichert) — the live page currently attributes this post to David Carty's email address instead.</p>
   </div>
 
   <div class="card">
@@ -113,17 +113,17 @@
     <tr><td>Google-Extended</td><td>Google Gemini / AI Overviews</td><td class="status pass">Allowed</td></tr>
     <tr><td>Bingbot</td><td>Microsoft Copilot / Bing</td><td class="status pass">Allowed</td></tr>
     </table>
-    <p style="font-size:13px; color:#888; margin-top:10px;">Site-wide — re-checked today rather than carried forward, since the last check was over 6 weeks old. Current <code>robots.txt</code> disallows only <code>/wp-json/</code>, <code>/?rest_route=</code>, one legacy PDF, and <code>/infosec-guide</code>; no AI crawler is named or blocked. (Note: this differs slightly from the Aug 4 report's description of a blanket <code>/wp-admin/</code> disallow — the file has evidently changed since then, but the outcome for AI bots is the same: none are blocked.)</p>
+    <p style="font-size:13px; color:#888; margin-top:10px;">Site-wide — carried forward from the same-week recheck run against the other four pages audited this project (not re-fetched separately). <code>robots.txt</code> disallows only <code>/wp-json/</code>, <code>/?rest_route=</code>, one legacy PDF, and <code>/infosec-guide</code>; no AI crawler is named or blocked.</p>
   </div>
 
   <div class="card">
     <h2><span class="stepnum">Step 3 —</span> Crawlability &amp; Rendering</h2>
     <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
-    <tr><td>Main content in raw fetch</td><td class="status pass">Pass</td><td>Full article body present in both the raw fetch and live DOM.</td></tr>
+    <tr><td>Main content in raw fetch</td><td class="status pass">Pass</td><td>Full article body, including all three bulleted best-practices/strategy/testing-types lists, present in both the raw fetch and live DOM.</td></tr>
     <tr><td>No login/paywall gate</td><td class="status pass">Pass</td><td>Publicly accessible, no gating detected.</td></tr>
-    <tr><td>No lazy-loaded content gaps</td><td class="status pass">Pass</td><td>All body sections, definitions and lists render in the raw fetch and live DOM; no accordion/tab hiding detected.</td></tr>
-    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>Confirmed via live DOM: <code>meta[name=robots]</code> reads "max-snippet:-1,max-image-preview:standard,max-video-preview:0" — no noindex directive.</td></tr>
-    <tr><td>Canonical tag correct</td><td class="status pass">Pass</td><td>Confirmed via live DOM: canonical points to https://www.applause.com/blog/beta-testing-examples/, matching the live URL.</td></tr>
+    <tr><td>No lazy-loaded content gaps</td><td class="status pass">Pass</td><td>All sections and lists render fully in the raw fetch and live DOM; no accordion/tab hiding detected.</td></tr>
+    <tr><td>No noindex in meta robots</td><td class="status pass">Pass</td><td>Confirmed via live DOM: meta robots reads "max-snippet:-1,max-image-preview:standard,max-video-preview:0" — no noindex directive.</td></tr>
+    <tr><td>Canonical tag correct</td><td class="status pass">Pass</td><td>Confirmed via live DOM: canonical points to https://www.applause.com/blog/mobile-app-testing-best-practices-and-strategy/, matching the live URL.</td></tr>
     </table>
   </div>
 
@@ -131,10 +131,10 @@
     <h2><span class="stepnum">Step 4 —</span> Structural Extractability</h2>
     <table><tr><th>Check</th><th>Status</th><th>Note</th></tr>
     <tr><td>Exactly one H1</td><td class="status pass">Pass</td><td>Confirmed via live DOM: exactly one &lt;h1&gt; tag.</td></tr>
-    <tr><td>Sequential heading hierarchy</td><td class="status fail">Fail</td><td>Confirmed via live DOM. Full tag sequence: H1, H3, H3, H3, H4, H4, H3, H3, H4, H2, H2, H2, H2, H2, H2, H4, H4, H4, H4. H1 jumps straight to H3, and H2s appear only after a long run of H3/H4 — not a simple single skip, the levels are out of order throughout.</td></tr>
-    <tr><td>FAQ/comparison marked up semantically</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 0 &lt;table&gt; and 0 &lt;dl&gt; elements. The beta-vs-alpha, beta-vs-pilot and beta-vs-UAT comparisons are bold-lead-in prose paragraphs, not a real table or definition list.</td></tr>
-    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 19 of 22 images (86%) have no alt attribute.</td></tr>
-    <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Numerous contextual links to related blog posts and a closing CTA link to Contact Us.</td></tr>
+    <tr><td>Sequential heading hierarchy</td><td class="status fail">Fail</td><td>Confirmed via live DOM. Full tag sequence: H1, H4×4, H2×6, H4×4. H1 jumps straight to H4 (skipping H2/H3 entirely), and the six H2s only appear roughly halfway down the page.</td></tr>
+    <tr><td>FAQ/comparison marked up semantically</td><td class="status pass">Pass</td><td>Confirmed via live DOM: 0 &lt;table&gt;/&lt;dl&gt; elements, but no FAQ or comparison content exists on this page requiring one. The best-practices, strategy-details, and testing-types content is all in real &lt;ul&gt; lists (15 confirmed page-wide), not visual-only styling.</td></tr>
+    <tr><td>Alt text on meaningful images</td><td class="status fail">Fail</td><td>Confirmed via live DOM: 19 of 22 images have no alt attribute, but 18 of those are correctly decorative icons (<code>aria-hidden="true"</code>). Only <strong>1 genuinely meaningful image</strong> is missing alt text: the footer logo (<code>applause-logo-white-1.svg</code>) — the smallest real gap of any page audited this project.</td></tr>
+    <tr><td>Internal links to related pages</td><td class="status pass">Pass</td><td>Numerous contextual links to related blog posts (test case FAQs, functional testing types, API testing, old testing techniques) throughout the article; no direct link to the <code>/mobile-app-testing/</code> service page specifically.</td></tr>
     <tr><td>Semantic landmarks (main/nav/article)</td><td class="status fail">Fail</td><td>Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; present, but no &lt;main&gt; element exists anywhere on the page.</td></tr>
     </table>
   </div>
@@ -142,12 +142,11 @@
   <div class="fixlist">
     <h2>Fix It — Action List</h2>
     <ol>
-      <li><b>Add the JSON-LD in Recommended Schema above</b> to the page's &lt;head&gt;, replacing the current WebPage-only block — covers BlogPosting, a corrected BreadcrumbList, Organization, and moves the real freshness dates onto the right schema type.</li>
-      <li><b>Fix heading hierarchy.</b> Confirmed via live DOM: H1 jumps directly to H3, and H2s only appear after a long run of H3/H4s further down the page — insert real, sequential H2 section headers.</li>
-      <li><b>Mark up the beta vs. alpha/pilot/UAT comparisons</b> as a real semantic table or &lt;dl&gt; instead of bold-lead-in prose paragraphs. Confirmed via live DOM: 0 tables, 0 &lt;dl&gt; elements.</li>
-      <li><b>Fix alt text.</b> Confirmed via live DOM: 19 of 22 images (86%) have no alt attribute.</li>
+      <li><b>Add the JSON-LD in Recommended Schema above</b> to the page's &lt;head&gt;, replacing the current WebPage-only block — covers BlogPosting, a corrected BreadcrumbList, Organization, and moves the real freshness dates onto the right schema type. Also fixes an author misattribution: the live schema currently credits David Carty's email address for a post visibly bylined to Amy Reichert.</li>
+      <li><b>Fix heading hierarchy.</b> Confirmed via live DOM: H1 jumps straight to H4 (skipping H2/H3 entirely), with the page's six H2s not appearing until roughly halfway down.</li>
+      <li><b>Add alt text to the footer logo</b> (<code>applause-logo-white-1.svg</code>) — the only genuinely meaningful image missing it; the other 18 flagged images are correctly decorative.</li>
       <li><b>Add a semantic &lt;main&gt; element.</b> Confirmed via live DOM: &lt;nav&gt; and &lt;article&gt; are present, but no &lt;main&gt; element exists anywhere on the page.</li>
-      <li><b>Flag to dev as a site-wide templating bug, not a one-off:</b> the auto-generated breadcrumb (mislabeled middle entry, wrong URL) and the author field resolving to an email/username instead of a display name show the identical pattern on the Test Case page audited the same day — likely one shared WordPress/plugin misconfiguration affecting every blog post.</li>
+      <li><b>This is now the fourth confirmed instance of the same schema templating bug</b> — Beta Testing Examples, Test Case, Digital Health Trends, and this page all show the identical broken-breadcrumb-plus-wrong-author pattern. Strongly recommend escalating as one site-wide fix rather than continuing to patch each post's schema individually as it comes up in rotation.</li>
     </ol>
   </div>
 
