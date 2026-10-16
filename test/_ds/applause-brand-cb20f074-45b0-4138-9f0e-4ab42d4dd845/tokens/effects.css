@@ -1,0 +1,14 @@
+:root{
+--shadow-xs:0 2px 4px rgba(0,0,0,.08);
+--shadow-sm:0 2px 8px rgba(0,0,0,.16);
+--shadow-md:0 4px 16px rgba(0,0,0,.24);
+--shadow-lg:0 8px 24px rgba(0,0,0,.32);
+--shadow-xl:0 8px 32px rgba(0,0,0,.40);
+--inner-shadow-xs:inset 0 0 4px rgba(0,0,0,.08);
+--inner-shadow-sm:inset 0 0 8px rgba(0,0,0,.16);
+--inner-shadow-md:inset 0 0 16px rgba(0,0,0,.24);
+--inner-shadow-lg:inset 0 0 24px rgba(0,0,0,.32);
+--inner-shadow-xl:inset 0 0 32px rgba(0,0,0,.40);
+--opacity-light-20:rgba(255,255,255,.2);--opacity-light-40:rgba(255,255,255,.4);--opacity-light-60:rgba(255,255,255,.6);--opacity-light-80:rgba(255,255,255,.8);
+--opacity-dark-20:rgba(0,0,0,.2);--opacity-dark-40:rgba(0,0,0,.4);--opacity-dark-60:rgba(0,0,0,.6);--opacity-dark-80:rgba(0,0,0,.8);
+}

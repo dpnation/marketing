@@ -1,0 +1,8 @@
+@import 'tokens/fonts.css';
+@import 'tokens/colors.css';
+@import 'tokens/typography.css';
+@import 'tokens/spacing.css';
+@import 'tokens/effects.css';
+body{font-family:var(--font-brand)}
+a{color:var(--text-link)}
+a:hover{color:var(--blue-600)}

@@ -1,0 +1,19 @@
+/* Proxima Nova — licensed font files provided by user */
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Thin.ttf') format('truetype');font-weight:100;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-ThinIt.ttf') format('truetype');font-weight:100;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Light.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-LightIt.ttf') format('truetype');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-RegularIt.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Semibold.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-SemiboldIt.ttf') format('truetype');font-weight:600;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-BoldIt.ttf') format('truetype');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Extrabld.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-ExtrabldIt.ttf') format('truetype');font-weight:800;font-style:italic;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-Black.ttf') format('truetype');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'Proxima Nova';src:url('../assets/fonts/ProximaNova-BlackIt.ttf') format('truetype');font-weight:900;font-style:italic;font-display:swap}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+:root{--font-brand:'Proxima Nova',-apple-system,'Noto Sans',sans-serif;--font-brand-i18n:'Noto Sans','Proxima Nova',sans-serif}
+@font-face{font-family:'Noto Serif';src:url('../assets/fonts/NotoSerif-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+:root{--font-quote:'Noto Serif',serif}

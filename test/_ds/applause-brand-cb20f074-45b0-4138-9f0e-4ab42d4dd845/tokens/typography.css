@@ -1,0 +1,20 @@
+:root{
+--text-body-lg:400 1.125rem/145% var(--font-brand);--ls-body-lg:0 /* @kind spacing */;
+--text-body-md:400 1rem/150% var(--font-brand);--ls-body-md:0.01em /* @kind spacing */;
+--text-body-sm:400 0.875rem/150% var(--font-brand);--ls-body-sm:0.01em /* @kind spacing */;
+--text-body-xs:400 0.75rem/155% var(--font-brand);--ls-body-xs:0.02em /* @kind spacing */;
+--text-button-lg:600 1.125rem/155% var(--font-brand);
+--text-button-md:600 1rem/150% var(--font-brand);--ls-button-md:0.01em /* @kind spacing */;
+--text-button-sm:600 0.875rem/150% var(--font-brand);--ls-button-sm:0.01em /* @kind spacing */;
+--text-button-xs:600 0.75rem/155% var(--font-brand);--ls-button-xs:0.02em /* @kind spacing */;
+--text-quote-lg:400 2rem/140% var(--font-brand);
+--text-quote-md:400 1.375rem/145% var(--font-brand);
+--text-attribution-name:500 0.875rem/150% var(--font-brand);--ls-attribution-name:0.02em /* @kind spacing */;
+--text-attribution-details:400 0.75rem/150% var(--font-brand);--ls-attribution-details:0.04em /* @kind spacing */;
+/* Heading scale inferred to complete the system — exact px values in the source page were unreadable (image-only); adjust if brand-supplied specs surface. */
+--text-title-1:800 3.5rem/115% var(--font-brand);
+--text-heading-2:700 2.5rem/120% var(--font-brand);
+--text-heading-3:700 2rem/125% var(--font-brand);
+--text-heading-4:600 1.5rem/125% var(--font-brand);
+--text-label:600 0.75rem/140% var(--font-brand);--ls-label:0.06em /* @kind spacing */;
+}
