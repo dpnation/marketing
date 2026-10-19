@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEO Page Audit — Accessibility Testing (Term Alignment)</title>
+	<link rel="icon" type="image/png" href="https://www.applause.com/wp-content/uploads/favicon-96x96-1.png">
+<style>
+  body { font-family: 'Proxima Nova', Arial, sans-serif; background: #F7FBFE; color: #3D3D3D; margin: 0; padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  header.cover { background: #01446C; color: #fff; padding: 40px 20px; text-align: center; }
+  header.cover h1 { font-size: 32px; font-weight: 800; margin: 0 0 8px; }
+  header.cover p { margin: 4px 0; opacity: 0.9; font-size: 15px; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 14px; }
+  .badge-weak { background: #ED7200; color: #fff; }
+  .badge-adequate { background: #0272B4; color: #fff; }
+  .badge-strong { background: #0F8919; color: #fff; }
+  .card { background: #fff; border: 1px solid #E6F3FA; border-radius: 8px; padding: 24px; margin: 20px 0; }
+  h2 { color: #01446C; font-size: 22px; font-weight: 800; margin-top: 0; }
+  h3 { color: #0272B4; font-size: 16px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #0272B4; color: #fff; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #E6F3FA; vertical-align: top; }
+  tr:nth-child(even) td { background: #F7FBFE; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .pill-pass { background: #0F8919; color: #fff; }
+  .pill-fail { background: #D42D0E; color: #fff; }
+  .pill-unknown { background: #ED7200; color: #fff; }
+  .pill-p1 { background: #D42D0E; color: #fff; }
+  .pill-p2 { background: #ED7200; color: #fff; }
+  .pill-p3 { background: #0272B4; color: #fff; }
+  .callout { border-left: 4px solid #00C0A3; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .callout strong { color: #01446C; }
+  .alert { border-left: 4px solid #D42D0E; background: #FDF1EF; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .info { border-left: 4px solid #0272B4; background: #F7FBFE; padding: 12px 16px; margin: 14px 0; font-size: 14px; border-radius: 0 6px 6px 0; }
+  .scoregrid { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; font-size: 15px; margin: 10px 0; }
+  .scoregrid .label { color: #3D3D3D; }
+  .scoregrid .val { font-weight: 700; color: #01446C; text-align: right; }
+  .composite { font-size: 44px; font-weight: 800; color: #01446C; margin: 0; }
+  .composite-band { font-size: 14px; font-weight: 700; text-transform: uppercase; color: #0272B4; }
+  footer { text-align: center; font-size: 12px; color: #888; padding: 30px 0; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>AEO Page Audit — Term Alignment</h1>
+  <p>Applause — Accessibility Testing (Service Page)</p>
+  <p>applause.com/accessibility-testing/</p>
+  <p>Audit Date: October 19, 2026 · Preset: Layer 3 (What We Apply It To) · Keyword list: 2026-08-19</p>
+  <div class="badge badge-weak">52.7/100 — Weak</div>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<div class="callout"><strong>Fix List is the complete checklist.</strong> Everything else in this report — composite, term performance, characterization read — is the reasoning for why those fixes move the score. It is not additional work on top of the Fix List.</div>
+<h2>Composite Score</h2>
+<p class="composite">52.7<span style="font-size:20px;color:#888;"> / 100</span></p>
+<p class="composite-band">Weak — unlikely to be cited for its priority terms; needs a rewrite pass</p>
+
+<div class="scoregrid">
+  <div class="label">Term Alignment</div><div class="val">10.7 / 20</div>
+  <div class="label">Characterization</div><div class="val">16.0 / 20</div>
+  <div class="label">Extractability</div><div class="val">10.0 / 20</div>
+  <div class="label">Evidence</div><div class="val">12.0 / 20</div>
+  <div class="label">Attribution &amp; Freshness</div><div class="val">4.0 / 20</div>
+  <div class="label">Entity &amp; Fact Structure</div><div class="val">7.0 / 10 <span style="font-weight:400;color:#888;">(not in composite — v1)</span></div>
+</div>
+<div class="callout"><strong>The page says what Applause does clearly (Characterization 16/20) but gives an engine almost nothing to cite or date.</strong> Attribution &amp; Freshness is the weakest dimension at 4/20: no visible date, no author, no credentials. The primary term lands at Leading, but both Layer 3 secondary terms (<em>accessibility assessment</em>, <em>inclusive design testing</em>) are only gestured at with loose paraphrases.</div>
+</div>
+
+<div class="card">
+<h2>Term Performance</h2>
+<table>
+<tr><th>Term</th><th>Role</th><th>Placement</th><th>Score</th></tr>
+<tr><td>accessibility testing</td><td>Primary</td><td>Leading (H1, page title, meta description)</td><td>8.0 / 8.0</td></tr>
+<tr><td>accessibility assessment</td><td>Secondary</td><td>Absent (loose paraphrase only — "expert-led assessments")</td><td>0.0 / 2.7</td></tr>
+<tr><td>inclusive design testing</td><td>Secondary</td><td>Absent (loose paraphrase only — "inclusive design programs," "inclusive design challenges")</td><td>0.0 / 2.7</td></tr>
+<tr><td>real-world testing</td><td>Secondary</td><td>Body (closing CTA: "our real-world testing")</td><td>1.3 / 2.7</td></tr>
+<tr><td>testing coverage</td><td>Supporting</td><td>Present ("expand testing coverage," H3 subhead)</td><td>1.3 / 1.3</td></tr>
+<tr><td>real device testing</td><td>Supporting</td><td>Absent (loose — "millions of real devices and configurations")</td><td>0.0 / 1.3</td></tr>
+<tr><td>customer experience testing</td><td>Supporting</td><td>Absent</td><td>0.0 / 1.3</td></tr>
+</table>
+<p><strong>Standouts:</strong> primary term at Leading. Archetype fit is clean — "Applause offers a fully managed suite of digital accessibility testing and training solutions" states that Applause provides the service, so no fit-gate cap applies.</p>
+<p><strong>Misses:</strong> <em>accessibility assessment</em> and <em>inclusive design testing</em> are both absent as terms, even though the page describes both capabilities in different words. <em>real-world testing</em> appears once, buried in the CTA.</p>
+</div>
+
+<div class="card">
+<h2>Characterization Read <span style="font-weight:400; font-size:14px; color:#888;">(evidence-locked — context, not an action item)</span></h2>
+<div class="callout">This section explains why Characterization scored 16/20. It doesn't belong on a page-edit checklist — see Fix List for what to actually do.</div>
+<table>
+<tr><th>Sub-check</th><th>Score</th><th>Anchor</th></tr>
+<tr><td>Category clarity</td><td>5/5</td><td>"Applause offers a fully managed suite of digital accessibility testing and training solutions" (second intro paragraph, under "Deliver Inclusive Apps, Devices and Experiences With Confidence")</td></tr>
+<tr><td>Audience clarity</td><td>3/5</td><td>"Infuse accessibility best practices throughout the SDLC and global organization" (H4 card) signals engineering and org-wide scope, but no enterprise scale or named buyer role appears anywhere on the page.</td></tr>
+<tr><td>Differentiation</td><td>4/5</td><td>"Access the largest, independent community of digital testing experts and end users in the world, including people with disabilities" ("An End-to-End Approach to Digital Accessibility") plus "custom teams that include PWD" — specific, though the "largest" claim is unsourced.</td></tr>
+<tr><td>Term association</td><td>4/5</td><td>H1 "Accessibility Testing" with "Comply with global requirements, drive revenue and support inclusivity with end-to-end accessibility testing" (hero subhead) — an engine would cite Applause for the term, but the page carries few facts to quote.</td></tr>
+</table>
+<div class="info">Confidence: this approximates a naive model read and does not reproduce one. Live-prompt validation against <code>audit-prompts.md</code> was not run — out of scope for this skill.</div>
+</div>
+
+<div class="card">
+<h2>Extractability <span style="font-weight:400; font-size:14px; color:#888;">(5 of 10 checks pass)</span></h2>
+<table>
+<tr><th>Check</th><th>Result</th></tr>
+<tr><td>1. Plain statement of what this is in the first paragraph</td><td><span class="pill pill-fail">Fail</span> — first paragraph opens "According to recent survey data…"; the plain statement arrives in paragraph two</td></tr>
+<tr><td>2. 134–167 word self-contained answer block</td><td><span class="pill pill-fail">Fail</span> — intro splits across two paragraphs of roughly 80 and 55 words</td></tr>
+<tr><td>3. 40–60 word snippet-ready answer</td><td><span class="pill pill-pass">Pass</span> — "Applause offers a fully managed suite…" paragraph (about 54 words)</td></tr>
+<tr><td>4. Question-phrased headings</td><td><span class="pill pill-fail">Fail</span></td></tr>
+<tr><td>5. FAQ section</td><td><span class="pill pill-fail">Fail</span></td></tr>
+<tr><td>6. Comparison or specification table</td><td><span class="pill pill-fail">Fail</span></td></tr>
+<tr><td>7. Scannable structure</td><td><span class="pill pill-pass">Pass</span></td></tr>
+<tr><td>8. Readable without JS, not gated</td><td><span class="pill pill-pass">Pass</span> (video transcript collapsed; lead form is not a content gate)</td></tr>
+<tr><td>9. Descriptive alt text</td><td><span class="pill pill-pass">Pass</span> (several lazy-loaded icon alts rendered blank in fetch; hero and icon alts that did render are descriptive)</td></tr>
+<tr><td>10. Internal links to related pages</td><td><span class="pill pill-pass">Pass</span> (/wcag/, EAA blog post, Microsoft case study, Resource Center; no links to related service pages in body)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Evidence, Attribution &amp; Entity Notes</h2>
+<table>
+<tr><th>Dimension</th><th>Score</th><th>Basis</th></tr>
+<tr><td>Evidence</td><td>12/20</td><td>Specific numbers present (1.8B people with disabilities, 3.4B friends and family, 200+ countries and territories, millions of devices): 5/5. Numbers unsourced — "recent survey data" and the 1.8B/3.4B figures have no named source or date: 0/4. Named customer (Microsoft): 4/4. Applause-specific proof: the Microsoft block is a one-sentence teaser with no outcome: 2/4. Hedged copy ("can help you deliver," "difficult to attain"): 1/3.</td></tr>
+<tr><td>Attribution &amp; Freshness</td><td>4/20</td><td>No visible publish or updated date: 0/6. Recency: 0/4. No named author; org ownership only via © 2026 footer: 2/4. No credentials: 0/3. Stale-reference check: 2/3 — the linked EAA post is titled "Get Ready for the European Accessibility Act," which reads as pre-deadline framing, and no WCAG version is named.</td></tr>
+<tr><td>Entity &amp; Fact Structure (v1)</td><td>7/10</td><td>Triples 2/5: one clean triple ("Applause offers a fully managed suite of digital accessibility testing…"), the rest depend on "we" and "you." Adjacent entities 5/5: WCAG, EAA, Microsoft named. Note: litigation is discussed ("demand letters") but ADA and Section 508 are never named.</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Flags</h2>
+<ul>
+<li><strong>Possible split candidate:</strong> <em>accessibility assessment</em> and <em>inclusive design testing</em> are both absent as terms. Either add them to this page as headings, or give assessments their own page.</li>
+<li><strong>Keyword-list gap:</strong> the page's own vocabulary — "digital accessibility testing," "WCAG conformance," "EAA compliance" — is not on the 60-term list. Worth considering for the next list refresh.</li>
+<li><strong>Guardrail-conflict adjacency:</strong> the nav links "Crowdtesting" and image alt text says "crowd testers." Neither is a scored term here and the body copy does not lead with it, so no positioning flag is raised.</li>
+<li>Undefined-acronym risk: "PWD" appears in an H3 subhead before it is expanded in the paragraph below it.</li>
+<li>Page fetched live; content appears complete. Video transcript was collapsed and not scored.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Fix List</h2>
+<table>
+<tr><th>Action</th><th>Priority</th><th>Dimension</th><th>Effort</th></tr>
+<tr><td>Add a visible "last updated" date and a named owner or author with role (e.g. an accessibility practice lead)</td><td><span class="pill pill-p1">P1</span></td><td>Attribution &amp; Freshness</td><td>Low</td></tr>
+<tr><td>Work <em>accessibility assessment</em> and <em>inclusive design testing</em> into H2/H3 headings (e.g. "Expert-Led Accessibility Assessments") — both are currently absent as terms</td><td><span class="pill pill-p1">P1</span></td><td>Term Alignment</td><td>Low</td></tr>
+<tr><td>Open the page with a plain definition ("Applause provides managed accessibility testing…") in place of "According to recent survey data," and keep it in one 134–167 word block</td><td><span class="pill pill-p2">P2</span></td><td>Extractability</td><td>Low</td></tr>
+<tr><td>Add an FAQ and rephrase 2–3 headings as buyer questions (What does WCAG 2.2 AA conformance require? What does the EAA mean for us? How do assessments differ from user testing?)</td><td><span class="pill pill-p2">P2</span></td><td>Extractability</td><td>Med</td></tr>
+<tr><td>Cite and date the 1.8B/3.4B statistics and the "recent survey data"; name WCAG version, ADA and Section 508; update the stale "Get Ready for the EAA" framing</td><td><span class="pill pill-p2">P2</span></td><td>Evidence · Entity</td><td>Low</td></tr>
+<tr><td>Expand the Microsoft teaser with a concrete outcome and add 1–2 more named customer or case references</td><td><span class="pill pill-p3">P3</span></td><td>Evidence</td><td>Med</td></tr>
+<tr><td>Add a table of service components (assessments, conformance checks, PWD testing, bug-fix verification, training) with what each delivers</td><td><span class="pill pill-p3">P3</span></td><td>Extractability</td><td>Med</td></tr>
+<tr><td>Replace hedged phrasing ("can help you deliver") with declarative statements, and add a sentence naming enterprise scale and the buyer role</td><td><span class="pill pill-p3">P3</span></td><td>Evidence · Characterization</td><td>Low</td></tr>
+</table>
+<p><strong>Handoff:</strong> <code>geo-blog-optimizer</code> is scoped to blog posts, so this service page needs a manual copy pass. <code>schema-markup</code> can generate FAQPage and Organization JSON-LD once the FAQ exists.</p>
+</div>
+
+</div>
+
+<footer>
+Applause AEO Page Audit · applause-aeo-content-audit skill v1.4.0 · Terms confirmed with Dana Prey, October 19, 2026
+</footer>
+
+</body>
+</html>
